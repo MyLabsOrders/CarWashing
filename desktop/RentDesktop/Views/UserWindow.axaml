@@ -6,13 +6,11 @@
 		xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 		xmlns:vm="using:RentDesktop.ViewModels"
 		xmlns:pages="using:RentDesktop.Views.Pages"
-        mc:Ignorable="d"
-		d:DesignWidth="670" d:DesignHeight="475"
-		Width="670" Height="475"
-		MinWidth="670" MinHeight="475"
+        mc:Ignorable="d" d:DesignWidth="671" d:DesignHeight="476"
+		MinWidth="671" MinHeight="476" Width="671" Height="476"
         x:Class="RentDesktop.Views.UserWindow"
 		Icon="/Assets/avalonia-logo.ico"
-        Title="Пользователь">
+        Title="Окно пользователя">
 
 	<Design.DataContext>
 		<vm:UserWindowViewModel />

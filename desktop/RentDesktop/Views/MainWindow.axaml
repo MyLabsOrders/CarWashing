@@ -6,13 +6,11 @@
 		xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 		xmlns:vm="using:RentDesktop.ViewModels"
 		xmlns:pages="using:RentDesktop.Views.Pages"
-        mc:Ignorable="d"
-		d:DesignWidth="650" d:DesignHeight="400"
-		Width="650" Height="400"
-		MinWidth="650" MinHeight="400"
+        mc:Ignorable="d" d:DesignWidth="651" d:DesignHeight="401"
+		MinWidth="651" MinHeight="401" Width="651" Height="401"
         x:Class="RentDesktop.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Аренда спецтехники">
+        Title="Автомойка">
 
     <Design.DataContext>
         <vm:MainWindowViewModel />
