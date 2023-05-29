@@ -33,4 +33,10 @@
     <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome" Version="5.8.0" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
   </ItemGroup>
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\lnx\Downloads\MARAT_TECH\CarWashing\desktop\RentDesktop\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\lnx\Downloads\MARAT_TECH\CarWashing\desktop\RentDesktop\.editorconfig" />
+  </ItemGroup>
 </Project>

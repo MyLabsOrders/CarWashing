@@ -21,7 +21,7 @@ namespace RentDesktop.ViewModels
 
         public MainWindowViewModel()
         {
-            //using var generator = new Infrastructure.Services.DB.DatabaseGenerationService();
+            //using var generator = new Infrastructure.Services.DatabaseServices.Generator();
             //generator.Generate();
 
             InactivityResetCommand = ReactiveCommand.Create(InactivityClear);
