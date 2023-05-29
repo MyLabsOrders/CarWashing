@@ -1,5 +1,5 @@
 ﻿using ReactiveUI;
-using RentDesktop.Infrastructure.Services.DB;
+using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models;
 using RentDesktop.Models.Messaging;
 using RentDesktop.ViewModels.Base;

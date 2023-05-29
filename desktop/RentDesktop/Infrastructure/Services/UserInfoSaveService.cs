@@ -6,37 +6,18 @@ namespace RentDesktop.Infrastructure.Services
 {
     internal static class UserInfoSaveService
     {
-        private const string PATH = "saved_user.txt";
+        private const string FILE_PATH = "saved_user.txt";
 
-        public static void ClearInfo()
+        public static void Empty()
         {
-            File.Create(PATH).Close();
+            File.Create(FILE_PATH).Close();
         }
 
-        public static void SaveInfo(string login, string password)
-        {
-            string encryptedPassword = RSA.Encrypt(password);
-            File.WriteAllText(PATH, $"{login}{Environment.NewLine}{encryptedPassword}");
-        }
-
-        public static (string Login, string Password) LoadInfo()
-        {
-            string[] data = File.ReadAllLines(PATH);
-
-            if (data.Length == 0)
-                return (string.Empty, string.Empty);
-
-            string login = data[0];
-            string password = RSA.Decrypt(data[1]);
-
-            return (login, password);
-        }
-
-        public static bool TryClearInfo()
+        public static bool TrySave(string login, string password)
         {
             try
             {
-                ClearInfo();
+                Save(login, password);
                 return true;
             }
             catch
@@ -45,29 +26,53 @@ namespace RentDesktop.Infrastructure.Services
             }
         }
 
-        public static bool TrySaveInfo(string login, string password)
+        private static bool Check(string[] data)
         {
-            try
-            {
-                SaveInfo(login, password);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return data.Length == 0;
         }
 
-        public static bool TryLoadInfo(out (string Login, string Password) info)
+        public static bool TryLoad(out (string Login, string Password) info)
         {
             try
             {
-                info = LoadInfo();
+                info = Load();
                 return !string.IsNullOrEmpty(info.Login);
             }
             catch
             {
                 info = (string.Empty, string.Empty);
+                return false;
+            }
+        }
+
+        public static (string Login, string Password) Load()
+        {
+            string[] data = File.ReadAllLines(FILE_PATH);
+
+            if (Check(data))
+                return (string.Empty, string.Empty);
+
+            string login = data[0];
+            string password = SecurityProvider.Decode(data[1]);
+
+            return (login, password);
+        }
+
+        public static void Save(string login, string password)
+        {
+            string encryptedPassword = SecurityProvider.Code(password);
+            File.WriteAllText(FILE_PATH, $"{login}{Environment.NewLine}{encryptedPassword}");
+        }
+
+        public static bool TryEmpty()
+        {
+            try
+            {
+                Empty();
+                return true;
+            }
+            catch
+            {
                 return false;
             }
         }

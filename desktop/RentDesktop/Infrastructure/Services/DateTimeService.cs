@@ -5,27 +5,27 @@ namespace RentDesktop.Infrastructure.Services
 {
     internal static class DateTimeService
     {
-        private const string SHORT_DATE_FORMAT = "yyyy-MM-dd";
-        private static readonly IFormatProvider FormatProvider = CultureInfo.InvariantCulture;
+        private const string FORMAT_OF_SHORT_DATE = "yyyy-MM-dd";
+        private static readonly IFormatProvider TheCulture = CultureInfo.InvariantCulture;
 
-        public static string ShortDateTimeToString(DateTime dateTime)
+        public static string DateTimeToString(DateTime date)
         {
-            return dateTime.ToString(SHORT_DATE_FORMAT, FormatProvider);
+            return date.ToString("o", TheCulture);
         }
 
-        public static DateTime StringToShortDateTime(string data)
+        public static string ShortDateTimeToString(DateTime date)
         {
-            return DateTime.ParseExact(data, SHORT_DATE_FORMAT, FormatProvider);
+            return date.ToString(FORMAT_OF_SHORT_DATE, TheCulture);
         }
 
-        public static string DateTimeToString(DateTime dateTime)
+        public static DateTime StringToShortDateTime(string text)
         {
-            return dateTime.ToString("o", FormatProvider);
+            return DateTime.ParseExact(text, FORMAT_OF_SHORT_DATE, TheCulture);
         }
 
-        public static DateTime StringToDateTime(string data)
+        public static DateTime StringToDateTime(string text)
         {
-            return DateTime.Parse(data, FormatProvider);
+            return DateTime.Parse(text, TheCulture);
         }
     }
 }

@@ -4,7 +4,7 @@ using ReactiveUI;
 using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Security;
 using RentDesktop.Infrastructure.Services;
-using RentDesktop.Infrastructure.Services.DB;
+using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;
@@ -56,17 +56,17 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
-                Window? window = WindowFinder.FindByType(GetOwnerWindowType());
+                Window? window = WindowSearcher.FindByType(GetOwnerWindowType());
                 MsgBox.ErrorMsg(message).Dialog(window);
             }
         }
 
         private async void LoadUserImage()
         {
-            if (WindowFinder.FindByType(GetOwnerWindowType()) is not Window window)
+            if (WindowSearcher.FindByType(GetOwnerWindowType()) is not Window window)
                 return;
 
-            OpenFileDialog dialog = DialogProvider.GetOpenImageDialog();
+            OpenFileDialog dialog = DialogHelper.GetOpenImageDialog();
             string[]? paths = await dialog.ShowAsync(window);
 
             if (paths is null || paths.Length == 0)
@@ -240,7 +240,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
         protected virtual IUser GetUserInfo()
         {
             byte[] image = UserImage is not null
-                ? BitmapService.BitmapToBytes(UserImage)
+                ? BitmapService.BmpToBytes(UserImage)
                 : Array.Empty<byte>();
 
             return new UserInfo()
@@ -262,8 +262,8 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
         protected virtual bool VerifyFieldsCorrectness()
         {
-            var verifier = new PasswordVerifier(Password);
-            Window? ownerWindow = WindowFinder.FindByType(GetOwnerWindowType());
+            var verifier = new CheckPassword(Password);
+            Window? ownerWindow = WindowSearcher.FindByType(GetOwnerWindowType());
 
             if (string.IsNullOrEmpty(Login))
             {
@@ -275,9 +275,9 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
                 MsgBox.InfoMsg("Введите пароль.").Dialog(ownerWindow);
                 return false;
             }
-            if (!verifier.IsStrong())
+            if (!verifier.IsGood())
             {
-                MsgBox.InfoMsg($"Пароль слишком слабый. {PasswordVerifier.STRONG_PASSWORD_REQUIREMENTS}").Dialog(ownerWindow);
+                MsgBox.InfoMsg($"Пароль слишком слабый. {CheckPassword.REQUIREMENTS}").Dialog(ownerWindow);
                 return false;
             }
             if (Password != PasswordConfirmation)

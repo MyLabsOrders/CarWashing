@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using ReactiveUI;
 using RentDesktop.Infrastructure.App;
-using RentDesktop.Infrastructure.Services.DB;
+using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Pages.MainWindowPages;
@@ -80,7 +80,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         protected override bool VerifyFieldsCorrectness()
         {
-            Window? window = WindowFinder.FindByType(GetOwnerWindowType());
+            Window? window = WindowSearcher.FindByType(GetOwnerWindowType());
 
             if (SelectedPositionIndex > Positions.Count + 1)
                 return false;

@@ -2,7 +2,7 @@
 using ReactiveUI;
 using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Exceptions;
-using RentDesktop.Infrastructure.Services.DB;
+using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models;
 using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
@@ -158,15 +158,15 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         private static async Task AsyncSaveFile(MemoryStream pdfStream)
         {
-            if (WindowFinder.FindUserWindow() is not Window userWindow)
-                throw new PathNotSpecifiedException();
+            if (WindowSearcher.FindUserWindow() is not Window userWindow)
+                throw new FilePathNotSpecifiedException();
 
-            SaveFileDialog dialog = DialogProvider.GetSavePdfFileDialog();
+            SaveFileDialog dialog = DialogHelper.GetSavePdfFileDialog();
 
             string? path = await dialog.ShowAsync(userWindow);
 
             if (string.IsNullOrEmpty(path))
-                throw new PathNotSpecifiedException();
+                throw new FilePathNotSpecifiedException();
 
             using FileStream fileStream = new(path, FileMode.Create, FileAccess.Write);
             pdfStream.WriteTo(fileStream);

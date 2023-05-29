@@ -7,7 +7,7 @@ using MessageBox.Avalonia.Models;
 using ReactiveUI;
 using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Services;
-using RentDesktop.Infrastructure.Services.DB;
+using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;
@@ -58,7 +58,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 #if DEBUG
                 message += $"Причина: {ex.Message}";
 #endif
-                Window? window = WindowFinder.FindByType(WindowGetType());
+                Window? window = WindowSearcher.FindByType(WindowGetType());
                 MsgBox.ErrorMsg(message).Dialog(window);
                 return;
             }
@@ -71,10 +71,10 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         private async void ImageChange()
         {
-            if (WindowFinder.FindByType(WindowGetType()) is not Window window)
+            if (WindowSearcher.FindByType(WindowGetType()) is not Window window)
                 return;
 
-            OpenFileDialog dialog = DialogProvider.GetOpenImageDialog();
+            OpenFileDialog dialog = DialogHelper.GetOpenImageDialog();
             string[]? paths = await dialog.ShowAsync(window);
 
             if (paths is null || paths.Length == 0)
@@ -117,7 +117,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 ButtonDefinitions = new[] { topUpBalanceButton, cancelButton },
             });
 
-            Window? userWindow = WindowFinder.FindUserWindow();
+            Window? userWindow = WindowSearcher.FindUserWindow();
 
             if (userWindow is null)
                 return;
@@ -297,7 +297,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         protected virtual bool TryCorrectnessCheck()
         {
-            Window? ownerWindow = WindowFinder.FindByType(WindowGetType());
+            Window? ownerWindow = WindowSearcher.FindByType(WindowGetType());
 
             if (string.IsNullOrEmpty(Login))
             {
@@ -363,7 +363,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             UserImage?.Dispose();
 
             UserImage = userInfo.Icon.Length > 0
-                ? BitmapService.BytesToBitmap(userInfo.Icon)
+                ? BitmapService.BytesToBmp(userInfo.Icon)
                 : null;
 
             if (Gender == UserInfo.MALE)
@@ -376,7 +376,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
         protected virtual IUser InformationAboutUserGet()
         {
             byte[] userImageBytes = UserImage is not null
-               ? BitmapService.BitmapToBytes(UserImage)
+               ? BitmapService.BmpToBytes(UserImage)
                : Array.Empty<byte>();
 
             var userInfo = new UserInfo();

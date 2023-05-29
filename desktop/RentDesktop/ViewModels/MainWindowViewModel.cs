@@ -71,7 +71,7 @@ namespace RentDesktop.ViewModels
 
         private static Window? GetWindow()
         {
-            return WindowFinder.FindMainWindow();
+            return WindowSearcher.FindMainWindow();
         }
 
         public void MainShow()
@@ -182,7 +182,7 @@ namespace RentDesktop.ViewModels
             if (!RegisterVisible)
             {
                 _timer.Stop();
-                AppInteraction.CloseCurrentApp();
+                WindowInteraction.CloseCurrentApp();
             }
             else
             {

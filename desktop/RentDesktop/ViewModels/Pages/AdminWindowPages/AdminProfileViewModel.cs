@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 using RentDesktop.Infrastructure.App;
-using RentDesktop.Infrastructure.Services.DB;
+using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Pages.UserWindowPages;
@@ -57,7 +57,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         protected override bool TryCorrectnessCheck()
         {
-            Avalonia.Controls.Window? window = WindowFinder.FindByType(WindowGetType());
+            Avalonia.Controls.Window? window = WindowSearcher.FindByType(WindowGetType());
 
             if (SelectedStatusIndex > Statuses.Count + 1)
                 return false;

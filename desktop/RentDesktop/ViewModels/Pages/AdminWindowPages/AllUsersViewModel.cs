@@ -2,7 +2,7 @@
 using Avalonia.Interactivity;
 using ReactiveUI;
 using RentDesktop.Infrastructure.Extensions;
-using RentDesktop.Infrastructure.Services.DB;
+using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;

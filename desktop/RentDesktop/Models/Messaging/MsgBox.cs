@@ -41,7 +41,7 @@ namespace RentDesktop.Models.Messaging
 
         public void ShowWithoutDialog(Type ownerWindowType)
         {
-            Window? window = WindowFinder.FindByType(ownerWindowType);
+            Window? window = WindowSearcher.FindByType(ownerWindowType);
             ShowWithoutDialog(window);
         }
 
@@ -52,7 +52,7 @@ namespace RentDesktop.Models.Messaging
 
         public void Dialog(Type ownerWindowType)
         {
-            Window? window = WindowFinder.FindByType(ownerWindowType);
+            Window? window = WindowSearcher.FindByType(ownerWindowType);
             Dialog(window);
         }
 

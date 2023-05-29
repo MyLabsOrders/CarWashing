@@ -129,7 +129,7 @@ namespace RentDesktop.ViewModels
             _timer_of_inactivity.Stop();
             ResetSeconds();
 
-            AppInteraction.CloseUserWindow();
+            WindowInteraction.CloseUserWindow();
         }
 
         private void ImageDiapose()
@@ -152,7 +152,7 @@ namespace RentDesktop.ViewModels
 
         private void DisplayMain()
         {
-            AppInteraction.ShowMainWindow();
+            WindowInteraction.ShowMainWindow();
         }
 
         #endregion
@@ -185,7 +185,7 @@ namespace RentDesktop.ViewModels
 
         private void ViewModelEditUserUserInfoUpdated()
         {
-            Avalonia.Controls.Window? window = WindowFinder.FindByType(typeof(AdminWindow));
+            Avalonia.Controls.Window? window = WindowSearcher.FindByType(typeof(AdminWindow));
             MsgBox.InfoMsg("Изменения успешно сохранены.").Dialog(window);
         }
 

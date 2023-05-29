@@ -2,7 +2,7 @@
 using ReactiveUI;
 using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Services;
-using RentDesktop.Infrastructure.Services.DB;
+using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.Models.Security;
@@ -36,12 +36,12 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
         private void SaveInfo()
         {
-            UserInfoSaveService.TrySaveInfo(Login, Password);
+            UserInfoSaveService.TrySave(Login, Password);
         }
 
         private static void ClearInfo()
         {
-            UserInfoSaveService.TryClearInfo();
+            UserInfoSaveService.TryEmpty();
         }
 
         private void LogToSystem()
@@ -89,18 +89,18 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
             _ = Task.Delay(MILLISECONDS_FOR_HIDE_MAIN_WINDOW).ContinueWith(t =>
             {
-                Dispatcher.UIThread.Post(AppInteraction.HideMainWindow);
+                Dispatcher.UIThread.Post(WindowInteraction.HideMainWindow);
             });
         }
 
         private void ProgramExit()
         {
-            AppInteraction.CloseMainWindow();
+            WindowInteraction.CloseMainWindow();
         }
 
         private void LoginLoadInformation()
         {
-            if (UserInfoSaveService.TryLoadInfo(out (string Login, string Password) info))
+            if (UserInfoSaveService.TryLoad(out (string Login, string Password) info))
             {
                 Login = info.Login;
                 Password = info.Password;
@@ -109,7 +109,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
         private bool CorrectnessCheck()
         {
-            Avalonia.Controls.Window? ownerWindow = WindowFinder.FindMainWindow();
+            Avalonia.Controls.Window? ownerWindow = WindowSearcher.FindMainWindow();
 
             if (string.IsNullOrEmpty(Password))
             {

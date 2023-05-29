@@ -96,7 +96,7 @@ namespace RentDesktop.ViewModels
 
         private void MainShow()
         {
-            AppInteraction.ShowMainWindow();
+            WindowInteraction.ShowMainWindow();
         }
 
         private void Increase()
@@ -137,7 +137,7 @@ namespace RentDesktop.ViewModels
             _timer.Stop();
             InactivityClear();
 
-            AppInteraction.CloseUserWindow();
+            WindowInteraction.CloseUserWindow();
         }
 
         public void DecreaseSeconds()
