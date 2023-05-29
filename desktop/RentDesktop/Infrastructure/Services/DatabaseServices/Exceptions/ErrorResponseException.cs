@@ -2,7 +2,7 @@
 using System . Net;
 using System . Net . Http;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices . Exceptions {
+namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 	internal class ErrorResponseException : ApplicationException {
 		public ErrorResponseException ( HttpResponseMessage response , string? message = null , Exception? innerException = null )
 				: this ( response . StatusCode , AnalyzeResp . Reason ( response ) , message , innerException ) {
