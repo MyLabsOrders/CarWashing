@@ -3,13 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:RentDesktop.ViewModels.Pages.AdminWindowPages"
-			 mc:Ignorable="d"
-			 d:DesignWidth="680" d:DesignHeight="475"
+			 mc:Ignorable="d" d:DesignWidth="681" d:DesignHeight="476"
              x:Class="RentDesktop.Views.Pages.AdminProfilePage">
-
-	<Design.DataContext>
-		<vm:AdminProfileViewModel />
-	</Design.DataContext>
 
 	<Grid ColumnDefinitions="310, 10, 1*" RowDefinitions="Auto, 1*, 30" Margin="0, 5">
 		<Grid.Styles>

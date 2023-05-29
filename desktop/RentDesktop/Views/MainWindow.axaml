@@ -12,11 +12,10 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Автомойка">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel />
-    </Design.DataContext>
-
 	<i:Interaction.Behaviors>
+		<ia:EventTriggerBehavior EventName="KeyDown">
+			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
+		</ia:EventTriggerBehavior>
 		<ia:EventTriggerBehavior EventName="Opened">
 			<ia:InvokeCommandAction Command="{Binding CaptchaRefreshCommand}" />
 			<ia:InvokeCommandAction Command="{Binding ViewModelLogin.LoginLoadCommand}" />
@@ -24,11 +23,7 @@
 		<ia:EventTriggerBehavior EventName="PointerMoved">
 			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
 		</ia:EventTriggerBehavior>
-		<ia:EventTriggerBehavior EventName="KeyDown">
-			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
-		</ia:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
-
 	<Grid Margin="5">
 		<UniformGrid IsVisible="{Binding LoginVisible}">
 			<pages:LoginPage DataContext="{Binding ViewModelLogin}" />
@@ -37,5 +32,4 @@
 			<pages:RegisterPage DataContext="{Binding ViewModelRegister}" />
 		</UniformGrid>
 	</Grid>
-
 </Window>

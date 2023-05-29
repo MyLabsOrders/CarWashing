@@ -4,13 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:RentDesktop.ViewModels.Pages.UserWindowPages"
 			 xmlns:models="clr-namespace:RentDesktop.Models;assembly=RentDesktop"
-             mc:Ignorable="d"
-			 d:DesignWidth="670" d:DesignHeight="475"
+             mc:Ignorable="d" d:DesignWidth="671" d:DesignHeight="476"
              x:Class="RentDesktop.Views.Pages.OrdersPage">
-
-	<Design.DataContext>
-		<vm:CartViewModel />
-	</Design.DataContext>
 
 	<Grid>
 		<DataGrid AutoGenerateColumns="False"

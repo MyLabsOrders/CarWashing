@@ -3,13 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:RentDesktop.ViewModels.Pages.MainWindowPages"
-			 mc:Ignorable="d"
-			 d:DesignWidth="650" d:DesignHeight="400"
+			 mc:Ignorable="d" d:DesignWidth="651" d:DesignHeight="401"
              x:Class="RentDesktop.Views.Pages.RegisterPage">
-
-	<Design.DataContext>
-		<vm:RegisterViewModel />
-	</Design.DataContext>
 
 	<Grid ColumnDefinitions="310, 10, 1*" RowDefinitions="Auto, 1*, 30">
 		<Grid.Styles>
