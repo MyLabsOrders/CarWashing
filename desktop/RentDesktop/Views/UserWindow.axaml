@@ -21,11 +21,9 @@
 			<ia:InvokeCommandAction Command="{Binding ShowMainWindowCommand}" />
 			<ia:InvokeCommandAction Command="{Binding DisposeUserImageCommand}" />
 		</ia:EventTriggerBehavior>
-
 		<ia:EventTriggerBehavior EventName="PointerMoved">
 			<ia:InvokeCommandAction Command="{Binding ResetInactivitySecondsCommand}" />
 		</ia:EventTriggerBehavior>
-
 		<ia:EventTriggerBehavior EventName="KeyDown">
 			<ia:InvokeCommandAction Command="{Binding ResetInactivitySecondsCommand}" />
 		</ia:EventTriggerBehavior>
@@ -34,16 +32,13 @@
 	<TabControl SelectedIndex="{Binding SelectedTabIndex}">
 		<TabItem Header="Профиль">
 			<pages:UserProfilePage DataContext="{Binding UserProfileVM}" />
-		</TabItem>
-		
+		</TabItem>	
 		<TabItem Header="Транспорт">
 			<pages:TransportPage DataContext="{Binding TransportVM}" />
 		</TabItem>
-		
 		<TabItem Header="Корзина">
 			<pages:CartPage DataContext="{Binding CartVM}" />
 		</TabItem>
-
 		<TabItem Header="Заказы">
 			<pages:OrdersPage DataContext="{Binding OrdersVM}" />
 		</TabItem>

@@ -20,12 +20,10 @@
 		<ia:EventTriggerBehavior EventName="Opened">
 			<ia:InvokeCommandAction Command="{Binding UpdateCaptchaCommand}" />
 			<ia:InvokeCommandAction Command="{Binding LoginVM.LoadLoginInfoCommand}" />
-		</ia:EventTriggerBehavior>
-		
+		</ia:EventTriggerBehavior>	
 		<ia:EventTriggerBehavior EventName="PointerMoved">
 			<ia:InvokeCommandAction Command="{Binding ResetInactivitySecondsCommand}" />
 		</ia:EventTriggerBehavior>
-		
 		<ia:EventTriggerBehavior EventName="KeyDown">
 			<ia:InvokeCommandAction Command="{Binding ResetInactivitySecondsCommand}" />
 		</ia:EventTriggerBehavior>
@@ -34,8 +32,7 @@
 	<Grid Margin="5">
 		<UniformGrid IsVisible="{Binding IsLoginPageVisible}">
 			<pages:LoginPage DataContext="{Binding LoginVM}" />
-		</UniformGrid>
-		
+		</UniformGrid>	
 		<UniformGrid IsVisible="{Binding IsRegisterPageVisible}">
 			<pages:RegisterPage DataContext="{Binding RegisterVM}" />
 		</UniformGrid>

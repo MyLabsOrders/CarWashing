@@ -21,11 +21,9 @@
 			<ia:InvokeCommandAction Command="{Binding ShowMainWindowCommand}" />
 			<ia:InvokeCommandAction Command="{Binding DisposeUserImageCommand}" />
 		</ia:EventTriggerBehavior>
-
 		<ia:EventTriggerBehavior EventName="PointerMoved">
 			<ia:InvokeCommandAction Command="{Binding ResetInactivitySecondsCommand}" />
 		</ia:EventTriggerBehavior>
-
 		<ia:EventTriggerBehavior EventName="KeyDown">
 			<ia:InvokeCommandAction Command="{Binding ResetInactivitySecondsCommand}" />
 		</ia:EventTriggerBehavior>
@@ -35,15 +33,12 @@
 		<TabItem Header="Профиль">
 			<pages:AdminProfilePage DataContext="{Binding AdminProfileVM}" />
 		</TabItem>
-
 		<TabItem Header="Пользователи">
 			<pages:AllUsersPage DataContext="{Binding AllUsersVM}" />
 		</TabItem>
-
 		<TabItem Header="Добавить">
 			<pages:AddUserPage DataContext="{Binding AddUserVM}" />
 		</TabItem>
-
 		<TabItem Header="Изменить" IsEnabled="{Binding AllUsersVM.IsUserSelected}">
 			<pages:EditUserPage DataContext="{Binding EditUserVM}" />
 		</TabItem>
