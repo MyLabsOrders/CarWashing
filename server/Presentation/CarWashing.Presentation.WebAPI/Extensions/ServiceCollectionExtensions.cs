@@ -26,15 +26,14 @@ internal static class ServiceCollectionExtensions {
         collection
             .AddEndpointsApiExplorer()
             .AddSwaggerGen(c => {
-                var openApiSecurityScheme = new OpenApiSecurityScheme {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
                     Description = @"JWT Authorization header using the Bearer scheme.
                       Example: 'Bearer 12345abcdef'",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer",
-                };
-                c.AddSecurityDefinition("Bearer", openApiSecurityScheme);
+                });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement {
                     {
                         new OpenApiSecurityScheme {
@@ -47,7 +46,7 @@ internal static class ServiceCollectionExtensions {
                     }
                 });
 
-                var xmlFilename = $"{typeof(IControllerProjectMarker).Assembly.GetName().Name}.xml";
+                string xmlFilename = $"{typeof(IControllerProjectMarker).Assembly.GetName().Name}.xml";
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             })
             .AddApplication(configuration)
