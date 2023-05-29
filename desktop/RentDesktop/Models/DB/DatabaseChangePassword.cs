@@ -2,13 +2,13 @@
 {
 #pragma warning disable IDE1006
 
-    internal class DbChangePassword
+    internal class DatabaseChangePassword
     {
-        public DbChangePassword()
+        public DatabaseChangePassword()
         {
         }
 
-        public DbChangePassword(string currentPassword, string newPassword)
+        public DatabaseChangePassword(string currentPassword, string newPassword)
         {
             this.currentPassword = currentPassword;
             this.newPassword = newPassword;

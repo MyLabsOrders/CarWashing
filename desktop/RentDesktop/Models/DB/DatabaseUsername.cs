@@ -2,13 +2,13 @@
 {
 #pragma warning disable IDE1006
 
-    internal class DbChangeLogin
+    internal class DatabaseUsername
     {
-        public DbChangeLogin()
+        public DatabaseUsername()
         {
         }
 
-        public DbChangeLogin(string username)
+        public DatabaseUsername(string username)
         {
             this.username = username;
         }

@@ -44,7 +44,7 @@
 			</ItemsControl.Template>
 
 			<ItemsControl.DataTemplates>
-				<DataTemplate DataType="{x:Type models:Transport}">
+				<DataTemplate DataType="{x:Type models:ProductModel}">
 					<Button Classes="cell"
 							Command="{Binding DataContext.ProductSelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
 							CommandParameter="{Binding Self}">

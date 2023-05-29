@@ -1,7 +1,7 @@
 ﻿using ReactiveUI;
 using RentDesktop.Infrastructure.Services.DB;
 using RentDesktop.Models;
-using RentDesktop.Models.Communication;
+using RentDesktop.Models.Messaging;
 using RentDesktop.ViewModels.Base;
 using RentDesktop.Views;
 using System;
@@ -13,11 +13,11 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 {
     public class TransportViewModel : BaseViewModel
     {
-        public TransportViewModel(ObservableCollection<TransportRent> cart)
+        public TransportViewModel(ObservableCollection<ProductRentModel> cart)
         {
-            ProductAddToTheCartCommand = ReactiveCommand.Create<Transport>(ToTheCartAddProduct);
+            ProductAddToTheCartCommand = ReactiveCommand.Create<ProductModel>(ToTheCartAddProduct);
             CartOpenCommand = ReactiveCommand.Create(CartOpen);
-            ProductSelectCommand = ReactiveCommand.Create<Transport>(ProductSelect);
+            ProductSelectCommand = ReactiveCommand.Create<ProductModel>(ProductSelect);
 
             Transports = ProductsGetFromDatabase();
             _cartWithProducts = cart;
@@ -25,12 +25,12 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         #region Private Methods
 
-        private static ObservableCollection<Transport> ProductsGetFromDatabase()
+        private static ObservableCollection<ProductModel> ProductsGetFromDatabase()
         {
             try
             {
-                System.Collections.Generic.List<Transport> transport = ShopService.GetTransports();
-                return new ObservableCollection<Transport>(transport);
+                System.Collections.Generic.List<ProductModel> transport = ShopService.GetTransports();
+                return new ObservableCollection<ProductModel>(transport);
             }
             catch (Exception ex)
             {
@@ -38,19 +38,19 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
-                QuickMessage.Error(message).ShowDialog(typeof(UserWindow));
-                return new ObservableCollection<Transport>();
+                MsgBox.ErrorMsg(message).Dialog(typeof(UserWindow));
+                return new ObservableCollection<ProductModel>();
             }
         }
 
-        private void ToTheCartAddProduct(Transport transport)
+        private void ToTheCartAddProduct(ProductModel transport)
         {
             AddingToTheCartTheProduct?.Invoke(transport);
 
-            TransportRent? existingCartItem = _cartWithProducts.FirstOrDefault(t => t.Transport.ID == transport.ID);
+            ProductRentModel? existingCartItem = _cartWithProducts.FirstOrDefault(t => t.Transport.ID == transport.ID);
             int days = existingCartItem is null ? 1 : existingCartItem.Days;
 
-            var transportRent = new TransportRent(transport.Copy(), days);
+            var transportRent = new ProductRentModel(transport.Copy(), days);
             _cartWithProducts.Add(transportRent);
 
             SelectedTransport = null;
@@ -61,7 +61,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             OpeningTheCartPage?.Invoke();
         }
 
-        private void ProductSelect(Transport transport)
+        private void ProductSelect(ProductModel transport)
         {
             SelectedTransport = transport;
         }
@@ -70,7 +70,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         #region Properties
 
-        public ObservableCollection<Transport> Transports { get; }
+        public ObservableCollection<ProductModel> Transports { get; }
 
         private string _selectedProductName = string.Empty;
         public string SelectedTransportName
@@ -86,8 +86,8 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             private set => this.RaiseAndSetIfChanged(ref _selectedProductCompany, value);
         }
 
-        private Transport? _selectedProduct = null;
-        public Transport? SelectedTransport
+        private ProductModel? _selectedProduct = null;
+        public ProductModel? SelectedTransport
         {
             get => _selectedProduct;
             private set
@@ -119,15 +119,15 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         #region Commands
 
-        public ReactiveCommand<Transport, Unit> ProductSelectCommand { get; }
-        public ReactiveCommand<Transport, Unit> ProductAddToTheCartCommand { get; }
+        public ReactiveCommand<ProductModel, Unit> ProductSelectCommand { get; }
+        public ReactiveCommand<ProductModel, Unit> ProductAddToTheCartCommand { get; }
         public ReactiveCommand<Unit, Unit> CartOpenCommand { get; }
 
         #endregion
 
         #region Events
 
-        public delegate void AddingToTheCartTheProductHandler(Transport transport);
+        public delegate void AddingToTheCartTheProductHandler(ProductModel transport);
         public event AddingToTheCartTheProductHandler? AddingToTheCartTheProduct;
 
         public delegate void OpeningTheCartPageHandler();
@@ -137,7 +137,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         #region Private Fields
 
-        private readonly ObservableCollection<TransportRent> _cartWithProducts;
+        private readonly ObservableCollection<ProductRentModel> _cartWithProducts;
 
         #endregion
     }

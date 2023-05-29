@@ -3,9 +3,9 @@ using System;
 
 namespace RentDesktop.Models
 {
-    public class Transport : ITransport
+    public class ProductModel : IProductModel
     {
-        public Transport(string id, string name, string company, double price, DateTime creationDate, Bitmap? icon = null)
+        public ProductModel(string id, string name, string company, double price, DateTime creationDate, Bitmap? icon = null)
         {
             ID = id;
             Name = name;
@@ -22,12 +22,12 @@ namespace RentDesktop.Models
         public DateTime CreationDate { get; }
         public Bitmap? Icon { get; }
 
-        public Transport Self => this;
+        public ProductModel Self => this;
         public string PricePresenter => $"Цена: {Price}";
 
-        public Transport Copy()
+        public ProductModel Copy()
         {
-            return new Transport(ID, Name, Company, Price, CreationDate, Icon);
+            return new ProductModel(ID, Name, Company, Price, CreationDate, Icon);
         }
 
         public override string ToString()

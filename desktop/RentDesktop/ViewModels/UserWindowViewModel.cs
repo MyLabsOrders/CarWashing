@@ -47,7 +47,7 @@ namespace RentDesktop.ViewModels
 
         #region Private Methods Helpers
 
-        private void ViewModelTransportTransportAddingToCart(Transport t)
+        private void ViewModelTransportTransportAddingToCart(ProductModel t)
         {
             if (ViewModelCart.IsOrderPaidFor)
                 ViewModelCart.ResetUserPaymentSteps();

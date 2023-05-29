@@ -10,13 +10,13 @@ namespace RentDesktop.Infrastructure.Services.DB
 {
     internal static class ShopService
     {
-        public static List<Transport> GetTransports()
+        public static List<ProductModel> GetTransports()
         {
-            var transports = new List<Transport>();
+            var transports = new List<ProductModel>();
             using var db = new DatabaseConnectionService();
 
             int currentPage = 1;
-            IEnumerable<DbOrder> currentOrder;
+            IEnumerable<DatabaseOrder> currentOrder;
 
             do
             {
@@ -26,17 +26,17 @@ namespace RentDesktop.Infrastructure.Services.DB
                 if (!getOrdersResponse.IsSuccessStatusCode)
                     throw new ErrorResponseException(getOrdersResponse);
 
-                DbOrderCollection? orderCollection = getOrdersResponse.Content.ReadFromJsonAsync<DbOrderCollection>().Result;
+                DatabaseOrderCollection? orderCollection = getOrdersResponse.Content.ReadFromJsonAsync<DatabaseOrderCollection>().Result;
 
                 if (orderCollection is null || orderCollection.orders is null)
                     throw new IncorrectContentException(getOrdersResponse.Content);
 
-                IEnumerable<DbOrder> orders = orderCollection.orders.Where(t => t.orderDate is null);
+                IEnumerable<DatabaseOrder> orders = orderCollection.orders.Where(t => t.orderDate is null);
 
-                IEnumerable<IReadOnlyList<Transport>> transportsCollection = DatabaseModelConverterService.ConvertProducts(orders)
+                IEnumerable<IReadOnlyList<ProductModel>> transportsCollection = DatabaseModelConverterService.ConvertProducts(orders)
                     .Select(t => t.Models);
 
-                foreach (IReadOnlyList<Transport>? currTransports in transportsCollection)
+                foreach (IReadOnlyList<ProductModel>? currTransports in transportsCollection)
                     transports.AddRange(currTransports);
 
                 currentOrder = orderCollection.orders;
@@ -46,7 +46,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             return transports;
         }
 
-        public static void AddTransport(ITransport transport)
+        public static void AddTransport(IProductModel transport)
         {
             using var db = new DatabaseConnectionService();
 
@@ -56,11 +56,11 @@ namespace RentDesktop.Infrastructure.Services.DB
                 ? Array.Empty<byte>()
                 : BitmapService.BitmapToBytes(transport.Icon);
 
-            var content = new DbCreateProduct()
+            var content = new DatabaseCreateProduct()
             {
                 name = transport.Name,
                 company = transport.Company,
-                status = Order.AVAILABLE_STATUS,
+                status = OrderModel.AVAILABLE_STATUS,
                 price = transport.Price,
                 orderImage = BitmapService.BytesToString(transportIconBytes)
             };

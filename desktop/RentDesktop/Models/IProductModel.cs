@@ -3,7 +3,7 @@ using System;
 
 namespace RentDesktop.Models
 {
-    public interface ITransport
+    public interface IProductModel
     {
         string ID { get; }
         string Name { get; }

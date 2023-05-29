@@ -3,7 +3,7 @@ using ReactiveUI;
 using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Services;
 using RentDesktop.Infrastructure.Services.DB;
-using RentDesktop.Models.Communication;
+using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.Models.Security;
 using RentDesktop.ViewModels.Base;
@@ -61,7 +61,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
-                QuickMessage.Error(message).ShowDialog(typeof(MainWindow));
+                MsgBox.ErrorMsg(message).Dialog(typeof(MainWindow));
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
             FieldsClear(RememberUser);
 
-            if (userInfo.IsAdmin())
+            if (userInfo.IsTheAdmin())
             {
                 var viewModel = new AdminWindowViewModel(userInfo);
                 var adminWindow = new AdminWindow() { DataContext = viewModel };
@@ -113,17 +113,17 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
             if (string.IsNullOrEmpty(Password))
             {
-                QuickMessage.Info("Введите пароль.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите пароль.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Login))
             {
-                QuickMessage.Info("Введите логин.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите логин.").Dialog(ownerWindow);
                 return false;
             }
             if (UserCaptchaText != Captcha.Text)
             {
-                QuickMessage.Info("Текст с картинки введен неверно.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Текст с картинки введен неверно.").Dialog(ownerWindow);
 
                 CaptchaRefresh();
                 UserCaptchaText = string.Empty;
@@ -165,7 +165,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
             set => this.RaiseAndSetIfChanged(ref _rememberUser, value);
         }
 
-        public ICaptcha Captcha { get; } = new Captcha();
+        public ISecret Captcha { get; } = new Secret();
 
         private string _login = string.Empty;
         public string Login

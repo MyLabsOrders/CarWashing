@@ -10,7 +10,7 @@ namespace RentDesktop.Infrastructure.Services.DB
 {
     internal static class UserCashService
     {
-        public static bool CanPayOrder(IEnumerable<TransportRent> cart, IUser userInfo)
+        public static bool CanPayOrder(IEnumerable<ProductRentModel> cart, IUser userInfo)
         {
             double price = cart.Sum(t => t.TotalPrice);
             return userInfo.Money >= price;
@@ -22,12 +22,12 @@ namespace RentDesktop.Infrastructure.Services.DB
 
             if (logIn)
             {
-                DbLoginResponseContent loginContent = LoginService.EnterSystem(userInfo.Login, userInfo.Password, db);
+                DatabaseLoginResponseContent loginContent = LoginService.EnterSystem(userInfo.Login, userInfo.Password, db);
                 db.SetAuthorizationToken(loginContent.token);
             }
 
             string addCashHandle = $"/api/User/{userInfo.ID}/account";
-            var content = new DbCash(sum);
+            var content = new DatabaseCash(sum);
 
             using HttpResponseMessage addCashResponse = db.PutAsync(addCashHandle, content).Result;
 
@@ -42,7 +42,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             string getUserHandle = $"/api/User/{userInfo.ID}";
             using HttpResponseMessage getUserResponse = db.GetAsync(getUserHandle).Result;
 
-            DbUser dbUser = getUserResponse.Content.ReadFromJsonAsync<DbUser>().Result
+            DatabaseUser dbUser = getUserResponse.Content.ReadFromJsonAsync<DatabaseUser>().Result
                 ?? throw new IncorrectContentException(getUserResponse.Content);
 
             return dbUser.money;

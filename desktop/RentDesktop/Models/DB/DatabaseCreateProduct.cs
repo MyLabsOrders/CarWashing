@@ -2,7 +2,7 @@
 {
 #pragma warning disable IDE1006
 
-    internal class DbCreateProduct
+    internal class DatabaseCreateProduct
     {
         public string name { get; set; } = string.Empty;
         public string company { get; set; } = string.Empty;

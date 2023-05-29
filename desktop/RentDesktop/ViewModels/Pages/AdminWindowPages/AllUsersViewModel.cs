@@ -3,7 +3,7 @@ using Avalonia.Interactivity;
 using ReactiveUI;
 using RentDesktop.Infrastructure.Extensions;
 using RentDesktop.Infrastructure.Services.DB;
-using RentDesktop.Models.Communication;
+using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;
 using RentDesktop.Views;
@@ -63,7 +63,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
                 statuses = new List<string>();
 #if DEBUG
                 string message = $"Не удалось загрузить статусы. Причина: {ex.Message}";
-                QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
+                MsgBox.ErrorMsg(message).Dialog(typeof(AdminWindow));
 #endif
             }
 
@@ -126,7 +126,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
                 genders = new List<string>();
 #if DEBUG
                 string message = $"Не удалось загрузить полы. Причина: {ex.Message}";
-                QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
+                MsgBox.ErrorMsg(message).Dialog(typeof(AdminWindow));
 #endif
             }
 
@@ -169,7 +169,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 #if DEBUG
                 message += $" Причина: {exception.Message}.";
 #endif
-                QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
+                MsgBox.ErrorMsg(message).Dialog(typeof(AdminWindow));
                 return;
             }
 
@@ -197,7 +197,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
                 positions = new List<string>();
 #if DEBUG
                 string message = $"Не удалось получить роли. Причина: {ex.Message}";
-                QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
+                MsgBox.ErrorMsg(message).Dialog(typeof(AdminWindow));
 #endif
             }
 

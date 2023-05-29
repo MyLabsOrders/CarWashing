@@ -2,13 +2,13 @@
 {
 #pragma warning disable IDE1006
 
-    internal class DbRegister
+    internal class DatabaseRegister
     {
-        public DbRegister()
+        public DatabaseRegister()
         {
         }
 
-        public DbRegister(string username, string password, string rolename)
+        public DatabaseRegister(string username, string password, string rolename)
         {
             this.username = username;
             this.password = password;

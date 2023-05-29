@@ -20,7 +20,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             using var db = new DatabaseConnectionService();
             string editUserHandle = $"/api/User/{initialUserInfo.ID}/profile";
 
-            var content = new DbEditUser()
+            var content = new DatabaseEditUser()
             {
                 identityId = newUserInfo.ID,
                 firstName = newUserInfo.Name,
@@ -30,7 +30,7 @@ namespace RentDesktop.Infrastructure.Services.DB
                 userImage = BitmapService.BytesToString(newUserInfo.Icon),
                 birthDate = DateTimeService.ShortDateTimeToString(newUserInfo.DateOfBirth),
                 gender = GenderService.ToDatabaseFormat(newUserInfo.Gender),
-                isActive = newUserInfo.Status == UserInfo.ACTIVE_STATUS
+                isActive = newUserInfo.Status == UserInfo.ST_ACTIVE
             };
 
             using HttpResponseMessage editUserResponse = db.PatchAsync(editUserHandle, content).Result;
@@ -44,7 +44,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             using var db = new DatabaseConnectionService();
 
             const string changePasswordHandle = "/api/identity/password";
-            var content = new DbChangePassword(currentPassword, newPassword);
+            var content = new DatabaseChangePassword(currentPassword, newPassword);
 
             using HttpResponseMessage changePasswordResponse = db.PutAsync(changePasswordHandle, content).Result;
 
@@ -57,7 +57,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             using var db = new DatabaseConnectionService();
 
             const string changeLoginHandle = "/api/identity/username";
-            var content = new DbChangeLogin(newLogin);
+            var content = new DatabaseChangeLogin(newLogin);
 
             using HttpResponseMessage changeLoginResponse = db.PutAsync(changeLoginHandle, content).Result;
 

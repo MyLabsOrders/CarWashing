@@ -10,12 +10,12 @@ namespace RentDesktop.Infrastructure.Services.DB
 {
     internal static class OrdersService
     {
-        public static void ChangeOrderStatus(IOrder order, string newStatus)
+        public static void ChangeOrderStatus(IOrderModel order, string newStatus)
         {
             using var db = new DatabaseConnectionService();
 
             const string changeOrderStatusHandle = "/api/Order/status";
-            var content = new DbOrderStatus(order.ID, newStatus);
+            var content = new DatabaseOrderStatus(order.ID, newStatus);
 
             using HttpResponseMessage changeOrderStatusResponse = db.PutAsync(changeOrderStatusHandle, content).Result;
 
@@ -25,24 +25,24 @@ namespace RentDesktop.Infrastructure.Services.DB
             order.Status = newStatus;
         }
 
-        public static Order CreateOrder(IEnumerable<TransportRent> cart, IUser userInfo)
+        public static OrderModel CreateOrder(IEnumerable<ProductRentModel> cart, IUser userInfo)
         {
             var products = cart
                 .GroupBy(t => t.Transport.ID)
-                .Select(t => new Tuple<TransportRent, int>(t.First(), t.Count()))
+                .Select(t => new Tuple<ProductRentModel, int>(t.First(), t.Count()))
                 .ToList();
 
             return RegisterOrder(products, userInfo);
         }
 
-        private static Order RegisterOrder(List<Tuple<TransportRent, int>> productsInfo, IUser userInfo)
+        private static OrderModel RegisterOrder(List<Tuple<ProductRentModel, int>> productsInfo, IUser userInfo)
         {
             using var db = new DatabaseConnectionService();
 
             string addOrderHandle = $"/api/User/{userInfo.ID}/orders";
 
             var content = productsInfo
-                .Select(t => new DbOrderProduct(t.Item1.Transport.ID, t.Item2, t.Item1.Days))
+                .Select(t => new DatabaseOrderProduct(t.Item1.Transport.ID, t.Item2, t.Item1.Days))
                 .ToList();
 
             using HttpResponseMessage addOrderResponse = db.PutAsync(addOrderHandle, content).Result;
@@ -53,14 +53,14 @@ namespace RentDesktop.Infrastructure.Services.DB
             string creationDateStamp = addOrderResponse.Content.ReadAsStringAsync().Result.Replace("\"", null);
             DateTime creationDate = DateTime.TryParse(creationDateStamp, out DateTime date) ? date : DateTime.Now;
 
-            string status = Order.RENTED_STATUS;
+            string status = OrderModel.RENTED_STATUS;
             string id = productsInfo[0].Item1.Transport.ID;
             double price = productsInfo.Sum(t => t.Item1.TotalPrice * t.Item2);
-            IEnumerable<Transport> models = productsInfo.Select(t => t.Item1.Transport);
+            IEnumerable<ProductModel> models = productsInfo.Select(t => t.Item1.Transport);
 
             userInfo.Money -= price;
 
-            return new Order(id, price, status, creationDate, models, creationDateStamp);
+            return new OrderModel(id, price, status, creationDate, models, creationDateStamp);
         }
     }
 }

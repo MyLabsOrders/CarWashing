@@ -1,7 +1,7 @@
 ﻿using ReactiveUI;
 using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Services.DB;
-using RentDesktop.Models.Communication;
+using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.Views;
 using System;
@@ -40,7 +40,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
             if (SelectedPositionIndex < 0 || SelectedPositionIndex > Positions.Count)
             {
-                QuickMessage.Info("Выберите должность.").ShowDialog(window);
+                MsgBox.InfoMsg("Выберите должность.").Dialog(window);
                 return false;
             }
 
@@ -101,7 +101,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
             {
 #if DEBUG
                 string message = $"Не удалось получить роли. Причина: {exception.Message}";
-                QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
+                MsgBox.ErrorMsg(message).Dialog(typeof(AdminWindow));
 #endif
                 return new ObservableCollection<string>();
             }

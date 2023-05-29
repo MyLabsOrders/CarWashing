@@ -2,13 +2,13 @@
 {
 #pragma warning disable IDE1006
 
-    internal class DbCash
+    internal class DatabaseCash
     {
-        public DbCash()
+        public DatabaseCash()
         {
         }
 
-        public DbCash(double total)
+        public DatabaseCash(double total)
         {
             this.total = total;
         }

@@ -3,9 +3,9 @@ using System;
 
 namespace RentDesktop.Models.Security
 {
-    public class Captcha : ReactiveModel, ICaptcha
+    public class Secret : ModelBase, ISecret
     {
-        public Captcha(int length = 5)
+        public Secret(int length = 5)
         {
             Length = length;
             UpdateText();

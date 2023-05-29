@@ -1,7 +1,7 @@
 ﻿using ReactiveUI;
 using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Services.DB;
-using RentDesktop.Models.Communication;
+using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Pages.UserWindowPages;
 using RentDesktop.Views;
@@ -45,7 +45,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
             {
 #if DEBUG
                 string message = $"Не удалось загрузить статусы. Причина: {ex.Message}";
-                QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
+                MsgBox.ErrorMsg(message).Dialog(typeof(AdminWindow));
 #endif
                 return new ObservableCollection<string>();
             }
@@ -64,7 +64,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
             if (SelectedStatusIndex < 0 || SelectedStatusIndex > Statuses.Count)
             {
-                QuickMessage.Info("Выберите статус.").ShowDialog(window);
+                MsgBox.InfoMsg("Выберите статус.").Dialog(window);
                 return false;
             }
 

@@ -14,8 +14,8 @@ namespace RentDesktop.Infrastructure.Services.DB
         {
             return new List<string>()
             {
-                UserInfo.ACTIVE_STATUS,
-                UserInfo.INACTIVE_STATUS
+                UserInfo.ST_ACTIVE,
+                UserInfo.ST_INACTIVE
             };
         }
 
@@ -23,8 +23,8 @@ namespace RentDesktop.Infrastructure.Services.DB
         {
             return new List<string>()
             {
-                UserInfo.USER_POSITION,
-                UserInfo.ADMIN_POSITION
+                UserInfo.POS_USER,
+                UserInfo.POS_ADMIN
             };
         }
 
@@ -32,8 +32,8 @@ namespace RentDesktop.Infrastructure.Services.DB
         {
             return new List<string>()
             {
-                UserInfo.MALE_GENDER,
-                UserInfo.FEMALE_GENDER
+                UserInfo.MALE,
+                UserInfo.FEMALE
             };
         }
 
@@ -43,7 +43,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             using var db = new DatabaseConnectionService();
 
             int currentPage = 1;
-            IEnumerable<DbUser> currentOrder;
+            IEnumerable<DatabaseUser> currentOrder;
 
             do
             {
@@ -53,7 +53,7 @@ namespace RentDesktop.Infrastructure.Services.DB
                 if (!allUsersResponse.IsSuccessStatusCode)
                     throw new ErrorResponseException(allUsersResponse);
 
-                DbUsers? usersCollection = allUsersResponse.Content.ReadFromJsonAsync<DbUsers>().Result;
+                DatabaseUsers? usersCollection = allUsersResponse.Content.ReadFromJsonAsync<DatabaseUsers>().Result;
 
                 if (usersCollection is null || usersCollection.users is null)
                     throw new IncorrectContentException(allUsersResponse.Content);
@@ -67,7 +67,7 @@ namespace RentDesktop.Infrastructure.Services.DB
                 foreach (IUser user in currentUsers)
                 {
                     user.Login = GetUserIdentityInfo(user.ID, db).username;
-                    user.Password = UserInfo.HIDDEN_PASSWORD;
+                    user.Password = UserInfo.HIDDEN;
                 }
 
                 allUsers.AddRange(currentUsers);
@@ -83,21 +83,21 @@ namespace RentDesktop.Infrastructure.Services.DB
             db ??= new DatabaseConnectionService();
 
             string adminCheckHandle = "/api/identity/authorize-admin";
-            var content = new DbUsername(login);
+            var content = new DatabaseUsername(login);
 
             using HttpResponseMessage adminCheckResponse = db.PostAsync(adminCheckHandle, content).Result;
 
             return adminCheckResponse.StatusCode == HttpStatusCode.OK;
         }
 
-        public static DbIdentityInfo GetUserIdentityInfo(string userId, DatabaseConnectionService? db = null)
+        public static DatabaseIdentityInfo GetUserIdentityInfo(string userId, DatabaseConnectionService? db = null)
         {
             db ??= new DatabaseConnectionService();
 
             string getIdentityInfoHandle = $"/api/identity/{userId}";
             using HttpResponseMessage getIdentityInfoResponse = db.GetAsync(getIdentityInfoHandle).Result;
 
-            return getIdentityInfoResponse.Content.ReadFromJsonAsync<DbIdentityInfo>().Result
+            return getIdentityInfoResponse.Content.ReadFromJsonAsync<DatabaseIdentityInfo>().Result
                 ?? throw new IncorrectContentException(getIdentityInfoResponse.Content);
         }
     }

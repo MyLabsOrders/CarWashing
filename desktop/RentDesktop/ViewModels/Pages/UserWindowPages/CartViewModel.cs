@@ -4,7 +4,7 @@ using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Exceptions;
 using RentDesktop.Infrastructure.Services.DB;
 using RentDesktop.Models;
-using RentDesktop.Models.Communication;
+using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;
 using RentDesktop.Views;
@@ -19,13 +19,13 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 {
     public class CartViewModel : BaseViewModel
     {
-        public CartViewModel(IUser user, ObservableCollection<Order> ordersCollection)
+        public CartViewModel(IUser user, ObservableCollection<OrderModel> ordersCollection)
         {
             _user = user;
             _ordersCollection = ordersCollection;
 
             PaymentMethods = PaymentMethodsSupportedCollection();
-            Cart = new ObservableCollection<TransportRent>();
+            Cart = new ObservableCollection<ProductRentModel>();
 
             Cart.CollectionChanged += (s, e) =>
             {
@@ -37,8 +37,8 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
             PlacingOfTheOrderOpenCommand = ReactiveCommand.Create(OrderPlacingPageOpen);
             CartRestoreCommand = ReactiveCommand.Create(CartEmpty);
-            CartRemoveItemCommand = ReactiveCommand.Create<TransportRent>(CartRm);
-            ProductSelectCommand = ReactiveCommand.Create<TransportRent>(ProductSelect);
+            CartRemoveItemCommand = ReactiveCommand.Create<ProductRentModel>(CartRm);
+            ProductSelectCommand = ReactiveCommand.Create<ProductRentModel>(ProductSelect);
             PriceRefreshCommand = ReactiveCommand.Create<NumericUpDownValueChangedEventArgs>(PriceRefresh);
             InfoOnRelatedProductsRefreshCommand = ReactiveCommand.Create<NumericUpDownValueChangedEventArgs>(ProductsRelationsCheck);
 
@@ -52,7 +52,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         #region Private Methods
 
-        private void ProductSelect(TransportRent transportRent)
+        private void ProductSelect(ProductRentModel transportRent)
         {
             SelectedTransportRent = transportRent;
         }
@@ -87,9 +87,9 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             if (SelectedTransportRent is null)
                 return;
 
-            System.Collections.Generic.IEnumerable<TransportRent> relatedProducts = Cart.Where(t => t.Transport.ID == SelectedTransportRent.Transport.ID);
+            System.Collections.Generic.IEnumerable<ProductRentModel> relatedProducts = Cart.Where(t => t.Transport.ID == SelectedTransportRent.Transport.ID);
 
-            foreach (TransportRent? i in relatedProducts)
+            foreach (ProductRentModel? i in relatedProducts)
             {
                 i.Days = (int)e.NewValue;
             }
@@ -122,7 +122,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 using MemoryStream cheque = FileDownloadService.DownloadCheque(_ordersCollection[^1]);
                 await AsyncSaveFile(cheque);
 
-                QuickMessage.Info("Чек успешно загружен.").ShowDialog(typeof(UserWindow));
+                MsgBox.InfoMsg("Чек успешно загружен.").Dialog(typeof(UserWindow));
             }
             catch (Exception ex)
             {
@@ -130,7 +130,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
-                QuickMessage.Error(message).ShowDialog(typeof(UserWindow));
+                MsgBox.ErrorMsg(message).Dialog(typeof(UserWindow));
             }
         }
 
@@ -140,7 +140,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             SelectedTransportRent = null;
         }
 
-        private void CartRm(TransportRent transportRent)
+        private void CartRm(ProductRentModel transportRent)
         {
             if (transportRent == SelectedTransportRent)
                 SelectedTransportRent = null;
@@ -176,11 +176,11 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
         {
             if (!UserCashService.CanPayOrder(Cart, _user))
             {
-                QuickMessage.Error("У вас не хватает средств для оплаты.").ShowDialog(typeof(UserWindow));
+                MsgBox.ErrorMsg("У вас не хватает средств для оплаты.").Dialog(typeof(UserWindow));
                 return;
             }
 
-            Order order;
+            OrderModel order;
 
             try
             {
@@ -192,7 +192,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
-                QuickMessage.Error(message).ShowDialog(typeof(UserWindow));
+                MsgBox.ErrorMsg(message).Dialog(typeof(UserWindow));
                 return;
             }
 
@@ -209,7 +209,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 using MemoryStream invoice = FileDownloadService.DownloadInvoice(_ordersCollection[^1]);
                 await AsyncSaveFile(invoice);
 
-                QuickMessage.Info("Ведомость успешно загружена.").ShowDialog(typeof(UserWindow));
+                MsgBox.InfoMsg("Ведомость успешно загружена.").Dialog(typeof(UserWindow));
             }
             catch (Exception ex)
             {
@@ -217,7 +217,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
-                QuickMessage.Error(message).ShowDialog(typeof(UserWindow));
+                MsgBox.ErrorMsg(message).Dialog(typeof(UserWindow));
             }
         }
 
@@ -252,13 +252,13 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
         public ReactiveCommand<Unit, Unit> PlacingOfTheOrderOpenCommand { get; }
 
         public ReactiveCommand<Unit, Unit> CartRestoreCommand { get; }
-        public ReactiveCommand<TransportRent, Unit> CartRemoveWithoutSavingItemCommand { get; }
+        public ReactiveCommand<ProductRentModel, Unit> CartRemoveWithoutSavingItemCommand { get; }
 
-        public ReactiveCommand<TransportRent, Unit> ProductSelectCommand { get; }
+        public ReactiveCommand<ProductRentModel, Unit> ProductSelectCommand { get; }
         public ReactiveCommand<NumericUpDownValueChangedEventArgs, Unit> InfoOnRelatedProductsRefreshCommand { get; }
 
         public ReactiveCommand<Unit, Unit> CartRestoreWithoutSavingCommand { get; }
-        public ReactiveCommand<TransportRent, Unit> CartRemoveItemCommand { get; }
+        public ReactiveCommand<ProductRentModel, Unit> CartRemoveItemCommand { get; }
 
         #endregion
 
@@ -293,10 +293,10 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         #region Cart Subpage
 
-        public ObservableCollection<TransportRent> Cart { get; }
+        public ObservableCollection<ProductRentModel> Cart { get; }
 
-        private TransportRent? _theSelectedTransportRent = null;
-        public TransportRent? SelectedTransportRent
+        private ProductRentModel? _theSelectedTransportRent = null;
+        public ProductRentModel? SelectedTransportRent
         {
             get => _theSelectedTransportRent;
             private set
@@ -399,7 +399,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
         #region Private Fields
 
         private readonly IUser _user;
-        private readonly ObservableCollection<Order> _ordersCollection;
+        private readonly ObservableCollection<OrderModel> _ordersCollection;
 
         #endregion
 

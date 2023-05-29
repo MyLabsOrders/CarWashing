@@ -2,13 +2,13 @@
 {
 #pragma warning disable IDE1006
 
-    internal class DbOrderStatus
+    internal class DatabaseOrderStatus
     {
-        public DbOrderStatus()
+        public DatabaseOrderStatus()
         {
         }
 
-        public DbOrderStatus(string orderId, string status)
+        public DatabaseOrderStatus(string orderId, string status)
         {
             this.orderId = orderId;
             this.status = status;

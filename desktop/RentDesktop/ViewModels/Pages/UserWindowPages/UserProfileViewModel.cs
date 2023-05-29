@@ -8,7 +8,7 @@ using ReactiveUI;
 using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Services;
 using RentDesktop.Infrastructure.Services.DB;
-using RentDesktop.Models.Communication;
+using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;
 using RentDesktop.Views;
@@ -59,11 +59,11 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 message += $"Причина: {ex.Message}";
 #endif
                 Window? window = WindowFinder.FindByType(WindowGetType());
-                QuickMessage.Error(message).ShowDialog(window);
+                MsgBox.ErrorMsg(message).Dialog(window);
                 return;
             }
 
-            newUserInfo.CopyTo(_user);
+            newUserInfo.CopyToOtherUser(_user);
             UpdatedTheInformation?.Invoke();
 
             IsEditModeEnabled = false;
@@ -81,7 +81,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 return;
 
             if (!TryImagePut(paths[0]))
-                QuickMessage.Error("Не удалось открыть фото.").ShowDialog(window);
+                MsgBox.ErrorMsg("Не удалось открыть фото.").Dialog(window);
         }
 
         private async void BalanceChange()
@@ -132,7 +132,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
             if (!double.TryParse(moneyPresenter, out double money))
             {
-                QuickMessage.Error("Вы ввели некорректное значение.").ShowDialog(userWindow);
+                MsgBox.ErrorMsg("Вы ввели некорректное значение.").Dialog(userWindow);
                 return;
             }
 
@@ -147,7 +147,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
-                QuickMessage.Error(message).ShowDialog(userWindow);
+                MsgBox.ErrorMsg(message).Dialog(userWindow);
             }
         }
 
@@ -301,42 +301,42 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
             if (string.IsNullOrEmpty(Login))
             {
-                QuickMessage.Info("Введите логин.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите логин.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Password))
             {
-                QuickMessage.Info("Введите пароль.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите пароль.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Name))
             {
-                QuickMessage.Info("Введите имя.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите имя.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Surname))
             {
-                QuickMessage.Info("Введите фамилию.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите фамилию.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Patronymic))
             {
-                QuickMessage.Info("Введите отчество.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите отчество.").Dialog(ownerWindow);
                 return false;
             }
             if (PhoneNumber.Where(t => char.IsDigit(t)).Count() != MAX_DIGITS_FOR_NUMBER)
             {
-                QuickMessage.Info("Введите корректный номер телефона.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите корректный номер телефона.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Gender))
             {
-                QuickMessage.Info("Выберите пол.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Выберите пол.").Dialog(ownerWindow);
                 return false;
             }
             if (DateOfBirth is null)
             {
-                QuickMessage.Info("Введите дату рождения.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите дату рождения.").Dialog(ownerWindow);
                 return false;
             }
 
@@ -366,10 +366,10 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 ? BitmapService.BytesToBitmap(userInfo.Icon)
                 : null;
 
-            if (Gender == UserInfo.MALE_GENDER)
+            if (Gender == UserInfo.MALE)
                 IsMaleGenderChecked = true;
 
-            else if (Gender == UserInfo.FEMALE_GENDER)
+            else if (Gender == UserInfo.FEMALE)
                 IsFemaleGenderChecked = true;
         }
 
@@ -380,7 +380,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                : Array.Empty<byte>();
 
             var userInfo = new UserInfo();
-            _user.CopyTo(userInfo);
+            _user.CopyToOtherUser(userInfo);
 
             userInfo.Login = Login;
             userInfo.Password = Password;

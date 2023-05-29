@@ -4,10 +4,10 @@ namespace RentDesktop.Models.DB
 {
 #pragma warning disable IDE1006
 
-    internal class DbUsers
+    internal class DatabaseOrderCollection
     {
-        public IEnumerable<DbUser>? users { get; set; } = null;
-        public int page { get; set; } = 0;
+        public IEnumerable<DatabaseOrder>? orders { get; set; } = null;
+        public int page { get; set; } = 1;
         public int totalPages { get; set; } = 0;
     }
 

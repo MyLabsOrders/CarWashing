@@ -10,7 +10,7 @@ namespace RentDesktop.Infrastructure.Services.DB
 {
     internal static class DatabaseModelConverterService
     {
-        public static UserInfo ConvertUser(DbUser user, string position)
+        public static UserInfo ConvertUser(DatabaseUser user, string position)
         {
             return new UserInfo()
             {
@@ -23,15 +23,15 @@ namespace RentDesktop.Infrastructure.Services.DB
                 PhoneNumber = user.number,
                 Gender = GenderService.FromDatabaseFormat(user.gender),
                 Position = position,
-                Status = user.isActive ? UserInfo.ACTIVE_STATUS : UserInfo.INACTIVE_STATUS,
+                Status = user.isActive ? UserInfo.ST_ACTIVE : UserInfo.ST_INACTIVE,
                 Money = user.money,
                 Icon = BitmapService.StringToBytes(user.image),
                 DateOfBirth = DateTimeService.StringToShortDateTime(user.birthDate),
-                Orders = new ObservableCollection<Order>(ConvertOrders(user.orders ?? Array.Empty<DbOrder>()))
+                Orders = new ObservableCollection<OrderModel>(ConvertOrders(user.orders ?? Array.Empty<DatabaseOrder>()))
             };
         }
 
-        public static List<IUser> ConvertUsers(DbUsers databaseUsers, IReadOnlyList<string> positions)
+        public static List<IUser> ConvertUsers(DatabaseUsers databaseUsers, IReadOnlyList<string> positions)
         {
             if (databaseUsers.users is null)
                 return new List<IUser>();
@@ -39,7 +39,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             if (databaseUsers.users.Count() != positions.Count)
                 throw new InvalidOperationException("The number of users does not match the number of their positions.");
 
-            UserInfo UserConverter(DbUser user, int index)
+            UserInfo UserConverter(DatabaseUser user, int index)
             {
                 return ConvertUser(user, positions[index]);
             }
@@ -50,9 +50,9 @@ namespace RentDesktop.Infrastructure.Services.DB
                 .ToList();
         }
 
-        public static IEnumerable<Order> ConvertProducts(IEnumerable<DbOrder> databaseOrders)
+        public static IEnumerable<OrderModel> ConvertProducts(IEnumerable<DatabaseOrder> databaseOrders)
         {
-            return databaseOrders.Select(t => new Order(
+            return databaseOrders.Select(t => new OrderModel(
                 id: t.id,
                 price: t.total,
                 status: t.status,
@@ -61,17 +61,17 @@ namespace RentDesktop.Infrastructure.Services.DB
             ));
         }
 
-        public static IEnumerable<Order> ConvertOrders(IEnumerable<DbOrder> databaseOrders)
+        public static IEnumerable<OrderModel> ConvertOrders(IEnumerable<DatabaseOrder> databaseOrders)
         {
-            var orders = new List<Order>();
-            IEnumerable<IGrouping<string?, DbOrder>> grouppedDatabaseOrders = databaseOrders.GroupBy(t => t.orderDate);
+            var orders = new List<OrderModel>();
+            IEnumerable<IGrouping<string?, DatabaseOrder>> grouppedDatabaseOrders = databaseOrders.GroupBy(t => t.orderDate);
 
-            foreach (IGrouping<string?, DbOrder> transportGroup in grouppedDatabaseOrders)
+            foreach (IGrouping<string?, DatabaseOrder> transportGroup in grouppedDatabaseOrders)
             {
-                DbOrder firstDatabaseOrder = transportGroup.First();
-                IEnumerable<Transport> transports = transportGroup.Select(t => ConvertDbOrderToTransport(t));
+                DatabaseOrder firstDatabaseOrder = transportGroup.First();
+                IEnumerable<ProductModel> transports = transportGroup.Select(t => ConvertDbOrderToTransport(t));
 
-                string status = Order.RENTED_STATUS;
+                string status = OrderModel.RENTED_STATUS;
                 string id = firstDatabaseOrder.id;
                 double price = transportGroup.Sum(t => t.total * t.count!.Value * t.days!.Value);
 
@@ -79,14 +79,14 @@ namespace RentDesktop.Infrastructure.Services.DB
                     ? default
                     : DateTimeService.StringToDateTime(firstDatabaseOrder.orderDate);
 
-                var order = new Order(id, price, status, dateOfCreation, transports);
+                var order = new OrderModel(id, price, status, dateOfCreation, transports);
                 orders.Add(order);
             }
 
             return orders;
         }
 
-        public static Transport ConvertDbOrderToTransport(DbOrder order)
+        public static ProductModel ConvertDbOrderToTransport(DatabaseOrder order)
         {
             byte[] imageBytes = BitmapService.StringToBytes(order.image);
 
@@ -98,7 +98,7 @@ namespace RentDesktop.Infrastructure.Services.DB
                 ? default
                 : DateTimeService.StringToDateTime(order.orderDate);
 
-            return new Transport(
+            return new ProductModel(
                 order.id,
                 order.name,
                 order.company,

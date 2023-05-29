@@ -5,7 +5,7 @@ using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Security;
 using RentDesktop.Infrastructure.Services;
 using RentDesktop.Infrastructure.Services.DB;
-using RentDesktop.Models.Communication;
+using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;
 using RentDesktop.Views;
@@ -29,7 +29,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
             ClosePageCommand = ReactiveCommand.Create(ClosePage);
         }
 
-        public RegisterViewModel() : this(UserInfo.USER_POSITION)
+        public RegisterViewModel() : this(UserInfo.POS_USER)
         {
         }
 
@@ -57,7 +57,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
                 message += $" Причина: {ex.Message}";
 #endif
                 Window? window = WindowFinder.FindByType(GetOwnerWindowType());
-                QuickMessage.Error(message).ShowDialog(window);
+                MsgBox.ErrorMsg(message).Dialog(window);
             }
         }
 
@@ -73,7 +73,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
                 return;
 
             if (!TrySetUserImage(paths[0]))
-                QuickMessage.Error("Не удалось открыть фото.").ShowDialog(window);
+                MsgBox.ErrorMsg("Не удалось открыть фото.").Dialog(window);
         }
 
         private void ClosePage()
@@ -253,7 +253,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
                 PhoneNumber = PhoneNumber,
                 Gender = Gender,
                 Position = _position,
-                Status = UserInfo.ACTIVE_STATUS,
+                Status = UserInfo.ST_ACTIVE,
                 Money = 0,
                 Icon = image,
                 DateOfBirth = DateOfBirth!.Value
@@ -267,52 +267,52 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
             if (string.IsNullOrEmpty(Login))
             {
-                QuickMessage.Info("Введите логин.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите логин.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Password))
             {
-                QuickMessage.Info("Введите пароль.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите пароль.").Dialog(ownerWindow);
                 return false;
             }
             if (!verifier.IsStrong())
             {
-                QuickMessage.Info($"Пароль слишком слабый. {PasswordVerifier.STRONG_PASSWORD_REQUIREMENTS}").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg($"Пароль слишком слабый. {PasswordVerifier.STRONG_PASSWORD_REQUIREMENTS}").Dialog(ownerWindow);
                 return false;
             }
             if (Password != PasswordConfirmation)
             {
-                QuickMessage.Info("Пароли не совпадают.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Пароли не совпадают.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Name))
             {
-                QuickMessage.Info("Введите имя.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите имя.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Surname))
             {
-                QuickMessage.Info("Введите фамилию.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите фамилию.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Patronymic))
             {
-                QuickMessage.Info("Введите отчество.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите отчество.").Dialog(ownerWindow);
                 return false;
             }
             if (PhoneNumber.Where(t => char.IsDigit(t)).Count() != NUMBER_MAX_DIGITS)
             {
-                QuickMessage.Info("Введите корректный номер телефона.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите корректный номер телефона.").Dialog(ownerWindow);
                 return false;
             }
             if (string.IsNullOrEmpty(Gender))
             {
-                QuickMessage.Info("Выберите пол.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Выберите пол.").Dialog(ownerWindow);
                 return false;
             }
             if (DateOfBirth is null)
             {
-                QuickMessage.Info("Введите дату рождения.").ShowDialog(ownerWindow);
+                MsgBox.InfoMsg("Введите дату рождения.").Dialog(ownerWindow);
                 return false;
             }
 

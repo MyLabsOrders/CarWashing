@@ -1,7 +1,7 @@
 ﻿using Avalonia.Threading;
 using ReactiveUI;
 using RentDesktop.Infrastructure.App;
-using RentDesktop.Models.Communication;
+using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;
 using RentDesktop.ViewModels.Pages.AdminWindowPages;
@@ -35,8 +35,8 @@ namespace RentDesktop.ViewModels
 
                 if (userInTable != null)
                 {
-                    user.CopyTo(userInTable);
-                    userInTable.Password = Models.Informing.UserInfo.HIDDEN_PASSWORD;
+                    user.CopyToOtherUser(userInTable);
+                    userInTable.Password = Models.Informing.UserInfo.HIDDEN;
                 }
             };
 
@@ -186,12 +186,12 @@ namespace RentDesktop.ViewModels
         private void ViewModelEditUserUserInfoUpdated()
         {
             Avalonia.Controls.Window? window = WindowFinder.FindByType(typeof(AdminWindow));
-            QuickMessage.Info("Изменения успешно сохранены.").ShowDialog(window);
+            MsgBox.InfoMsg("Изменения успешно сохранены.").Dialog(window);
         }
 
         private void ViewModelAddUserUserRegistered(IUser registeredUser)
         {
-            registeredUser.Password = Models.Informing.UserInfo.HIDDEN_PASSWORD;
+            registeredUser.Password = Models.Informing.UserInfo.HIDDEN;
             ViewModelAllUsers.UserPutAndAdd(registeredUser);
         }
 

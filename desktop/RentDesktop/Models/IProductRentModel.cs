@@ -1,8 +1,8 @@
 ﻿namespace RentDesktop.Models
 {
-    public interface ITransportRent
+    public interface IProductRentModel
     {
-        Transport Transport { get; }
+        ProductModel Transport { get; }
         int Days { get; set; }
         double TotalPrice { get; }
     }

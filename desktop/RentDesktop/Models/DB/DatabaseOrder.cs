@@ -2,7 +2,7 @@
 {
 #pragma warning disable IDE1006
 
-    internal class DbOrder
+    internal class DatabaseOrder
     {
         public string id { get; set; } = string.Empty;
         public string status { get; set; } = string.Empty;

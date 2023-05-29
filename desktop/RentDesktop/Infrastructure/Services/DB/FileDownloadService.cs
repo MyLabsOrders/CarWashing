@@ -9,7 +9,7 @@ namespace RentDesktop.Infrastructure.Services.DB
     {
         private const int RESPONSE_WAIT_TIME_MILLISECONDS = 3000;
 
-        public static MemoryStream DownloadCheque(IOrder order)
+        public static MemoryStream DownloadCheque(IOrderModel order)
         {
             using var db = new DatabaseConnectionService();
 
@@ -28,7 +28,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             return new MemoryStream(chequeBytes);
         }
 
-        public static MemoryStream DownloadInvoice(IOrder order)
+        public static MemoryStream DownloadInvoice(IOrderModel order)
         {
             using var db = new DatabaseConnectionService();
 

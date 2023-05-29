@@ -12,8 +12,8 @@ namespace RentDesktop.Infrastructure.Services.DB
         {
             return gender switch
             {
-                UserInfo.MALE_GENDER => DATABASE_MALE_GANDER,
-                UserInfo.FEMALE_GENDER => DATABASE_FEMALE_GANDER,
+                UserInfo.MALE => DATABASE_MALE_GANDER,
+                UserInfo.FEMALE => DATABASE_FEMALE_GANDER,
                 _ => throw new NotImplementedException(),
             };
         }
@@ -22,8 +22,8 @@ namespace RentDesktop.Infrastructure.Services.DB
         {
             return gender switch
             {
-                DATABASE_MALE_GANDER => UserInfo.MALE_GENDER,
-                DATABASE_FEMALE_GANDER => UserInfo.FEMALE_GENDER,
+                DATABASE_MALE_GANDER => UserInfo.MALE,
+                DATABASE_FEMALE_GANDER => UserInfo.FEMALE,
                 _ => throw new NotImplementedException(),
             };
         }

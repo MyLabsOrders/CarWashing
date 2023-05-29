@@ -11,14 +11,14 @@ namespace RentDesktop.Infrastructure.Services.DB
             using var db = new DatabaseConnectionService();
 
             const string registerHandle = "/api/identity/user/register";
-            var content = new DbRegister(userInfo.Login, userInfo.Password, userInfo.Position);
+            var content = new DatabaseRegister(userInfo.Login, userInfo.Password, userInfo.Position);
 
             using HttpResponseMessage registerResponse = db.PostAsync(registerHandle, content).Result;
 
             if (!registerResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(registerResponse);
 
-            DbLoginResponseContent loginContent = LoginService.EnterSystem(userInfo.Login, userInfo.Password, db);
+            DatabaseLoginResponseContent loginContent = LoginService.EnterSystem(userInfo.Login, userInfo.Password, db);
 
             db.SetAuthorizationToken(loginContent.token);
             userInfo.ID = loginContent.userId;
@@ -30,7 +30,7 @@ namespace RentDesktop.Infrastructure.Services.DB
         {
             string profileHandle = $"/api/User/{userInfo.ID}/profile";
 
-            var content = new DbUserProfile()
+            var content = new DatabaseUserProfile()
             {
                 firstName = userInfo.Name,
                 middleName = userInfo.Surname,

@@ -2,9 +2,9 @@
 
 namespace RentDesktop.Models
 {
-    public class TransportRent : ReactiveModel, ITransportRent
+    public class ProductRentModel : ModelBase, IProductRentModel
     {
-        public TransportRent(Transport transport, int days)
+        public ProductRentModel(ProductModel transport, int days)
         {
             Transport = transport;
             Days = days;
@@ -12,8 +12,8 @@ namespace RentDesktop.Models
             Presenter = GetPresenterString();
         }
 
-        public TransportRent Self => this;
-        public Transport Transport { get; }
+        public ProductRentModel Self => this;
+        public ProductModel Transport { get; }
 
         private int _days = 1;
         public int Days

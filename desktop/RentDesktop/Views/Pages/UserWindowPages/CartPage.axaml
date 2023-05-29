@@ -48,7 +48,7 @@
 				</ItemsControl.Template>
 
 				<ItemsControl.DataTemplates>
-					<DataTemplate DataType="{x:Type models:TransportRent}">
+					<DataTemplate DataType="{x:Type models:ProductRentModel}">
 						<Button Classes="cell"
 								Command="{Binding DataContext.ProductSelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
 								CommandParameter="{Binding Self}">
@@ -246,7 +246,7 @@
 			
 			<ListBox Grid.Row="1" Items="{Binding Cart}">
 				<ListBox.DataTemplates>
-					<DataTemplate DataType="{x:Type models:TransportRent}">
+					<DataTemplate DataType="{x:Type models:ProductRentModel}">
 						<TextBlock Text="{Binding Presenter}" />
 					</DataTemplate>
 				</ListBox.DataTemplates>

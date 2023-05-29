@@ -10,25 +10,25 @@ namespace RentDesktop.Infrastructure.Services.DB
         public static IUser Login(string login, string password)
         {
             DatabaseConnectionService db = new();
-            DbLoginResponseContent loginContent = EnterSystem(login, password, db, true);
+            DatabaseLoginResponseContent loginContent = EnterSystem(login, password, db, true);
 
             return GetUserInfo(db, loginContent.userId, login, password);
         }
 
-        public static DbLoginResponseContent EnterSystem(string login, string password, DatabaseConnectionService? db = null,
+        public static DatabaseLoginResponseContent EnterSystem(string login, string password, DatabaseConnectionService? db = null,
             bool registerAuthorizationToken = false)
         {
             db ??= new DatabaseConnectionService();
 
             const string loginHandle = "/api/identity/login";
-            var content = new DbLogin(login, password);
+            var content = new DatabaseLogin(login, password);
 
             using HttpResponseMessage loginResponse = db.PostAsync(loginHandle, content).Result;
 
             if (!loginResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(loginResponse);
 
-            DbLoginResponseContent loginContent = loginResponse.Content.ReadFromJsonAsync<DbLoginResponseContent>().Result
+            DatabaseLoginResponseContent loginContent = loginResponse.Content.ReadFromJsonAsync<DatabaseLoginResponseContent>().Result
                 ?? throw new IncorrectContentException(loginResponse.Content);
 
             if (registerAuthorizationToken)
@@ -48,12 +48,12 @@ namespace RentDesktop.Infrastructure.Services.DB
             if (!profileResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(profileResponse);
 
-            DbUser? profileContent = profileResponse.Content.ReadFromJsonAsync<DbUser>().Result
+            DatabaseUser? profileContent = profileResponse.Content.ReadFromJsonAsync<DatabaseUser>().Result
                 ?? throw new IncorrectContentException(profileResponse.Content);
 
             string position = InfoService.CheckUserIsAdmin(login, db)
-                ? UserInfo.ADMIN_POSITION
-                : UserInfo.USER_POSITION;
+                ? UserInfo.POS_ADMIN
+                : UserInfo.POS_USER;
 
             UserInfo userInfo = DatabaseModelConverterService.ConvertUser(profileContent, position);
             userInfo.Login = login;

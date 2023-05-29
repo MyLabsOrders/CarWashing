@@ -6,14 +6,14 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 {
     public class OrdersViewModel : BaseViewModel
     {
-        public OrdersViewModel(ObservableCollection<Order> orders)
+        public OrdersViewModel(ObservableCollection<OrderModel> orders)
         {
             Orders = orders;
         }
 
         #region Properties
 
-        public ObservableCollection<Order> Orders { get; }
+        public ObservableCollection<OrderModel> Orders { get; }
 
         #endregion
     }
