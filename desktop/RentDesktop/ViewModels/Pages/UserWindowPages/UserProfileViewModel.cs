@@ -5,7 +5,7 @@ using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
 using MessageBox.Avalonia.Models;
 using ReactiveUI;
-using RentDesktop.Infrastructure.App;
+using RentDesktop.Infrastructure.Helpers;
 using RentDesktop.Infrastructure.Services;
 using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models.Messaging;
@@ -58,7 +58,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 #if DEBUG
                 message += $"Причина: {ex.Message}";
 #endif
-                Window? window = WindowSearcher.FindByType(WindowGetType());
+                Window? window = WindowSearcher.FindWindowByType(WindowGetType());
                 MsgBox.ErrorMsg(message).Dialog(window);
                 return;
             }
@@ -71,10 +71,10 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         private async void ImageChange()
         {
-            if (WindowSearcher.FindByType(WindowGetType()) is not Window window)
+            if (WindowSearcher.FindWindowByType(WindowGetType()) is not Window window)
                 return;
 
-            OpenFileDialog dialog = DialogHelper.GetOpenImageDialog();
+            OpenFileDialog dialog = DialogHelper.OpenImage();
             string[]? paths = await dialog.ShowAsync(window);
 
             if (paths is null || paths.Length == 0)
@@ -117,7 +117,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 ButtonDefinitions = new[] { topUpBalanceButton, cancelButton },
             });
 
-            Window? userWindow = WindowSearcher.FindUserWindow();
+            Window? userWindow = WindowSearcher.User();
 
             if (userWindow is null)
                 return;
@@ -297,7 +297,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         protected virtual bool TryCorrectnessCheck()
         {
-            Window? ownerWindow = WindowSearcher.FindByType(WindowGetType());
+            Window? ownerWindow = WindowSearcher.FindWindowByType(WindowGetType());
 
             if (string.IsNullOrEmpty(Login))
             {

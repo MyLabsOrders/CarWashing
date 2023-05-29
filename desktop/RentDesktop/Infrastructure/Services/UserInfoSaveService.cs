@@ -1,4 +1,4 @@
-﻿using RentDesktop.Infrastructure.Security;
+﻿using RentDesktop.Infrastructure.Safety;
 using System;
 using System.IO;
 
@@ -58,10 +58,10 @@ namespace RentDesktop.Infrastructure.Services
             return (login, password);
         }
 
-        public static void Save(string login, string password)
+        public static void Save(string lg, string pwd)
         {
-            string encryptedPassword = SecurityProvider.Code(password);
-            File.WriteAllText(FILE_PATH, $"{login}{Environment.NewLine}{encryptedPassword}");
+            string encryptedPassword = SecurityProvider.Code(pwd);
+            File.WriteAllText(FILE_PATH, $"{lg}{Environment.NewLine}{encryptedPassword}");
         }
 
         public static bool TryEmpty()

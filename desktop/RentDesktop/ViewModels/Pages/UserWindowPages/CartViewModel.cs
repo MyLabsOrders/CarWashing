@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 using ReactiveUI;
-using RentDesktop.Infrastructure.App;
+using RentDesktop.Infrastructure.Helpers;
 using RentDesktop.Infrastructure.Exceptions;
 using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models;
@@ -158,10 +158,10 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         private static async Task AsyncSaveFile(MemoryStream pdfStream)
         {
-            if (WindowSearcher.FindUserWindow() is not Window userWindow)
+            if (WindowSearcher.User() is not Window userWindow)
                 throw new FilePathNotSpecifiedException();
 
-            SaveFileDialog dialog = DialogHelper.GetSavePdfFileDialog();
+            SaveFileDialog dialog = DialogHelper.SaveFile();
 
             string? path = await dialog.ShowAsync(userWindow);
 

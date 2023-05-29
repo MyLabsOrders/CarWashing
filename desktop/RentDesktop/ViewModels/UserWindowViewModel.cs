@@ -1,6 +1,6 @@
 ﻿using Avalonia.Threading;
 using ReactiveUI;
-using RentDesktop.Infrastructure.App;
+using RentDesktop.Infrastructure.Helpers;
 using RentDesktop.Models;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;

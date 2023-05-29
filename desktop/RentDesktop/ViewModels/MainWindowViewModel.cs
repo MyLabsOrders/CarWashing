@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Threading;
 using ReactiveUI;
-using RentDesktop.Infrastructure.App;
+using RentDesktop.Infrastructure.Helpers;
 using RentDesktop.ViewModels.Base;
 using RentDesktop.ViewModels.Pages.MainWindowPages;
 using System;
@@ -71,7 +71,7 @@ namespace RentDesktop.ViewModels
 
         private static Window? GetWindow()
         {
-            return WindowSearcher.FindMainWindow();
+            return WindowSearcher.Main();
         }
 
         public void MainShow()

@@ -25,27 +25,27 @@ namespace RentDesktop.Infrastructure.Services
             return Convert.FromBase64String(base64string);
         }
 
-        public static bool TryBytesToBmp(byte[] bytes, out Bitmap? bitmap)
+        public static bool TryBytesToBmp(byte[] bytes, out Bitmap? bmp)
         {
             try
             {
-                bitmap = BytesToBmp(bytes);
+                bmp = BytesToBmp(bytes);
                 return true;
             }
             catch
             {
-                bitmap = null;
+                bmp = null;
                 return false;
             }
         }
 
-        public static byte[] BmpToBytes(Bitmap bitmap)
+        public static byte[] BmpToBytes(Bitmap bmp)
         {
             byte[] bytes;
 
             using (var ms = new MemoryStream())
             {
-                bitmap.Save(ms);
+                bmp.Save(ms);
                 bytes = ms.GetBuffer();
             }
 
@@ -69,11 +69,11 @@ namespace RentDesktop.Infrastructure.Services
             return Convert.ToBase64String(bytes);
         }
 
-        public static bool TryBmpToBytes(Bitmap bitmap, out byte[] bytes)
+        public static bool TryBmpToBytes(Bitmap bmp, out byte[] bytes)
         {
             try
             {
-                bytes = BmpToBytes(bitmap);
+                bytes = BmpToBytes(bmp);
                 return true;
             }
             catch

@@ -1,8 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using ReactiveUI;
-using RentDesktop.Infrastructure.App;
-using RentDesktop.Infrastructure.Security;
+using RentDesktop.Infrastructure.Helpers;
+using RentDesktop.Infrastructure.Safety;
 using RentDesktop.Infrastructure.Services;
 using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models.Messaging;
@@ -56,17 +56,17 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
-                Window? window = WindowSearcher.FindByType(GetOwnerWindowType());
+                Window? window = WindowSearcher.FindWindowByType(GetOwnerWindowType());
                 MsgBox.ErrorMsg(message).Dialog(window);
             }
         }
 
         private async void LoadUserImage()
         {
-            if (WindowSearcher.FindByType(GetOwnerWindowType()) is not Window window)
+            if (WindowSearcher.FindWindowByType(GetOwnerWindowType()) is not Window window)
                 return;
 
-            OpenFileDialog dialog = DialogHelper.GetOpenImageDialog();
+            OpenFileDialog dialog = DialogHelper.OpenImage();
             string[]? paths = await dialog.ShowAsync(window);
 
             if (paths is null || paths.Length == 0)
@@ -263,7 +263,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
         protected virtual bool VerifyFieldsCorrectness()
         {
             var verifier = new CheckPassword(Password);
-            Window? ownerWindow = WindowSearcher.FindByType(GetOwnerWindowType());
+            Window? ownerWindow = WindowSearcher.FindWindowByType(GetOwnerWindowType());
 
             if (string.IsNullOrEmpty(Login))
             {

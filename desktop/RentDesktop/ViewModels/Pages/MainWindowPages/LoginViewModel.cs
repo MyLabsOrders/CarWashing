@@ -1,6 +1,6 @@
 ﻿using Avalonia.Threading;
 using ReactiveUI;
-using RentDesktop.Infrastructure.App;
+using RentDesktop.Infrastructure.Helpers;
 using RentDesktop.Infrastructure.Services;
 using RentDesktop.Infrastructure.Services.DatabaseServices;
 using RentDesktop.Models.Messaging;
@@ -109,7 +109,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
         private bool CorrectnessCheck()
         {
-            Avalonia.Controls.Window? ownerWindow = WindowSearcher.FindMainWindow();
+            Avalonia.Controls.Window? ownerWindow = WindowSearcher.Main();
 
             if (string.IsNullOrEmpty(Password))
             {

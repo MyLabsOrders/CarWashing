@@ -5,42 +5,37 @@ using RentDesktop.Views;
 using System;
 using System.Linq;
 
-namespace RentDesktop.Infrastructure.App
+namespace RentDesktop.Infrastructure.Helpers
 {
     internal static class WindowSearcher
     {
-        public static Window? FindMainWindow()
+        public static Window? Main()
         {
             return Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime app
                 ? null
                 : app.MainWindow;
         }
 
-        public static Window? FindUserWindow()
+        public static Window? User()
         {
-            return FindByType(typeof(UserWindow));
+            return FindWindowByType(typeof(UserWindow));
         }
 
-        public static Window? FindAdminWindow()
+        public static Window? Admin()
         {
-            return FindByType(typeof(AdminWindow));
+            return FindWindowByType(typeof(AdminWindow));
         }
 
-        public static Window? Find(Func<Window, bool> predicate)
+        public static Window? FindWindow(Func<Window, bool> predicate)
         {
             return Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime app
                 ? null
                 : app.Windows.FirstOrDefault(predicate);
         }
 
-        public static Window? FindByName(string name)
+        public static Window? FindWindowByType(Type type)
         {
-            return Find(t => t.Name == name);
-        }
-
-        public static Window? FindByType(Type type)
-        {
-            return Find(t => t.GetType() == type);
+            return FindWindow(t => t.GetType() == type);
         }
     }
 }

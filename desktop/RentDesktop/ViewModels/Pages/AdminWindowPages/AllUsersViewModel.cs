@@ -181,7 +181,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         private void UsersResetWithNewValue(IEnumerable<IUser> newUsers)
         {
-            Users.ResetItems(newUsers);
+            Users.ResetElements(newUsers);
         }
 
         private static ObservableCollection<string> GetPositions()

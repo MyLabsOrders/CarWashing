@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.Enums;
-using RentDesktop.Infrastructure.App;
+using RentDesktop.Infrastructure.Helpers;
 using System;
 
 namespace RentDesktop.Models.Messaging
@@ -41,7 +41,7 @@ namespace RentDesktop.Models.Messaging
 
         public void ShowWithoutDialog(Type ownerWindowType)
         {
-            Window? window = WindowSearcher.FindByType(ownerWindowType);
+            Window? window = WindowSearcher.FindWindowByType(ownerWindowType);
             ShowWithoutDialog(window);
         }
 
@@ -52,7 +52,7 @@ namespace RentDesktop.Models.Messaging
 
         public void Dialog(Type ownerWindowType)
         {
-            Window? window = WindowSearcher.FindByType(ownerWindowType);
+            Window? window = WindowSearcher.FindWindowByType(ownerWindowType);
             Dialog(window);
         }
 

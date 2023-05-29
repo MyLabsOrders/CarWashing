@@ -14,12 +14,9 @@ namespace RentDesktop
 
             return type is not null
                 ? (Control)Activator.CreateInstance(type)!
-                : new TextBlock { Text = $"Not Found: {name}" };
+                : new TextBlock { Text = $"Element not Found: {name}" };
         }
 
-        public bool Match(object data)
-        {
-            return data is BaseViewModel;
-        }
+        public bool Match(object data) => data is BaseViewModel;
     }
 }

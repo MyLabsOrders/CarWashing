@@ -1,28 +1,23 @@
 ﻿using Avalonia.Controls;
 using System.Collections.Generic;
 
-namespace RentDesktop.Infrastructure.App
+namespace RentDesktop.Infrastructure.Helpers
 {
     internal static class DialogHelper
     {
-        public static SaveFileDialog GetSavePdfFileDialog(string? initialFileName = null)
+        public static SaveFileDialog SaveFile(string? initialFileName = null) => new()
         {
-            return new SaveFileDialog()
-            {
-                DefaultExtension = "pdf",
-                Title = "Сохранение PDF документа",
-                InitialFileName = initialFileName
-            };
-        }
+            DefaultExtension = "pdf",
+            Title = "Сохранение документа PDF",
+            InitialFileName = initialFileName
+        };
 
-        public static OpenFileDialog GetOpenImageDialog()
+        public static OpenFileDialog OpenImage() => new()
         {
-            return new OpenFileDialog()
-            {
-                AllowMultiple = false,
-                Title = "Выберите изображение",
+            AllowMultiple = false,
+            Title = "Выберите изображение",
 
-                Filters = new List<FileDialogFilter>()
+            Filters = new List<FileDialogFilter>()
                 {
                     new FileDialogFilter()
                     {
@@ -31,13 +26,13 @@ namespace RentDesktop.Infrastructure.App
                     },
                     new FileDialogFilter()
                     {
-                        Name = "BMP files",
-                        Extensions = new List<string>() { "bmp" }
+                        Name = "PNG files",
+                        Extensions = new List<string>() { "png" }
                     },
                     new FileDialogFilter()
                     {
-                        Name = "JPG files",
-                        Extensions = new List<string>() { "jpg" }
+                        Name = "BMP files",
+                        Extensions = new List<string>() { "bmp" }
                     },
                     new FileDialogFilter()
                     {
@@ -46,8 +41,8 @@ namespace RentDesktop.Infrastructure.App
                     },
                     new FileDialogFilter()
                     {
-                        Name = "PNG files",
-                        Extensions = new List<string>() { "png" }
+                        Name = "JPG files",
+                        Extensions = new List<string>() { "jpg" }
                     },
                     new FileDialogFilter()
                     {
@@ -55,7 +50,6 @@ namespace RentDesktop.Infrastructure.App
                         Extensions = new List<string>() { "*" }
                     }
                 }
-            };
-        }
+        };
     }
 }

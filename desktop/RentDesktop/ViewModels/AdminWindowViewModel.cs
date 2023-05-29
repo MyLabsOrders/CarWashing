@@ -1,6 +1,6 @@
 ﻿using Avalonia.Threading;
 using ReactiveUI;
-using RentDesktop.Infrastructure.App;
+using RentDesktop.Infrastructure.Helpers;
 using RentDesktop.Models.Messaging;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;
@@ -185,7 +185,7 @@ namespace RentDesktop.ViewModels
 
         private void ViewModelEditUserUserInfoUpdated()
         {
-            Avalonia.Controls.Window? window = WindowSearcher.FindByType(typeof(AdminWindow));
+            Avalonia.Controls.Window? window = WindowSearcher.FindWindowByType(typeof(AdminWindow));
             MsgBox.InfoMsg("Изменения успешно сохранены.").Dialog(window);
         }
 

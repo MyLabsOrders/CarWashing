@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace RentDesktop.Infrastructure.Security
+namespace RentDesktop.Infrastructure.Safety
 {
     internal static class SecurityProvider
     {
@@ -13,8 +13,7 @@ namespace RentDesktop.Infrastructure.Security
             var rsa = new RSACryptoServiceProvider();
             rsa.FromXmlString(RSA_KEY);
 
-            byte[] content = rsa.Decrypt(Convert.FromBase64String(text), true);
-            return Encoding.UTF8.GetString(content);
+            return Encoding.UTF8.GetString(rsa.Decrypt(Convert.FromBase64String(text), true));
         }
 
         public static string Code(string text)
@@ -22,8 +21,7 @@ namespace RentDesktop.Infrastructure.Security
             var rsa = new RSACryptoServiceProvider();
             rsa.FromXmlString(RSA_KEY);
 
-            byte[] content = rsa.Encrypt(Encoding.UTF8.GetBytes(text), true);
-            return Convert.ToBase64String(content);
+            return Convert.ToBase64String(rsa.Encrypt(Encoding.UTF8.GetBytes(text), true));
         }
     }
 }
