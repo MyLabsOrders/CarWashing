@@ -81,19 +81,6 @@ namespace RentDesktop.ViewModels
                 DispatcherPriority.Background,
                 (s, e) => CheckInactivity());
         }
-        
-        private void CheckInactivity()
-        {
-            Increase();
-
-            if (Check())
-                return;
-
-            _timer_of_inactivity.Stop();
-            ResetSeconds();
-
-            AppInteraction.CloseUserWindow();
-        }
 
         public bool CheckSeconds()
         {
@@ -132,9 +119,17 @@ namespace RentDesktop.ViewModels
             }
         }
 
-        private void DisplayMain()
+        private void CheckInactivity()
         {
-            AppInteraction.ShowMainWindow();
+            Increase();
+
+            if (Check())
+                return;
+
+            _timer_of_inactivity.Stop();
+            ResetSeconds();
+
+            AppInteraction.CloseUserWindow();
         }
 
         private void ImageDiapose()
@@ -153,6 +148,11 @@ namespace RentDesktop.ViewModels
         private void AdminPageOpen()
         {
             SelectedTabIndex = TAB_ADMIN_PROFILE;
+        }
+
+        private void DisplayMain()
+        {
+            AppInteraction.ShowMainWindow();
         }
 
         #endregion

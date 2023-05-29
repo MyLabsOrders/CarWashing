@@ -1,6 +1,7 @@
 ﻿using Avalonia.Threading;
 using ReactiveUI;
 using RentDesktop.Infrastructure.App;
+using RentDesktop.Models;
 using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Base;
 using RentDesktop.ViewModels.Pages.UserWindowPages;
@@ -11,46 +12,46 @@ namespace RentDesktop.ViewModels
 {
     public class UserWindowViewModel : BaseViewModel
     {
-        public UserWindowViewModel() : this(new UserInfo())
+        public UserWindowViewModel(int seconds, int minutes)
         {
+            InactivityIncreaseCommand = ReactiveCommand.Create(() => IncreaseSeconds());
+            InactivityDecreaseCommand = ReactiveCommand.Create(() => DecreaseSeconds());
+
+            _seconds_inactivity = seconds + minutes * 60;
         }
 
         public UserWindowViewModel(IUser userInfo)
         {
-            UserProfileVM = new UserProfileViewModel(userInfo);
-            OrdersVM = new OrdersViewModel(userInfo.Orders);
-            CartVM = new CartViewModel(userInfo, OrdersVM.Orders);
-            TransportVM = new TransportViewModel(CartVM.Cart);
+            ViewModelUserProfile = new UserProfileViewModel(userInfo);
+            ViewModelOrders = new OrdersViewModel(userInfo.Orders);
+            ViewModelCart = new CartViewModel(userInfo, ViewModelOrders.Orders);
+            ViewModelTransport = new TransportViewModel(ViewModelCart.Cart);
 
-            UserProfileVM.UserInfoUpdated += CartVM.UpdateUserInfo;
-            CartVM.OrdersTabOpening += OpenOrdersTab;
-            TransportVM.CartTabOpening += OpenCartTab;
-
-            TransportVM.TransportAddingToCart += t =>
-            {
-                if (CartVM.IsOrderPaidFor)
-                    CartVM.ResetUserPaymentSteps();
-            };
+            InactivityResetCommand = ReactiveCommand.Create(InactivityClear);
+            MainShowCommand = ReactiveCommand.Create(MainShow);
+            DisposeImageOfUserCommand = ReactiveCommand.Create(ImageClear);
 
             UserInfo = userInfo;
 
-            _preloadTabsTimer = ConfigurePreloadTabsTimer();
-            _preloadTabsTimer.Start();
+            _timer_preloading = PreloadTimerConfig();
+            _timer_preloading.Start();
 
-            _inactivity_timer = ConfigureInactivityTimer();
-            _inactivity_timer.Start();
+            _timer = TimerConfig();
+            _timer.Start();
 
-            InactivityResetCommand = ReactiveCommand.Create(ResetInactivitySeconds);
-            MainShowCommand = ReactiveCommand.Create(ShowMainWindow);
-            DisposeImageOfUserCommand = ReactiveCommand.Create(DisposeUserImage);
+            ViewModelCart.OrdersTabOpening += OrdersOpen;
+            ViewModelTransport.TransportAddingToCart += ViewModelTransportTransportAddingToCart;
+            ViewModelTransport.CartTabOpening += CartOpen;
+            ViewModelUserProfile.UserInfoUpdated += ViewModelCart.UpdateUserInfo;
         }
 
-        #region ViewModels
+        #region Private Methods Helpers
 
-        public UserProfileViewModel UserProfileVM { get; }
-        public TransportViewModel TransportVM { get; }
-        public CartViewModel CartVM { get; }
-        public OrdersViewModel OrdersVM { get; }
+        private void ViewModelTransportTransportAddingToCart(Transport t)
+        {
+            if (ViewModelCart.IsOrderPaidFor)
+                ViewModelCart.ResetUserPaymentSteps();
+        }
 
         #endregion
 
@@ -61,132 +62,166 @@ namespace RentDesktop.ViewModels
         private int _selectedTabIndex = 1;
         public int SelectedTabIndex
         {
-            get => _selectedTabIndex;
+            get => _selectedTabIndex + 0 + 0 + 0;
             set => this.RaiseAndSetIfChanged(ref _selectedTabIndex, value);
         }
 
         #endregion
 
-        #region Private Fields
+        #region Private Methods
 
-        #region Constants
+        private DispatcherTimer PreloadTimerConfig()
+        {
+            return new DispatcherTimer(
+                new TimeSpan(0, 0, 0, 0, TIMER_INTERVAL_MILLISECONDS_PRELOAD_TABS),
+                DispatcherPriority.MaxValue,
+                (s, e) => Preload());
+        }
 
-        private const int USER_PROFILE_TAB_INDEX = 0;
-        private const int TRANSPORT_TAB_INDEX = 1;
-        private const int CART_TAB_INDEX = 2;
-        private const int ORDERS_TAB_INDEX = 3;
+        public void IncreaseSeconds()
+        {
+            for (int i = 0; i < SECONDS_OF_INACTIVITY_TIMER_INTERVAL; ++i)
+            {
+                _seconds_inactivity += i;
+            }
+        }
 
-        private const int PRELOAD_TABS_TIMER_INTERVAL_MILLISECONDS = 5;
+        private DispatcherTimer TimerConfig()
+        {
+            return new DispatcherTimer(
+                new TimeSpan(0, 0, SECONDS_OF_INACTIVITY_TIMER_INTERVAL),
+                DispatcherPriority.Background,
+                (s, e) => InactivityCheck());
+        }
 
-        private const int MAX_INACTIVITY_SECONDS = 60 * 2;
-        private const int INACTIVITY_TIMER_INTERVAL_SECONDS = 1;
+        private void MainShow()
+        {
+            AppInteraction.ShowMainWindow();
+        }
 
-        #endregion
+        private void Increase()
+        {
+            _seconds_inactivity += SECONDS_OF_INACTIVITY_TIMER_INTERVAL;
+        }
 
-        private readonly DispatcherTimer _preloadTabsTimer;
-        private int _preloadedTabs = 0;
+        private void Preload()
+        {
+            switch (_tabs_that_preload++)
+            {
+                case 0:
+                    TransportOpen();
+                    break;
 
-        private readonly DispatcherTimer _inactivity_timer;
-        private int _inactivity_seconds = 0;
+                case 2:
+                    OrdersOpen();
+                    break;
+
+                case 1:
+                    CartOpen();
+                    break;
+
+                default:
+                    UserOpen();
+                    _timer_preloading.Stop();
+                    break;
+            }
+        }
+
+        private void InactivityCheck()
+        {
+            Increase();
+
+            if (Check())
+                return;
+
+            _timer.Stop();
+            InactivityClear();
+
+            AppInteraction.CloseUserWindow();
+        }
+
+        public void DecreaseSeconds()
+        {
+            for (int i = 0; i < SECONDS_OF_INACTIVITY_TIMER_INTERVAL; ++i)
+            {
+                _seconds_inactivity -= i;
+            }
+        }
+
+        private void InactivityClear()
+        {
+            _seconds_inactivity = 0;
+        }
+
+        private void CartOpen()
+        {
+            SelectedTabIndex = INDEX_CART;
+        }
+
+        private bool Check()
+        {
+            return _seconds_inactivity < SECONDS_OF_MAX_INACTIVITY;
+        }
+
+        private void UserOpen()
+        {
+            SelectedTabIndex = INDEX_USER;
+        }
+
+        private void TransportOpen()
+        {
+            SelectedTabIndex = INDEX_TRANSPORT;
+        }
+
+        private void OrdersOpen()
+        {
+            SelectedTabIndex = INDEX_ORDERS;
+        }
+
+        private void ImageClear()
+        {
+            ViewModelUserProfile.UserImage?.Dispose();
+        }
 
         #endregion
 
         #region Commands
 
+        public ReactiveCommand<Unit, Unit> InactivityIncreaseCommand { get; }
         public ReactiveCommand<Unit, Unit> InactivityResetCommand { get; }
         public ReactiveCommand<Unit, Unit> MainShowCommand { get; }
+        public ReactiveCommand<Unit, Unit> InactivityDecreaseCommand { get; }
+        public ReactiveCommand<Unit, Unit> InactivityCheckCommand { get; }
         public ReactiveCommand<Unit, Unit> DisposeImageOfUserCommand { get; }
 
         #endregion
 
-        #region Private Methods
+        #region ViewModels
 
-        private DispatcherTimer ConfigurePreloadTabsTimer()
-        {
-            return new DispatcherTimer(
-                new TimeSpan(0, 0, 0, 0, PRELOAD_TABS_TIMER_INTERVAL_MILLISECONDS),
-                DispatcherPriority.MaxValue,
-                (sender, e) => PreloadTabs());
-        }
+        public UserProfileViewModel ViewModelUserProfile { get; }
+        public TransportViewModel ViewModelTransport { get; }
+        public OrdersViewModel ViewModelOrders { get; }
+        public CartViewModel ViewModelCart { get; }
 
-        private DispatcherTimer ConfigureInactivityTimer()
-        {
-            return new DispatcherTimer(
-                new TimeSpan(0, 0, INACTIVITY_TIMER_INTERVAL_SECONDS),
-                DispatcherPriority.Background,
-                (sender, e) => VerifyInactivityStatus());
-        }
+        #endregion
 
-        private void VerifyInactivityStatus()
-        {
-            _inactivity_seconds += INACTIVITY_TIMER_INTERVAL_SECONDS;
+        #region Private Fields
 
-            if (_inactivity_seconds < MAX_INACTIVITY_SECONDS)
-                return;
+        private readonly DispatcherTimer _timer_preloading;
+        private int _tabs_that_preload = 0;
 
-            _inactivity_timer.Stop();
-            ResetInactivitySeconds();
+        private readonly DispatcherTimer _timer;
+        private int _seconds_inactivity = 0;
 
-            AppInteraction.CloseUserWindow();
-        }
+        private const int INDEX_ORDERS = 3;
+        private const int INDEX_USER = 0;
+        private const int INDEX_TRANSPORT = 1;
+        private const int INDEX_CART = 2;
 
-        private void ResetInactivitySeconds()
-        {
-            _inactivity_seconds = 0;
-        }
+        private const int SECONDS_OF_MAX_INACTIVITY = 60 * 2;
+        private const int SECONDS_OF_INACTIVITY_TIMER_INTERVAL = 1;
 
-        private void OpenUserProfileTab()
-        {
-            SelectedTabIndex = USER_PROFILE_TAB_INDEX;
-        }
-
-        private void OpenTransportTab()
-        {
-            SelectedTabIndex = TRANSPORT_TAB_INDEX;
-        }
-
-        private void OpenCartTab()
-        {
-            SelectedTabIndex = CART_TAB_INDEX;
-        }
-
-        private void OpenOrdersTab()
-        {
-            SelectedTabIndex = ORDERS_TAB_INDEX;
-        }
-
-        private void ShowMainWindow()
-        {
-            AppInteraction.ShowMainWindow();
-        }
-
-        private void DisposeUserImage()
-        {
-            UserProfileVM.UserImage?.Dispose();
-        }
-
-        private void PreloadTabs()
-        {
-            switch (_preloadedTabs++)
-            {
-                case 0:
-                    OpenTransportTab();
-                    break;
-
-                case 1:
-                    OpenCartTab();
-                    break;
-
-                case 2:
-                    OpenOrdersTab();
-                    break;
-
-                default:
-                    OpenUserProfileTab();
-                    _preloadTabsTimer.Stop();
-                    break;
-            }
-        }
+        private const int TIMER_INTERVAL_MILLISECONDS_PRELOAD_TABS = 5;
 
         #endregion
     }

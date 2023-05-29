@@ -122,26 +122,6 @@ namespace RentDesktop.ViewModels
             _seconds_of_inactivity += SECONDS_OF_INACTIVITY_TIMER_INTERVAL;
         }
 
-        private void CheckInactivity()
-        {
-            Increase();
-
-            if (Check())
-                return;
-
-            InactivityClear();
-
-            if (!RegisterVisible)
-            {
-                _timer.Stop();
-                AppInteraction.CloseCurrentApp();
-            }
-            else
-            {
-                LoginOpen();
-            }
-        }
-
         private bool Check()
         {
             return _seconds_of_inactivity < SECONDS_OF_MAX_INACTIVITY;
@@ -161,6 +141,13 @@ namespace RentDesktop.ViewModels
             {
                 _seconds_of_inactivity += i;
             }
+        }
+
+
+        private void RegisterOpen()
+        {
+            PagesHide();
+            RegisterVisible = true;
         }
 
         private void PagesHide()
@@ -183,10 +170,24 @@ namespace RentDesktop.ViewModels
             }
         }
 
-        private void RegisterOpen()
+        private void CheckInactivity()
         {
-            PagesHide();
-            RegisterVisible = true;
+            Increase();
+
+            if (Check())
+                return;
+
+            InactivityClear();
+
+            if (!RegisterVisible)
+            {
+                _timer.Stop();
+                AppInteraction.CloseCurrentApp();
+            }
+            else
+            {
+                LoginOpen();
+            }
         }
 
         #endregion

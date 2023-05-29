@@ -31,16 +31,16 @@
 	
 	<TabControl SelectedIndex="{Binding SelectedTabIndex}">
 		<TabItem Header="Профиль">
-			<pages:UserProfilePage DataContext="{Binding UserProfileVM}" />
+			<pages:UserProfilePage DataContext="{Binding ViewModelUserProfile}" />
 		</TabItem>	
 		<TabItem Header="Транспорт">
-			<pages:TransportPage DataContext="{Binding TransportVM}" />
+			<pages:TransportPage DataContext="{Binding ViewModelTransport}" />
 		</TabItem>
 		<TabItem Header="Корзина">
-			<pages:CartPage DataContext="{Binding CartVM}" />
+			<pages:CartPage DataContext="{Binding ViewModelCart}" />
 		</TabItem>
 		<TabItem Header="Заказы">
-			<pages:OrdersPage DataContext="{Binding OrdersVM}" />
+			<pages:OrdersPage DataContext="{Binding ViewModelOrders}" />
 		</TabItem>
 	</TabControl>
 	
