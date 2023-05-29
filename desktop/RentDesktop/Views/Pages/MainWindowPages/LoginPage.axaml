@@ -46,7 +46,7 @@
 							VerticalAlignment="Bottom"
 							Background="LightGray"
 							img:Attached.Icon="fa-sync"
-							Command="{Binding UpdateCaptchaCommand}" />
+							Command="{Binding CaptchaRefreshCommand}" />
 				</Grid>
 			</Border>
 			
@@ -54,7 +54,7 @@
 			
 			<TextBox Grid.Row="8" Text="{Binding UserCaptchaText}">
 				<TextBox.KeyBindings>
-					<KeyBinding Gesture="Enter" Command="{Binding EnterSystemCommand}" />
+					<KeyBinding Gesture="Enter" Command="{Binding LogToSystemCommand}" />
 				</TextBox.KeyBindings>
 			</TextBox>
 
@@ -66,9 +66,9 @@
 					</Style>
 				</Grid.Styles>
 				
-				<Button Grid.Column="0" Content="Вход" Command="{Binding EnterSystemCommand}" />
-				<Button Grid.Column="2" Content="Регистрация" Command="{Binding OpenRegisterPageCommand}" />
-				<Button Grid.Column="4" Content="Выход" Command="{Binding CloseProgramCommand}" />
+				<Button Grid.Column="0" Content="Вход" Command="{Binding LogToSystemCommand}" />
+				<Button Grid.Column="2" Content="Регистрация" Command="{Binding RegisterTabOpenCommand}" />
+				<Button Grid.Column="4" Content="Выход" Command="{Binding AppExitCommand}" />
 			</Grid>
 		</Grid>
 	</Border>

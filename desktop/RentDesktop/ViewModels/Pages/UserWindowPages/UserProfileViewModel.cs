@@ -33,7 +33,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             ChangeUserImageCommand = ReactiveCommand.Create(ChangeUserImage);
             ChangeUserBalanceCommand = ReactiveCommand.Create(ChangeUserBalance);
             SaveUserInfoCommand = ReactiveCommand.Create(SaveUserInfo);
-            SetGenderCommand = ReactiveCommand.Create<string>(SetGender);
+            GenderPutCommand = ReactiveCommand.Create<string>(SetGender);
         }
 
         #region Events
@@ -156,7 +156,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
         public ReactiveCommand<Unit, Unit> ChangeUserImageCommand { get; }
         public ReactiveCommand<Unit, Unit> ChangeUserBalanceCommand { get; }
         public ReactiveCommand<Unit, Unit> SaveUserInfoCommand { get; }
-        public ReactiveCommand<string, Unit> SetGenderCommand { get; }
+        public ReactiveCommand<string, Unit> GenderPutCommand { get; }
 
         #endregion
 

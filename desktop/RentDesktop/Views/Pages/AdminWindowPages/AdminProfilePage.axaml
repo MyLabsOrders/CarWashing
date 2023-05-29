@@ -67,7 +67,7 @@
 							 GroupName="Gender"
 							 Name="MaleGenderRadioButton"
 							 IsChecked="{Binding IsMaleGenderChecked}"
-							 Command="{Binding SetGenderCommand}"
+							 Command="{Binding GenderPutCommand}"
 							 CommandParameter="{Binding ElementName=MaleGenderRadioButton, Path=Content}" />
 
 				<RadioButton Grid.Column="2"
@@ -75,7 +75,7 @@
 							 GroupName="Gender"
 							 Name="FemaleGenderRadioButton"
 							 IsChecked="{Binding IsFemaleGenderChecked}"
-							 Command="{Binding SetGenderCommand}"
+							 Command="{Binding GenderPutCommand}"
 							 CommandParameter="{Binding ElementName=FemaleGenderRadioButton, Path=Content}" />
 			</Grid>
 		</Grid>

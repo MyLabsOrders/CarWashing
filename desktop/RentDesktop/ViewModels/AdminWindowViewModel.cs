@@ -46,7 +46,7 @@ namespace RentDesktop.ViewModels
                     AdminPageOpen();
             };
 
-            ViewModelAddUser.UserRegistered += ViewModelAddUserUserRegistered;
+            ViewModelAddUser.RegisteredTheUser += ViewModelAddUserUserRegistered;
             ViewModelEditUser.UserInfoUpdated += ViewModelEditUserUserInfoUpdated;
             ViewModelAllUsers.ChangedUser += ViewModelEditUser.UserPut;
 

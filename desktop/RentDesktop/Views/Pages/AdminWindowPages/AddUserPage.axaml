@@ -67,7 +67,7 @@
 							 GroupName="Gender"
 							 Name="MaleGenderRadioButton"
 							 IsChecked="{Binding IsMaleGenderChecked}"
-							 Command="{Binding SetGenderCommand}"
+							 Command="{Binding GenderPutCommand}"
 							 CommandParameter="{Binding ElementName=MaleGenderRadioButton, Path=Content}" />
 
 				<RadioButton Grid.Column="2"
@@ -75,7 +75,7 @@
 							 GroupName="Gender"
 							 Name="FemaleGenderRadioButton"
 							 IsChecked="{Binding IsFemaleGenderChecked}"
-							 Command="{Binding SetGenderCommand}"
+							 Command="{Binding GenderPutCommand}"
 							 CommandParameter="{Binding ElementName=FemaleGenderRadioButton, Path=Content}" />
 			</Grid>
 		</Grid>
@@ -88,9 +88,9 @@
 				</Style>
 			</Grid.Styles>
 
-			<Button Grid.Column="1" Content="Добавить" Command="{Binding RegisterUserCommand}" />
+			<Button Grid.Column="1" Content="Добавить" Command="{Binding DoUserRegistrationCommand}" />
 			<Button Grid.Column="3" Content="Сброс" Command="{Binding ResetAllFieldsCommand}" />
-			<Button Grid.Column="5" Content="Загрузить фото" Command="{Binding LoadUserImageCommand}" />
+			<Button Grid.Column="5" Content="Загрузить фото" Command="{Binding ImageOfTheUserLoadCommand}" />
 		</Grid>
 
 		<Border Grid.Column="2" BorderThickness="2" BorderBrush="LightGray" Name="UserImageBorder">

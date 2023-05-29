@@ -18,8 +18,8 @@
 
 	<i:Interaction.Behaviors>
 		<ia:EventTriggerBehavior EventName="Opened">
-			<ia:InvokeCommandAction Command="{Binding UpdateCaptchaCommand}" />
-			<ia:InvokeCommandAction Command="{Binding ViewModelLogin.LoadLoginInfoCommand}" />
+			<ia:InvokeCommandAction Command="{Binding CaptchaRefreshCommand}" />
+			<ia:InvokeCommandAction Command="{Binding ViewModelLogin.LoginLoadCommand}" />
 		</ia:EventTriggerBehavior>	
 		<ia:EventTriggerBehavior EventName="PointerMoved">
 			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />

@@ -32,8 +32,8 @@ namespace RentDesktop.ViewModels
             _timer = TimerConfig();
             _timer.Start();
 
-            ViewModelLogin.RegisterPageOpening += RegisterOpen;
-            ViewModelRegister.PageClosing += LoginOpen;
+            ViewModelLogin.OpenRegisterEvent += RegisterOpen;
+            ViewModelRegister.ClosingTheTabOrPage += LoginOpen;
         }
 
         #region Properties
