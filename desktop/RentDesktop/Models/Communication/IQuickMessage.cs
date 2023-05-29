@@ -2,10 +2,8 @@
 using MessageBox.Avalonia.Enums;
 using System;
 
-namespace RentDesktop.Models.Communication
-{
-    public interface IQuickMessage
-    {
+namespace RentDesktop.Models.Communication {
+    public interface IQuickMessage {
         string Title { get; }
         string Message { get; }
         ButtonEnum Buttons { get; }
@@ -15,5 +13,5 @@ namespace RentDesktop.Models.Communication
         void Show(Type ownerWindowType);
         void ShowDialog(Window? ownerWindow);
         void ShowDialog(Type ownerWindowType);
+        }
     }
-}

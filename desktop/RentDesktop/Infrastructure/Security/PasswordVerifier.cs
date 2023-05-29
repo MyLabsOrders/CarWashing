@@ -1,9 +1,7 @@
 ﻿using System.Linq;
 
-namespace RentDesktop.Infrastructure.Security
-{
-    internal class PasswordVerifier
-    {
+namespace RentDesktop.Infrastructure.Security {
+    internal class PasswordVerifier {
         public const int STRONG_PASSWORD_MIN_LEGTH = 6;
         public const int STRONG_PASSWORD_MIN_UNIQUE_CHARS_COUNT = 1;
 
@@ -13,10 +11,9 @@ namespace RentDesktop.Infrastructure.Security
             $"регистре, хотя бы один символ в верхнем регистре, хотя бы одну цифру и хотя бы один " +
             $"символ, не являющийся цифрой и буквой.";
 
-        public PasswordVerifier(string text)
-        {
+        public PasswordVerifier(string text) {
             Text = text;
-        }
+            }
 
         public string Text { get; }
 
@@ -28,14 +25,13 @@ namespace RentDesktop.Infrastructure.Security
         public bool ContainsDigit => Text.Any(t => char.IsDigit(t));
         public bool ContainsNonAlphanumeric => Text.Any(t => !char.IsLetterOrDigit(t));
 
-        public bool IsStrong()
-        {
+        public bool IsStrong() {
             return Length >= STRONG_PASSWORD_MIN_LEGTH
                 && UniqueCharsCount >= STRONG_PASSWORD_MIN_UNIQUE_CHARS_COUNT
                 && ContainsLowerCase
                 && ContainsUpperCase
                 && ContainsDigit
                 && ContainsNonAlphanumeric;
+            }
         }
     }
-}

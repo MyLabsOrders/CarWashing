@@ -4,10 +4,8 @@ using RentDesktop.Models.DB;
 using RentDesktop.Models.Informing;
 using System;
 
-namespace RentDesktop.Infrastructure.Services.DB
-{
-    internal class DatabaseGenerationService : IDisposable
-    {
+namespace RentDesktop.Infrastructure.Services.DB {
+    internal class DatabaseGenerationService : IDisposable {
         #region Default values
 
         private const string DEFAULT_ICON_LADA7_PATH = "D://Testing//TechRental//lada7.jpg";
@@ -16,11 +14,10 @@ namespace RentDesktop.Infrastructure.Services.DB
         private const string DEFAULT_ICON_NIVA_PATH = "D://Testing//TechRental//niva.jpg";
         private const string DEFAULT_ICON_UAZ_PATH = "D://Testing//TechRental//uaz.jpg";
 
-        private readonly UserInfo _defaultAdmin = new()
-        {
+        private readonly UserInfo _defaultAdmin = new() {
             Login = "admin",
             Password = "Admin123!"
-        };
+            };
 
         private readonly UserInfo[] _defaultUsers = new[]
         {
@@ -110,51 +107,43 @@ namespace RentDesktop.Infrastructure.Services.DB
         private bool _isDisposed;
         private readonly string? _previousAuthorizationToken;
 
-        public DatabaseGenerationService()
-        {
+        public DatabaseGenerationService() {
             _previousAuthorizationToken = DatabaseConnectionService.AuthorizationToken;
 
             DbLoginResponseContent loginContent = LoginService.EnterSystem(_defaultAdmin.Login, _defaultAdmin.Password, null, true);
             DatabaseConnectionService.AuthorizationToken = loginContent.token;
-        }
+            }
 
-        ~DatabaseGenerationService()
-        {
+        ~DatabaseGenerationService() {
             if (!_isDisposed)
                 Dispose();
-        }
+            }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             DatabaseConnectionService.AuthorizationToken = _previousAuthorizationToken;
             _isDisposed = true;
 
             GC.SuppressFinalize(this);
-        }
+            }
 
-        public void Generate()
-        {
+        public void Generate() {
             AddUsers();
             AddTransports();
-        }
+            }
 
-        private void AddUsers()
-        {
-            foreach (UserInfo user in _defaultUsers)
-            {
+        private void AddUsers() {
+            foreach (UserInfo user in _defaultUsers) {
                 UserRegisterService.RegisterUser(user);
 
                 if (user.Position != UserInfo.ADMIN_POSITION)
                     UserCashService.AddCash(user, user.Money, true);
+                }
             }
-        }
 
-        private void AddTransports()
-        {
-            foreach (Transport transport in _defaultTransports)
-            {
+        private void AddTransports() {
+            foreach (Transport transport in _defaultTransports) {
                 ShopService.AddTransport(transport);
+                }
             }
         }
     }
-}

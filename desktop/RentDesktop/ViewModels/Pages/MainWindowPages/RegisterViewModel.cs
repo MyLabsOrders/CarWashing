@@ -13,23 +13,19 @@ using System;
 using System.Linq;
 using System.Reactive;
 
-namespace RentDesktop.ViewModels.Pages.MainWindowPages
-{
-    public class RegisterViewModel : ViewModelBase
-    {
-        public RegisterViewModel() : this(UserInfo.USER_POSITION)
-        {
-        }
+namespace RentDesktop.ViewModels.Pages.MainWindowPages {
+    public class RegisterViewModel : ViewModelBase {
+        public RegisterViewModel() : this(UserInfo.USER_POSITION) {
+            }
 
-        public RegisterViewModel(string position)
-        {
+        public RegisterViewModel(string position) {
             _position = position;
 
             RegisterUserCommand = ReactiveCommand.Create(RegisterUser);
             ClosePageCommand = ReactiveCommand.Create(ClosePage);
             LoadUserImageCommand = ReactiveCommand.Create(LoadUserImage);
             SetGenderCommand = ReactiveCommand.Create<string>(SetGender);
-        }
+            }
 
         #region Events
 
@@ -44,106 +40,91 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
         #region Properties
 
         private string _login = string.Empty;
-        public string Login
-        {
+        public string Login {
             get => _login;
             set => this.RaiseAndSetIfChanged(ref _login, value);
-        }
+            }
 
         private string _password = string.Empty;
-        public string Password
-        {
+        public string Password {
             get => _password;
             set => this.RaiseAndSetIfChanged(ref _password, value);
-        }
+            }
 
         private string _passwordConfirmation = string.Empty;
-        public string PasswordConfirmation
-        {
+        public string PasswordConfirmation {
             get => _passwordConfirmation;
             set => this.RaiseAndSetIfChanged(ref _passwordConfirmation, value);
-        }
+            }
 
         private string _name = string.Empty;
-        public string Name
-        {
+        public string Name {
             get => _name;
             set => this.RaiseAndSetIfChanged(ref _name, value);
-        }
+            }
 
         private string _surname = string.Empty;
-        public string Surname
-        {
+        public string Surname {
             get => _surname;
             set => this.RaiseAndSetIfChanged(ref _surname, value);
-        }
+            }
 
         private string _patronymic = string.Empty;
-        public string Patronymic
-        {
+        public string Patronymic {
             get => _patronymic;
             set => this.RaiseAndSetIfChanged(ref _patronymic, value);
-        }
+            }
 
         private string _phoneNumber = string.Empty;
-        public string PhoneNumber
-        {
+        public string PhoneNumber {
             get => _phoneNumber;
             set => this.RaiseAndSetIfChanged(ref _phoneNumber, value);
-        }
+            }
 
         private DateTime? _dateOfBirth = null;
-        public DateTime? DateOfBirth
-        {
+        public DateTime? DateOfBirth {
             get => _dateOfBirth;
             set => this.RaiseAndSetIfChanged(ref _dateOfBirth, value);
-        }
+            }
 
         private string _gender = string.Empty;
-        public string Gender
-        {
+        public string Gender {
             get => _gender;
             set => this.RaiseAndSetIfChanged(ref _gender, value);
-        }
+            }
 
         private Bitmap? _userImage = null;
-        public Bitmap? UserImage
-        {
+        public Bitmap? UserImage {
             get => _userImage;
             private set => this.RaiseAndSetIfChanged(ref _userImage, value);
-        }
+            }
 
         private char? _passwordChar = HIDDEN_PASSWORD_CHAR;
-        public char? PasswordChar
-        {
+        public char? PasswordChar {
             get => _passwordChar;
             private set => this.RaiseAndSetIfChanged(ref _passwordChar, value);
-        }
+            }
 
         private bool _showPassword = false;
-        public bool ShowPassword
-        {
+        public bool ShowPassword {
             get => _showPassword;
-            set
-            {
+            set {
                 _ = this.RaiseAndSetIfChanged(ref _showPassword, value);
                 PasswordChar = value ? null : HIDDEN_PASSWORD_CHAR;
+                }
             }
-        }
 
         private bool _isMaleGenderChecked = false;
-        public bool IsMaleGenderChecked
-        {
+        public bool IsMaleGenderChecked {
             get => _isMaleGenderChecked;
             set => this.RaiseAndSetIfChanged(ref _isMaleGenderChecked, value);
-        }
+            }
 
         private bool _isFemaleGenderChecked = false;
-        public bool IsFemaleGenderChecked
-        {
+        public bool IsFemaleGenderChecked {
             get => _isFemaleGenderChecked;
             set => this.RaiseAndSetIfChanged(ref _isFemaleGenderChecked, value);
-        }
+            }
 
         #endregion
 
@@ -171,19 +152,16 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
         #region Protected Methods
 
-        protected virtual Type GetOwnerWindowType()
-        {
+        protected virtual Type GetOwnerWindowType() {
             return typeof(MainWindow);
-        }
+            }
 
-        protected virtual IUserInfo GetUserInfo()
-        {
+        protected virtual IUserInfo GetUserInfo() {
             byte[] userImageBytes = UserImage is not null
                 ? BitmapService.BitmapToBytes(UserImage)
                 : Array.Empty<byte>();
 
-            return new UserInfo()
-            {
+            return new UserInfo() {
                 Login = Login,
                 Password = Password,
                 Name = Name,
@@ -196,70 +174,58 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
                 Money = 0,
                 Icon = userImageBytes,
                 DateOfBirth = DateOfBirth!.Value
-            };
-        }
+                };
+            }
 
-        protected virtual bool VerifyFieldsCorrectness()
-        {
+        protected virtual bool VerifyFieldsCorrectness() {
             var passwordVerifier = new PasswordVerifier(Password);
             Window? window = WindowFinder.FindByType(GetOwnerWindowType());
 
-            if (string.IsNullOrEmpty(Login))
-            {
+            if (string.IsNullOrEmpty(Login)) {
                 QuickMessage.Info("Введите логин.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Password))
-            {
+                }
+            if (string.IsNullOrEmpty(Password)) {
                 QuickMessage.Info("Введите пароль.").ShowDialog(window);
                 return false;
-            }
-            if (!passwordVerifier.IsStrong())
-            {
+                }
+            if (!passwordVerifier.IsStrong()) {
                 QuickMessage.Info($"Пароль слишком слабый. {PasswordVerifier.STRONG_PASSWORD_REQUIREMENTS}").ShowDialog(window);
                 return false;
-            }
-            if (Password != PasswordConfirmation)
-            {
+                }
+            if (Password != PasswordConfirmation) {
                 QuickMessage.Info("Пароли не совпадают.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Name))
-            {
+                }
+            if (string.IsNullOrEmpty(Name)) {
                 QuickMessage.Info("Введите имя.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Surname))
-            {
+                }
+            if (string.IsNullOrEmpty(Surname)) {
                 QuickMessage.Info("Введите фамилию.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Patronymic))
-            {
+                }
+            if (string.IsNullOrEmpty(Patronymic)) {
                 QuickMessage.Info("Введите отчество.").ShowDialog(window);
                 return false;
-            }
-            if (PhoneNumber.Where(t => char.IsDigit(t)).Count() != PHONE_NUMBER_DIGITS)
-            {
+                }
+            if (PhoneNumber.Where(t => char.IsDigit(t)).Count() != PHONE_NUMBER_DIGITS) {
                 QuickMessage.Info("Введите корректный номер телефона.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Gender))
-            {
+                }
+            if (string.IsNullOrEmpty(Gender)) {
                 QuickMessage.Info("Выберите пол.").ShowDialog(window);
                 return false;
-            }
-            if (DateOfBirth is null)
-            {
+                }
+            if (DateOfBirth is null) {
                 QuickMessage.Info("Введите дату рождения.").ShowDialog(window);
                 return false;
-            }
+                }
 
             return true;
-        }
+            }
 
-        protected virtual void ResetAllFields()
-        {
+        protected virtual void ResetAllFields() {
             Login = string.Empty;
             Password = string.Empty;
             PasswordConfirmation = string.Empty;
@@ -276,40 +242,35 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
             ShowPassword = false;
             IsMaleGenderChecked = false;
             IsFemaleGenderChecked = false;
-        }
+            }
 
         #endregion
 
         #region Private Methods
 
-        private void RegisterUser()
-        {
+        private void RegisterUser() {
             if (!VerifyFieldsCorrectness())
                 return;
 
             IUserInfo userInfo = GetUserInfo();
 
-            try
-            {
+            try {
                 UserRegisterService.RegisterUser(userInfo);
                 ResetAllFields();
 
                 UserRegistered?.Invoke(userInfo);
                 PageClosing?.Invoke();
-            }
-            catch (Exception ex)
-            {
+                } catch (Exception ex) {
                 string message = "Не удалось зарегистрировать пользователя.";
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
                 Window? window = WindowFinder.FindByType(GetOwnerWindowType());
                 QuickMessage.Error(message).ShowDialog(window);
+                }
             }
-        }
 
-        private async void LoadUserImage()
-        {
+        private async void LoadUserImage() {
             if (WindowFinder.FindByType(GetOwnerWindowType()) is not Window window)
                 return;
 
@@ -321,35 +282,29 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
             if (!TrySetUserImage(paths[0]))
                 QuickMessage.Error("Не удалось открыть фото.").ShowDialog(window);
-        }
+            }
 
-        private void ClosePage()
-        {
+        private void ClosePage() {
             PageClosing?.Invoke();
-        }
+            }
 
-        private void SetGender(string gender)
-        {
+        private void SetGender(string gender) {
             Gender = gender;
-        }
+            }
 
-        private bool TrySetUserImage(string path)
-        {
+        private bool TrySetUserImage(string path) {
             UserImage?.Dispose();
             UserImage = null;
 
-            try
-            {
+            try {
                 var image = new Bitmap(path);
                 UserImage = image;
                 return true;
-            }
-            catch
-            {
+                } catch {
                 return false;
+                }
             }
-        }
 
         #endregion
+        }
     }
-}

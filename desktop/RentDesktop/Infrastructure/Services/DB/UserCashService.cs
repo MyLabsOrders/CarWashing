@@ -6,25 +6,20 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 
-namespace RentDesktop.Infrastructure.Services.DB
-{
-    internal static class UserCashService
-    {
-        public static bool CanPayOrder(IEnumerable<TransportRent> cart, IUserInfo userInfo)
-        {
+namespace RentDesktop.Infrastructure.Services.DB {
+    internal static class UserCashService {
+        public static bool CanPayOrder(IEnumerable<TransportRent> cart, IUserInfo userInfo) {
             double price = cart.Sum(t => t.TotalPrice);
             return userInfo.Money >= price;
-        }
+            }
 
-        public static void AddCash(IUserInfo userInfo, double sum, bool logIn = false)
-        {
+        public static void AddCash(IUserInfo userInfo, double sum, bool logIn = false) {
             using var db = new DatabaseConnectionService();
 
-            if (logIn)
-            {
+            if (logIn) {
                 DbLoginResponseContent loginContent = LoginService.EnterSystem(userInfo.Login, userInfo.Password, db);
                 db.SetAuthorizationToken(loginContent.token);
-            }
+                }
 
             string addCashHandle = $"/api/User/{userInfo.ID}/account";
             var content = new DbCash(sum);
@@ -33,10 +28,9 @@ namespace RentDesktop.Infrastructure.Services.DB
 
             if (!addCashResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(addCashResponse);
-        }
+            }
 
-        public static double GetUserBalace(IUserInfo userInfo)
-        {
+        public static double GetUserBalace(IUserInfo userInfo) {
             using var db = new DatabaseConnectionService();
 
             string getUserHandle = $"/api/User/{userInfo.ID}";
@@ -46,6 +40,6 @@ namespace RentDesktop.Infrastructure.Services.DB
                 ?? throw new IncorrectContentException(getUserResponse.Content);
 
             return dbUser.money;
+            }
         }
     }
-}

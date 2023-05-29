@@ -3,21 +3,17 @@ using RentDesktop.Models.Informing;
 using System.Net.Http;
 using System.Net.Http.Json;
 
-namespace RentDesktop.Infrastructure.Services.DB
-{
-    internal static class LoginService
-    {
-        public static IUserInfo Login(string login, string password)
-        {
+namespace RentDesktop.Infrastructure.Services.DB {
+    internal static class LoginService {
+        public static IUserInfo Login(string login, string password) {
             DatabaseConnectionService db = new();
             DbLoginResponseContent loginContent = EnterSystem(login, password, db, true);
 
             return GetUserInfo(db, loginContent.userId, login, password);
-        }
+            }
 
         public static DbLoginResponseContent EnterSystem(string login, string password, DatabaseConnectionService? db = null,
-            bool registerAuthorizationToken = false)
-        {
+            bool registerAuthorizationToken = false) {
             db ??= new DatabaseConnectionService();
 
             const string loginHandle = "/api/identity/login";
@@ -31,17 +27,15 @@ namespace RentDesktop.Infrastructure.Services.DB
             DbLoginResponseContent loginContent = loginResponse.Content.ReadFromJsonAsync<DbLoginResponseContent>().Result
                 ?? throw new IncorrectContentException(loginResponse.Content);
 
-            if (registerAuthorizationToken)
-            {
+            if (registerAuthorizationToken) {
                 DatabaseConnectionService.AuthorizationToken = loginContent.token;
                 db.SetAuthorizationToken(loginContent.token);
-            }
+                }
 
             return loginContent;
-        }
+            }
 
-        private static IUserInfo GetUserInfo(DatabaseConnectionService db, string userId, string login, string password)
-        {
+        private static IUserInfo GetUserInfo(DatabaseConnectionService db, string userId, string login, string password) {
             string profileHandle = $"/api/User/{userId}";
             using HttpResponseMessage profileResponse = db.GetAsync(profileHandle).Result;
 
@@ -60,6 +54,6 @@ namespace RentDesktop.Infrastructure.Services.DB
             userInfo.Password = password;
 
             return userInfo;
+            }
         }
     }
-}

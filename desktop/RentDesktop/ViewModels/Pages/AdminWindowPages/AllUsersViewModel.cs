@@ -13,16 +13,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 
-namespace RentDesktop.ViewModels.Pages.AdminWindowPages
-{
-    public class AllUsersViewModel : ViewModelBase
-    {
-        public AllUsersViewModel() : this(new UserInfo())
-        {
-        }
+namespace RentDesktop.ViewModels.Pages.AdminWindowPages {
+    public class AllUsersViewModel : ViewModelBase {
+        public AllUsersViewModel() : this(new UserInfo()) {
+            }
 
-        public AllUsersViewModel(IUserInfo userInfo)
-        {
+        public AllUsersViewModel(IUserInfo userInfo) {
             Users = new ObservableCollection<IUserInfo>();
 
             _currentUserInfo = userInfo;
@@ -38,7 +34,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
             ResetSearchFieldsCommand = ReactiveCommand.Create(ResetSearchFields);
             RefreshUsersCommand = ReactiveCommand.Create(RefreshUsers);
             SelectUserCommand = ReactiveCommand.Create<RoutedEventArgs>(SelectClickedUser);
-        }
+            }
 
         #region Events
 
@@ -58,11 +54,9 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
         public ObservableCollection<string> Genders { get; }
 
         private IUserInfo? _selectedUser = null;
-        public IUserInfo? SelectedUser
-        {
+        public IUserInfo? SelectedUser {
             get => _selectedUser;
-            set
-            {
+            set {
                 bool isChanged = _selectedUser != value;
 
                 _ = this.RaiseAndSetIfChanged(ref _selectedUser, value);
@@ -70,43 +64,38 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
                 if (isChanged)
                     SelectedUserChanged?.Invoke(value);
+                }
             }
-        }
 
         private bool _isUserSelected = false;
-        public bool IsUserSelected
-        {
+        public bool IsUserSelected {
             get => _isUserSelected;
             private set => this.RaiseAndSetIfChanged(ref _isUserSelected, value);
-        }
+            }
 
         private int _selectedPositionIndex = 0;
-        public int SelectedPositionIndex
-        {
+        public int SelectedPositionIndex {
             get => _selectedPositionIndex;
             set => this.RaiseAndSetIfChanged(ref _selectedPositionIndex, value);
-        }
+            }
 
         private int _selectedStatusIndex = 0;
-        public int SelectedStatusIndex
-        {
+        public int SelectedStatusIndex {
             get => _selectedStatusIndex;
             set => this.RaiseAndSetIfChanged(ref _selectedStatusIndex, value);
-        }
+            }
 
         private int _selectedGenderIndex = 0;
-        public int SelectedGenderIndex
-        {
+        public int SelectedGenderIndex {
             get => _selectedGenderIndex;
             set => this.RaiseAndSetIfChanged(ref _selectedGenderIndex, value);
-        }
+            }
 
         private string _searchQuery = string.Empty;
-        public string SearchQuery
-        {
+        public string SearchQuery {
             get => _searchQuery;
             set => this.RaiseAndSetIfChanged(ref _searchQuery, value);
-        }
+            }
 
         #endregion
 
@@ -134,18 +123,16 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         #region Public Methods
 
-        public void AddUser(IUserInfo user)
-        {
+        public void AddUser(IUserInfo user) {
             Users.Add(user);
             _databaseUsers.Add(user);
-        }
+            }
 
         #endregion
 
         #region Private Methods
 
-        private void FindUsers()
-        {
+        private void FindUsers() {
             IEnumerable<IUserInfo> foundUsers = _databaseUsers;
 
             if (SelectedPositionIndex > 0 && SelectedPositionIndex < Positions.Count)
@@ -157,11 +144,10 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
             if (SelectedGenderIndex > 0 && SelectedGenderIndex < Genders.Count)
                 foundUsers = foundUsers.Where(t => t.Gender == Genders[SelectedGenderIndex]);
 
-            if (string.IsNullOrEmpty(SearchQuery))
-            {
+            if (string.IsNullOrEmpty(SearchQuery)) {
                 ResetUsers(foundUsers.ToArray());
                 return;
-            }
+                }
 
             foundUsers = foundUsers.Where(t => t.Login.Contains(SearchQuery)
                 || t.Password.Contains(SearchQuery)
@@ -172,49 +158,42 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
                 || t.DateOfBirth.ToShortDateString().Contains(SearchQuery));
 
             ResetUsers(foundUsers.ToArray());
-        }
+            }
 
-        private void ResetSearchFields()
-        {
+        private void ResetSearchFields() {
             SelectedPositionIndex = 0;
             SelectedStatusIndex = 0;
             SelectedGenderIndex = 0;
             SearchQuery = string.Empty;
 
             ResetUsers(_databaseUsers);
-        }
+            }
 
-        private void RefreshUsers()
-        {
+        private void RefreshUsers() {
             List<IUserInfo> users;
 
-            try
-            {
+            try {
                 users = InfoService.GetAllUsers();
-            }
-            catch (Exception ex)
-            {
+                } catch (Exception ex) {
                 string message = "Не удалось обновить список пользователей.";
 #if DEBUG
                 message += $" Причина: {ex.Message}.";
 #endif
                 QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
                 return;
-            }
+                }
 
             _databaseUsers = users;
             SelectedUser = null;
 
             ResetUsers(_databaseUsers);
-        }
+            }
 
-        private void ResetUsers(IEnumerable<IUserInfo> newUsers)
-        {
+        private void ResetUsers(IEnumerable<IUserInfo> newUsers) {
             Users.ResetItems(newUsers);
-        }
+            }
 
-        private void SelectClickedUser(RoutedEventArgs e)
-        {
+        private void SelectClickedUser(RoutedEventArgs e) {
             if (e.Source is not IDataContextProvider p || p.DataContext is not IUserInfo userInfo)
                 return;
 
@@ -222,71 +201,59 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
             if (userInfo.ID != _currentUserInfo.ID)
                 SelectedUser = userInfo;
-        }
+            }
 
-        private static ObservableCollection<string> GetPositions()
-        {
+        private static ObservableCollection<string> GetPositions() {
             List<string> positions;
 
-            try
-            {
+            try {
                 positions = InfoService.GetAllPositions();
-            }
-            catch (Exception ex)
-            {
+                } catch (Exception ex) {
                 positions = new List<string>();
 #if DEBUG
                 string message = $"Не удалось получить роли. Причина: {ex.Message}";
                 QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
 #endif
-            }
+                }
 
             positions.Insert(0, NOT_SPECIFIED);
             return new ObservableCollection<string>(positions);
-        }
+            }
 
-        private static ObservableCollection<string> GetStatuses()
-        {
+        private static ObservableCollection<string> GetStatuses() {
             List<string> statuses;
 
-            try
-            {
+            try {
                 statuses = InfoService.GetAllStatuses();
-            }
-            catch (Exception ex)
-            {
+                } catch (Exception ex) {
                 statuses = new List<string>();
 #if DEBUG
                 string message = $"Не удалось загрузить статусы. Причина: {ex.Message}";
                 QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
 #endif
-            }
+                }
 
             statuses.Insert(0, NOT_SPECIFIED);
             return new ObservableCollection<string>(statuses);
-        }
+            }
 
-        private static ObservableCollection<string> GetGenders()
-        {
+        private static ObservableCollection<string> GetGenders() {
             List<string> genders;
 
-            try
-            {
+            try {
                 genders = InfoService.GetAllGenders();
-            }
-            catch (Exception ex)
-            {
+                } catch (Exception ex) {
                 genders = new List<string>();
 #if DEBUG
                 string message = $"Не удалось загрузить полы. Причина: {ex.Message}";
                 QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
 #endif
-            }
+                }
 
             genders.Insert(0, NOT_SPECIFIED);
             return new ObservableCollection<string>(genders);
-        }
+            }
 
         #endregion
+        }
     }
-}

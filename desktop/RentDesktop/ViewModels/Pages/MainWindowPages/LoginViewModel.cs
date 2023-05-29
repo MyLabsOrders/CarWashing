@@ -12,18 +12,15 @@ using System;
 using System.Reactive;
 using System.Threading.Tasks;
 
-namespace RentDesktop.ViewModels.Pages.MainWindowPages
-{
-    public class LoginViewModel : ViewModelBase
-    {
-        public LoginViewModel()
-        {
+namespace RentDesktop.ViewModels.Pages.MainWindowPages {
+    public class LoginViewModel : ViewModelBase {
+        public LoginViewModel() {
             LoadLoginInfoCommand = ReactiveCommand.Create(LoadLoginInfo);
             UpdateCaptchaCommand = ReactiveCommand.Create(UpdateCaptcha);
             EnterSystemCommand = ReactiveCommand.Create(EnterSystem);
             OpenRegisterPageCommand = ReactiveCommand.Create(OpenRegisterPage);
             CloseProgramCommand = ReactiveCommand.Create(CloseProgram);
-        }
+            }
 
         #region Events
 
@@ -37,50 +34,43 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
         public ICaptcha Captcha { get; } = new Captcha();
 
         private string _login = string.Empty;
-        public string Login
-        {
+        public string Login {
             get => _login;
             set => this.RaiseAndSetIfChanged(ref _login, value);
-        }
+            }
 
         private string _password = string.Empty;
-        public string Password
-        {
+        public string Password {
             get => _password;
             set => this.RaiseAndSetIfChanged(ref _password, value);
-        }
+            }
 
         private char? _passwordChar = HIDDEN_PASSWORD_CHAR;
-        public char? PasswordChar
-        {
+        public char? PasswordChar {
             get => _passwordChar;
             private set => this.RaiseAndSetIfChanged(ref _passwordChar, value);
-        }
+            }
 
         private bool _showPassword = false;
-        public bool ShowPassword
-        {
+        public bool ShowPassword {
             get => _showPassword;
-            set
-            {
+            set {
                 _ = this.RaiseAndSetIfChanged(ref _showPassword, value);
                 PasswordChar = value ? null : HIDDEN_PASSWORD_CHAR;
+                }
             }
-        }
 
         private bool _rememberUser = true;
-        public bool RememberUser
-        {
+        public bool RememberUser {
             get => _rememberUser;
             set => this.RaiseAndSetIfChanged(ref _rememberUser, value);
-        }
+            }
 
         private string _userCaptchaText = string.Empty;
-        public string UserCaptchaText
-        {
+        public string UserCaptchaText {
             get => _userCaptchaText;
             set => this.RaiseAndSetIfChanged(ref _userCaptchaText, value);
-        }
+            }
 
         #endregion
 
@@ -107,36 +97,30 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
         #region Private Methods
 
-        private void UpdateCaptcha()
-        {
+        private void UpdateCaptcha() {
             Captcha.UpdateText();
-        }
+            }
 
-        private void OpenRegisterPage()
-        {
+        private void OpenRegisterPage() {
             RegisterPageOpening?.Invoke();
-        }
+            }
 
-        private void EnterSystem()
-        {
+        private void EnterSystem() {
             if (!VerifyFieldsCorrectness())
                 return;
 
             IUserInfo userInfo;
 
-            try
-            {
+            try {
                 userInfo = LoginService.Login(Login, Password);
-            }
-            catch (Exception ex)
-            {
+                } catch (Exception ex) {
                 string message = "Не удалось войти в систему.";
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
                 QuickMessage.Error(message).ShowDialog(typeof(MainWindow));
                 return;
-            }
+                }
 
             if (RememberUser)
                 SaveLoginInfo();
@@ -145,93 +129,78 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
             ResetAllFields(RememberUser);
 
-            if (userInfo.IsAdmin())
-            {
+            if (userInfo.IsAdmin()) {
                 var viewModel = new AdminWindowViewModel(userInfo);
                 var adminWindow = new AdminWindow() { DataContext = viewModel };
 
                 adminWindow.Show();
-            }
-            else
-            {
+                } else {
                 var viewModel = new UserWindowViewModel(userInfo);
                 var userWindow = new UserWindow() { DataContext = viewModel };
 
                 userWindow.Show();
-            }
+                }
 
-            _ = Task.Delay(HIDE_MAIN_WINDOW_AFTER_MILLISECONDS).ContinueWith(t =>
-            {
+            _ = Task.Delay(HIDE_MAIN_WINDOW_AFTER_MILLISECONDS).ContinueWith(t => {
                 Dispatcher.UIThread.Post(AppInteraction.HideMainWindow);
             });
-        }
+            }
 
-        private void CloseProgram()
-        {
+        private void CloseProgram() {
             AppInteraction.CloseMainWindow();
-        }
+            }
 
-        private void LoadLoginInfo()
-        {
-            if (UserInfoSaveService.TryLoadInfo(out (string Login, string Password) info))
-            {
+        private void LoadLoginInfo() {
+            if (UserInfoSaveService.TryLoadInfo(out (string Login, string Password) info)) {
                 Login = info.Login;
                 Password = info.Password;
+                }
             }
-        }
 
-        private void SaveLoginInfo()
-        {
+        private void SaveLoginInfo() {
             _ = UserInfoSaveService.TrySaveInfo(Login, Password);
-        }
+            }
 
-        private static void ClearLoginInfo()
-        {
+        private static void ClearLoginInfo() {
             _ = UserInfoSaveService.TryClearInfo();
-        }
+            }
 
-        private bool VerifyFieldsCorrectness()
-        {
+        private bool VerifyFieldsCorrectness() {
             Avalonia.Controls.Window? window = WindowFinder.FindMainWindow();
 
-            if (string.IsNullOrEmpty(Login))
-            {
+            if (string.IsNullOrEmpty(Login)) {
                 QuickMessage.Info("Введите логин.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Password))
-            {
+                }
+            if (string.IsNullOrEmpty(Password)) {
                 QuickMessage.Info("Введите пароль.").ShowDialog(window);
                 return false;
-            }
-            if (UserCaptchaText != Captcha.Text)
-            {
+                }
+            if (UserCaptchaText != Captcha.Text) {
                 QuickMessage.Info("Текст с картинки введен неверно.").ShowDialog(window);
 
                 UpdateCaptcha();
                 UserCaptchaText = string.Empty;
 
                 return false;
-            }
+                }
 
             return true;
-        }
+            }
 
-        private void ResetAllFields(bool leaveLoginInfo = false)
-        {
-            if (!leaveLoginInfo)
-            {
+        private void ResetAllFields(bool leaveLoginInfo = false) {
+            if (!leaveLoginInfo) {
                 Login = string.Empty;
                 Password = string.Empty;
                 RememberUser = true;
-            }
+                }
 
             UserCaptchaText = string.Empty;
             ShowPassword = false;
 
             UpdateCaptcha();
-        }
+            }
 
         #endregion
+        }
     }
-}

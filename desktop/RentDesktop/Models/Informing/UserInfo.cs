@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace RentDesktop.Models.Informing
-{
-    public class UserInfo : IUserInfo
-    {
+namespace RentDesktop.Models.Informing {
+    public class UserInfo : IUserInfo {
         public const string ADMIN_POSITION = "admin";
         public const string USER_POSITION = "user";
         public const string ACTIVE_STATUS = "Активен";
@@ -30,8 +28,7 @@ namespace RentDesktop.Models.Informing
 
         public string DateOfBirthPresenter => DateOfBirth.ToShortDateString();
 
-        public void CopyTo(IUserInfo other)
-        {
+        public void CopyTo(IUserInfo other) {
             other.ID = ID;
             other.Login = Login;
             other.Password = Password;
@@ -45,16 +42,14 @@ namespace RentDesktop.Models.Informing
             other.Money = Money;
             other.Icon = Icon;
             other.DateOfBirth = DateOfBirth;
-        }
+            }
 
-        public bool IsAdmin()
-        {
+        public bool IsAdmin() {
             return Position == ADMIN_POSITION;
-        }
+            }
 
-        public bool IsUser()
-        {
+        public bool IsUser() {
             return Position == USER_POSITION;
+            }
         }
     }
-}

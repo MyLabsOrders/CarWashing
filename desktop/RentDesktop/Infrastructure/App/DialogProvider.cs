@@ -1,14 +1,10 @@
 ﻿using Avalonia.Controls;
 using System.Collections.Generic;
 
-namespace RentDesktop.Infrastructure.App
-{
-    internal static class DialogProvider
-    {
-        public static OpenFileDialog GetOpenImageDialog()
-        {
-            return new OpenFileDialog()
-            {
+namespace RentDesktop.Infrastructure.App {
+    internal static class DialogProvider {
+        public static OpenFileDialog GetOpenImageDialog() {
+            return new OpenFileDialog() {
                 AllowMultiple = false,
                 Title = "Выберите изображение",
 
@@ -45,17 +41,15 @@ namespace RentDesktop.Infrastructure.App
                         Extensions = new List<string>() { "*" }
                     }
                 }
-            };
-        }
+                };
+            }
 
-        public static SaveFileDialog GetSavePdfFileDialog(string? initialFileName = null)
-        {
-            return new SaveFileDialog()
-            {
+        public static SaveFileDialog GetSavePdfFileDialog(string? initialFileName = null) {
+            return new SaveFileDialog() {
                 DefaultExtension = "pdf",
                 Title = "Сохранение PDF документа",
                 InitialFileName = initialFileName
-            };
+                };
+            }
         }
     }
-}

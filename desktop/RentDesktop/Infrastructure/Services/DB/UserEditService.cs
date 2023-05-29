@@ -2,12 +2,9 @@
 using RentDesktop.Models.Informing;
 using System.Net.Http;
 
-namespace RentDesktop.Infrastructure.Services.DB
-{
-    internal static class UserEditService
-    {
-        public static void EditInfo(IUserInfo initialUserInfo, IUserInfo newUserInfo)
-        {
+namespace RentDesktop.Infrastructure.Services.DB {
+    internal static class UserEditService {
+        public static void EditInfo(IUserInfo initialUserInfo, IUserInfo newUserInfo) {
             if (initialUserInfo.Login != newUserInfo.Login)
                 ChangeLogin(newUserInfo.Login);
 
@@ -20,8 +17,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             using var db = new DatabaseConnectionService();
             string editUserHandle = $"/api/User/{initialUserInfo.ID}/profile";
 
-            var content = new DbEditUser()
-            {
+            var content = new DbEditUser() {
                 identityId = newUserInfo.ID,
                 firstName = newUserInfo.Name,
                 middleName = newUserInfo.Surname,
@@ -31,16 +27,15 @@ namespace RentDesktop.Infrastructure.Services.DB
                 birthDate = DateTimeService.ShortDateTimeToString(newUserInfo.DateOfBirth),
                 gender = GenderService.ToDatabaseFormat(newUserInfo.Gender),
                 isActive = newUserInfo.Status == UserInfo.ACTIVE_STATUS
-            };
+                };
 
             using HttpResponseMessage editUserResponse = db.PatchAsync(editUserHandle, content).Result;
 
             if (!editUserResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(editUserResponse);
-        }
+            }
 
-        public static void ChangePassword(string currentPassword, string newPassword)
-        {
+        public static void ChangePassword(string currentPassword, string newPassword) {
             using var db = new DatabaseConnectionService();
 
             const string changePasswordHandle = "/api/identity/password";
@@ -50,10 +45,9 @@ namespace RentDesktop.Infrastructure.Services.DB
 
             if (!changePasswordResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(changePasswordResponse);
-        }
+            }
 
-        public static void ChangeLogin(string newLogin)
-        {
+        public static void ChangeLogin(string newLogin) {
             using var db = new DatabaseConnectionService();
 
             const string changeLoginHandle = "/api/identity/username";
@@ -63,10 +57,9 @@ namespace RentDesktop.Infrastructure.Services.DB
 
             if (!changeLoginResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(changeLoginResponse);
-        }
+            }
 
-        public static void ChangePosition(string userLogin, string newPosition)
-        {
+        public static void ChangePosition(string userLogin, string newPosition) {
             using var db = new DatabaseConnectionService();
 
             string changeRoleHandle = $"/api/identity/users/{userLogin}/role?roleName={newPosition}";
@@ -76,6 +69,6 @@ namespace RentDesktop.Infrastructure.Services.DB
 
             if (!changeRoleResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(changeRoleResponse);
+            }
         }
     }
-}

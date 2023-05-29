@@ -6,12 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 
-namespace RentDesktop.Infrastructure.Services.DB
-{
-    internal static class OrdersService
-    {
-        public static void ChangeOrderStatus(IOrder order, string newStatus)
-        {
+namespace RentDesktop.Infrastructure.Services.DB {
+    internal static class OrdersService {
+        public static void ChangeOrderStatus(IOrder order, string newStatus) {
             using var db = new DatabaseConnectionService();
 
             const string changeOrderStatusHandle = "/api/Order/status";
@@ -23,20 +20,18 @@ namespace RentDesktop.Infrastructure.Services.DB
                 throw new ErrorResponseException(changeOrderStatusResponse);
 
             order.Status = newStatus;
-        }
+            }
 
-        public static Order CreateOrder(IEnumerable<TransportRent> cart, IUserInfo userInfo)
-        {
+        public static Order CreateOrder(IEnumerable<TransportRent> cart, IUserInfo userInfo) {
             var products = cart
                 .GroupBy(t => t.Transport.ID)
                 .Select(t => new Tuple<TransportRent, int>(t.First(), t.Count()))
                 .ToList();
 
             return RegisterOrder(products, userInfo);
-        }
+            }
 
-        private static Order RegisterOrder(List<Tuple<TransportRent, int>> productsInfo, IUserInfo userInfo)
-        {
+        private static Order RegisterOrder(List<Tuple<TransportRent, int>> productsInfo, IUserInfo userInfo) {
             using var db = new DatabaseConnectionService();
 
             string addOrderHandle = $"/api/User/{userInfo.ID}/orders";
@@ -61,6 +56,6 @@ namespace RentDesktop.Infrastructure.Services.DB
             userInfo.Money -= price;
 
             return new Order(id, price, status, creationDate, models, creationDateStamp);
+            }
         }
     }
-}

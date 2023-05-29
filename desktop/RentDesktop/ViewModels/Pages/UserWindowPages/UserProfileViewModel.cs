@@ -16,16 +16,12 @@ using System;
 using System.Linq;
 using System.Reactive;
 
-namespace RentDesktop.ViewModels.Pages.UserWindowPages
-{
-    public class UserProfileViewModel : ViewModelBase
-    {
-        public UserProfileViewModel() : this(new UserInfo())
-        {
-        }
+namespace RentDesktop.ViewModels.Pages.UserWindowPages {
+    public class UserProfileViewModel : ViewModelBase {
+        public UserProfileViewModel() : this(new UserInfo()) {
+            }
 
-        public UserProfileViewModel(IUserInfo userInfo)
-        {
+        public UserProfileViewModel(IUserInfo userInfo) {
             _userInfo = userInfo;
             SetUserInfo(userInfo);
 
@@ -34,7 +30,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             ChangeUserBalanceCommand = ReactiveCommand.Create(ChangeUserBalance);
             SaveUserInfoCommand = ReactiveCommand.Create(SaveUserInfo);
             SetGenderCommand = ReactiveCommand.Create<string>(SetGender);
-        }
+            }
 
         #region Events
 
@@ -46,95 +42,82 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
         #region Properties
 
         private bool _isEditModeEnabled = false;
-        public bool IsEditModeEnabled
-        {
+        public bool IsEditModeEnabled {
             get => _isEditModeEnabled;
             private set => this.RaiseAndSetIfChanged(ref _isEditModeEnabled, value);
-        }
+            }
 
         private string _login = string.Empty;
-        public string Login
-        {
+        public string Login {
             get => _login;
             set => this.RaiseAndSetIfChanged(ref _login, value);
-        }
+            }
 
         private string _password = string.Empty;
-        public string Password
-        {
+        public string Password {
             get => _password;
             set => this.RaiseAndSetIfChanged(ref _password, value);
-        }
+            }
 
         private string _name = string.Empty;
-        public string Name
-        {
+        public string Name {
             get => _name;
             set => this.RaiseAndSetIfChanged(ref _name, value);
-        }
+            }
 
         private string _surname = string.Empty;
-        public string Surname
-        {
+        public string Surname {
             get => _surname;
             set => this.RaiseAndSetIfChanged(ref _surname, value);
-        }
+            }
 
         private string _patronymic = string.Empty;
-        public string Patronymic
-        {
+        public string Patronymic {
             get => _patronymic;
             set => this.RaiseAndSetIfChanged(ref _patronymic, value);
-        }
+            }
 
         private string _phoneNumber = string.Empty;
-        public string PhoneNumber
-        {
+        public string PhoneNumber {
             get => _phoneNumber;
             set => this.RaiseAndSetIfChanged(ref _phoneNumber, value);
-        }
+            }
 
         private string _position = string.Empty;
-        public string Position
-        {
+        public string Position {
             get => _position;
             private set => this.RaiseAndSetIfChanged(ref _position, value);
-        }
+            }
 
         private DateTime? _dateOfBirth = null;
-        public DateTime? DateOfBirth
-        {
+        public DateTime? DateOfBirth {
             get => _dateOfBirth;
             set => this.RaiseAndSetIfChanged(ref _dateOfBirth, value);
-        }
+            }
 
         private string _gender = string.Empty;
-        public string Gender
-        {
+        public string Gender {
             get => _gender;
             set => this.RaiseAndSetIfChanged(ref _gender, value);
-        }
+            }
 
         private Bitmap? _userImage = null;
-        public Bitmap? UserImage
-        {
+        public Bitmap? UserImage {
             get => _userImage;
             private set => this.RaiseAndSetIfChanged(ref _userImage, value);
-        }
+            }
 
         private bool _isMaleGenderChecked = false;
-        public bool IsMaleGenderChecked
-        {
+        public bool IsMaleGenderChecked {
             get => _isMaleGenderChecked;
             set => this.RaiseAndSetIfChanged(ref _isMaleGenderChecked, value);
-        }
+            }
 
         private bool _isFemaleGenderChecked = false;
-        public bool IsFemaleGenderChecked
-        {
+        public bool IsFemaleGenderChecked {
             get => _isFemaleGenderChecked;
             set => this.RaiseAndSetIfChanged(ref _isFemaleGenderChecked, value);
-        }
+            }
 
         #endregion
 
@@ -162,13 +145,11 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         #region Protected Methods
 
-        protected virtual Type GetOwnerWindowType()
-        {
+        protected virtual Type GetOwnerWindowType() {
             return typeof(UserWindow);
-        }
+            }
 
-        protected virtual IUserInfo GetUserInfo()
-        {
+        protected virtual IUserInfo GetUserInfo() {
             byte[] userImageBytes = UserImage is not null
                ? BitmapService.BitmapToBytes(UserImage)
                : Array.Empty<byte>();
@@ -188,10 +169,9 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             userInfo.DateOfBirth = DateOfBirth!.Value;
 
             return userInfo;
-        }
+            }
 
-        protected virtual void SetUserInfo(IUserInfo userInfo)
-        {
+        protected virtual void SetUserInfo(IUserInfo userInfo) {
             Login = userInfo.Login;
             Password = userInfo.Password;
             Name = userInfo.Name;
@@ -213,67 +193,56 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
             else if (Gender == UserInfo.FEMALE_GENDER)
                 IsFemaleGenderChecked = true;
-        }
+            }
 
-        protected virtual bool VerifyFieldsCorrectness()
-        {
+        protected virtual bool VerifyFieldsCorrectness() {
             Window? window = WindowFinder.FindByType(GetOwnerWindowType());
 
-            if (string.IsNullOrEmpty(Login))
-            {
+            if (string.IsNullOrEmpty(Login)) {
                 QuickMessage.Info("Введите логин.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Password))
-            {
+                }
+            if (string.IsNullOrEmpty(Password)) {
                 QuickMessage.Info("Введите пароль.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Name))
-            {
+                }
+            if (string.IsNullOrEmpty(Name)) {
                 QuickMessage.Info("Введите имя.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Surname))
-            {
+                }
+            if (string.IsNullOrEmpty(Surname)) {
                 QuickMessage.Info("Введите фамилию.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Patronymic))
-            {
+                }
+            if (string.IsNullOrEmpty(Patronymic)) {
                 QuickMessage.Info("Введите отчество.").ShowDialog(window);
                 return false;
-            }
-            if (PhoneNumber.Where(t => char.IsDigit(t)).Count() != PHONE_NUMBER_DIGITS)
-            {
+                }
+            if (PhoneNumber.Where(t => char.IsDigit(t)).Count() != PHONE_NUMBER_DIGITS) {
                 QuickMessage.Info("Введите корректный номер телефона.").ShowDialog(window);
                 return false;
-            }
-            if (string.IsNullOrEmpty(Gender))
-            {
+                }
+            if (string.IsNullOrEmpty(Gender)) {
                 QuickMessage.Info("Выберите пол.").ShowDialog(window);
                 return false;
-            }
-            if (DateOfBirth is null)
-            {
+                }
+            if (DateOfBirth is null) {
                 QuickMessage.Info("Введите дату рождения.").ShowDialog(window);
                 return false;
-            }
+                }
 
             return true;
-        }
+            }
 
         #endregion
 
         #region Private Methods 
 
-        private void SwapEditMode()
-        {
+        private void SwapEditMode() {
             IsEditModeEnabled = !IsEditModeEnabled;
-        }
+            }
 
-        private async void ChangeUserImage()
-        {
+        private async void ChangeUserImage() {
             if (WindowFinder.FindByType(GetOwnerWindowType()) is not Window window)
                 return;
 
@@ -285,26 +254,22 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
             if (!TrySetUserImage(paths[0]))
                 QuickMessage.Error("Не удалось открыть фото.").ShowDialog(window);
-        }
+            }
 
-        private async void ChangeUserBalance()
-        {
-            var topUpBalanceButton = new ButtonDefinition()
-            {
+        private async void ChangeUserBalance() {
+            var topUpBalanceButton = new ButtonDefinition() {
                 IsCancel = false,
                 IsDefault = true,
                 Name = "Поплнить"
-            };
+                };
 
-            var cancelButton = new ButtonDefinition()
-            {
+            var cancelButton = new ButtonDefinition() {
                 IsCancel = true,
                 IsDefault = false,
                 Name = "Отмена"
-            };
+                };
 
-            MessageBox.Avalonia.BaseWindows.Base.IMsBoxWindow<MessageWindowResultDTO> inputWindow = MessageBoxManager.GetMessageBoxInputWindow(new MessageBoxInputParams()
-            {
+            MessageBox.Avalonia.BaseWindows.Base.IMsBoxWindow<MessageWindowResultDTO> inputWindow = MessageBoxManager.GetMessageBoxInputWindow(new MessageBoxInputParams() {
                 MinWidth = 350,
                 Icon = Icon.Plus,
 
@@ -318,7 +283,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 ContentHeader = $"Текущий баланс: {_userInfo.Money}",
 
                 ButtonDefinitions = new[] { topUpBalanceButton, cancelButton },
-            });
+                });
 
             Window? userWindow = WindowFinder.FindUserWindow();
 
@@ -333,40 +298,32 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             if (pressedButton != topUpBalanceButton.Name)
                 return;
 
-            if (!double.TryParse(moneyPresenter, out double money))
-            {
+            if (!double.TryParse(moneyPresenter, out double money)) {
                 QuickMessage.Error("Вы ввели некорректное значение.").ShowDialog(userWindow);
                 return;
-            }
+                }
 
-            try
-            {
+            try {
                 UserCashService.AddCash(_userInfo, money);
                 _userInfo.Money = UserCashService.GetUserBalace(_userInfo);
-            }
-            catch (Exception ex)
-            {
+                } catch (Exception ex) {
                 string message = "Не удалось пополнить баланс.";
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
                 QuickMessage.Error(message).ShowDialog(userWindow);
+                }
             }
-        }
 
-        private void SaveUserInfo()
-        {
+        private void SaveUserInfo() {
             if (!VerifyFieldsCorrectness())
                 return;
 
             IUserInfo newUserInfo = GetUserInfo();
 
-            try
-            {
+            try {
                 UserEditService.EditInfo(_userInfo, newUserInfo);
-            }
-            catch (Exception ex)
-            {
+                } catch (Exception ex) {
                 string message = "Не удалось сохранить изменения.";
 #if DEBUG
                 message += $"Причина: {ex.Message}";
@@ -374,36 +331,31 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 Window? window = WindowFinder.FindByType(GetOwnerWindowType());
                 QuickMessage.Error(message).ShowDialog(window);
                 return;
-            }
+                }
 
             newUserInfo.CopyTo(_userInfo);
             UserInfoUpdated?.Invoke();
 
             IsEditModeEnabled = false;
-        }
+            }
 
-        private void SetGender(string gender)
-        {
+        private void SetGender(string gender) {
             Gender = gender;
-        }
+            }
 
-        private bool TrySetUserImage(string path)
-        {
+        private bool TrySetUserImage(string path) {
             UserImage?.Dispose();
             UserImage = null;
 
-            try
-            {
+            try {
                 var image = new Bitmap(path);
                 UserImage = image;
                 return true;
-            }
-            catch
-            {
+                } catch {
                 return false;
+                }
             }
-        }
 
         #endregion
+        }
     }
-}
