@@ -16,14 +16,16 @@ internal class RemoveOrderHandler : IRequestHandler<Command> {
     }
 
     public async Task Handle(Command request, CancellationToken cancellationToken) {
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id.Equals(request.UserId), cancellationToken);
-        var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id.Equals(request.OrderId), cancellationToken);
+        User? user = await _context.Users.FirstOrDefaultAsync(x => x.Id.Equals(request.UserId), cancellationToken);
+        Order? order = await _context.Orders.FirstOrDefaultAsync(x => x.Id.Equals(request.OrderId), cancellationToken);
 
-        if (user is null)
+        if (user is null) {
             throw EntityNotFoundException.For<User>(request.UserId);
+        }
 
-        if (order is null)
+        if (order is null) {
             throw EntityNotFoundException.For<Order>(request.OrderId);
+        }
 
         ProcessOperation(order);
         user.RemoveOrder(order);
