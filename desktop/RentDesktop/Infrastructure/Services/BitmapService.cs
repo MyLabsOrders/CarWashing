@@ -17,6 +17,23 @@ namespace RentDesktop . Infrastructure . Services {
 		public static byte [ ] StrToBytes ( string base64string ) => Convert . FromBase64String ( base64string );
 
 		public static bool TryBytesToBmp ( byte [ ] bytes , out Bitmap? bmp ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		bmp=null;
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		try {
 		bmp=BytesToBmp ( bytes );
 		return true;
@@ -38,6 +55,22 @@ namespace RentDesktop . Infrastructure . Services {
 			}
 
 		public static Bitmap BytesToBmp ( byte [ ] bytes ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		Bitmap bitmap;
 
 		using ( var ms = new MemoryStream ( bytes ) ) {

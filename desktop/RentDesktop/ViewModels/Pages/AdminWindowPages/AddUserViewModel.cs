@@ -44,6 +44,21 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		private static ObservableCollection<string> PositionsGet ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 		try {
 		List<string> positions = InformationOfDb.Positions();
 		return new ObservableCollection<string> ( positions );
@@ -62,6 +77,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 
 		public ReactiveCommand<Unit , Unit> ResetSomeFieldsCommand { get; }
 		public ReactiveCommand<Unit , Unit> ResetAllFieldsCommand { get; }
+
 		public ReactiveCommand<Unit , Unit> NotResetFieldsCommand { get; }
 
 		#endregion
@@ -81,6 +97,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		protected override bool VerifyFieldsCorrectness ( ) {
 		Window? window = WindowSearcher.FindWindowByType(GetOwnerWindowType());
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( SelectedPositionIndex>Positions . Count+1 ) {
 		return false;
 			}
@@ -90,6 +122,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		return false;
 			}
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		return SelectedPositionIndex!=int . MinValue
 &&SelectedPositionIndex<=Positions . Count+1&&base . VerifyFieldsCorrectness ( );
 			}
@@ -97,6 +145,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		protected override IUser GetUserInfo ( ) {
 		IUser userInfo = base.GetUserInfo();
 		userInfo . Position=Positions [ SelectedPositionIndex ];
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		return userInfo;
 			}

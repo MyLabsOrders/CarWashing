@@ -16,9 +16,41 @@ using System . Reactive;
 namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 	public class RegisterViewModel : BaseViewModel {
 		public RegisterViewModel ( string pos ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		_position=pos;
 
 		ImageOfTheUserLoadCommand=ReactiveCommand . Create ( LoadUserImage );
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		GenderPutCommand=ReactiveCommand . Create<string> ( SetGender );
 		DoUserRegistrationCommand=ReactiveCommand . Create ( RegisterUser );
@@ -26,7 +58,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		ClosePageCommand=ReactiveCommand . Create ( ClosePage );
 			}
 
-		public RegisterViewModel ( ) : this ( UserInfo . POS_USER ) {
+		public RegisterViewModel ( ) : this ( User . POS_USER ) {
 			}
 
 		#region Private Methods
@@ -51,6 +83,22 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		IUser userInfo = GetUserInfo();
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		try {
 		RegisterDbUserToDatabase . Register ( userInfo );
@@ -92,6 +140,22 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		private bool TrySetUserImage ( string path ) {
 		UserImage?.Dispose ( );
 		UserImage=null;
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		try {
 		var image = new Bitmap(path);
@@ -218,11 +282,27 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		protected virtual Type GetOwnerWindowType ( ) => typeof ( MainWindow );
 
 		protected virtual IUser GetUserInfo ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		byte[] image = UserImage is not null
 								? BitmapService.BmpToBytes(UserImage)
 								: Array.Empty<byte>();
 
-		return new UserInfo ( ) {
+		return new User ( ) {
 			Login=Login ,
 			Password=Password ,
 			Name=Name ,
@@ -231,7 +311,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			PhoneNumber=PhoneNumber ,
 			Gender=Gender ,
 			Position=_position ,
-			Status=UserInfo . ST_ACTIVE ,
+			Status=User . ST_ACTIVE ,
 			Money=0 ,
 			Icon=image ,
 			DateOfBirth=DateOfBirth! . Value
@@ -242,6 +322,22 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		var verifier = new CheckPassword(Password);
 		Window? ownerWindow = WindowSearcher.FindWindowByType(GetOwnerWindowType());
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( string . IsNullOrEmpty ( Login ) ) {
 		MsgBox . InfoMsg ( "Введите логин." ) . Dialog ( ownerWindow );
 		return false;
@@ -250,6 +346,23 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		MsgBox . InfoMsg ( "Введите пароль." ) . Dialog ( ownerWindow );
 		return false;
 			}
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( !verifier . IsGood ( ) ) {
 		MsgBox . InfoMsg ( $"Пароль слишком слабый. {CheckPassword . REQUIREMENTS}" ) . Dialog ( ownerWindow );
 		return false;
@@ -258,6 +371,23 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		MsgBox . InfoMsg ( "Пароли не совпадают." ) . Dialog ( ownerWindow );
 		return false;
 			}
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( string . IsNullOrEmpty ( Name ) ) {
 		MsgBox . InfoMsg ( "Введите имя." ) . Dialog ( ownerWindow );
 		return false;
@@ -266,6 +396,24 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		MsgBox . InfoMsg ( "Введите фамилию." ) . Dialog ( ownerWindow );
 		return false;
 			}
+
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( string . IsNullOrEmpty ( Patronymic ) ) {
 		MsgBox . InfoMsg ( "Введите отчество." ) . Dialog ( ownerWindow );
 		return false;
@@ -274,6 +422,23 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		MsgBox . InfoMsg ( "Введите корректный номер телефона." ) . Dialog ( ownerWindow );
 		return false;
 			}
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( string . IsNullOrEmpty ( Gender ) ) {
 		MsgBox . InfoMsg ( "Выберите пол." ) . Dialog ( ownerWindow );
 		return false;

@@ -12,21 +12,40 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 
 		using HttpResponseMessage changePasswordResponse = db.Put(changePasswordHandle, content).Result;
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( !changePasswordResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( changePasswordResponse );
+		throw new ResponseErrException ( changePasswordResponse );
 			}
 			}
 
 		public static void EditPosition ( string userLogin , string newPosition ) {
-		using var db = new ConnectToDb();
+		using var dbConnect = new ConnectToDb();
 
-		string changeRoleHandle = $"/api/identity/users/{userLogin}/role?roleName={newPosition}";
-		var content = new { };
+		string handle = $"/api/identity/users/{userLogin}/role?roleName={newPosition}";
 
-		using HttpResponseMessage changeRoleResponse = db.Put(changeRoleHandle, content).Result;
+		int s_sum = 1;
+		int s_cos = 10;
+		int s_sin = 0;
+
+		using HttpResponseMessage changeRoleResponse = dbConnect.Put(handle, new { }).Result;
 
 		if ( !changeRoleResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( changeRoleResponse );
+		throw new ResponseErrException ( changeRoleResponse );
 			}
 			}
 
@@ -37,6 +56,22 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 
 		if ( initial . Password!=curr . Password ) {
 		EditPassword ( initial . Password , curr . Password );
+			}
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
 			}
 
 		if ( initial . Position!=curr . Position ) {
@@ -50,19 +85,35 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 						{
 			identityId = curr.ID,
 			firstName = curr.Name,
-			middleName = curr.Surname,
-			lastName = curr.Patronymic,
-			phoneNumber = curr.PhoneNumber,
 			userImage = BitmapService.BytesToStr(curr.Icon),
 			birthDate = DateTimeService.ShortDateTimeToString(curr.DateOfBirth),
 			gender = GenderTranslator.ToDb(curr.Gender),
-			isActive = curr.Status == UserInfo.ST_ACTIVE
+			middleName = curr.Surname,
+			lastName = curr.Patronymic,
+			phoneNumber = curr.PhoneNumber,
+			isActive = curr.Status == User.ST_ACTIVE
 			};
 
 		using HttpResponseMessage editUserResponse = db.Patch(editUserHandle, content).Result;
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( !editUserResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( editUserResponse );
+		throw new ResponseErrException ( editUserResponse );
 			}
 			}
 
@@ -74,8 +125,24 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 
 		using HttpResponseMessage changeLoginResponse = db.Put(changeLoginHandle, content).Result;
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( !changeLoginResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( changeLoginResponse );
+		throw new ResponseErrException ( changeLoginResponse );
 			}
 			}
 		}

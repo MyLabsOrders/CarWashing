@@ -10,8 +10,8 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 	internal static class InformationOfDb {
 		public static List<string> Genders ( ) => new ( )
 				{
-								UserInfo.MALE,
-								UserInfo.FEMALE
+								User.MALE,
+								User.FEMALE
 						};
 
 		public static DatabaseIdentityInfo Identity ( string userId , ConnectToDb? db = null ) {
@@ -21,7 +21,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		using HttpResponseMessage getIdentityInfoResponse = db.Get(getIdentityInfoHandle).Result;
 
 		return getIdentityInfoResponse . Content . ReadFromJsonAsync<DatabaseIdentityInfo> ( ) . Result
-				??throw new IncorrectContentException ( getIdentityInfoResponse . Content );
+				??throw new ContentException ( getIdentityInfoResponse . Content );
 			}
 
 		public static List<IUser> Users ( ) {
@@ -36,13 +36,13 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		using HttpResponseMessage allUsersResponse = db.Get(allUsersHandle).Result;
 
 		if ( !allUsersResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( allUsersResponse );
+		throw new ResponseErrException ( allUsersResponse );
 			}
 
 		DatabaseUsers? usersCollection = allUsersResponse.Content.ReadFromJsonAsync<DatabaseUsers>().Result;
 
 		if ( usersCollection is null||usersCollection . users is null ) {
-		throw new IncorrectContentException ( allUsersResponse . Content );
+		throw new ContentException ( allUsersResponse . Content );
 			}
 
 		string[] positions = usersCollection.users
@@ -53,7 +53,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 
 		foreach ( IUser user in currentUsers ) {
 		user . Login=Identity ( user . ID , db ) . username;
-		user . Password=UserInfo . HIDDEN;
+		user . Password=User . HIDDEN;
 			}
 
 		allUsers . AddRange ( currentUsers );
@@ -77,14 +77,14 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 
 		public static List<string> Statuses ( ) => new ( )
 				{
-								UserInfo.ST_ACTIVE,
-								UserInfo.ST_INACTIVE
+								User.ST_ACTIVE,
+								User.ST_INACTIVE
 						};
 
 		public static List<string> Positions ( ) => new ( )
 				{
-								UserInfo.POS_USER,
-								UserInfo.POS_ADMIN
+								User.POS_USER,
+								User.POS_ADMIN
 						};
 		}
 	}

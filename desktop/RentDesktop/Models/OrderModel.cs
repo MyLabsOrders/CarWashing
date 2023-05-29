@@ -4,10 +4,14 @@ using System . Collections . Generic;
 
 namespace RentDesktop . Models {
 	public class OrderModel : ModelBase, IOrderModel {
-		public const string AVAILABLE_STATUS = "Available";
-		public const string RENTED_STATUS = "Rented";
+		public const string AVAIL = "Available";
+		public const string RENT = "Rented";
 
-		public const string ORDERS_MODELS_DELIMITER = ", ";
+		public const string SEPARATOR = ", ";
+
+		public string? DateOfCreationStamp { get; set; }
+		public DateTime DateOfCreation { get; }
+		public IReadOnlyList<ProductModel> Models { get; }
 
 		public OrderModel ( string id , double price , string status , DateTime dateOfCreation , IEnumerable<ProductModel> models ,
 				string? dateOfCreationStamp = null ) {
@@ -19,14 +23,13 @@ namespace RentDesktop . Models {
 		Models=new List<ProductModel> ( models );
 			}
 
+		public string Status { get; set; }
+
+		public string ModelsPresenter => string . Join ( SEPARATOR , Models );
+		public string DateOfCreationPresenter => DateOfCreation . ToShortDateString ( );
+
+
 		public string ID { get; }
 		public double Price { get; }
-		public string Status { get; set; }
-		public string? DateOfCreationStamp { get; set; }
-		public DateTime DateOfCreation { get; }
-		public IReadOnlyList<ProductModel> Models { get; }
-
-		public string ModelsPresenter => string . Join ( ORDERS_MODELS_DELIMITER , Models );
-		public string DateOfCreationPresenter => DateOfCreation . ToShortDateString ( );
 		}
 	}

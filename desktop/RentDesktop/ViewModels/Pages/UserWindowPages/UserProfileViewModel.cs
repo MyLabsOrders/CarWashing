@@ -272,6 +272,23 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		MsgBox . InfoMsg ( "Введите логин." ) . Dialog ( ownerWindow );
 		return false;
 			}
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( string . IsNullOrEmpty ( Password ) ) {
 		MsgBox . InfoMsg ( "Введите пароль." ) . Dialog ( ownerWindow );
 		return false;
@@ -280,6 +297,23 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		MsgBox . InfoMsg ( "Введите имя." ) . Dialog ( ownerWindow );
 		return false;
 			}
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( string . IsNullOrEmpty ( Surname ) ) {
 		MsgBox . InfoMsg ( "Введите фамилию." ) . Dialog ( ownerWindow );
 		return false;
@@ -288,6 +322,23 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		MsgBox . InfoMsg ( "Введите отчество." ) . Dialog ( ownerWindow );
 		return false;
 			}
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( PhoneNumber . Where ( t => char . IsDigit ( t ) ) . Count ( )!=MAX_DIGITS_FOR_NUMBER ) {
 		MsgBox . InfoMsg ( "Введите корректный номер телефона." ) . Dialog ( ownerWindow );
 		return false;
@@ -296,6 +347,23 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		MsgBox . InfoMsg ( "Выберите пол." ) . Dialog ( ownerWindow );
 		return false;
 			}
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( DateOfBirth is null ) {
 		MsgBox . InfoMsg ( "Введите дату рождения." ) . Dialog ( ownerWindow );
 		return false;
@@ -337,9 +405,26 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 				? BitmapService . BytesToBmp ( userInfo . Icon )
 				: null;
 
-		if ( Gender==UserInfo . MALE ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
+
+		if ( Gender==User . MALE ) {
 		IsMaleGenderChecked=true;
-			} else if ( Gender==UserInfo . FEMALE ) {
+			} else if ( Gender==User . FEMALE ) {
 		IsFemaleGenderChecked=true;
 			}
 			}
@@ -349,7 +434,7 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 							 ? BitmapService.BmpToBytes(UserImage)
 							 : Array.Empty<byte>();
 
-		var userInfo = new UserInfo();
+		var userInfo = new User();
 		_user . CopyToOtherUser ( userInfo );
 
 		userInfo . Login=Login;
@@ -362,6 +447,23 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		userInfo . Position=Position;
 		userInfo . Icon=userImageBytes;
 		userInfo . DateOfBirth=DateOfBirth! . Value;
+
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		return userInfo;
 			}

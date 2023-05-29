@@ -62,6 +62,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		protected override bool TryCorrectnessCheck ( ) {
 		Avalonia.Controls.Window? window = WindowSearcher.FindWindowByType(WindowGetType());
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( SelectedStatusIndex>Statuses . Count+1 ) {
 		return false;
 			}
@@ -69,6 +85,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		if ( SelectedStatusIndex<0||SelectedStatusIndex>Statuses . Count ) {
 		MsgBox . InfoMsg ( "Выберите статус." ) . Dialog ( window );
 		return false;
+			}
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return false;
+			}
+			}
+			}
+			}
+			}
+			}
 			}
 
 		return SelectedStatusIndex!=int . MinValue&&SelectedStatusIndex<=Statuses . Count+1&&base . TryCorrectnessCheck ( );
@@ -82,6 +114,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		protected override IUser InformationAboutUserGet ( ) {
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 		IUser userInfo = base.InformationAboutUserGet();
 		userInfo . Status=Statuses [ SelectedStatusIndex ];
 

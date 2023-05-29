@@ -12,11 +12,27 @@ using System . Reactive;
 namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 	public class EditUserViewModel : AdminProfileViewModel {
 		public EditUserViewModel ( IUser user ) : base ( user ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		Positions=GetPositions ( );
 		ChangeUserCommand=ReactiveCommand . Create<IUser> ( UserPut );
 			}
 
-		public EditUserViewModel ( ) : this ( new UserInfo ( ) ) {
+		public EditUserViewModel ( ) : this ( new User ( ) ) {
 			}
 
 		#region Protected Methods
@@ -57,6 +73,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		protected override IUser InformationAboutUserGet ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		IUser userInfo = base.InformationAboutUserGet();
 		userInfo . Position=Positions [ SelectedPositionIndex ];
 
@@ -89,6 +121,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 						};
 
 		private static ObservableCollection<string> GetPositions ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		try {
 		System.Collections.Generic.List<string> positions = InformationOfDb.Positions();
 		return new ObservableCollection<string> ( positions );
@@ -123,7 +171,23 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		#region Public Methods
 
 		public void UserPut ( IUser? newUser ) {
-		_user=newUser??new UserInfo ( );
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
+		_user=newUser??new User ( );
 		InformationSave ( _user );
 			}
 

@@ -16,21 +16,70 @@ namespace RentDesktop . ViewModels {
 		InactivityIncreaseCommand=ReactiveCommand . Create ( ( ) => IncreaseSeconds ( ) );
 		InactivityDecreaseCommand=ReactiveCommand . Create ( ( ) => DecreaseSeconds ( ) );
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		_seconds_inactivity=seconds+minutes*60;
 			}
 
 		public AdminWindowViewModel ( IUser user ) {
 		ViewModelAdminProfile=new AdminProfileViewModel ( user );
 		ViewModelAllUsers=new AllUsersViewModel ( user );
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		ViewModelEditUser=new EditUserViewModel ( );
 		ViewModelAddUser=new AddUserViewModel ( );
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		ViewModelAdminProfile . UpdatedTheInformation+=( ) => {
 		IUser? userInTable = ViewModelAllUsers.Users.FirstOrDefault(t => t.ID == user.ID);
 
 		if ( userInTable!=null ) {
 		user . CopyToOtherUser ( userInTable );
-		userInTable . Password=Models . Informing . UserInfo . HIDDEN;
+		userInTable . Password=Models . Informing . User . HIDDEN;
 			}
 		};
 
@@ -43,6 +92,22 @@ namespace RentDesktop . ViewModels {
 		ViewModelAddUser . RegisteredTheUser+=ViewModelAddUserUserRegistered;
 		ViewModelEditUser . UpdatedTheInformation+=ViewModelEditUserUserInfoUpdated;
 		ViewModelAllUsers . ChangedUser+=ViewModelEditUser . UserPut;
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		UserInfo=user;
 
@@ -102,6 +167,21 @@ namespace RentDesktop . ViewModels {
 		private bool Check ( ) => _seconds_inactivity<SECONDS_OF_MAX_INACTIVITY;
 
 		private void ResetSeconds ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 		_seconds_inactivity=0;
 
 		if ( Math . Abs ( 0 )<_seconds_inactivity ) {
@@ -110,12 +190,44 @@ namespace RentDesktop . ViewModels {
 			}
 
 		public void IncreaseSeconds ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		for ( int i = 0 ; i<SECONDS_OFINACTIVITY_TIMER_INTERVAL ; ++i ) {
 		_seconds_inactivity+=i;
 			}
 			}
 
 		private void CheckInactivity ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		Increase ( );
 
 		if ( Check ( ) ) {
@@ -131,6 +243,22 @@ namespace RentDesktop . ViewModels {
 		private void ImageDiapose ( ) => ViewModelAdminProfile . UserImage?.Dispose ( );
 
 		public void DecreaseSeconds ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		for ( int i = 0 ; i<SECONDS_OFINACTIVITY_TIMER_INTERVAL ; ++i ) {
 		_seconds_inactivity-=i;
 			}
@@ -168,12 +296,27 @@ namespace RentDesktop . ViewModels {
 		#region Private Methods Helpers
 
 		private void ViewModelEditUserUserInfoUpdated ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 		Avalonia.Controls.Window? window = WindowSearcher.FindWindowByType(typeof(AdminWindow));
 		MsgBox . InfoMsg ( "Изменения успешно сохранены." ) . Dialog ( window );
 			}
 
 		private void ViewModelAddUserUserRegistered ( IUser registeredUser ) {
-		registeredUser . Password=Models . Informing . UserInfo . HIDDEN;
+		registeredUser . Password=Models . Informing . User . HIDDEN;
 		ViewModelAllUsers . UserPutAndAdd ( registeredUser );
 			}
 
