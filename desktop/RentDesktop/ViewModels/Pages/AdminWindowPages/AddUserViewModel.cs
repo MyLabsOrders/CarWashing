@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using Avalonia.Controls;
+using ReactiveUI;
 using RentDesktop.Infrastructure.App;
 using RentDesktop.Infrastructure.Services.DB;
 using RentDesktop.Models.Communication;
@@ -6,6 +7,7 @@ using RentDesktop.Models.Informing;
 using RentDesktop.ViewModels.Pages.MainWindowPages;
 using RentDesktop.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
 
@@ -15,74 +17,29 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
     {
         public AddUserViewModel() : base()
         {
-            Positions = GetPositions();
-            ResetAllFieldsCommand = ReactiveCommand.Create(ResetAllFields);
+            Positions = PositionsGet();
+            ResetAllFieldsCommand = ReactiveCommand.Create(FieldsClear);
         }
-
-        #region Properties
-
-        public ObservableCollection<string> Positions { get; }
-
-        private int _selectedPositionIndex = 0;
-        public int SelectedPositionIndex
-        {
-            get => _selectedPositionIndex;
-            set => this.RaiseAndSetIfChanged(ref _selectedPositionIndex, value);
-        }
-
-        #endregion
-
-        #region Commands
-
-        public ReactiveCommand<Unit, Unit> ResetAllFieldsCommand { get; }
-
-        #endregion
-
-        #region Protected Methods
-
-        protected override Type GetOwnerWindowType()
-        {
-            return typeof(AdminWindow);
-        }
-
-        protected override IUser GetUserInfo()
-        {
-            IUser userInfo = base.GetUserInfo();
-            userInfo.Position = Positions[SelectedPositionIndex];
-
-            return userInfo;
-        }
-
-        protected override bool VerifyFieldsCorrectness()
-        {
-            Avalonia.Controls.Window? window = WindowFinder.FindByType(GetOwnerWindowType());
-
-            if (SelectedPositionIndex < 0 || SelectedPositionIndex > Positions.Count)
-            {
-                QuickMessage.Info("Выберите должность.").ShowDialog(window);
-                return false;
-            }
-
-            return base.VerifyFieldsCorrectness();
-        }
-
-        protected override void ResetAllFields()
-        {
-            base.ResetAllFields();
-
-            PasswordConfirmation = string.Empty;
-            SelectedPositionIndex = 0;
-        }
-
-        #endregion
 
         #region Private Methods
 
-        private static ObservableCollection<string> GetPositions()
+        public static List<string> GetFromLocal()
+        {
+            return new List<string>()
+            {
+                "Admin",
+                "User",
+                "Unknown",
+                "Incorrect",
+                "Other"
+            };
+        }
+
+        private static ObservableCollection<string> PositionsGet()
         {
             try
             {
-                System.Collections.Generic.List<string> positions = InfoService.GetAllPositions();
+                List<string> positions = InfoService.GetAllPositions();
                 return new ObservableCollection<string>(positions);
             }
             catch (Exception ex)
@@ -93,6 +50,75 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 #endif
                 return new ObservableCollection<string>();
             }
+        }
+
+        #endregion
+
+        #region Commands
+
+        public ReactiveCommand<Unit, Unit> ResetSomeFieldsCommand { get; }
+        public ReactiveCommand<Unit, Unit> ResetAllFieldsCommand { get; }
+        public ReactiveCommand<Unit, Unit> NotResetFieldsCommand { get; }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected override void FieldsClear()
+        {
+            base.FieldsClear();
+
+            PasswordConfirmation = string.Empty;
+            SelectedPositionIndex = 0;
+            PasswordConfirmation = string.Empty;
+        }
+
+        protected override Type GetOwnerWindowType()
+        {
+            return typeof(AdminWindow);
+        }
+
+        protected override bool VerifyFieldsCorrectness()
+        {
+            Window? window = WindowFinder.FindByType(GetOwnerWindowType());
+
+            if (SelectedPositionIndex > Positions.Count + 1)
+                return false;
+
+            if (SelectedPositionIndex < 0 || SelectedPositionIndex > Positions.Count)
+            {
+                QuickMessage.Info("Выберите должность.").ShowDialog(window);
+                return false;
+            }
+
+            if (SelectedPositionIndex == int.MinValue)
+                return false;
+
+            if (SelectedPositionIndex > Positions.Count + 1)
+                return false;
+
+            return base.VerifyFieldsCorrectness();
+        }
+
+        protected override IUser GetUserInfo()
+        {
+            IUser userInfo = base.GetUserInfo();
+            userInfo.Position = Positions[SelectedPositionIndex];
+
+            return userInfo;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public ObservableCollection<string> Positions { get; }
+
+        private int _selectedPositionIndex = 0;
+        public int SelectedPositionIndex
+        {
+            get => _selectedPositionIndex;
+            set => this.RaiseAndSetIfChanged(ref _selectedPositionIndex, value);
         }
 
         #endregion

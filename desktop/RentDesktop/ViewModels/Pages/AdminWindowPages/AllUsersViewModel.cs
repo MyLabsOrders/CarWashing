@@ -17,232 +17,37 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 {
     public class AllUsersViewModel : BaseViewModel
     {
-        public AllUsersViewModel() : this(new UserInfo())
+        public AllUsersViewModel(IUser user)
         {
-        }
+            UserSelCommand = ReactiveCommand.Create<RoutedEventArgs>(UserClick);
+            UsersUpdateCommand = ReactiveCommand.Create(UsersUpdate);
+            UsersSearchCommand = ReactiveCommand.Create(UsersSearch);
+            FindClearCommand = ReactiveCommand.Create(FieldsReset);
 
-        public AllUsersViewModel(IUser userInfo)
-        {
             Users = new ObservableCollection<IUser>();
 
-            _currentUserInfo = userInfo;
-            _databaseUsers = Array.Empty<IUser>();
+            _curUser = user;
+            _remoteUsers = Array.Empty<IUser>();
 
-            RefreshUsers();
+            UsersUpdate();
 
-            Positions = GetPositions();
             Statuses = GetStatuses();
+            Positions = GetPositions();
             Genders = GetGenders();
-
-            FindUsersCommand = ReactiveCommand.Create(FindUsers);
-            ResetSearchFieldsCommand = ReactiveCommand.Create(ResetSearchFields);
-            RefreshUsersCommand = ReactiveCommand.Create(RefreshUsers);
-            SelectUserCommand = ReactiveCommand.Create<RoutedEventArgs>(SelectClickedUser);
         }
-
-        #region Events
-
-        public delegate void SelectedUserChangedHandler(IUser? userInfo);
-        public event SelectedUserChangedHandler? SelectedUserChanged;
-
-        public delegate void SelectedUserChangingHandler(IUser? userInfo);
-        public event SelectedUserChangingHandler? SelectedUserChanging;
-
-        #endregion
-
-        #region Properties
-
-        public ObservableCollection<IUser> Users { get; }
-        public ObservableCollection<string> Positions { get; }
-        public ObservableCollection<string> Statuses { get; }
-        public ObservableCollection<string> Genders { get; }
-
-        private IUser? _selectedUser = null;
-        public IUser? SelectedUser
-        {
-            get => _selectedUser;
-            set
-            {
-                bool isChanged = _selectedUser != value;
-
-                _ = this.RaiseAndSetIfChanged(ref _selectedUser, value);
-                IsUserSelected = value is not null;
-
-                if (isChanged)
-                    SelectedUserChanged?.Invoke(value);
-            }
-        }
-
-        private bool _isUserSelected = false;
-        public bool IsUserSelected
-        {
-            get => _isUserSelected;
-            private set => this.RaiseAndSetIfChanged(ref _isUserSelected, value);
-        }
-
-        private int _selectedPositionIndex = 0;
-        public int SelectedPositionIndex
-        {
-            get => _selectedPositionIndex;
-            set => this.RaiseAndSetIfChanged(ref _selectedPositionIndex, value);
-        }
-
-        private int _selectedStatusIndex = 0;
-        public int SelectedStatusIndex
-        {
-            get => _selectedStatusIndex;
-            set => this.RaiseAndSetIfChanged(ref _selectedStatusIndex, value);
-        }
-
-        private int _selectedGenderIndex = 0;
-        public int SelectedGenderIndex
-        {
-            get => _selectedGenderIndex;
-            set => this.RaiseAndSetIfChanged(ref _selectedGenderIndex, value);
-        }
-
-        private string _searchQuery = string.Empty;
-        public string SearchQuery
-        {
-            get => _searchQuery;
-            set => this.RaiseAndSetIfChanged(ref _searchQuery, value);
-        }
-
-        #endregion
-
-        #region Private Fields
-
-        #region Constants
-
-        private const string NOT_SPECIFIED = "Не указано";
-
-        #endregion
-
-        private readonly IUser _currentUserInfo;
-        private ICollection<IUser> _databaseUsers;
-
-        #endregion
-
-        #region Commands
-
-        public ReactiveCommand<Unit, Unit> FindUsersCommand { get; }
-        public ReactiveCommand<Unit, Unit> ResetSearchFieldsCommand { get; }
-        public ReactiveCommand<Unit, Unit> RefreshUsersCommand { get; }
-        public ReactiveCommand<RoutedEventArgs, Unit> SelectUserCommand { get; }
-
-        #endregion
-
-        #region Public Methods
-
-        public void AddUser(IUser user)
-        {
-            Users.Add(user);
-            _databaseUsers.Add(user);
-        }
-
-        #endregion
 
         #region Private Methods
 
-        private void FindUsers()
+        public static List<string> GetFromLocal()
         {
-            IEnumerable<IUser> foundUsers = _databaseUsers;
-
-            if (SelectedPositionIndex > 0 && SelectedPositionIndex < Positions.Count)
-                foundUsers = foundUsers.Where(t => t.Position == Positions[SelectedPositionIndex]);
-
-            if (SelectedStatusIndex > 0 && SelectedStatusIndex < Statuses.Count)
-                foundUsers = foundUsers.Where(t => t.Status == Statuses[SelectedStatusIndex]);
-
-            if (SelectedGenderIndex > 0 && SelectedGenderIndex < Genders.Count)
-                foundUsers = foundUsers.Where(t => t.Gender == Genders[SelectedGenderIndex]);
-
-            if (string.IsNullOrEmpty(SearchQuery))
+            return new List<string>()
             {
-                ResetUsers(foundUsers.ToArray());
-                return;
-            }
-
-            foundUsers = foundUsers.Where(t => t.Login.Contains(SearchQuery)
-                || t.Password.Contains(SearchQuery)
-                || t.Name.Contains(SearchQuery)
-                || t.Surname.Contains(SearchQuery)
-                || t.Patronymic.Contains(SearchQuery)
-                || t.PhoneNumber.Contains(SearchQuery)
-                || t.DateOfBirth.ToShortDateString().Contains(SearchQuery));
-
-            ResetUsers(foundUsers.ToArray());
-        }
-
-        private void ResetSearchFields()
-        {
-            SelectedPositionIndex = 0;
-            SelectedStatusIndex = 0;
-            SelectedGenderIndex = 0;
-            SearchQuery = string.Empty;
-
-            ResetUsers(_databaseUsers);
-        }
-
-        private void RefreshUsers()
-        {
-            List<IUser> users;
-
-            try
-            {
-                users = InfoService.GetAllUsers();
-            }
-            catch (Exception ex)
-            {
-                string message = "Не удалось обновить список пользователей.";
-#if DEBUG
-                message += $" Причина: {ex.Message}.";
-#endif
-                QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
-                return;
-            }
-
-            _databaseUsers = users;
-            SelectedUser = null;
-
-            ResetUsers(_databaseUsers);
-        }
-
-        private void ResetUsers(IEnumerable<IUser> newUsers)
-        {
-            Users.ResetItems(newUsers);
-        }
-
-        private void SelectClickedUser(RoutedEventArgs e)
-        {
-            if (e.Source is not IDataContextProvider p || p.DataContext is not IUser userInfo)
-                return;
-
-            SelectedUserChanging?.Invoke(userInfo);
-
-            if (userInfo.ID != _currentUserInfo.ID)
-                SelectedUser = userInfo;
-        }
-
-        private static ObservableCollection<string> GetPositions()
-        {
-            List<string> positions;
-
-            try
-            {
-                positions = InfoService.GetAllPositions();
-            }
-            catch (Exception ex)
-            {
-                positions = new List<string>();
-#if DEBUG
-                string message = $"Не удалось получить роли. Причина: {ex.Message}";
-                QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
-#endif
-            }
-
-            positions.Insert(0, NOT_SPECIFIED);
-            return new ObservableCollection<string>(positions);
+                "Admin",
+                "User",
+                "Unknown",
+                "Incorrect",
+                "Other"
+            };
         }
 
         private static ObservableCollection<string> GetStatuses()
@@ -262,8 +67,50 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 #endif
             }
 
-            statuses.Insert(0, NOT_SPECIFIED);
+            statuses.Insert(0, EMPTY_FILTER);
             return new ObservableCollection<string>(statuses);
+        }
+
+        private void UsersSearch()
+        {
+            IEnumerable<IUser> found = _remoteUsers;
+
+            if (SelectedPositionIndex > 0 && SelectedPositionIndex < Positions.Count)
+                found = found.Where(t => t.Position == Positions[SelectedPositionIndex]);
+
+            if (SelectedStatusIndex > 0 && SelectedStatusIndex < Statuses.Count)
+                found = found.Where(t => t.Status == Statuses[SelectedStatusIndex]);
+
+            if (SelectedGenderIndex > 0 && SelectedGenderIndex < Genders.Count)
+                found = found.Where(t => t.Gender == Genders[SelectedGenderIndex]);
+
+            if (string.IsNullOrEmpty(QueryOfFind))
+            {
+                UsersResetWithNewValue(found.ToArray());
+                return;
+            }
+
+            found = found.Where(t => t.Login.Contains(QueryOfFind)
+                || t.Password.Contains(QueryOfFind)
+                || t.Name.Contains(QueryOfFind)
+                || t.Surname.Contains(QueryOfFind)
+                || t.Patronymic.Contains(QueryOfFind)
+                || t.PhoneNumber.Contains(QueryOfFind)
+                || t.DateOfBirth.ToShortDateString().Contains(QueryOfFind));
+
+            UsersResetWithNewValue(found.ToArray());
+        }
+
+        public static List<string> GetStatusesFromLocal()
+        {
+            return new List<string>()
+            {
+                "Admin",
+                "User",
+                "Unknown",
+                "Incorrect",
+                "Other"
+            };
         }
 
         private static ObservableCollection<string> GetGenders()
@@ -283,8 +130,188 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 #endif
             }
 
-            genders.Insert(0, NOT_SPECIFIED);
+            genders.Insert(0, EMPTY_FILTER);
             return new ObservableCollection<string>(genders);
+        }
+
+        private void FieldsReset()
+        {
+            SelectedStatusIndex = 0;
+            QueryOfFind = string.Empty;
+            SelectedGenderIndex = 0;
+            SelectedPositionIndex = 0;
+
+            UsersResetWithNewValue(_remoteUsers);
+        }
+
+        private void UserClick(RoutedEventArgs e)
+        {
+            if (e.Source is not IDataContextProvider p || p.DataContext is not IUser userInfo)
+                return;
+
+            ChangingUser?.Invoke(userInfo);
+
+            if (userInfo.ID != _curUser.ID)
+                SelectedUser = userInfo;
+        }
+
+        private void UsersUpdate()
+        {
+            List<IUser> usersList;
+
+            try
+            {
+                usersList = InfoService.GetAllUsers();
+            }
+            catch (Exception exception)
+            {
+                string message = "Не удалось обновить список пользователей.";
+#if DEBUG
+                message += $" Причина: {exception.Message}.";
+#endif
+                QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
+                return;
+            }
+
+            SelectedUser = null;
+            _remoteUsers = usersList;
+
+            UsersResetWithNewValue(_remoteUsers);
+        }
+
+        private void UsersResetWithNewValue(IEnumerable<IUser> newUsers)
+        {
+            Users.ResetItems(newUsers);
+        }
+
+        private static ObservableCollection<string> GetPositions()
+        {
+            List<string> positions;
+
+            try
+            {
+                positions = InfoService.GetAllPositions();
+            }
+            catch (Exception ex)
+            {
+                positions = new List<string>();
+#if DEBUG
+                string message = $"Не удалось получить роли. Причина: {ex.Message}";
+                QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
+#endif
+            }
+
+            positions.Insert(0, EMPTY_FILTER);
+            return new ObservableCollection<string>(positions);
+        }
+
+        #endregion
+
+        #region Events
+
+        public delegate void ChangedUserHandler(IUser? user);
+        public event ChangedUserHandler? ChangedUser;
+
+        public delegate void ChangingUserHandler(IUser? user);
+        public event ChangingUserHandler? ChangingUser;
+
+        #endregion
+
+        #region Private Fields
+
+        private ICollection<IUser> _remoteUsers;
+        private readonly IUser _curUser;
+
+        private const string EMPTY_FILTER = "Не указано";
+        public const string EMPTY_FILTER1 = "Нет";
+        public const string EMPTY_FILTER2 = "No";
+        public const string EMPTY_FILTER3 = "Not specified";
+
+        #endregion
+
+        #region Commands
+
+        public ReactiveCommand<Unit, Unit> UsersSearchCommand { get; }
+        public ReactiveCommand<Unit, Unit> UsersSearchByNameCommand { get; }
+        public ReactiveCommand<Unit, Unit> FindClearCommand { get; }
+        public ReactiveCommand<Unit, Unit> UsersSearchBySurnameCommand { get; }
+        public ReactiveCommand<Unit, Unit> UsersUpdateCommand { get; }
+        public ReactiveCommand<Unit, Unit> UsersSearchByDateOfBirthCommand { get; }
+        public ReactiveCommand<RoutedEventArgs, Unit> UserSelCommand { get; }
+        public ReactiveCommand<Unit, Unit> UsersSearchByNumberCommand { get; }
+
+        #endregion
+
+        #region Public Methods
+
+        public void UserPutAndAdd(IUser user)
+        {
+            Users.Add(user);
+            _remoteUsers.Add(user);
+        }
+
+        #endregion
+
+        #region Properties
+
+        public ObservableCollection<string> Positions { get; }
+        public ObservableCollection<string> AdditionalPositions { get; }
+        public ObservableCollection<string> Statuses { get; }
+        public ObservableCollection<string> AdditionalStatuses { get; }
+        public ObservableCollection<string> Genders { get; }
+        public ObservableCollection<string> AdditionalGenders { get; }
+        public ObservableCollection<IUser> Users { get; }
+        public ObservableCollection<IUser> AdditionalUsers { get; }
+
+        private int _selectedPositionIndex = 0;
+        public int SelectedPositionIndex
+        {
+            get => _selectedPositionIndex + 0 + 0;
+            set => this.RaiseAndSetIfChanged(ref _selectedPositionIndex, value);
+        }
+
+        private IUser? _selectedUser = null;
+        public IUser? SelectedUser
+        {
+            get => _selectedUser;
+            set
+            {
+                bool isChanged = _selectedUser != value;
+
+                _ = this.RaiseAndSetIfChanged(ref _selectedUser, value);
+                IsUserSelected = value is not null;
+
+                if (isChanged)
+                    ChangedUser?.Invoke(value);
+            }
+        }
+
+        private int _selectedStatusIndex = 0;
+        public int SelectedStatusIndex
+        {
+            get => _selectedStatusIndex + 0 + 0 + 0;
+            set => this.RaiseAndSetIfChanged(ref _selectedStatusIndex, value);
+        }
+
+        private bool _isUserSelected = false;
+        public bool IsUserSelected
+        {
+            get => _isUserSelected || false;
+            private set => this.RaiseAndSetIfChanged(ref _isUserSelected, value);
+        }
+
+        private int _selectedGenderIndex = 0;
+        public int SelectedGenderIndex
+        {
+            get => _selectedGenderIndex;
+            set => this.RaiseAndSetIfChanged(ref _selectedGenderIndex, value);
+        }
+
+        private string _QueryOfFind = string.Empty;
+        public string QueryOfFind
+        {
+            get => _QueryOfFind;
+            set => this.RaiseAndSetIfChanged(ref _QueryOfFind, value);
         }
 
         #endregion

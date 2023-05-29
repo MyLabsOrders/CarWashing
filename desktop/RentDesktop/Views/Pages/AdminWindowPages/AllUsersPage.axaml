@@ -21,7 +21,7 @@
 
 			<i:Interaction.Behaviors>
 				<ia:EventTriggerBehavior EventName="DoubleTapped">
-					<ia:InvokeCommandAction Command="{Binding SelectUserCommand}" PassEventArgsToCommand="True" />
+					<ia:InvokeCommandAction Command="{Binding UserSelCommand}" PassEventArgsToCommand="True" />
 				</ia:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 			
@@ -55,9 +55,9 @@
 			<ComboBox Grid.Row="1" Grid.Column="4" Items="{Binding Genders}" SelectedIndex="{Binding SelectedGenderIndex}" />
 			<TextBlock Grid.Row="0" Grid.Column="6" Text="Поиск" />
 
-			<TextBox Grid.Row="1" Grid.Column="6" Text="{Binding SearchQuery}">
+			<TextBox Grid.Row="1" Grid.Column="6" Text="{Binding QueryOfFind}">
 				<TextBox.KeyBindings>
-					<KeyBinding Gesture="Enter" Command="{Binding FindUsersCommand}" />
+					<KeyBinding Gesture="Enter" Command="{Binding UsersSearchCommand}" />
 				</TextBox.KeyBindings>
 			</TextBox>
 		</Grid>
@@ -70,9 +70,9 @@
 				</Style>
 			</Grid.Styles>
 
-			<Button Grid.Column="1" Content="Найти" Command="{Binding FindUsersCommand}" />
-			<Button Grid.Column="3" Content="Сброс" Command="{Binding ResetSearchFieldsCommand}" />
-			<Button Grid.Column="5" Content="Обновить" Command="{Binding RefreshUsersCommand}" />
+			<Button Grid.Column="1" Content="Найти" Command="{Binding UsersSearchCommand}" />
+			<Button Grid.Column="3" Content="Сброс" Command="{Binding FindClearCommand}" />
+			<Button Grid.Column="5" Content="Обновить" Command="{Binding UsersUpdateCommand}" />
 		</Grid>
 	</Grid>
 	

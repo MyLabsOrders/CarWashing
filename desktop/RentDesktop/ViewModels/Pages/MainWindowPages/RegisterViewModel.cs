@@ -258,7 +258,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
             return true;
         }
 
-        protected virtual void ResetAllFields()
+        protected virtual void FieldsClear()
         {
             Login = string.Empty;
             Password = string.Empty;
@@ -292,7 +292,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
             try
             {
                 UserRegisterService.RegisterUser(userInfo);
-                ResetAllFields();
+                FieldsClear();
 
                 UserRegistered?.Invoke(userInfo);
                 PageClosing?.Invoke();

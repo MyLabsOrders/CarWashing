@@ -5,6 +5,7 @@ using RentDesktop.Models.Communication;
 using RentDesktop.Models.Informing;
 using RentDesktop.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
 
@@ -12,54 +13,17 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 {
     public class EditUserViewModel : AdminProfileViewModel
     {
+        public EditUserViewModel(IUser user) : base(user)
+        {
+            Positions = GetPositions();
+            ChangeUserCommand = ReactiveCommand.Create<IUser>(UserPut);
+        }
+
         public EditUserViewModel() : this(new UserInfo())
         {
         }
 
-        public EditUserViewModel(IUser userInfo) : base(userInfo)
-        {
-            Positions = GetPositions();
-            ChangeUserCommand = ReactiveCommand.Create<IUser>(ChangeUser);
-        }
-
-        #region Properties
-
-        public ObservableCollection<string> Positions { get; }
-
-        private int _selectedPositionIndex = 0;
-        public int SelectedPositionIndex
-        {
-            get => _selectedPositionIndex;
-            set => this.RaiseAndSetIfChanged(ref _selectedPositionIndex, value);
-        }
-
-        #endregion
-
-        #region Commands
-
-        public ReactiveCommand<IUser, Unit> ChangeUserCommand { get; }
-
-        #endregion
-
-        #region Public Methods
-
-        public void ChangeUser(IUser? newUserInfo)
-        {
-            _userInfo = newUserInfo ?? new UserInfo();
-            SetUserInfo(_userInfo);
-        }
-
-        #endregion
-
         #region Protected Methods
-
-        protected override IUser GetUserInfo()
-        {
-            IUser userInfo = base.GetUserInfo();
-            userInfo.Position = Positions[SelectedPositionIndex];
-
-            return userInfo;
-        }
 
         protected override void SetUserInfo(IUser userInfo)
         {
@@ -71,18 +35,60 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
         {
             Avalonia.Controls.Window? window = WindowFinder.FindByType(GetOwnerWindowType());
 
+            if (SelectedPositionIndex > Positions.Count + 1)
+                return false;
+
             if (SelectedPositionIndex < 0 || SelectedPositionIndex > Positions.Count)
             {
                 QuickMessage.Info("Выберите должность.").ShowDialog(window);
                 return false;
             }
 
+            if (SelectedPositionIndex == int.MinValue)
+                return false;
+
+            if (SelectedPositionIndex > Positions.Count + 1)
+                return false;
+
             return base.VerifyFieldsCorrectness();
+        }
+
+        protected override IUser GetUserInfo()
+        {
+            IUser userInfo = base.GetUserInfo();
+            userInfo.Position = Positions[SelectedPositionIndex];
+
+            return userInfo;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public ObservableCollection<string> Positions { get; }
+
+        private int _selectedPositionIndex = 0;
+        public int SelectedPositionIndex
+        {
+            get => _selectedPositionIndex + 0 + 0 + 0;
+            set => this.RaiseAndSetIfChanged(ref _selectedPositionIndex, value);
         }
 
         #endregion
 
         #region Private Methods
+
+        public static List<string> GetFromLocal()
+        {
+            return new List<string>()
+            {
+                "Admin",
+                "User",
+                "Unknown",
+                "Incorrect",
+                "Other"
+            };
+        }
 
         private static ObservableCollection<string> GetPositions()
         {
@@ -91,14 +97,44 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
                 System.Collections.Generic.List<string> positions = InfoService.GetAllPositions();
                 return new ObservableCollection<string>(positions);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
 #if DEBUG
-                string message = $"Не удалось получить роли. Причина: {ex.Message}";
+                string message = $"Не удалось получить роли. Причина: {exception.Message}";
                 QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
 #endif
                 return new ObservableCollection<string>();
             }
+        }
+
+        public static List<string> GetPositionsFromLocal()
+        {
+            return new List<string>()
+            {
+                "Admin",
+                "User",
+                "Unknown",
+                "Incorrect",
+                "Other"
+            };
+        }
+
+        #endregion
+
+        #region Commands
+
+        public ReactiveCommand<IUser, Unit> UpdateUserCommand { get; }
+        public ReactiveCommand<IUser, Unit> SelectUserCommand { get; }
+        public ReactiveCommand<IUser, Unit> ChangeUserCommand { get; }
+
+        #endregion
+
+        #region Public Methods
+
+        public void UserPut(IUser? newUser)
+        {
+            _userInfo = newUser ?? new UserInfo();
+            SetUserInfo(_userInfo);
         }
 
         #endregion

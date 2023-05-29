@@ -40,7 +40,7 @@ namespace RentDesktop.ViewModels
                 }
             };
 
-            ViewModelAllUsers.SelectedUserChanging += selectedUser =>
+            ViewModelAllUsers.ChangingUser += selectedUser =>
             {
                 if (selectedUser != null && selectedUser.ID == user.ID)
                     AdminPageOpen();
@@ -48,7 +48,7 @@ namespace RentDesktop.ViewModels
 
             ViewModelAddUser.UserRegistered += ViewModelAddUserUserRegistered;
             ViewModelEditUser.UserInfoUpdated += ViewModelEditUserUserInfoUpdated;
-            ViewModelAllUsers.SelectedUserChanged += ViewModelEditUser.ChangeUser;
+            ViewModelAllUsers.ChangedUser += ViewModelEditUser.UserPut;
 
             UserInfo = user;
 
@@ -192,7 +192,7 @@ namespace RentDesktop.ViewModels
         private void ViewModelAddUserUserRegistered(IUser registeredUser)
         {
             registeredUser.Password = Models.Informing.UserInfo.HIDDEN_PASSWORD;
-            ViewModelAllUsers.AddUser(registeredUser);
+            ViewModelAllUsers.UserPutAndAdd(registeredUser);
         }
 
         #endregion
