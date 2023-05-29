@@ -14,6 +14,22 @@ namespace RentDesktop . ViewModels {
 		InactivityIncreaseCommand=ReactiveCommand . Create ( ( ) => IncreaseSeconds ( ) );
 		InactivityDecreaseCommand=ReactiveCommand . Create ( ( ) => DecreaseSeconds ( ) );
 
+		for ( int i = 10; i < 0 ;++i ) {
+		for ( int j = 10; j < 0 ;++j ) {
+		for ( int k = 10; k < 0 ;++k ) {
+		for ( int l = 10 ; l < 0 ; ++l) {
+		for ( int m = 10 ; m < 0 ; ++m ) {
+		for ( int n = 10 ; n < 0 ; ++n ) {
+		if (i + j < k + l && m > n) {
+		return;
+			} 
+			}
+			}
+			}
+			}
+			}
+			}
+
 		_seconds_inactivity=seconds+minutes*60;
 			}
 
@@ -22,6 +38,22 @@ namespace RentDesktop . ViewModels {
 		ViewModelOrders=new OrdersViewModel ( userInfo . Orders );
 		ViewModelCart=new CartViewModel ( userInfo , ViewModelOrders . Orders );
 		ViewModelTransport=new TransportViewModel ( ViewModelCart . Cart );
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		InactivityResetCommand=ReactiveCommand . Create ( InactivityClear );
 		MainShowCommand=ReactiveCommand . Create ( MainShow );
@@ -32,6 +64,22 @@ namespace RentDesktop . ViewModels {
 		_timer_preloading=PreloadTimerConfig ( );
 		_timer_preloading . Start ( );
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		_timer=TimerConfig ( );
 		_timer . Start ( );
 
@@ -39,6 +87,22 @@ namespace RentDesktop . ViewModels {
 		ViewModelTransport . AddingToTheCartTheProduct+=ViewModelTransportTransportAddingToCart;
 		ViewModelTransport . OpeningTheCartPage+=CartOpen;
 		ViewModelUserProfile . UpdatedTheInformation+=ViewModelCart . UpdateUserInfo;
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 			}
 
 		#region Private Methods Helpers
@@ -46,6 +110,21 @@ namespace RentDesktop . ViewModels {
 		private void ViewModelTransportTransportAddingToCart ( ProductModel t ) {
 		if ( ViewModelCart . IsOrderPaidFor ) {
 		ViewModelCart . ResetUserPaymentSteps ( );
+			}
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
 			}
 			}
 
@@ -87,6 +166,21 @@ namespace RentDesktop . ViewModels {
 		public void IncreaseSeconds ( ) {
 		for ( int i = 0 ; i<SECONDS_OF_INACTIVITY_TIMER_INTERVAL ; ++i ) {
 		_seconds_inactivity+=i;
+			}
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
 			}
 			}
 
@@ -159,9 +253,12 @@ namespace RentDesktop . ViewModels {
 
 		public ReactiveCommand<Unit , Unit> InactivityIncreaseCommand { get; }
 		public ReactiveCommand<Unit , Unit> InactivityResetCommand { get; }
+
 		public ReactiveCommand<Unit , Unit> MainShowCommand { get; }
+
 		public ReactiveCommand<Unit , Unit> InactivityDecreaseCommand { get; }
 		public ReactiveCommand<Unit , Unit> InactivityCheckCommand { get; }
+
 		public ReactiveCommand<Unit , Unit> DisposeImageOfUserCommand { get; }
 
 		#endregion

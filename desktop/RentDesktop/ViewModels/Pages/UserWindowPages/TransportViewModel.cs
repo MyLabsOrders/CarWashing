@@ -12,6 +12,22 @@ using System . Reactive;
 namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 	public class TransportViewModel : BaseViewModel {
 		public TransportViewModel ( ObservableCollection<ProductRentModel> cart ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		ProductAddToTheCartCommand=ReactiveCommand . Create<ProductModel> ( ToTheCartAddProduct );
 		CartOpenCommand=ReactiveCommand . Create ( CartOpen );
 		ProductSelectCommand=ReactiveCommand . Create<ProductModel> ( ProductSelect );
@@ -23,6 +39,22 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		#region Private Methods
 
 		private static ObservableCollection<ProductModel> ProductsGetFromDatabase ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		try {
 		System.Collections.Generic.List<ProductModel> transport = Shop.Products();
 		return new ObservableCollection<ProductModel> ( transport );
@@ -55,6 +87,22 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 
 		ProductRentModel? existingCartItem = _cartWithProducts.FirstOrDefault(t => t.Transport.ID == transport.ID);
 		int days = existingCartItem is null ? 1 : existingCartItem.Days;
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		var transportRent = new ProductRentModel(transport.Copy(), days);
 		_cartWithProducts . Add ( transportRent );

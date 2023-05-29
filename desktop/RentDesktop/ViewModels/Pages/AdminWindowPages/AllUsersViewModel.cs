@@ -19,6 +19,23 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		UserSelCommand=ReactiveCommand . Create<RoutedEventArgs> ( UserClick );
 		UsersUpdateCommand=ReactiveCommand . Create ( UsersUpdate );
 		UsersSearchCommand=ReactiveCommand . Create ( UsersSearch );
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		FindClearCommand=ReactiveCommand . Create ( FieldsReset );
 
 		Users=new ObservableCollection<IUser> ( );
@@ -27,6 +44,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		_remoteUsers=Array . Empty<IUser> ( );
 
 		UsersUpdate ( );
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		Statuses=GetStatuses ( );
 		Positions=GetPositions ( );
@@ -71,6 +104,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 #endif
 			}
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		statuses . Insert ( 0 , EMPTY_FILTER );
 		return new ObservableCollection<string> ( statuses );
 			}
@@ -82,12 +131,44 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		found=found . Where ( t => t . Position==Positions [ SelectedPositionIndex ] );
 			}
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		if ( SelectedStatusIndex>0&&SelectedStatusIndex<Statuses . Count ) {
 		found=found . Where ( t => t . Status==Statuses [ SelectedStatusIndex ] );
 			}
 
 		if ( SelectedGenderIndex>0&&SelectedGenderIndex<Genders . Count ) {
 		found=found . Where ( t => t . Gender==Genders [ SelectedGenderIndex ] );
+			}
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
 			}
 
 		if ( string . IsNullOrEmpty ( QueryOfFind ) ) {
@@ -116,6 +197,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 						};
 
 		private static ObservableCollection<string> GetGenders ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		List<string> genders;
 
 		try {
@@ -133,6 +230,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		private void FieldsReset ( ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		SelectedStatusIndex=0;
 		QueryOfFind=string . Empty;
 		SelectedGenderIndex=0;
@@ -156,6 +269,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		private void UsersUpdate ( ) {
 		List<IUser> usersList;
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		try {
 		usersList=InformationOfDb . Users ( );
 			} catch ( Exception exception ) {
@@ -177,6 +306,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 
 		private static ObservableCollection<string> GetPositions ( ) {
 		List<string> positions;
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return null;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		try {
 		positions=InformationOfDb . Positions ( );
@@ -232,6 +377,22 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		#region Public Methods
 
 		public void UserPutAndAdd ( IUser user ) {
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		Users . Add ( user );
 		_remoteUsers . Add ( user );
 			}
