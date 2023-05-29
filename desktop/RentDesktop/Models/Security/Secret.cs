@@ -21,7 +21,7 @@ namespace RentDesktop . Models . Security {
 			}
 
 		private string _text = string.Empty;
-		public string Captcha {
+		public string Text {
 			get => _text;
 			private set => RaiseAndSetIfChanged ( ref _text , value );
 			}
@@ -40,7 +40,7 @@ namespace RentDesktop . Models . Security {
 				: char . ToUpper ( symbols [ index ] );
 			}
 
-		Captcha=text;
+		Text=text;
 			}
 		}
 	}
