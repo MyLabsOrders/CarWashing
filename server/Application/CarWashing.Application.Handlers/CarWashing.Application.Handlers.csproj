@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<WarningLevel>5</WarningLevel>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="ironpdf" Version="2023.6.9" />
+	  <PackageReference Include="IronPdf.Native.Chrome.Linux" Version="2023.6.14948" />
+	  <PackageReference Include="MediatR" Version="12.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Infrastructure\CarWashing.Infrastructure.Mapping\CarWashing.Infrastructure.Mapping.csproj" />
+	  <ProjectReference Include="..\CarWashing.Application.Abstractions\CarWashing.Application.Abstractions.csproj" />
+	  <ProjectReference Include="..\CarWashing.Application.Common\CarWashing.Application.Common.csproj" />
+	  <ProjectReference Include="..\CarWashing.Application.Contracts\CarWashing.Application.Contracts.csproj" />
+	  <ProjectReference Include="..\CarWashing.DataAccess.Abstractions\CarWashing.DataAccess.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

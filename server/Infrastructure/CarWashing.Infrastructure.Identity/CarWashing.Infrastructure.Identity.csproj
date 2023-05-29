@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<WarningLevel>5</WarningLevel>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Application\CarWashing.Application.Abstractions\CarWashing.Application.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\Application\CarWashing.Application.Dto\CarWashing.Application.Dto.csproj" />
+	  <ProjectReference Include="..\..\Domain\CarWashing.Domain.Common\CarWashing.Domain.Common.csproj" />
+	  <ProjectReference Include="..\..\Domain\CarWashing.Domain.Core\CarWashing.Domain.Core.csproj" />
+	</ItemGroup>
+
+</Project>

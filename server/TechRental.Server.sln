@@ -11,37 +11,37 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{ABE5E09D-184C-4D6E-BF23-D9522933427E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Domain.Core", "Domain\TechRental.Domain.Core\TechRental.Domain.Core.csproj", "{BCEA3F21-C4F3-4D29-8CAC-E8FFF6CB9028}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Domain.Core", "Domain\CarWashing.Domain.Core\CarWashing.Domain.Core.csproj", "{BCEA3F21-C4F3-4D29-8CAC-E8FFF6CB9028}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Infrastructure.DataAccess", "Infrastructure\TechRental.Infrastructure.DataAccess\TechRental.Infrastructure.DataAccess.csproj", "{E2743C3E-712D-4516-BEDE-869578A19716}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Infrastructure.DataAccess", "Infrastructure\CarWashing.Infrastructure.DataAccess\CarWashing.Infrastructure.DataAccess.csproj", "{E2743C3E-712D-4516-BEDE-869578A19716}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Infrastructure.Identity", "Infrastructure\TechRental.Infrastructure.Identity\TechRental.Infrastructure.Identity.csproj", "{FFC0F468-BB3F-4AD5-86EC-BF9ABF274C8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Infrastructure.Identity", "Infrastructure\CarWashing.Infrastructure.Identity\CarWashing.Infrastructure.Identity.csproj", "{FFC0F468-BB3F-4AD5-86EC-BF9ABF274C8D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Infrastructure.Mapping", "Infrastructure\TechRental.Infrastructure.Mapping\TechRental.Infrastructure.Mapping.csproj", "{32C9CD99-989C-472F-8FF1-8280125CE7E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Infrastructure.Mapping", "Infrastructure\CarWashing.Infrastructure.Mapping\CarWashing.Infrastructure.Mapping.csproj", "{32C9CD99-989C-472F-8FF1-8280125CE7E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.DataAccess.Abstractions", "Application\TechRental.DataAccess.Abstractions\TechRental.DataAccess.Abstractions.csproj", "{B8AD616B-60B0-4BBF-858D-84E9BE99781B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.DataAccess.Abstractions", "Application\CarWashing.DataAccess.Abstractions\CarWashing.DataAccess.Abstractions.csproj", "{B8AD616B-60B0-4BBF-858D-84E9BE99781B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Application.Common", "Application\TechRental.Application.Common\TechRental.Application.Common.csproj", "{2D67F04B-E83E-46A7-93BC-F81B16F9A5F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Application.Common", "Application\CarWashing.Application.Common\CarWashing.Application.Common.csproj", "{2D67F04B-E83E-46A7-93BC-F81B16F9A5F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Application.Contracts", "Application\TechRental.Application.Contracts\TechRental.Application.Contracts.csproj", "{3633AE52-B536-4E49-B6B8-22E97E0EF87E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Application.Contracts", "Application\CarWashing.Application.Contracts\CarWashing.Application.Contracts.csproj", "{3633AE52-B536-4E49-B6B8-22E97E0EF87E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Application.Handlers", "Application\TechRental.Application.Handlers\TechRental.Application.Handlers.csproj", "{C57D7250-3E10-4024-A239-EB72B16EF90D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Application.Handlers", "Application\CarWashing.Application.Handlers\CarWashing.Application.Handlers.csproj", "{C57D7250-3E10-4024-A239-EB72B16EF90D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Application.Dto", "Application\TechRental.Application.Dto\TechRental.Application.Dto.csproj", "{F538A70A-100F-4C43-B39B-9E4B000D830C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Application.Dto", "Application\CarWashing.Application.Dto\CarWashing.Application.Dto.csproj", "{F538A70A-100F-4C43-B39B-9E4B000D830C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Application.Abstractions", "Application\TechRental.Application.Abstractions\TechRental.Application.Abstractions.csproj", "{0C05EC19-EF99-4F45-BC91-74EED081533C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Application.Abstractions", "Application\CarWashing.Application.Abstractions\CarWashing.Application.Abstractions.csproj", "{0C05EC19-EF99-4F45-BC91-74EED081533C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Domain.Common", "Domain\TechRental.Domain.Common\TechRental.Domain.Common.csproj", "{07E19B6F-4EFB-4488-9D94-BE18634F2D18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Domain.Common", "Domain\CarWashing.Domain.Common\CarWashing.Domain.Common.csproj", "{07E19B6F-4EFB-4488-9D94-BE18634F2D18}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Presentation.WebAPI", "Presentation\TechRental.Presentation.WebAPI\TechRental.Presentation.WebAPI.csproj", "{E3113FA0-EADA-4BE0-AE36-6CB9170A948C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Presentation.WebAPI", "Presentation\CarWashing.Presentation.WebAPI\CarWashing.Presentation.WebAPI.csproj", "{E3113FA0-EADA-4BE0-AE36-6CB9170A948C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Presentation.Controllers", "Presentation\TechRental.Presentation.Controllers\TechRental.Presentation.Controllers.csproj", "{F20A6691-96B7-49DB-B9F3-CB1BBF0DF637}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Presentation.Controllers", "Presentation\CarWashing.Presentation.Controllers\CarWashing.Presentation.Controllers.csproj", "{F20A6691-96B7-49DB-B9F3-CB1BBF0DF637}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Presentation.Contracts", "Presentation\TechRental.Presentation.Contracts\TechRental.Presentation.Contracts.csproj", "{2C45837B-C24E-4B44-80CD-8D6796E8C29E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Presentation.Contracts", "Presentation\CarWashing.Presentation.Contracts\CarWashing.Presentation.Contracts.csproj", "{2C45837B-C24E-4B44-80CD-8D6796E8C29E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Application", "Application\TechRental.Application\TechRental.Application.csproj", "{FC20BE7D-3798-49A8-89A5-0F51FBC1D896}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Application", "Application\CarWashing.Application\CarWashing.Application.csproj", "{FC20BE7D-3798-49A8-89A5-0F51FBC1D896}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechRental.Presentation.Middlewares", "Presentation\TechRental.Presentation.Middlewares\TechRental.Presentation.Middlewares.csproj", "{F09EE214-573F-4927-BC36-D9D39C86F25D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarWashing.Presentation.Middlewares", "Presentation\CarWashing.Presentation.Middlewares\CarWashing.Presentation.Middlewares.csproj", "{F09EE214-573F-4927-BC36-D9D39C86F25D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
