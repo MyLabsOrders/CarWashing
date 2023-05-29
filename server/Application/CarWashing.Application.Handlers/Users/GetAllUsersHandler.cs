@@ -1,4 +1,5 @@
-﻿using MediatR;
+using MediatR;
+using CarWashing.Domain.Core.Users;
 using Microsoft.EntityFrameworkCore;
 using CarWashing.Application.Contracts.Tools;
 using CarWashing.Application.Dto.Users;
@@ -18,15 +19,16 @@ internal class GetAllUsersHandler : IRequestHandler<Query, Response> {
     }
 
     public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
-        var query = _context.Users;
+        DbSet<User> query = _context.Users;
 
-        var usersCount = await _context.Users.CountAsync(cancellationToken);
-        var pageTotalCount = (int)Math.Ceiling((double)usersCount / _pageCount);
+        int usersCount = await _context.Users.CountAsync(cancellationToken);
+        int pageTotalCount = (int)Math.Ceiling((double)usersCount / _pageCount);
 
-        if (request.Page > pageTotalCount)
+        if (request.Page > pageTotalCount) {
             return new Response(Array.Empty<UserDto>(), request.Page, pageTotalCount);
+        }
 
-        var users = await query
+        List<User> users = await query
             .Include(x => x.Orders)
             .OrderBy(x => x.LastName)
             .Skip((request.Page - 1) * _pageCount)

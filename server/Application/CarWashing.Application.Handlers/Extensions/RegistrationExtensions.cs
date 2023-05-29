@@ -7,7 +7,7 @@ namespace CarWashing.Application.Handlers.Extensions;
 
 public static class RegistrationExtensions {
     public static IServiceCollection AddHandlers(this IServiceCollection collection, IConfiguration configuration) {
-        var paginationConfiguration = configuration.GetSection("Pagination").Get<PaginationConfiguration>()
+        PaginationConfiguration paginationConfiguration = configuration.GetSection("Pagination").Get<PaginationConfiguration>()
             ?? throw new ArgumentException(nameof(configuration));
 
         collection.TryAddSingleton(paginationConfiguration);

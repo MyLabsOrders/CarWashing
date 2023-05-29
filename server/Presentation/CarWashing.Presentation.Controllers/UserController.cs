@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CarWashing.Application.Abstractions.Identity;
@@ -27,7 +27,7 @@ public class UserController : ControllerBase {
     [HttpPost("{identityId:guid}/profile")]
     [Authorize]
     public async Task<ActionResult<UserDto>> CreateUserAsync(Guid identityId, [FromBody] CreateUserRequest request) {
-        var command = new CreateUser.Command(
+        CreateUser.Command command = new(
             identityId,
             request.FirstName,
             request.MiddleName,
@@ -37,7 +37,7 @@ public class UserController : ControllerBase {
             request.PhoneNumber,
             request.Gender);
 
-        var response = await _mediator.Send(command);
+        CreateUser.Response response = await _mediator.Send(command);
 
         return Ok(response);
     }
@@ -51,7 +51,7 @@ public class UserController : ControllerBase {
     [HttpPatch("{identityId:guid}/profile")]
     [Authorize]
     public async Task<ActionResult<UserDto>> UpdateUserAsync(Guid identityId, [FromBody] UpdateUserRequest request) {
-        var command = new UpdateUser.Command(
+        UpdateUser.Command command = new(
             identityId,
             request.FirstName,
             request.MiddleName,
@@ -62,7 +62,7 @@ public class UserController : ControllerBase {
             request.Gender,
             request.IsActive);
 
-        var response = await _mediator.Send(command);
+        UpdateUser.Response response = await _mediator.Send(command);
 
         return Ok(response);
     }
@@ -76,10 +76,10 @@ public class UserController : ControllerBase {
     [HttpPut("{userId:guid}/orders")]
     [Authorize(Roles = CarWashingIdentityRoleNames.DefaultUserRoleName)]
     public async Task<ActionResult<DateTime>> AddOrderAsync(Guid userId, [FromBody] IList<AddOrderRequest> request) {
-        var command = new AddOrder.Command(
+        AddOrder.Command command = new(
             userId,
             request.Select(order => (order.OrderId, order.Count, order.Days)).ToList());
-        var response = await _mediator.Send(command);
+        AddOrder.Response response = await _mediator.Send(command);
 
         return Ok(response.OrderTime);
     }
@@ -93,7 +93,7 @@ public class UserController : ControllerBase {
     [HttpDelete("{userId:guid}/orders")]
     [Authorize(Roles = CarWashingIdentityRoleNames.DefaultUserRoleName)]
     public async Task<IActionResult> RemoveOrderAsync(Guid userId, [FromBody] RemoveOrderRequest request) {
-        var command = new RemoveOrder.Command(request.OrderId, userId);
+        RemoveOrder.Command command = new(request.OrderId, userId);
         await _mediator.Send(command);
 
         return Ok();
@@ -107,8 +107,8 @@ public class UserController : ControllerBase {
     [HttpGet("{id:guid}")]
     [Authorize]
     public async Task<ActionResult<UserDto>> GetUserAsync(Guid id) {
-        var query = new GetUser.Query(id);
-        var response = await _mediator.Send(query);
+        GetUser.Query query = new(id);
+        GetUser.Response response = await _mediator.Send(query);
 
         return Ok(response.User);
     }
@@ -120,15 +120,13 @@ public class UserController : ControllerBase {
     [HttpGet]
     [Authorize(Roles = CarWashingIdentityRoleNames.AdminRoleName)]
     public async Task<ActionResult<GetAllUsersResponse>> GetUsersAsync(int? page) {
-        var query = new GetAllUsers.Query(page ?? 1);
-        var response = await _mediator.Send(query);
+        GetAllUsers.Query query = new(page ?? 1);
+        GetAllUsers.Response response = await _mediator.Send(query);
 
-        var getAllUserResponse = new GetAllUsersResponse(
+        return Ok(new GetAllUsersResponse(
             response.Users,
             response.Page,
-            response.TotalPages);
-
-        return Ok(getAllUserResponse);
+            response.TotalPages));
     }
 
     /// <summary>
@@ -140,7 +138,7 @@ public class UserController : ControllerBase {
     [HttpPut("{id:guid}/account")]
     [Authorize]
     public async Task<IActionResult> MakeDepositAsync(Guid id, [FromBody] ReplenishBalanceRequest request) {
-        var command = new ReplenishBalance.Command(id, request.Total);
+        ReplenishBalance.Command command = new(id, request.Total);
         await _mediator.Send(command);
 
         return Ok();

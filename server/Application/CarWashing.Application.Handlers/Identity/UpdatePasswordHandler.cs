@@ -1,4 +1,5 @@
-﻿using MediatR;
+using MediatR;
+using CarWashing.Application.Dto.Identity;
 using CarWashing.Application.Abstractions.Identity;
 using static CarWashing.Application.Contracts.Identity.Commands.UpdatePassword;
 
@@ -14,13 +15,13 @@ internal class UpdatePasswordHandler : IRequestHandler<Command, Response> {
     }
 
     public async Task<Response> Handle(Command request, CancellationToken cancellationToken) {
-        var existingUser = await _authorizationService.UpdateUserPasswordAsync(
+        IdentityUserDto existingUser = await _authorizationService.UpdateUserPasswordAsync(
             _currentUser.Id,
             request.CurrentPassword,
             request.NewPassword,
             cancellationToken);
 
-        var token = await _authorizationService.GetUserTokenAsync(existingUser.Username, cancellationToken);
+        string token = await _authorizationService.GetUserTokenAsync(existingUser.Username, cancellationToken);
 
         return new Response(token);
     }

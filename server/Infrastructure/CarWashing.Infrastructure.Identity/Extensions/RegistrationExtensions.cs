@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,15 +17,16 @@ public static class RegistrationExtensions {
         this IServiceCollection collection,
         IConfigurationSection identityConfigurationSection,
         Action<DbContextOptionsBuilder> action) {
-        var config = identityConfigurationSection.Get<IdentityConfiguration>();
+        IdentityConfiguration? config = identityConfigurationSection.Get<IdentityConfiguration>();
 
-        var options = identityConfigurationSection.GetSection("Options");
+        IConfigurationSection options = identityConfigurationSection.GetSection("Options");
         collection.Configure<IdentityOptions>(options);
 
         collection.AddScoped<IAuthorizationService, AuthorizationService>();
 
-        if (config is not null)
+        if (config is not null) {
             collection.AddSingleton(config);
+        }
 
         collection.AddDbContext<CarWashingIdentityContext>(action);
 

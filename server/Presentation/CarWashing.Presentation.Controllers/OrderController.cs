@@ -1,7 +1,6 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using CarWashing.Application.Abstractions.Identity;
 using CarWashing.Application.Contracts.Orders.Commands;
 using CarWashing.Application.Contracts.Orders.Queries;
@@ -27,12 +26,12 @@ public class OrderController : ControllerBase {
     [HttpPost]
     [Authorize(Roles = CarWashingIdentityRoleNames.AdminRoleName)]
     public async Task<ActionResult<OrderDto>> CreateOrderAsync([FromBody] CreateOrderRequest request) {
-        var command = new CreateOrder.Command(
+        CreateOrder.Command command = new(
             request.Name,
             request.Company,
             request.OrderImage ?? string.Empty,
             request.Price);
-        var response = await _mediator.Send(command);
+        CreateOrder.Response response = await _mediator.Send(command);
 
         return Ok(response.Order);
     }
@@ -45,8 +44,8 @@ public class OrderController : ControllerBase {
     [HttpGet("at")]
     [Authorize]
     public async Task<ActionResult<IList<OrderDto>>> GetOrderAsync([FromQuery] DateTime orderTime) {
-        var query = new GetOrder.Query(orderTime);
-        var response = await _mediator.Send(query);
+        GetOrder.Query query = new(orderTime);
+        GetOrder.Response response = await _mediator.Send(query);
 
         return Ok(response.Orders);
     }
@@ -61,8 +60,8 @@ public class OrderController : ControllerBase {
     [Authorize(Roles = CarWashingIdentityRoleNames.AdminRoleName)]
     [Produces("application/pdf", new string[] { })]
     public async Task<ActionResult> GetStats([FromQuery] DateTime From, [FromQuery] DateTime To) {
-        var query = new GetStats.Query(From, To);
-        var response = await _mediator.Send(query);
+        GetStats.Query query = new(From, To);
+        GetStats.Response response = await _mediator.Send(query);
 
         return new FileStreamResult(response.Stream, "application/pdf");
     }
@@ -76,8 +75,8 @@ public class OrderController : ControllerBase {
     [Authorize]
     [Produces("application/pdf", new string[] { })]
     public async Task<ActionResult> GetInvoice([FromQuery] DateTime orderTime) {
-        var query = new GetInvoice.Query(orderTime);
-        var response = await _mediator.Send(query);
+        GetInvoice.Query query = new(orderTime);
+        GetInvoice.Response response = await _mediator.Send(query);
 
         return new FileStreamResult(response.Stream, "application/pdf");
     }
@@ -91,8 +90,8 @@ public class OrderController : ControllerBase {
     [Authorize]
     [Produces("application/pdf", new string[] { })]
     public async Task<ActionResult> GetCheque([FromQuery] DateTime orderTime) {
-        var query = new GetCheque.Query(orderTime);
-        var response = await _mediator.Send(query);
+        GetCheque.Query query = new(orderTime);
+        GetCheque.Response response = await _mediator.Send(query);
 
         return new FileStreamResult(response.Stream, "application/pdf");
     }
@@ -103,14 +102,12 @@ public class OrderController : ControllerBase {
     /// <returns>Information about all orders</returns>
     [HttpGet]
     public async Task<ActionResult<GetAllOrdersResponse>> GetAllOrdersAsync(int? page) {
-        var query = new GetAllOrders.Query(page ?? 1);
-        var response = await _mediator.Send(query);
+        GetAllOrders.Query query = new(page ?? 1);
+        GetAllOrders.Response response = await _mediator.Send(query);
 
-        var getAllOrdersResponse = new GetAllOrdersResponse(
+        return Ok(new GetAllOrdersResponse(
             response.Orders,
             response.Page,
-            response.TotalPages);
-
-        return Ok(getAllOrdersResponse);
+            response.TotalPages));
     }
 }

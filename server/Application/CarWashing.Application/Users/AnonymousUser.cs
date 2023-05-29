@@ -1,4 +1,4 @@
-﻿using CarWashing.Application.Abstractions.Identity;
+using CarWashing.Application.Abstractions.Identity;
 using CarWashing.Application.Common.Exceptions;
 using CarWashing.Domain.Common.Exceptions;
 
@@ -13,13 +13,15 @@ internal class AnonymousUser : ICurrentUser {
                 : throw AccessDeniedException.AnonymousUserHasNotAccess();
     }
 
-    public bool CanChangeUserRole(string currentRoleName, string newRoleName)
-        => throw AccessDeniedException.AnonymousUserHasNotAccess();
+    public bool CanChangeUserRole(string currentRoleName, string newRoleName) {
+        throw AccessDeniedException.AnonymousUserHasNotAccess();
+    }
 
+    public bool CanManageOrders() {
+        throw AccessDeniedException.AnonymousUserHasNotAccess();
+    }
 
-    public bool CanManageOrders()
-        => throw AccessDeniedException.AnonymousUserHasNotAccess();
-
-    public bool CanManageBalance()
-        => throw AccessDeniedException.AnonymousUserHasNotAccess();
+    public bool CanManageBalance() {
+        throw AccessDeniedException.AnonymousUserHasNotAccess();
+    }
 }

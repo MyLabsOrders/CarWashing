@@ -1,4 +1,5 @@
-﻿using MediatR;
+using MediatR;
+using CarWashing.Application.Dto.Identity;
 using CarWashing.Application.Abstractions.Identity;
 using CarWashing.Domain.Common.Exceptions;
 using static CarWashing.Application.Contracts.Identity.Commands.UpdateUsername;
@@ -15,15 +16,15 @@ internal class UpdateUsernameHandler : IRequestHandler<Command, Response> {
     }
 
     public async Task<Response> Handle(Command request, CancellationToken cancellationToken) {
-        var user = await _authorizationService.GetUserByIdAsync(_currentUser.Id, cancellationToken);
+        IdentityUserDto user = await _authorizationService.GetUserByIdAsync(_currentUser.Id, cancellationToken);
 
-        if (user.Username.Equals(request.Username, StringComparison.Ordinal))
+        if (user.Username == request.Username)
+        {
             throw UserInputException.UpdateUsernameFailedException("the old username is the same as the new one");
+        }
 
         await _authorizationService.UpdateUserNameAsync(_currentUser.Id, request.Username, cancellationToken);
 
-        var token = await _authorizationService.GetUserTokenAsync(request.Username, cancellationToken);
-
-        return new Response(token);
+        return new Response(await _authorizationService.GetUserTokenAsync(request.Username, cancellationToken));
     }
 }

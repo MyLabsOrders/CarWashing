@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using CarWashing.Infrastructure.Identity.Entities;
@@ -46,13 +46,13 @@ internal class AuthorizationService : IAuthorizationService {
         string password,
         string roleName,
         CancellationToken cancellationToken = default) {
-        var user = new CarWashingIdentityUser {
+        CarWashingIdentityUser user = new() {
             Id = userId,
             UserName = username,
             SecurityStamp = Guid.NewGuid().ToString(),
         };
 
-        var result = await _userManager.CreateAsync(user, password);
+        IdentityResult result = await _userManager.CreateAsync(user, password);
 
         result.EnsureSucceeded();
 
@@ -62,7 +62,7 @@ internal class AuthorizationService : IAuthorizationService {
     }
 
     public async Task<IdentityUserDto> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken = default) {
-        var user = await _userManager.GetByIdAsync(userId, cancellationToken);
+        CarWashingIdentityUser user = await _userManager.GetByIdAsync(userId, cancellationToken);
 
         return user.ToDto();
     }
@@ -80,7 +80,7 @@ internal class AuthorizationService : IAuthorizationService {
     public async Task<IdentityUserDto> GetUserByNameAsync(
         string username,
         CancellationToken cancellationToken = default) {
-        var user = await _userManager.GetByNameAsync(username, cancellationToken);
+        CarWashingIdentityUser user = await _userManager.GetByNameAsync(username, cancellationToken);
 
         return user.ToDto();
     }
@@ -89,11 +89,11 @@ internal class AuthorizationService : IAuthorizationService {
         Guid userId,
         string newUserName,
         CancellationToken cancellationToken = default) {
-        var user = await _userManager.GetByIdAsync(userId, cancellationToken);
+        CarWashingIdentityUser user = await _userManager.GetByIdAsync(userId, cancellationToken);
 
         user.UserName = newUserName;
 
-        var result = await _userManager.UpdateAsync(user);
+        IdentityResult result = await _userManager.UpdateAsync(user);
 
         result.EnsureSucceeded();
     }
@@ -108,9 +108,9 @@ internal class AuthorizationService : IAuthorizationService {
             throw UserInputException.IdentityOperationNotSucceededException("New password cannot be the same as old password");
         }
 
-        var user = await _userManager.GetByIdAsync(userId, cancellationToken);
+        CarWashingIdentityUser user = await _userManager.GetByIdAsync(userId, cancellationToken);
 
-        var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+        IdentityResult result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
 
         result.EnsureSucceeded();
 
@@ -121,16 +121,16 @@ internal class AuthorizationService : IAuthorizationService {
         Guid userId,
         string newRoleName,
         CancellationToken cancellationToken = default) {
-        var user = await _userManager.GetByIdAsync(userId, cancellationToken);
-        var roles = await _userManager.GetRolesAsync(user);
+        CarWashingIdentityUser user = await _userManager.GetByIdAsync(userId, cancellationToken);
+        IList<string> roles = await _userManager.GetRolesAsync(user);
 
         await _userManager.RemoveFromRolesAsync(user, roles);
         await _userManager.AddToRoleAsync(user, newRoleName);
     }
 
     public async Task<string> GetUserRoleAsync(Guid userId, CancellationToken cancellationToken = default) {
-        var user = await _userManager.GetByIdAsync(userId, cancellationToken);
-        var roles = await _userManager.GetRolesAsync(user);
+        CarWashingIdentityUser user = await _userManager.GetByIdAsync(userId, cancellationToken);
+        IList<string> roles = await _userManager.GetRolesAsync(user);
 
         return roles.Single();
     }
@@ -139,24 +139,24 @@ internal class AuthorizationService : IAuthorizationService {
         Guid userId,
         string password,
         CancellationToken cancellationToken = default) {
-        var user = await _userManager.GetByIdAsync(userId, cancellationToken);
+        CarWashingIdentityUser user = await _userManager.GetByIdAsync(userId, cancellationToken);
 
         return await _userManager.CheckPasswordAsync(user, password);
     }
 
     public async Task<string> GetUserTokenAsync(string username, CancellationToken cancellationToken) {
-        var user = await _userManager.GetByNameAsync(username, cancellationToken);
-        var roles = await _userManager.GetRolesAsync(user);
+        CarWashingIdentityUser user = await _userManager.GetByNameAsync(username, cancellationToken);
+        IList<string> roles = await _userManager.GetRolesAsync(user);
 
-        var claims = roles
+        IEnumerable<Claim> claims = roles
             .Select(userRole => new Claim(ClaimTypes.Role, userRole))
             .Append(new Claim(ClaimTypes.Name, username ?? string.Empty))
             .Append(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()))
             .Append(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
 
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.Secret));
+        SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.Secret));
 
-        var token = new JwtSecurityToken(
+        JwtSecurityToken token = new(
             _configuration.Issuer,
             _configuration.Audience,
             expires: DateTime.UtcNow.AddHours(_configuration.ExpiresHours),

@@ -2,12 +2,9 @@ using System.Text;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using CarWashing.Application.Abstractions.Identity;
-using CarWashing.Application.Common.Exceptions;
 using CarWashing.DataAccess.Abstractions;
 using CarWashing.Domain.Common.Exceptions;
-using CarWashing.Domain.Core.Orders;
 using CarWashing.Domain.Core.Users;
-using CarWashing.Infrastructure.Mapping.Orders;
 using static CarWashing.Application.Contracts.Orders.Queries.GetInvoice;
 
 namespace CarWashing.Application.Handlers.Orders;
@@ -28,7 +25,7 @@ internal class GetInvoiceHandler : IRequestHandler<Query, Response> {
             .Where(order => order.UserId == _currentUser.Id && order.OrderDate == request.OrderDate)
             .ToListAsync(cancellationToken)).Any()) {
             _id++;
-            var user = await _context.Users
+            User user = await _context.Users
                 .FirstOrDefaultAsync(
                     x => x.Id == _currentUser.Id,
                     cancellationToken) ?? throw EntityNotFoundException.For<User>(_currentUser.Id);

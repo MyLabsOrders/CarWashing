@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using CarWashing.Application.Abstractions.Identity;
 using CarWashing.Application.Common.Exceptions;
 using CarWashing.Domain.Common.Exceptions;
@@ -27,22 +27,24 @@ public class CurrentUserProxy : ICurrentUser, ICurrentUserManager {
     }
 
     public void Authenticate(ClaimsPrincipal principal) {
-        var roles = principal.Claims
+        List<string> roles = principal.Claims
             .Where(x => x.Type.Equals(ClaimTypes.Role, StringComparison.OrdinalIgnoreCase))
             .Select(x => x.Value)
             .ToList();
 
-        var nameIdentifier = principal.Claims
+        string nameIdentifier = principal.Claims
             .Single(x => x.Type.Equals(ClaimTypes.NameIdentifier, StringComparison.OrdinalIgnoreCase))
             .Value;
 
-        if (!Guid.TryParse(nameIdentifier, out Guid id))
+        if (!Guid.TryParse(nameIdentifier, out Guid id)) {
             throw new UnauthorizedException("Failed parse name identifier to guid");
+        }
 
-        if (roles.Contains(CarWashingIdentityRoleNames.AdminRoleName))
+        if (roles.Contains(CarWashingIdentityRoleNames.AdminRoleName)) {
             _user = new AdminUser(id);
-        else if (roles.Contains(CarWashingIdentityRoleNames.DefaultUserRoleName))
-            _user = new DefaultUser(id);
-        else _user = new AnonymousUser();
+        }
+        else {
+            _user = roles.Contains(CarWashingIdentityRoleNames.DefaultUserRoleName) ? new DefaultUser(id) : new AnonymousUser();
+        }
     }
 }

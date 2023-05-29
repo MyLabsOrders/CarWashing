@@ -7,17 +7,17 @@ namespace CarWashing.Presentation.WebAPI.Helpers;
 
 internal static class SeedingHelper {
     internal static async Task SeedAdmins(IServiceProvider provider, IConfiguration configuration) {
-        var mediator = provider.GetRequiredService<IMediator>();
-        var logger = provider.GetRequiredService<ILogger<Program>>();
+        IMediator mediator = provider.GetRequiredService<IMediator>();
+        ILogger<Program> logger = provider.GetRequiredService<ILogger<Program>>();
         IConfigurationSection adminsSection = configuration.GetSection("Identity:DefaultAdmins");
-        var admins = adminsSection.Get<AdminModel[]>() ?? Array.Empty<AdminModel>();
+        AdminModel[] admins = adminsSection.Get<AdminModel[]>() ?? Array.Empty<AdminModel>();
 
-        foreach (var admin in admins) {
+        foreach (AdminModel admin in admins) {
             try {
-                var registerCommand = new CreateAdmin.Command(admin.Username, admin.Password);
+                CreateAdmin.Command registerCommand = new(admin.Username, admin.Password);
                 await mediator.Send(registerCommand);
 
-                var changeRole = new ChangeUserRole.Command(admin.Username, CarWashingIdentityRoleNames.AdminRoleName);
+                ChangeUserRole.Command changeRole = new(admin.Username, CarWashingIdentityRoleNames.AdminRoleName);
                 await mediator.Send(changeRole);
             }
             catch (Exception ex) {
@@ -27,8 +27,8 @@ internal static class SeedingHelper {
     }
 
     internal static async Task SeedRoles(IServiceProvider provider) {
-        var service = provider.GetRequiredService<IAuthorizationService>();
-        var logger = provider.GetRequiredService<ILogger<Program>>();
+        IAuthorizationService service = provider.GetRequiredService<IAuthorizationService>();
+        ILogger<Program> logger = provider.GetRequiredService<ILogger<Program>>();
         try {
             await service.CreateRoleIfNotExistsAsync(CarWashingIdentityRoleNames.AdminRoleName);
             await service.CreateRoleIfNotExistsAsync(CarWashingIdentityRoleNames.DefaultUserRoleName);

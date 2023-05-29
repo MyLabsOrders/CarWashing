@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Text.Json;
 using CarWashing.Application.Common.Exceptions;
 using CarWashing.Domain.Common.Exceptions;
@@ -24,7 +24,7 @@ public class ExceptionHandlingMiddleware : IMiddleware {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
 
-            var problem = GetProblem(context, ex);
+            object problem = GetProblem(context, ex);
 
             await context.Response.WriteAsJsonAsync(
                 problem,

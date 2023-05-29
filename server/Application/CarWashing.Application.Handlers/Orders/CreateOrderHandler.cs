@@ -4,7 +4,6 @@ using CarWashing.Application.Common.Exceptions;
 using CarWashing.DataAccess.Abstractions;
 using CarWashing.Domain.Core.Abstractions;
 using CarWashing.Domain.Core.Orders;
-using CarWashing.Domain.Core.Users;
 using CarWashing.Infrastructure.Mapping.Orders;
 using static CarWashing.Application.Contracts.Orders.Commands.CreateOrder;
 
@@ -23,13 +22,13 @@ internal class CreateOrderHandler : IRequestHandler<Command, Response> {
         if (_currentUser.CanManageOrders() is false)
             throw AccessDeniedException.AccessViolation();
 
-        var order = new Order(Guid.NewGuid(),
-                              user: null,
-                              name: request.Name,
-                              company: request.Company,
-                              image: new Image(request.OrderImage),
-                              price: request.Price,
-                              orderDate: null);
+        Order order = new(Guid.NewGuid(),
+                          user: null,
+                          name: request.Name,
+                          company: request.Company,
+                          image: new Image(request.OrderImage),
+                          price: request.Price,
+                          orderDate: null);
 
         _context.Orders.Add(order);
         await _context.SaveChangesAsync(cancellationToken);

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using CarWashing.Application.Abstractions.Identity;
 using CarWashing.DataAccess.Abstractions;
 using CarWashing.Domain.Common.Exceptions;
-using CarWashing.Domain.Core.Orders;
 using CarWashing.Domain.Core.Users;
 using static CarWashing.Application.Contracts.Orders.Queries.GetCheque;
 
@@ -19,33 +18,29 @@ internal class GetChequeHandler : IRequestHandler<Query, Response> {
         _currentUser = currentUser;
     }
 
-    public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
-        var user = await _context.Users
+    public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+    {
+        User user = await _context.Users
             .FirstOrDefaultAsync(
                 x => x.Id == _currentUser.Id,
                 cancellationToken) ?? throw EntityNotFoundException.For<User>(_currentUser.Id);
 
-        var orders = await _context.Orders
+        return (await _context.Orders
             .Where(order => order.UserId == _currentUser.Id && order.OrderDate == request.OrderDate)
-            .ToListAsync(cancellationToken);
-
-        if (!orders.Any())
-            throw new EntityNotFoundException("Order with this date is not found by this user.");
-
-        return new Response(GenerateCheque(orders));
-    }
-
-    private static Stream GenerateCheque(IEnumerable<Order> orders) {
-        var renderer = new ChromePdfRenderer();
-        var html = new StringBuilder(File.ReadAllText("Assets/Cheque.html"))
-            .Replace(
-                "{Orders}",
-                string.Join('\n', orders.Select((order, i) => @$"
+            .ToListAsync(cancellationToken)).Any()
+            ? new Response(new MemoryStream(new ChromePdfRenderer().RenderHtmlAsPdf(new StringBuilder(File.ReadAllText("Assets/Cheque.html"))
+                .Replace(
+                    "{Orders}",
+                    string.Join('\n', (await _context.Orders
+            .Where(order => order.UserId == _currentUser.Id && order.OrderDate == request.OrderDate)
+            .ToListAsync(cancellationToken)).Select((order, i) => @$"
                         <p>{order.Name}</p>
                         <p>{i + 1} {order.Amount}x {order.Price} ={order.TotalPrice}B</p>"))
-            )
-            .Replace("{Total}", orders.Sum(order => order.TotalPrice).ToString())
-            .ToString();
-        return new MemoryStream(renderer.RenderHtmlAsPdf(html).BinaryData);
+                )
+                .Replace("{Total}", (await _context.Orders
+            .Where(order => order.UserId == _currentUser.Id && order.OrderDate == request.OrderDate)
+            .ToListAsync(cancellationToken)).Sum(order => order.TotalPrice).ToString())
+                .ToString()).BinaryData))
+            : throw new EntityNotFoundException("Order with this date is not found by this user.");
     }
 }

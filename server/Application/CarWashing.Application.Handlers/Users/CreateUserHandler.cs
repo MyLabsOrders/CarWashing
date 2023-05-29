@@ -1,5 +1,4 @@
-﻿using MediatR;
-using CarWashing.Application.Abstractions.Identity;
+using MediatR;
 using CarWashing.Application.Common.Exceptions;
 using CarWashing.DataAccess.Abstractions;
 using CarWashing.Domain.Core.Abstractions;
@@ -21,7 +20,7 @@ internal class CreateUserHandler : IRequestHandler<Command, Response> {
         if (!Enum.TryParse(request.Gender, true, out Gender gender)) {
             throw new InvalidGenderException();
         }
-        var user = new User(
+        User user = new(
             request.IdentityId,
             request.Firstname,
             request.Middlename,
@@ -29,7 +28,8 @@ internal class CreateUserHandler : IRequestHandler<Command, Response> {
             new Image(request.UserImage),
             request.BirthDate,
             new PhoneNumber(request.PhoneNumber),
-            gender);
+            gender
+        );
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync(cancellationToken);

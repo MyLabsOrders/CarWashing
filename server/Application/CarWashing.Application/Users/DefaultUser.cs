@@ -1,4 +1,4 @@
-﻿using CarWashing.Application.Abstractions.Identity;
+using CarWashing.Application.Abstractions.Identity;
 
 namespace CarWashing.Application.Users;
 
@@ -9,15 +9,19 @@ internal class DefaultUser : ICurrentUser {
 
     public Guid Id { get; }
 
-    public bool CanCreateUserWithRole(string roleName)
-        => false;
+    public bool CanCreateUserWithRole(string roleName) {
+        return false;
+    }
 
-    public bool CanChangeUserRole(string currentRoleName, string newRoleName)
-        => false;
+    public bool CanChangeUserRole(string currentRoleName, string newRoleName) {
+        return false;
+    }
 
-    public bool CanManageOrders()
-        => false;
+    public bool CanManageOrders() {
+        return false;
+    }
 
-    public bool CanManageBalance()
-        => true;
+    public bool CanManageBalance() {
+        return true;
+    }
 }

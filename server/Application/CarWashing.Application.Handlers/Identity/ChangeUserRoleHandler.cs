@@ -1,6 +1,6 @@
-﻿using MediatR;
+using MediatR;
+using CarWashing.Application.Dto.Identity;
 using CarWashing.Application.Abstractions.Identity;
-using CarWashing.Application.Common;
 using CarWashing.Application.Common.Exceptions;
 using static CarWashing.Application.Contracts.Identity.Commands.ChangeUserRole;
 
@@ -16,11 +16,12 @@ internal class ChangeUserRoleHandler : IRequestHandler<Command> {
     }
 
     public async Task Handle(Command request, CancellationToken cancellationToken) {
-        var user = await _authorizationService.GetUserByNameAsync(request.Username, cancellationToken);
-        var userRoleName = await _authorizationService.GetUserRoleAsync(user.Id, cancellationToken);
+        IdentityUserDto user = await _authorizationService.GetUserByNameAsync(request.Username, cancellationToken);
+        string userRoleName = await _authorizationService.GetUserRoleAsync(user.Id, cancellationToken);
 
-        if (_currentUser.CanChangeUserRole(userRoleName, request.UserRole) is false)
+        if (_currentUser.CanChangeUserRole(userRoleName, request.UserRole) is false) {
             throw AccessDeniedException.NotInRoleException();
+        }
 
         await _authorizationService.UpdateUserRoleAsync(user.Id, request.UserRole, cancellationToken);
     }

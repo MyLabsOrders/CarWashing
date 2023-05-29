@@ -1,20 +1,22 @@
-﻿using CarWashing.Infrastructure.DataAccess.Configuration;
+using CarWashing.Infrastructure.DataAccess.Configuration;
 
 namespace CarWashing.Presentation.WebAPI.Configuration;
 
 internal class WebApiConfiguration {
     public WebApiConfiguration(IConfiguration configuration) {
         if (configuration is null)
+        {
             throw new ArgumentNullException(nameof(configuration));
+        }
 
-        var postgresConfiguration = configuration
+        PostgresConfiguration? postgresConfiguration = configuration
             .GetSection(nameof(PostgresConfiguration))
             .Get<PostgresConfiguration>();
 
         PostgresConfiguration = postgresConfiguration ??
                                 throw new ArgumentException(nameof(PostgresConfiguration));
 
-        var dbNameConfiguration = configuration
+        DbNamesConfiguration? dbNameConfiguration = configuration
             .GetSection(nameof(DbNamesConfiguration))
             .Get<DbNamesConfiguration>();
 

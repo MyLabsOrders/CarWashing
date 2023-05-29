@@ -17,28 +17,29 @@ internal class AddOrderHandler : IRequestHandler<Command, Response> {
 
     public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id.Equals(request.UserId), cancellationToken);
+        User? user = await _context.Users.FirstOrDefaultAsync(x => x.Id.Equals(request.UserId), cancellationToken);
 
         if (user is not null) {
             if (request.Orders.ExceptBy(_context.Orders.Select(order => order.Id), dto => dto.OrderId).Any()) {
                 throw new EntityNotFoundException($"Orders with ids {string.Join(", ", request.Orders.ExceptBy(_context.Orders.Select(order => order.Id), dto => dto.OrderId).Select(dto => dto.OrderId))} were not found.");
             }
 
-            var orders = (await _context.Orders.ToListAsync(cancellationToken)).Join(
+            List<Order> orders = (await _context.Orders.ToListAsync(cancellationToken)).Join(
                     request.Orders,
                     order => order.Id,
                     dto => dto.OrderId,
                     (order, dto) => order).ToList();
 
             decimal totalPrice = 0;
-            var orderDate = DateTime.UtcNow;
-            foreach (var (order, dto) in orders.Join(
+            DateTime orderDate = DateTime.UtcNow;
+            foreach ((Order order, (Guid OrderId, int Amount, int Days) dto) in orders.Join(
                         request.Orders,
                         order => order.Id,
                         dto => dto.OrderId,
                         (order, dto) => Tuple.Create(order, dto)
                         )) {
-                var newOrder = new Order(Guid.NewGuid(),
+                Order newOrder = new(
+                        id: Guid.NewGuid(),
                         user: user,
                         name: order.Name,
                         company: order.Company,

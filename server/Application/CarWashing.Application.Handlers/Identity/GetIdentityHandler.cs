@@ -1,4 +1,5 @@
-﻿using MediatR;
+using MediatR;
+using CarWashing.Application.Dto.Identity;
 using CarWashing.Application.Abstractions.Identity;
 using static CarWashing.Application.Contracts.Identity.Queries.GetIdentity;
 
@@ -12,8 +13,8 @@ internal class GetIdentityHandler : IRequestHandler<Query, Response> {
     }
 
     public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
-        var identityUser = await _authorizationService.GetUserByIdAsync(request.Id, cancellationToken);
-        var identityRole = await _authorizationService.GetUserRoleAsync(request.Id, cancellationToken);
+        IdentityUserDto identityUser = await _authorizationService.GetUserByIdAsync(request.Id, cancellationToken);
+        string identityRole = await _authorizationService.GetUserRoleAsync(request.Id, cancellationToken);
 
         return new Response(identityUser.Username, identityRole);
     }

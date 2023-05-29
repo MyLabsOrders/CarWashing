@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CarWashing.Application.Abstractions.Identity;
@@ -24,10 +24,10 @@ public class IdentityController : ControllerBase {
     /// <returns>Jwt access token</returns>
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponse>> LoginAsync([FromBody] LoginRequest request) {
-        var query = new Login.Query(request.Username, request.Password);
+        Login.Query query = new(request.Username, request.Password);
         Login.Response response = await _mediator.Send(query, HttpContext.RequestAborted);
 
-        var loginResponse = new LoginResponse(response.UserId, response.Token);
+        LoginResponse loginResponse = new(response.UserId, response.Token);
         return Ok(loginResponse);
     }
 
@@ -40,7 +40,7 @@ public class IdentityController : ControllerBase {
     [HttpPut("users/{username}/role")]
     [Authorize(Roles = CarWashingIdentityRoleNames.AdminRoleName)]
     public async Task<IActionResult> ChangeUserRoleAsync(string username, [FromQuery] string roleName) {
-        var command = new ChangeUserRole.Command(username, roleName);
+        ChangeUserRole.Command command = new(username, roleName);
         await _mediator.Send(command);
 
         return Ok();
@@ -53,10 +53,10 @@ public class IdentityController : ControllerBase {
     /// <returns>Jwt access token</returns>
     [HttpPost("user/register")]
     public async Task<ActionResult<CreateUserAccountResponse>> CreateUserAccountAsync([FromBody] CreateUserAccountRequest request) {
-        var command = new CreateUserAccount.Command(request.Username, request.Password, request.RoleName);
-        var response = await _mediator.Send(command);
+        CreateUserAccount.Command command = new(request.Username, request.Password, request.RoleName);
+        CreateUserAccount.Response response = await _mediator.Send(command);
 
-        var registerResponse = new CreateUserAccountResponse(response.Token);
+        CreateUserAccountResponse registerResponse = new(response.Token);
         return Ok(registerResponse);
     }
 
@@ -68,8 +68,8 @@ public class IdentityController : ControllerBase {
     [HttpPut("username")]
     [Authorize]
     public async Task<ActionResult<UpdateUsernameResponse>> UpdateUsernameAsync([FromBody] UpdateUsernameRequest request) {
-        var command = new UpdateUsername.Command(request.Username);
-        var response = await _mediator.Send(command);
+        UpdateUsername.Command command = new(request.Username);
+        UpdateUsername.Response response = await _mediator.Send(command);
 
         return Ok(new UpdateUsernameResponse(response.Token));
     }
@@ -82,8 +82,8 @@ public class IdentityController : ControllerBase {
     [HttpPut("password")]
     [Authorize]
     public async Task<ActionResult<UpdatePasswordResponse>> UpdatePasswordAsync([FromBody] UpdatePasswordRequest request) {
-        var command = new UpdatePassword.Command(request.CurrentPassword, request.NewPassword);
-        var response = await _mediator.Send(command);
+        UpdatePassword.Command command = new(request.CurrentPassword, request.NewPassword);
+        UpdatePassword.Response response = await _mediator.Send(command);
 
         return Ok(new UpdatePasswordResponse(response.Token));
     }
@@ -96,7 +96,7 @@ public class IdentityController : ControllerBase {
     [HttpPost("authorize-admin")]
     [Authorize]
     public async Task<IActionResult> AuthorizeAdminAsync([FromBody] AuthorizeAdminRequest request) {
-        var query = new AuthorizeAdmin.Query(request.Username);
+        AuthorizeAdmin.Query query = new AuthorizeAdmin.Query(request.Username);
         await _mediator.Send(query);
 
         return Ok();
@@ -110,10 +110,9 @@ public class IdentityController : ControllerBase {
     [HttpGet("{userId:guid}")]
     [Authorize(Roles = CarWashingIdentityRoleNames.AdminRoleName)]
     public async Task<ActionResult<GetIdentityResponse>> GetRoleByIdAsync(Guid userId) {
-        var query = new GetIdentity.Query(userId);
-        var response = await _mediator.Send(query);
+        GetIdentity.Query query = new(userId);
+        GetIdentity.Response response = await _mediator.Send(query);
 
-        var getRoleResponse = new GetIdentityResponse(response.Username, response.Role);
-        return Ok(getRoleResponse);
+        return Ok(new GetIdentityResponse(response.Username, response.Role));
     }
 }

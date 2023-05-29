@@ -1,9 +1,7 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using CarWashing.Application.Common.Exceptions;
 using CarWashing.DataAccess.Abstractions;
 using CarWashing.Domain.Common.Exceptions;
-using CarWashing.Domain.Core.Abstractions;
 using CarWashing.Domain.Core.Orders;
 using CarWashing.Domain.Core.Users;
 using static CarWashing.Application.Contracts.Users.Commands.RemoveOrder;

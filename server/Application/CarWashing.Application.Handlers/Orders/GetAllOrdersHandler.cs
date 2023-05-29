@@ -1,5 +1,6 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using CarWashing.Domain.Core.Orders;
 using CarWashing.Application.Contracts.Tools;
 using CarWashing.Application.Dto.Orders;
 using CarWashing.DataAccess.Abstractions;
@@ -18,15 +19,17 @@ internal class GetAllOrdersHandler : IRequestHandler<Query, Response> {
     }
 
     public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
-        var query = _context.Orders;
+        DbSet<Order> query = _context.Orders;
 
-        var ordersCount = await query.CountAsync(cancellationToken);
-        var pageTotalCount = (int)Math.Ceiling((double)ordersCount / _pageCount);
+        int ordersCount = await query.CountAsync(cancellationToken);
+        int pageTotalCount = (int)Math.Ceiling((double)ordersCount / _pageCount);
 
         if (request.Page > pageTotalCount)
+        {
             return new Response(Array.Empty<UserOrderDto>(), request.Page, pageTotalCount);
+        }
 
-        var orders = await query
+        List<Order> orders = await query
             .Skip((request.Page - 1) * _pageCount)
             .Take(_pageCount)
             .ToListAsync(cancellationToken);
