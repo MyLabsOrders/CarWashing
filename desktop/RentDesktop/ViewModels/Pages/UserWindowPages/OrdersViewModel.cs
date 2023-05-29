@@ -6,10 +6,6 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 {
     public class OrdersViewModel : BaseViewModel
     {
-        public OrdersViewModel() : this(new ObservableCollection<Order>())
-        {
-        }
-
         public OrdersViewModel(ObservableCollection<Order> orders)
         {
             Orders = orders;

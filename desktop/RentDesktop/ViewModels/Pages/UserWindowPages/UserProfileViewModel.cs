@@ -20,250 +20,19 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 {
     public class UserProfileViewModel : BaseViewModel
     {
-        public UserProfileViewModel() : this(new UserInfo())
+        public UserProfileViewModel(IUser user)
         {
+            ImageSwitchCommand = ReactiveCommand.Create(ImageChange);
+            ImagePutCommand = ReactiveCommand.Create(ImageChange);
+            ImageChangeCommand = ReactiveCommand.Create(ImageChange);
+            BalanceChangeCommand = ReactiveCommand.Create(BalanceChange);
+            ModeChangeCommand = ReactiveCommand.Create(SwapEditMode);
+            GenderPutCommand = ReactiveCommand.Create<string>(GenderPut);
+            InfoSavingCommand = ReactiveCommand.Create(InformationSave);
+
+            _user = user;
+            InformationSave(user);
         }
-
-        public UserProfileViewModel(IUser userInfo)
-        {
-            _userInfo = userInfo;
-            SetUserInfo(userInfo);
-
-            SwapEditModeCommand = ReactiveCommand.Create(SwapEditMode);
-            ChangeUserImageCommand = ReactiveCommand.Create(ChangeUserImage);
-            ChangeUserBalanceCommand = ReactiveCommand.Create(ChangeUserBalance);
-            SaveUserInfoCommand = ReactiveCommand.Create(SaveUserInfo);
-            GenderPutCommand = ReactiveCommand.Create<string>(SetGender);
-        }
-
-        #region Events
-
-        public delegate void UserInfoUpdatedHandler();
-        public event UserInfoUpdatedHandler? UserInfoUpdated;
-
-        #endregion
-
-        #region Properties
-
-        private bool _isEditModeEnabled = false;
-        public bool IsEditModeEnabled
-        {
-            get => _isEditModeEnabled;
-            private set => this.RaiseAndSetIfChanged(ref _isEditModeEnabled, value);
-        }
-
-        private string _login = string.Empty;
-        public string Login
-        {
-            get => _login;
-            set => this.RaiseAndSetIfChanged(ref _login, value);
-        }
-
-        private string _password = string.Empty;
-        public string Password
-        {
-            get => _password;
-            set => this.RaiseAndSetIfChanged(ref _password, value);
-        }
-
-        private string _name = string.Empty;
-        public string Name
-        {
-            get => _name;
-            set => this.RaiseAndSetIfChanged(ref _name, value);
-        }
-
-        private string _surname = string.Empty;
-        public string Surname
-        {
-            get => _surname;
-            set => this.RaiseAndSetIfChanged(ref _surname, value);
-        }
-
-        private string _patronymic = string.Empty;
-        public string Patronymic
-        {
-            get => _patronymic;
-            set => this.RaiseAndSetIfChanged(ref _patronymic, value);
-        }
-
-        private string _phoneNumber = string.Empty;
-        public string PhoneNumber
-        {
-            get => _phoneNumber;
-            set => this.RaiseAndSetIfChanged(ref _phoneNumber, value);
-        }
-
-        private string _position = string.Empty;
-        public string Position
-        {
-            get => _position;
-            private set => this.RaiseAndSetIfChanged(ref _position, value);
-        }
-
-        private DateTime? _dateOfBirth = null;
-        public DateTime? DateOfBirth
-        {
-            get => _dateOfBirth;
-            set => this.RaiseAndSetIfChanged(ref _dateOfBirth, value);
-        }
-
-        private string _gender = string.Empty;
-        public string Gender
-        {
-            get => _gender;
-            set => this.RaiseAndSetIfChanged(ref _gender, value);
-        }
-
-        private Bitmap? _userImage = null;
-        public Bitmap? UserImage
-        {
-            get => _userImage;
-            private set => this.RaiseAndSetIfChanged(ref _userImage, value);
-        }
-
-        private bool _isMaleGenderChecked = false;
-        public bool IsMaleGenderChecked
-        {
-            get => _isMaleGenderChecked;
-            set => this.RaiseAndSetIfChanged(ref _isMaleGenderChecked, value);
-        }
-
-        private bool _isFemaleGenderChecked = false;
-        public bool IsFemaleGenderChecked
-        {
-            get => _isFemaleGenderChecked;
-            set => this.RaiseAndSetIfChanged(ref _isFemaleGenderChecked, value);
-        }
-
-        #endregion
-
-        #region Protected Fields
-
-        #region Constants
-
-        protected const int PHONE_NUMBER_DIGITS = 11;
-
-        #endregion
-
-        protected IUser _userInfo;
-
-        #endregion
-
-        #region Commands
-
-        public ReactiveCommand<Unit, Unit> SwapEditModeCommand { get; }
-        public ReactiveCommand<Unit, Unit> ChangeUserImageCommand { get; }
-        public ReactiveCommand<Unit, Unit> ChangeUserBalanceCommand { get; }
-        public ReactiveCommand<Unit, Unit> SaveUserInfoCommand { get; }
-        public ReactiveCommand<string, Unit> GenderPutCommand { get; }
-
-        #endregion
-
-        #region Protected Methods
-
-        protected virtual Type GetOwnerWindowType()
-        {
-            return typeof(UserWindow);
-        }
-
-        protected virtual IUser GetUserInfo()
-        {
-            byte[] userImageBytes = UserImage is not null
-               ? BitmapService.BitmapToBytes(UserImage)
-               : Array.Empty<byte>();
-
-            var userInfo = new UserInfo();
-            _userInfo.CopyTo(userInfo);
-
-            userInfo.Login = Login;
-            userInfo.Password = Password;
-            userInfo.Name = Name;
-            userInfo.Surname = Surname;
-            userInfo.Patronymic = Patronymic;
-            userInfo.PhoneNumber = PhoneNumber;
-            userInfo.Gender = Gender;
-            userInfo.Position = Position;
-            userInfo.Icon = userImageBytes;
-            userInfo.DateOfBirth = DateOfBirth!.Value;
-
-            return userInfo;
-        }
-
-        protected virtual void SetUserInfo(IUser userInfo)
-        {
-            Login = userInfo.Login;
-            Password = userInfo.Password;
-            Name = userInfo.Name;
-            Surname = userInfo.Surname;
-            Patronymic = userInfo.Patronymic;
-            PhoneNumber = userInfo.PhoneNumber;
-            Gender = userInfo.Gender;
-            Position = userInfo.Position;
-            DateOfBirth = userInfo.DateOfBirth;
-
-            UserImage?.Dispose();
-
-            UserImage = userInfo.Icon.Length > 0
-                ? BitmapService.BytesToBitmap(userInfo.Icon)
-                : null;
-
-            if (Gender == UserInfo.MALE_GENDER)
-                IsMaleGenderChecked = true;
-
-            else if (Gender == UserInfo.FEMALE_GENDER)
-                IsFemaleGenderChecked = true;
-        }
-
-        protected virtual bool VerifyFieldsCorrectness()
-        {
-            Window? window = WindowFinder.FindByType(GetOwnerWindowType());
-
-            if (string.IsNullOrEmpty(Login))
-            {
-                QuickMessage.Info("Введите логин.").ShowDialog(window);
-                return false;
-            }
-            if (string.IsNullOrEmpty(Password))
-            {
-                QuickMessage.Info("Введите пароль.").ShowDialog(window);
-                return false;
-            }
-            if (string.IsNullOrEmpty(Name))
-            {
-                QuickMessage.Info("Введите имя.").ShowDialog(window);
-                return false;
-            }
-            if (string.IsNullOrEmpty(Surname))
-            {
-                QuickMessage.Info("Введите фамилию.").ShowDialog(window);
-                return false;
-            }
-            if (string.IsNullOrEmpty(Patronymic))
-            {
-                QuickMessage.Info("Введите отчество.").ShowDialog(window);
-                return false;
-            }
-            if (PhoneNumber.Where(t => char.IsDigit(t)).Count() != PHONE_NUMBER_DIGITS)
-            {
-                QuickMessage.Info("Введите корректный номер телефона.").ShowDialog(window);
-                return false;
-            }
-            if (string.IsNullOrEmpty(Gender))
-            {
-                QuickMessage.Info("Выберите пол.").ShowDialog(window);
-                return false;
-            }
-            if (DateOfBirth is null)
-            {
-                QuickMessage.Info("Введите дату рождения.").ShowDialog(window);
-                return false;
-            }
-
-            return true;
-        }
-
-        #endregion
 
         #region Private Methods 
 
@@ -272,9 +41,37 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             IsEditModeEnabled = !IsEditModeEnabled;
         }
 
-        private async void ChangeUserImage()
+        private void InformationSave()
         {
-            if (WindowFinder.FindByType(GetOwnerWindowType()) is not Window window)
+            if (!TryCorrectnessCheck())
+                return;
+
+            IUser newUserInfo = InformationAboutUserGet();
+
+            try
+            {
+                UserEditService.EditInfo(_user, newUserInfo);
+            }
+            catch (Exception ex)
+            {
+                string message = "Не удалось сохранить изменения.";
+#if DEBUG
+                message += $"Причина: {ex.Message}";
+#endif
+                Window? window = WindowFinder.FindByType(WindowGetType());
+                QuickMessage.Error(message).ShowDialog(window);
+                return;
+            }
+
+            newUserInfo.CopyTo(_user);
+            UpdatedTheInformation?.Invoke();
+
+            IsEditModeEnabled = false;
+        }
+
+        private async void ImageChange()
+        {
+            if (WindowFinder.FindByType(WindowGetType()) is not Window window)
                 return;
 
             OpenFileDialog dialog = DialogProvider.GetOpenImageDialog();
@@ -283,11 +80,11 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             if (paths is null || paths.Length == 0)
                 return;
 
-            if (!TrySetUserImage(paths[0]))
+            if (!TryImagePut(paths[0]))
                 QuickMessage.Error("Не удалось открыть фото.").ShowDialog(window);
         }
 
-        private async void ChangeUserBalance()
+        private async void BalanceChange()
         {
             var topUpBalanceButton = new ButtonDefinition()
             {
@@ -315,7 +112,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 InputDefaultValue = "1000",
                 ContentTitle = "Пополнить баланс",
                 ContentMessage = "Пополнить баланс",
-                ContentHeader = $"Текущий баланс: {_userInfo.Money}",
+                ContentHeader = $"Текущий баланс: {_user.Money}",
 
                 ButtonDefinitions = new[] { topUpBalanceButton, cancelButton },
             });
@@ -341,8 +138,8 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
             try
             {
-                UserCashService.AddCash(_userInfo, money);
-                _userInfo.Money = UserCashService.GetUserBalace(_userInfo);
+                UserCashService.AddCash(_user, money);
+                _user.Money = UserCashService.GetUserBalace(_user);
             }
             catch (Exception ex)
             {
@@ -354,40 +151,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             }
         }
 
-        private void SaveUserInfo()
-        {
-            if (!VerifyFieldsCorrectness())
-                return;
-
-            IUser newUserInfo = GetUserInfo();
-
-            try
-            {
-                UserEditService.EditInfo(_userInfo, newUserInfo);
-            }
-            catch (Exception ex)
-            {
-                string message = "Не удалось сохранить изменения.";
-#if DEBUG
-                message += $"Причина: {ex.Message}";
-#endif
-                Window? window = WindowFinder.FindByType(GetOwnerWindowType());
-                QuickMessage.Error(message).ShowDialog(window);
-                return;
-            }
-
-            newUserInfo.CopyTo(_userInfo);
-            UserInfoUpdated?.Invoke();
-
-            IsEditModeEnabled = false;
-        }
-
-        private void SetGender(string gender)
-        {
-            Gender = gender;
-        }
-
-        private bool TrySetUserImage(string path)
+        private bool TryImagePut(string path)
         {
             UserImage?.Dispose();
             UserImage = null;
@@ -403,6 +167,241 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 return false;
             }
         }
+
+        private void GenderPut(string gender)
+        {
+            Gender = gender;
+        }
+
+        #endregion
+
+        #region Properties
+
+        private bool _trueIsEditModeEnabled = false;
+        public bool IsEditModeEnabled
+        {
+            get => _trueIsEditModeEnabled;
+            private set => this.RaiseAndSetIfChanged(ref _trueIsEditModeEnabled, value);
+        }
+
+        private string _theName = string.Empty;
+        public string Name
+        {
+            get => _theName;
+            set => this.RaiseAndSetIfChanged(ref _theName, value);
+        }
+
+        private string _theSurname = string.Empty;
+        public string Surname
+        {
+            get => _theSurname;
+            set => this.RaiseAndSetIfChanged(ref _theSurname, value);
+        }
+
+        private string _thePassword = string.Empty;
+        public string Password
+        {
+            get => _thePassword;
+            set => this.RaiseAndSetIfChanged(ref _thePassword, value);
+        }
+
+        private string _thePatronymic = string.Empty;
+        public string Patronymic
+        {
+            get => _thePatronymic;
+            set => this.RaiseAndSetIfChanged(ref _thePatronymic, value);
+        }
+
+        private DateTime? _theDateOfBirth = null;
+        public DateTime? DateOfBirth
+        {
+            get => _theDateOfBirth;
+            set => this.RaiseAndSetIfChanged(ref _theDateOfBirth, value);
+        }
+
+        private string _theGender = string.Empty;
+        public string Gender
+        {
+            get => _theGender;
+            set => this.RaiseAndSetIfChanged(ref _theGender, value);
+        }
+
+        private string _thePhoneNumber = string.Empty;
+        public string PhoneNumber
+        {
+            get => _thePhoneNumber;
+            set => this.RaiseAndSetIfChanged(ref _thePhoneNumber, value);
+        }
+
+        private string _thePosition = string.Empty;
+        public string Position
+        {
+            get => _thePosition;
+            private set => this.RaiseAndSetIfChanged(ref _thePosition, value);
+        }
+
+        private bool _trueIsFemaleGenderChecked = false;
+        public bool IsFemaleGenderChecked
+        {
+            get => _trueIsFemaleGenderChecked;
+            set => this.RaiseAndSetIfChanged(ref _trueIsFemaleGenderChecked, value);
+        }
+
+        private Bitmap? _theUserImage = null;
+        public Bitmap? UserImage
+        {
+            get => _theUserImage;
+            private set => this.RaiseAndSetIfChanged(ref _theUserImage, value);
+        }
+
+        private bool _trueIsMaleGenderChecked = false;
+        public bool IsMaleGenderChecked
+        {
+            get => _trueIsMaleGenderChecked;
+            set => this.RaiseAndSetIfChanged(ref _trueIsMaleGenderChecked, value);
+        }
+
+
+        private string _theLogin = string.Empty;
+        public string Login
+        {
+            get => _theLogin;
+            set => this.RaiseAndSetIfChanged(ref _theLogin, value);
+        }
+
+        #endregion
+
+        #region Protected Fields
+
+        protected IUser _user;
+        protected const int MAX_DIGITS_FOR_NUMBER = 11;
+
+        #endregion
+
+        #region Commands
+
+        public ReactiveCommand<Unit, Unit> ModeSwitchCommand { get; }
+        public ReactiveCommand<Unit, Unit> ModeChangeCommand { get; }
+        public ReactiveCommand<Unit, Unit> ImagePutCommand { get; }
+        public ReactiveCommand<Unit, Unit> ImageChangeCommand { get; }
+        public ReactiveCommand<Unit, Unit> ImageSwitchCommand { get; }
+        public ReactiveCommand<Unit, Unit> BalanceChangeCommand { get; }
+        public ReactiveCommand<Unit, Unit> InfoSavingCommand { get; }
+        public ReactiveCommand<Unit, Unit> InfoResettingCommand { get; }
+        public ReactiveCommand<string, Unit> GenderPutCommand { get; }
+        public ReactiveCommand<string, Unit> GenderResetCommand { get; }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected virtual bool TryCorrectnessCheck()
+        {
+            Window? ownerWindow = WindowFinder.FindByType(WindowGetType());
+
+            if (string.IsNullOrEmpty(Login))
+            {
+                QuickMessage.Info("Введите логин.").ShowDialog(ownerWindow);
+                return false;
+            }
+            if (string.IsNullOrEmpty(Password))
+            {
+                QuickMessage.Info("Введите пароль.").ShowDialog(ownerWindow);
+                return false;
+            }
+            if (string.IsNullOrEmpty(Name))
+            {
+                QuickMessage.Info("Введите имя.").ShowDialog(ownerWindow);
+                return false;
+            }
+            if (string.IsNullOrEmpty(Surname))
+            {
+                QuickMessage.Info("Введите фамилию.").ShowDialog(ownerWindow);
+                return false;
+            }
+            if (string.IsNullOrEmpty(Patronymic))
+            {
+                QuickMessage.Info("Введите отчество.").ShowDialog(ownerWindow);
+                return false;
+            }
+            if (PhoneNumber.Where(t => char.IsDigit(t)).Count() != MAX_DIGITS_FOR_NUMBER)
+            {
+                QuickMessage.Info("Введите корректный номер телефона.").ShowDialog(ownerWindow);
+                return false;
+            }
+            if (string.IsNullOrEmpty(Gender))
+            {
+                QuickMessage.Info("Выберите пол.").ShowDialog(ownerWindow);
+                return false;
+            }
+            if (DateOfBirth is null)
+            {
+                QuickMessage.Info("Введите дату рождения.").ShowDialog(ownerWindow);
+                return false;
+            }
+
+            return true;
+        }
+
+        protected virtual Type WindowGetType()
+        {
+            return typeof(UserWindow);
+        }
+
+        protected virtual void InformationSave(IUser userInfo)
+        {
+            Login = userInfo.Login;
+            Password = userInfo.Password;
+            Name = userInfo.Name;
+            Surname = userInfo.Surname;
+            Patronymic = userInfo.Patronymic;
+            PhoneNumber = userInfo.PhoneNumber;
+            Gender = userInfo.Gender;
+            Position = userInfo.Position;
+            DateOfBirth = userInfo.DateOfBirth;
+
+            UserImage?.Dispose();
+
+            UserImage = userInfo.Icon.Length > 0
+                ? BitmapService.BytesToBitmap(userInfo.Icon)
+                : null;
+
+            if (Gender == UserInfo.MALE_GENDER)
+                IsMaleGenderChecked = true;
+
+            else if (Gender == UserInfo.FEMALE_GENDER)
+                IsFemaleGenderChecked = true;
+        }
+
+        protected virtual IUser InformationAboutUserGet()
+        {
+            byte[] userImageBytes = UserImage is not null
+               ? BitmapService.BitmapToBytes(UserImage)
+               : Array.Empty<byte>();
+
+            var userInfo = new UserInfo();
+            _user.CopyTo(userInfo);
+
+            userInfo.Login = Login;
+            userInfo.Password = Password;
+            userInfo.Name = Name;
+            userInfo.Surname = Surname;
+            userInfo.Patronymic = Patronymic;
+            userInfo.PhoneNumber = PhoneNumber;
+            userInfo.Gender = Gender;
+            userInfo.Position = Position;
+            userInfo.Icon = userImageBytes;
+            userInfo.DateOfBirth = DateOfBirth!.Value;
+
+            return userInfo;
+        }
+
+        #endregion
+
+        #region Events
+
+        public delegate void UpdatedTheInformationHandler();
+        public event UpdatedTheInformationHandler? UpdatedTheInformation;
 
         #endregion
     }

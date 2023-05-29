@@ -16,7 +16,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
         public AdminProfileViewModel(IUser user) : base(user)
         {
             Statuses = StatusesGet();
-            SetUserInfo(user);
+            InformationSave(user);
         }
 
 
@@ -55,9 +55,9 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         #region Protected Methods
 
-        protected override bool VerifyFieldsCorrectness()
+        protected override bool TryCorrectnessCheck()
         {
-            Avalonia.Controls.Window? window = WindowFinder.FindByType(GetOwnerWindowType());
+            Avalonia.Controls.Window? window = WindowFinder.FindByType(WindowGetType());
 
             if (SelectedStatusIndex > Statuses.Count + 1)
                 return false;
@@ -74,23 +74,23 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
             if (SelectedStatusIndex > Statuses.Count + 1)
                 return false;
 
-            return base.VerifyFieldsCorrectness();
+            return base.TryCorrectnessCheck();
         }
 
-        protected override Type GetOwnerWindowType()
+        protected override Type WindowGetType()
         {
             return typeof(AdminWindow);
         }
 
-        protected override void SetUserInfo(IUser userInfo)
+        protected override void InformationSave(IUser userInfo)
         {
-            base.SetUserInfo(userInfo);
+            base.InformationSave(userInfo);
             SelectedStatusIndex = Statuses?.IndexOf(userInfo.Status) ?? -1;
         }
 
-        protected override IUser GetUserInfo()
+        protected override IUser InformationAboutUserGet()
         {
-            IUser userInfo = base.GetUserInfo();
+            IUser userInfo = base.InformationAboutUserGet();
             userInfo.Status = Statuses[SelectedStatusIndex];
 
             return userInfo;

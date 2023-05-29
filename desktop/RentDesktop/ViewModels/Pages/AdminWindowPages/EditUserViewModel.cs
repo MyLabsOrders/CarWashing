@@ -25,15 +25,15 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         #region Protected Methods
 
-        protected override void SetUserInfo(IUser userInfo)
+        protected override void InformationSave(IUser userInfo)
         {
-            base.SetUserInfo(userInfo);
+            base.InformationSave(userInfo);
             SelectedPositionIndex = Positions?.IndexOf(userInfo.Position) ?? -1;
         }
 
-        protected override bool VerifyFieldsCorrectness()
+        protected override bool TryCorrectnessCheck()
         {
-            Avalonia.Controls.Window? window = WindowFinder.FindByType(GetOwnerWindowType());
+            Avalonia.Controls.Window? window = WindowFinder.FindByType(WindowGetType());
 
             if (SelectedPositionIndex > Positions.Count + 1)
                 return false;
@@ -50,12 +50,12 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
             if (SelectedPositionIndex > Positions.Count + 1)
                 return false;
 
-            return base.VerifyFieldsCorrectness();
+            return base.TryCorrectnessCheck();
         }
 
-        protected override IUser GetUserInfo()
+        protected override IUser InformationAboutUserGet()
         {
-            IUser userInfo = base.GetUserInfo();
+            IUser userInfo = base.InformationAboutUserGet();
             userInfo.Position = Positions[SelectedPositionIndex];
 
             return userInfo;
@@ -133,8 +133,8 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         public void UserPut(IUser? newUser)
         {
-            _userInfo = newUser ?? new UserInfo();
-            SetUserInfo(_userInfo);
+            _user = newUser ?? new UserInfo();
+            InformationSave(_user);
         }
 
         #endregion

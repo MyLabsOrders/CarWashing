@@ -50,7 +50,7 @@
 				<ItemsControl.DataTemplates>
 					<DataTemplate DataType="{x:Type models:TransportRent}">
 						<Button Classes="cell"
-								Command="{Binding DataContext.SelectTransportRentCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+								Command="{Binding DataContext.ProductSelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
 								CommandParameter="{Binding Self}">
 							<Grid RowDefinitions="1*, 30">
 								<Button Width="25"
@@ -61,7 +61,7 @@
 										VerticalAlignment="Top"
 										HorizontalAlignment="Right"
 										img:Attached.Icon="fa-times"
-										Command="{Binding DataContext.RemoveFromCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+										Command="{Binding DataContext.CartRemoveItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
 										CommandParameter="{Binding Self}" />
 
 								<Border BorderBrush="DarkGray" BorderThickness="2" Background="White" Margin="5, 5, 35, 0">
@@ -127,10 +127,10 @@
 								<i:Interaction.Behaviors>
 									<ia:EventTriggerBehavior EventName="ValueChanged">
 										<ia:InvokeCommandAction
-											Command="{Binding UpdateTotalPriceCommand}"
+											Command="{Binding PriceRefreshCommand}"
 											PassEventArgsToCommand="True" />
 										<ia:InvokeCommandAction
-											Command="{Binding UpdateInfoOnRelatedProductsCommand}"
+											Command="{Binding InfoOnRelatedProductsRefreshCommand}"
 											PassEventArgsToCommand="True" />
 									</ia:EventTriggerBehavior>
 								</i:Interaction.Behaviors>
@@ -145,12 +145,12 @@
 				<Button Grid.Row="2"
 						Content="Оформить заказ"
 						IsEnabled="{Binding IsCartNotEmpty}"
-						Command="{Binding OpenOrderPlacingPageCommand}" />
+						Command="{Binding PlacingOfTheOrderOpenCommand}" />
 				
 				<Button Grid.Row="4"
 						Content="Очистить корзину"
 						IsEnabled="{Binding IsCartNotEmpty}"
-						Command="{Binding ClearCartCommand}" />
+						Command="{Binding CartRestoreCommand}" />
 			</Grid>
 		</Grid>
 
@@ -210,11 +210,11 @@
 				
 				<Button Grid.Column="1"
 						Content="Отмена"
-						Command="{Binding OpenCartPageCommand}" />
+						Command="{Binding TheCartOpenCommand}" />
 				
 				<Button Grid.Column="3"
 						Content="Продолжить"
-						Command="{Binding OpenOrderPaymentPageCommand}"
+						Command="{Binding ThePaymentOpenCommand}"
 						IsEnabled="{Binding ElementName=PrivacyPolicyCheckBox, Path=IsChecked}" />
 			</Grid>
 		</Grid>
@@ -263,7 +263,7 @@
 					<TextBlock Grid.Column="0" Classes="clickable" Text="Скачать чек">
 						<i:Interaction.Behaviors>
 							<ia:EventTriggerBehavior EventName="PointerPressed">
-								<ia:InvokeCommandAction Command="{Binding DownloadReceiptCommand}" />
+								<ia:InvokeCommandAction Command="{Binding SaveTheReceiptCommand}" />
 							</ia:EventTriggerBehavior>
 						</i:Interaction.Behaviors>
 					</TextBlock>
@@ -271,7 +271,7 @@
 					<TextBlock Grid.Column="2" Classes="clickable" Text="Скачать ведомость">
 						<i:Interaction.Behaviors>
 							<ia:EventTriggerBehavior EventName="PointerPressed">
-								<ia:InvokeCommandAction Command="{Binding DownloadSummaryStatementCommand}" />
+								<ia:InvokeCommandAction Command="{Binding SaveTheInvoiceCommand}" />
 							</ia:EventTriggerBehavior>
 						</i:Interaction.Behaviors>
 					</TextBlock>
@@ -292,11 +292,11 @@
 
 				<Button Grid.Column="1"
 						Content="Закрыть"
-						Command="{Binding CloseOrderPaymentPageCommand}" />
+						Command="{Binding ThePaymentCloseCommand}" />
 
 				<Button Grid.Column="3"
 						Content="Оплатить"
-						Command="{Binding PayOrderCommand}"
+						Command="{Binding DoOrderPaymentCommand}"
 						IsEnabled="{Binding Path=IsOrderPaidFor, Converter={StaticResource inverseBoolConverter}}" />
 			</Grid>
 		</Grid>

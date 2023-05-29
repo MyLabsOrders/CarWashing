@@ -46,7 +46,7 @@
 			<ItemsControl.DataTemplates>
 				<DataTemplate DataType="{x:Type models:Transport}">
 					<Button Classes="cell"
-							Command="{Binding DataContext.SelectTransportCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+							Command="{Binding DataContext.ProductSelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
 							CommandParameter="{Binding Self}">
 						<Grid RowDefinitions="1*, 30">
 							<Button Width="25"
@@ -57,7 +57,7 @@
 									VerticalAlignment="Top"
 									HorizontalAlignment="Right"
 									img:Attached.Icon="fa-shopping-cart"
-									Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+									Command="{Binding DataContext.ProductAddToTheCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
 									CommandParameter="{Binding Self}" />
 
 							<Border BorderBrush="DarkGray" BorderThickness="2" Background="White" Margin="5, 5, 35, 0">
@@ -111,12 +111,12 @@
 			
 			<Button Grid.Row="2"
 					Content="Перейти в корзину"
-					Command="{Binding OpenCartCommand}" />
+					Command="{Binding CartOpenCommand}" />
 			
 			<Button Grid.Row="4"
 					Content="Добавить в корзину"
 					IsEnabled="{Binding IsTransportSelected}"
-					Command="{Binding AddToCartCommand}"
+					Command="{Binding ProductAddToTheCartCommand}"
 					CommandParameter="{Binding SelectedTransport}" />
 		</Grid>
 	</Grid>

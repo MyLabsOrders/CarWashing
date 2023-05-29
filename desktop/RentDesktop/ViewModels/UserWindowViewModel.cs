@@ -39,10 +39,10 @@ namespace RentDesktop.ViewModels
             _timer = TimerConfig();
             _timer.Start();
 
-            ViewModelCart.OrdersTabOpening += OrdersOpen;
-            ViewModelTransport.TransportAddingToCart += ViewModelTransportTransportAddingToCart;
-            ViewModelTransport.CartTabOpening += CartOpen;
-            ViewModelUserProfile.UserInfoUpdated += ViewModelCart.UpdateUserInfo;
+            ViewModelCart.OpeningTheOrders += OrdersOpen;
+            ViewModelTransport.AddingToTheCartTheProduct += ViewModelTransportTransportAddingToCart;
+            ViewModelTransport.OpeningTheCartPage += CartOpen;
+            ViewModelUserProfile.UpdatedTheInformation += ViewModelCart.UpdateUserInfo;
         }
 
         #region Private Methods Helpers

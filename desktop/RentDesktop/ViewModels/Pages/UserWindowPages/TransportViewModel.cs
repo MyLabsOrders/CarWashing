@@ -13,119 +13,19 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 {
     public class TransportViewModel : BaseViewModel
     {
-        public TransportViewModel() : this(new ObservableCollection<TransportRent>())
-        {
-        }
-
         public TransportViewModel(ObservableCollection<TransportRent> cart)
         {
-            Transports = GetTransports();
-            _cart = cart;
+            ProductAddToTheCartCommand = ReactiveCommand.Create<Transport>(ToTheCartAddProduct);
+            CartOpenCommand = ReactiveCommand.Create(CartOpen);
+            ProductSelectCommand = ReactiveCommand.Create<Transport>(ProductSelect);
 
-            SelectTransportCommand = ReactiveCommand.Create<Transport>(SelectTransport);
-            AddToCartCommand = ReactiveCommand.Create<Transport>(AddToCart);
-            OpenCartCommand = ReactiveCommand.Create(OpenCartTab);
+            Transports = ProductsGetFromDatabase();
+            _cartWithProducts = cart;
         }
-
-        #region Events
-
-        public delegate void CartTabOpeningHandler();
-        public event CartTabOpeningHandler? CartTabOpening;
-
-        public delegate void TransportAddingToCartHandler(Transport transport);
-        public event TransportAddingToCartHandler? TransportAddingToCart;
-
-        #endregion
-
-        #region Properties
-
-        public ObservableCollection<Transport> Transports { get; }
-
-        private Transport? _selectedTransport = null;
-        public Transport? SelectedTransport
-        {
-            get => _selectedTransport;
-            private set
-            {
-                _ = this.RaiseAndSetIfChanged(ref _selectedTransport, value);
-
-                IsTransportSelected = value is not null;
-                SelectedTransportName = value is not null ? value.Name : string.Empty;
-                SelectedTransportCompany = value is not null ? value.Company : string.Empty;
-                SelectedTransportPrice = value is not null ? value.Price.ToString() : string.Empty;
-            }
-        }
-
-        private string _selectedTransportName = string.Empty;
-        public string SelectedTransportName
-        {
-            get => $"Название: {_selectedTransportName}";
-            private set => this.RaiseAndSetIfChanged(ref _selectedTransportName, value);
-        }
-
-        private string _selectedTransportCompany = string.Empty;
-        public string SelectedTransportCompany
-        {
-            get => $"Компания: {_selectedTransportCompany}";
-            private set => this.RaiseAndSetIfChanged(ref _selectedTransportCompany, value);
-        }
-
-        private string _selectedTransportPrice = string.Empty;
-        public string SelectedTransportPrice
-        {
-            get => $"Цена: {_selectedTransportPrice}";
-            private set => this.RaiseAndSetIfChanged(ref _selectedTransportPrice, value);
-        }
-
-        private bool _isTransportSelected = false;
-        public bool IsTransportSelected
-        {
-            get => _isTransportSelected;
-            private set => this.RaiseAndSetIfChanged(ref _isTransportSelected, value);
-        }
-
-        #endregion
-
-        #region Private Fields
-
-        private readonly ObservableCollection<TransportRent> _cart;
-
-        #endregion
-
-        #region Commands
-
-        public ReactiveCommand<Transport, Unit> SelectTransportCommand { get; }
-        public ReactiveCommand<Transport, Unit> AddToCartCommand { get; }
-        public ReactiveCommand<Unit, Unit> OpenCartCommand { get; }
-
-        #endregion
 
         #region Private Methods
 
-        private void SelectTransport(Transport transport)
-        {
-            SelectedTransport = transport;
-        }
-
-        private void AddToCart(Transport transport)
-        {
-            TransportAddingToCart?.Invoke(transport);
-
-            TransportRent? existingCartItem = _cart.FirstOrDefault(t => t.Transport.ID == transport.ID);
-            int days = existingCartItem is null ? 1 : existingCartItem.Days;
-
-            var transportRent = new TransportRent(transport.Copy(), days);
-            _cart.Add(transportRent);
-
-            SelectedTransport = null;
-        }
-
-        private void OpenCartTab()
-        {
-            CartTabOpening?.Invoke();
-        }
-
-        private static ObservableCollection<Transport> GetTransports()
+        private static ObservableCollection<Transport> ProductsGetFromDatabase()
         {
             try
             {
@@ -142,6 +42,102 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 return new ObservableCollection<Transport>();
             }
         }
+
+        private void ToTheCartAddProduct(Transport transport)
+        {
+            AddingToTheCartTheProduct?.Invoke(transport);
+
+            TransportRent? existingCartItem = _cartWithProducts.FirstOrDefault(t => t.Transport.ID == transport.ID);
+            int days = existingCartItem is null ? 1 : existingCartItem.Days;
+
+            var transportRent = new TransportRent(transport.Copy(), days);
+            _cartWithProducts.Add(transportRent);
+
+            SelectedTransport = null;
+        }
+
+        private void CartOpen()
+        {
+            OpeningTheCartPage?.Invoke();
+        }
+
+        private void ProductSelect(Transport transport)
+        {
+            SelectedTransport = transport;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public ObservableCollection<Transport> Transports { get; }
+
+        private string _selectedProductName = string.Empty;
+        public string SelectedTransportName
+        {
+            get => $"Название: {_selectedProductName}";
+            private set => this.RaiseAndSetIfChanged(ref _selectedProductName, value);
+        }
+
+        private string _selectedProductCompany = string.Empty;
+        public string SelectedTransportCompany
+        {
+            get => $"Компания: {_selectedProductCompany}";
+            private set => this.RaiseAndSetIfChanged(ref _selectedProductCompany, value);
+        }
+
+        private Transport? _selectedProduct = null;
+        public Transport? SelectedTransport
+        {
+            get => _selectedProduct;
+            private set
+            {
+                _ = this.RaiseAndSetIfChanged(ref _selectedProduct, value);
+
+                IsTransportSelected = value is not null;
+                SelectedTransportName = value is not null ? value.Name : string.Empty;
+                SelectedTransportCompany = value is not null ? value.Company : string.Empty;
+                SelectedTransportPrice = value is not null ? value.Price.ToString() : string.Empty;
+            }
+        }
+
+        private bool _trueIsProductSelected = false;
+        public bool IsTransportSelected
+        {
+            get => _trueIsProductSelected;
+            private set => this.RaiseAndSetIfChanged(ref _trueIsProductSelected, value);
+        }
+
+        private string _selectedProductPrice = string.Empty;
+        public string SelectedTransportPrice
+        {
+            get => $"Цена: {_selectedProductPrice}";
+            private set => this.RaiseAndSetIfChanged(ref _selectedProductPrice, value);
+        }
+
+        #endregion
+
+        #region Commands
+
+        public ReactiveCommand<Transport, Unit> ProductSelectCommand { get; }
+        public ReactiveCommand<Transport, Unit> ProductAddToTheCartCommand { get; }
+        public ReactiveCommand<Unit, Unit> CartOpenCommand { get; }
+
+        #endregion
+
+        #region Events
+
+        public delegate void AddingToTheCartTheProductHandler(Transport transport);
+        public event AddingToTheCartTheProductHandler? AddingToTheCartTheProduct;
+
+        public delegate void OpeningTheCartPageHandler();
+        public event OpeningTheCartPageHandler? OpeningTheCartPage;
+
+        #endregion
+
+        #region Private Fields
+
+        private readonly ObservableCollection<TransportRent> _cartWithProducts;
 
         #endregion
     }

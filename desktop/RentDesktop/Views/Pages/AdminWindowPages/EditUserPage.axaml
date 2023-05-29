@@ -87,8 +87,8 @@
 				</Style>
 			</Grid.Styles>
 
-			<Button Grid.Column="1" Content="Подтвердить" Command="{Binding SaveUserInfoCommand}" />
-			<Button Grid.Column="3" Content="Изменить фото" Command="{Binding ChangeUserImageCommand}" />
+			<Button Grid.Column="1" Content="Подтвердить" Command="{Binding InfoSavingCommand}" />
+			<Button Grid.Column="3" Content="Изменить фото" Command="{Binding ImageChangeCommand}" />
 		</Grid>
 
 		<Border Grid.Column="2" BorderThickness="2" BorderBrush="LightGray">

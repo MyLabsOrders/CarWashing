@@ -29,7 +29,7 @@ namespace RentDesktop.ViewModels
             ViewModelEditUser = new EditUserViewModel();
             ViewModelAddUser = new AddUserViewModel();
 
-            ViewModelAdminProfile.UserInfoUpdated += () =>
+            ViewModelAdminProfile.UpdatedTheInformation += () =>
             {
                 IUser? userInTable = ViewModelAllUsers.Users.FirstOrDefault(t => t.ID == user.ID);
 
@@ -47,7 +47,7 @@ namespace RentDesktop.ViewModels
             };
 
             ViewModelAddUser.RegisteredTheUser += ViewModelAddUserUserRegistered;
-            ViewModelEditUser.UserInfoUpdated += ViewModelEditUserUserInfoUpdated;
+            ViewModelEditUser.UpdatedTheInformation += ViewModelEditUserUserInfoUpdated;
             ViewModelAllUsers.ChangedUser += ViewModelEditUser.UserPut;
 
             UserInfo = user;
