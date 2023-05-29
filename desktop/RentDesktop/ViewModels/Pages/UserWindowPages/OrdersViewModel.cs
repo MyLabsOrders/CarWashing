@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace RentDesktop.ViewModels.Pages.UserWindowPages
 {
-    public class OrdersViewModel : ViewModelBase
+    public class OrdersViewModel : BaseViewModel
     {
         public OrdersViewModel() : this(new ObservableCollection<Order>())
         {

@@ -6,7 +6,7 @@ namespace RentDesktop.Infrastructure.Services.DB
 {
     internal static class UserRegisterService
     {
-        public static void RegisterUser(IUserInfo userInfo)
+        public static void RegisterUser(IUser userInfo)
         {
             using var db = new DatabaseConnectionService();
 
@@ -26,7 +26,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             SetUserInfo(userInfo, db);
         }
 
-        private static void SetUserInfo(IUserInfo userInfo, DatabaseConnectionService db)
+        private static void SetUserInfo(IUser userInfo, DatabaseConnectionService db)
         {
             string profileHandle = $"/api/User/{userInfo.ID}/profile";
 

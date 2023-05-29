@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace RentDesktop.Models.Informing
 {
-    public class UserInfo : IUserInfo
+    public class UserInfo : IUser
     {
         public const string ADMIN_POSITION = "admin";
         public const string USER_POSITION = "user";
@@ -30,7 +30,7 @@ namespace RentDesktop.Models.Informing
 
         public string DateOfBirthPresenter => DateOfBirth.ToShortDateString();
 
-        public void CopyTo(IUserInfo other)
+        public void CopyTo(IUser other)
         {
             other.ID = ID;
             other.Login = Login;

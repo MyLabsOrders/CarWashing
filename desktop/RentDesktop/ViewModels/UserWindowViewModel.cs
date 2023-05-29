@@ -9,13 +9,13 @@ using System.Reactive;
 
 namespace RentDesktop.ViewModels
 {
-    public class UserWindowViewModel : ViewModelBase
+    public class UserWindowViewModel : BaseViewModel
     {
         public UserWindowViewModel() : this(new UserInfo())
         {
         }
 
-        public UserWindowViewModel(IUserInfo userInfo)
+        public UserWindowViewModel(IUser userInfo)
         {
             UserProfileVM = new UserProfileViewModel(userInfo);
             OrdersVM = new OrdersViewModel(userInfo.Orders);
@@ -40,9 +40,9 @@ namespace RentDesktop.ViewModels
             _inactivity_timer = ConfigureInactivityTimer();
             _inactivity_timer.Start();
 
-            ResetInactivitySecondsCommand = ReactiveCommand.Create(ResetInactivitySeconds);
-            ShowMainWindowCommand = ReactiveCommand.Create(ShowMainWindow);
-            DisposeUserImageCommand = ReactiveCommand.Create(DisposeUserImage);
+            InactivityResetCommand = ReactiveCommand.Create(ResetInactivitySeconds);
+            MainShowCommand = ReactiveCommand.Create(ShowMainWindow);
+            DisposeImageOfUserCommand = ReactiveCommand.Create(DisposeUserImage);
         }
 
         #region ViewModels
@@ -56,7 +56,7 @@ namespace RentDesktop.ViewModels
 
         #region Properties
 
-        public IUserInfo UserInfo { get; }
+        public IUser UserInfo { get; }
 
         private int _selectedTabIndex = 1;
         public int SelectedTabIndex
@@ -93,9 +93,9 @@ namespace RentDesktop.ViewModels
 
         #region Commands
 
-        public ReactiveCommand<Unit, Unit> ResetInactivitySecondsCommand { get; }
-        public ReactiveCommand<Unit, Unit> ShowMainWindowCommand { get; }
-        public ReactiveCommand<Unit, Unit> DisposeUserImageCommand { get; }
+        public ReactiveCommand<Unit, Unit> InactivityResetCommand { get; }
+        public ReactiveCommand<Unit, Unit> MainShowCommand { get; }
+        public ReactiveCommand<Unit, Unit> DisposeImageOfUserCommand { get; }
 
         #endregion
 

@@ -45,9 +45,9 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
             return typeof(AdminWindow);
         }
 
-        protected override IUserInfo GetUserInfo()
+        protected override IUser GetUserInfo()
         {
-            IUserInfo userInfo = base.GetUserInfo();
+            IUser userInfo = base.GetUserInfo();
             userInfo.Position = Positions[SelectedPositionIndex];
 
             return userInfo;

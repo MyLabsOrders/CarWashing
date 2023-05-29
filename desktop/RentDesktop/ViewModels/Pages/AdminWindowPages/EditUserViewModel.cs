@@ -16,10 +16,10 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
         {
         }
 
-        public EditUserViewModel(IUserInfo userInfo) : base(userInfo)
+        public EditUserViewModel(IUser userInfo) : base(userInfo)
         {
             Positions = GetPositions();
-            ChangeUserCommand = ReactiveCommand.Create<IUserInfo>(ChangeUser);
+            ChangeUserCommand = ReactiveCommand.Create<IUser>(ChangeUser);
         }
 
         #region Properties
@@ -37,13 +37,13 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         #region Commands
 
-        public ReactiveCommand<IUserInfo, Unit> ChangeUserCommand { get; }
+        public ReactiveCommand<IUser, Unit> ChangeUserCommand { get; }
 
         #endregion
 
         #region Public Methods
 
-        public void ChangeUser(IUserInfo? newUserInfo)
+        public void ChangeUser(IUser? newUserInfo)
         {
             _userInfo = newUserInfo ?? new UserInfo();
             SetUserInfo(_userInfo);
@@ -53,15 +53,15 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         #region Protected Methods
 
-        protected override IUserInfo GetUserInfo()
+        protected override IUser GetUserInfo()
         {
-            IUserInfo userInfo = base.GetUserInfo();
+            IUser userInfo = base.GetUserInfo();
             userInfo.Position = Positions[SelectedPositionIndex];
 
             return userInfo;
         }
 
-        protected override void SetUserInfo(IUserInfo userInfo)
+        protected override void SetUserInfo(IUser userInfo)
         {
             base.SetUserInfo(userInfo);
             SelectedPositionIndex = Positions?.IndexOf(userInfo.Position) ?? -1;

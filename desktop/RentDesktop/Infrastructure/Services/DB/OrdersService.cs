@@ -25,7 +25,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             order.Status = newStatus;
         }
 
-        public static Order CreateOrder(IEnumerable<TransportRent> cart, IUserInfo userInfo)
+        public static Order CreateOrder(IEnumerable<TransportRent> cart, IUser userInfo)
         {
             var products = cart
                 .GroupBy(t => t.Transport.ID)
@@ -35,7 +35,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             return RegisterOrder(products, userInfo);
         }
 
-        private static Order RegisterOrder(List<Tuple<TransportRent, int>> productsInfo, IUserInfo userInfo)
+        private static Order RegisterOrder(List<Tuple<TransportRent, int>> productsInfo, IUser userInfo)
         {
             using var db = new DatabaseConnectionService();
 

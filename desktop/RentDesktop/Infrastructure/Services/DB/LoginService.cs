@@ -7,7 +7,7 @@ namespace RentDesktop.Infrastructure.Services.DB
 {
     internal static class LoginService
     {
-        public static IUserInfo Login(string login, string password)
+        public static IUser Login(string login, string password)
         {
             DatabaseConnectionService db = new();
             DbLoginResponseContent loginContent = EnterSystem(login, password, db, true);
@@ -40,7 +40,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             return loginContent;
         }
 
-        private static IUserInfo GetUserInfo(DatabaseConnectionService db, string userId, string login, string password)
+        private static IUser GetUserInfo(DatabaseConnectionService db, string userId, string login, string password)
         {
             string profileHandle = $"/api/User/{userId}";
             using HttpResponseMessage profileResponse = db.GetAsync(profileHandle).Result;

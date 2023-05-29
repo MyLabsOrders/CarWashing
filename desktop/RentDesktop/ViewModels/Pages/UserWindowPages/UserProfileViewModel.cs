@@ -18,13 +18,13 @@ using System.Reactive;
 
 namespace RentDesktop.ViewModels.Pages.UserWindowPages
 {
-    public class UserProfileViewModel : ViewModelBase
+    public class UserProfileViewModel : BaseViewModel
     {
         public UserProfileViewModel() : this(new UserInfo())
         {
         }
 
-        public UserProfileViewModel(IUserInfo userInfo)
+        public UserProfileViewModel(IUser userInfo)
         {
             _userInfo = userInfo;
             SetUserInfo(userInfo);
@@ -146,7 +146,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         #endregion
 
-        protected IUserInfo _userInfo;
+        protected IUser _userInfo;
 
         #endregion
 
@@ -167,7 +167,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             return typeof(UserWindow);
         }
 
-        protected virtual IUserInfo GetUserInfo()
+        protected virtual IUser GetUserInfo()
         {
             byte[] userImageBytes = UserImage is not null
                ? BitmapService.BitmapToBytes(UserImage)
@@ -190,7 +190,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             return userInfo;
         }
 
-        protected virtual void SetUserInfo(IUserInfo userInfo)
+        protected virtual void SetUserInfo(IUser userInfo)
         {
             Login = userInfo.Login;
             Password = userInfo.Password;
@@ -359,7 +359,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             if (!VerifyFieldsCorrectness())
                 return;
 
-            IUserInfo newUserInfo = GetUserInfo();
+            IUser newUserInfo = GetUserInfo();
 
             try
             {

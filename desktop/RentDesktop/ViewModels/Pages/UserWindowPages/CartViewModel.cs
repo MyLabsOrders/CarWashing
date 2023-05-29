@@ -17,13 +17,13 @@ using System.Threading.Tasks;
 
 namespace RentDesktop.ViewModels.Pages.UserWindowPages
 {
-    public class CartViewModel : ViewModelBase
+    public class CartViewModel : BaseViewModel
     {
         public CartViewModel() : this(new UserInfo(), new ObservableCollection<Order>())
         {
         }
 
-        public CartViewModel(IUserInfo userInfo, ObservableCollection<Order> orders)
+        public CartViewModel(IUser userInfo, ObservableCollection<Order> orders)
         {
             PaymentMethods = GetSupportedPaymentMethods();
             Cart = new ObservableCollection<TransportRent>();
@@ -181,7 +181,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         #region Private Fields
 
-        private readonly IUserInfo _userInfo;
+        private readonly IUser _userInfo;
         private readonly ObservableCollection<Order> _orders;
 
         #endregion

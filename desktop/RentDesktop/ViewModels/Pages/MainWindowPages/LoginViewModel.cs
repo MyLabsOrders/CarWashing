@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace RentDesktop.ViewModels.Pages.MainWindowPages
 {
-    public class LoginViewModel : ViewModelBase
+    public class LoginViewModel : BaseViewModel
     {
         public LoginViewModel()
         {
@@ -122,7 +122,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
             if (!VerifyFieldsCorrectness())
                 return;
 
-            IUserInfo userInfo;
+            IUser userInfo;
 
             try
             {

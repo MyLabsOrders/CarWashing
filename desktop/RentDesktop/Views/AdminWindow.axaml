@@ -18,14 +18,14 @@
 
 	<i:Interaction.Behaviors>
 		<ia:EventTriggerBehavior EventName="Closing">
-			<ia:InvokeCommandAction Command="{Binding ShowMainWindowCommand}" />
-			<ia:InvokeCommandAction Command="{Binding DisposeUserImageCommand}" />
+			<ia:InvokeCommandAction Command="{Binding MainShowCommand}" />
+			<ia:InvokeCommandAction Command="{Binding DisposeImageOfUserCommand}" />
 		</ia:EventTriggerBehavior>
 		<ia:EventTriggerBehavior EventName="PointerMoved">
-			<ia:InvokeCommandAction Command="{Binding ResetInactivitySecondsCommand}" />
+			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
 		</ia:EventTriggerBehavior>
 		<ia:EventTriggerBehavior EventName="KeyDown">
-			<ia:InvokeCommandAction Command="{Binding ResetInactivitySecondsCommand}" />
+			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
 		</ia:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 

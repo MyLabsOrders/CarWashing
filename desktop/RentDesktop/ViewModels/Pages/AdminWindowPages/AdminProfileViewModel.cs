@@ -16,7 +16,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
         {
         }
 
-        public AdminProfileViewModel(IUserInfo userInfo) : base(userInfo)
+        public AdminProfileViewModel(IUser userInfo) : base(userInfo)
         {
             Statuses = GetStatuses();
             SetUserInfo(userInfo);
@@ -42,15 +42,15 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
             return typeof(AdminWindow);
         }
 
-        protected override IUserInfo GetUserInfo()
+        protected override IUser GetUserInfo()
         {
-            IUserInfo userInfo = base.GetUserInfo();
+            IUser userInfo = base.GetUserInfo();
             userInfo.Status = Statuses[SelectedStatusIndex];
 
             return userInfo;
         }
 
-        protected override void SetUserInfo(IUserInfo userInfo)
+        protected override void SetUserInfo(IUser userInfo)
         {
             base.SetUserInfo(userInfo);
             SelectedStatusIndex = Statuses?.IndexOf(userInfo.Status) ?? -1;

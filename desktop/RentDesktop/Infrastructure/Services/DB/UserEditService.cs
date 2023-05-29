@@ -6,7 +6,7 @@ namespace RentDesktop.Infrastructure.Services.DB
 {
     internal static class UserEditService
     {
-        public static void EditInfo(IUserInfo initialUserInfo, IUserInfo newUserInfo)
+        public static void EditInfo(IUser initialUserInfo, IUser newUserInfo)
         {
             if (initialUserInfo.Login != newUserInfo.Login)
                 ChangeLogin(newUserInfo.Login);

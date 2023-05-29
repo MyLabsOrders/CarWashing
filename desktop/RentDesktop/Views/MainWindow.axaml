@@ -22,10 +22,10 @@
 			<ia:InvokeCommandAction Command="{Binding LoginVM.LoadLoginInfoCommand}" />
 		</ia:EventTriggerBehavior>	
 		<ia:EventTriggerBehavior EventName="PointerMoved">
-			<ia:InvokeCommandAction Command="{Binding ResetInactivitySecondsCommand}" />
+			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
 		</ia:EventTriggerBehavior>
 		<ia:EventTriggerBehavior EventName="KeyDown">
-			<ia:InvokeCommandAction Command="{Binding ResetInactivitySecondsCommand}" />
+			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
 		</ia:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 

@@ -10,13 +10,13 @@ namespace RentDesktop.Infrastructure.Services.DB
 {
     internal static class UserCashService
     {
-        public static bool CanPayOrder(IEnumerable<TransportRent> cart, IUserInfo userInfo)
+        public static bool CanPayOrder(IEnumerable<TransportRent> cart, IUser userInfo)
         {
             double price = cart.Sum(t => t.TotalPrice);
             return userInfo.Money >= price;
         }
 
-        public static void AddCash(IUserInfo userInfo, double sum, bool logIn = false)
+        public static void AddCash(IUser userInfo, double sum, bool logIn = false)
         {
             using var db = new DatabaseConnectionService();
 
@@ -35,7 +35,7 @@ namespace RentDesktop.Infrastructure.Services.DB
                 throw new ErrorResponseException(addCashResponse);
         }
 
-        public static double GetUserBalace(IUserInfo userInfo)
+        public static double GetUserBalace(IUser userInfo)
         {
             using var db = new DatabaseConnectionService();
 

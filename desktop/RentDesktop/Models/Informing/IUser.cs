@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace RentDesktop.Models.Informing
 {
-    public interface IUserInfo
+    public interface IUser
     {
         string ID { get; set; }
         string Login { get; set; }
@@ -22,7 +22,7 @@ namespace RentDesktop.Models.Informing
 
         public string DateOfBirthPresenter { get; }
 
-        void CopyTo(IUserInfo other);
+        void CopyTo(IUser other);
         bool IsAdmin();
         bool IsUser();
     }

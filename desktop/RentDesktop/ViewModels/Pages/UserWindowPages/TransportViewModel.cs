@@ -11,7 +11,7 @@ using System.Reactive;
 
 namespace RentDesktop.ViewModels.Pages.UserWindowPages
 {
-    public class TransportViewModel : ViewModelBase
+    public class TransportViewModel : BaseViewModel
     {
         public TransportViewModel() : this(new ObservableCollection<TransportRent>())
         {

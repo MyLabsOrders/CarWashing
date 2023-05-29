@@ -37,9 +37,9 @@ namespace RentDesktop.Infrastructure.Services.DB
             };
         }
 
-        public static List<IUserInfo> GetAllUsers()
+        public static List<IUser> GetAllUsers()
         {
-            var allUsers = new List<IUserInfo>();
+            var allUsers = new List<IUser>();
             using var db = new DatabaseConnectionService();
 
             int currentPage = 1;
@@ -62,9 +62,9 @@ namespace RentDesktop.Infrastructure.Services.DB
                     .Select(t => GetUserIdentityInfo(t.id, db).role)
                     .ToArray();
 
-                List<IUserInfo> currentUsers = DatabaseModelConverterService.ConvertUsers(usersCollection, positions);
+                List<IUser> currentUsers = DatabaseModelConverterService.ConvertUsers(usersCollection, positions);
 
-                foreach (IUserInfo user in currentUsers)
+                foreach (IUser user in currentUsers)
                 {
                     user.Login = GetUserIdentityInfo(user.ID, db).username;
                     user.Password = UserInfo.HIDDEN_PASSWORD;

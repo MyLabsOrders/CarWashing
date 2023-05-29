@@ -31,10 +31,10 @@ namespace RentDesktop.Infrastructure.Services.DB
             };
         }
 
-        public static List<IUserInfo> ConvertUsers(DbUsers databaseUsers, IReadOnlyList<string> positions)
+        public static List<IUser> ConvertUsers(DbUsers databaseUsers, IReadOnlyList<string> positions)
         {
             if (databaseUsers.users is null)
-                return new List<IUserInfo>();
+                return new List<IUser>();
 
             if (databaseUsers.users.Count() != positions.Count)
                 throw new InvalidOperationException("The number of users does not match the number of their positions.");
@@ -46,7 +46,7 @@ namespace RentDesktop.Infrastructure.Services.DB
 
             return databaseUsers.users!
                 .Select(UserConverter)
-                .Select(t => t as IUserInfo)
+                .Select(t => t as IUser)
                 .ToList();
         }
 

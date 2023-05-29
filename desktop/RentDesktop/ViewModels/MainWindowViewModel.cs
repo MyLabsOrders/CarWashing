@@ -9,7 +9,7 @@ using System.Reactive;
 
 namespace RentDesktop.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : BaseViewModel
     {
         public MainWindowViewModel()
         {
@@ -22,7 +22,7 @@ namespace RentDesktop.ViewModels
             _inactivity_timer = ConfigureInactivityTimer();
             _inactivity_timer.Start();
 
-            ResetInactivitySecondsCommand = ReactiveCommand.Create(ResetInactivitySeconds);
+            InactivityResetCommand = ReactiveCommand.Create(ResetInactivitySeconds);
 
             //using var generator = new Infrastructure.Services.DB.DatabaseGenerationService();
             //generator.Generate();
@@ -69,7 +69,7 @@ namespace RentDesktop.ViewModels
 
         #region Commands
 
-        public ReactiveCommand<Unit, Unit> ResetInactivitySecondsCommand { get; }
+        public ReactiveCommand<Unit, Unit> InactivityResetCommand { get; }
 
         #endregion
 

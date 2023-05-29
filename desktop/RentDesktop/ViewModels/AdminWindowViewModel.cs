@@ -12,81 +12,45 @@ using System.Reactive;
 
 namespace RentDesktop.ViewModels
 {
-    public class AdminWindowViewModel : ViewModelBase
+    public class AdminWindowViewModel : BaseViewModel
     {
-        public AdminWindowViewModel() : this(new UserInfo())
+        public AdminWindowViewModel(IUser user)
         {
-        }
-
-        public AdminWindowViewModel(IUserInfo userInfo)
-        {
-            AdminProfileVM = new AdminProfileViewModel(userInfo);
-            AllUsersVM = new AllUsersViewModel(userInfo);
-            AddUserVM = new AddUserViewModel();
+            AdminProfileVM = new AdminProfileViewModel(user);
+            AllUsersVM = new AllUsersViewModel(user);
             EditUserVM = new EditUserViewModel();
-
-            AllUsersVM.SelectedUserChanged += EditUserVM.ChangeUser;
-
-            AllUsersVM.SelectedUserChanging += selectedUser =>
-            {
-                if (selectedUser is not null && selectedUser.ID == userInfo.ID)
-                    OpenAdminProfileTab();
-            };
-
-            AddUserVM.UserRegistered += registeredUser =>
-            {
-                registeredUser.Password = Models.Informing.UserInfo.HIDDEN_PASSWORD;
-                AllUsersVM.AddUser(registeredUser);
-            };
+            AddUserVM = new AddUserViewModel();
 
             AdminProfileVM.UserInfoUpdated += () =>
             {
-                IUserInfo? userInTable = AllUsersVM.Users.FirstOrDefault(t => t.ID == userInfo.ID);
+                IUser? userInTable = AllUsersVM.Users.FirstOrDefault(t => t.ID == user.ID);
 
-                if (userInTable is not null)
+                if (userInTable != null)
                 {
-                    userInfo.CopyTo(userInTable);
+                    user.CopyTo(userInTable);
                     userInTable.Password = Models.Informing.UserInfo.HIDDEN_PASSWORD;
                 }
             };
 
-            EditUserVM.UserInfoUpdated += () =>
+            AllUsersVM.SelectedUserChanging += selectedUser =>
             {
-                Avalonia.Controls.Window? window = WindowFinder.FindByType(typeof(AdminWindow));
-                QuickMessage.Info("Изменения успешно сохранены.").ShowDialog(window);
+                if (selectedUser != null && selectedUser.ID == user.ID)
+                    AdminPageOpen();
             };
 
-            UserInfo = userInfo;
+            AddUserVM.UserRegistered += AddUserVMUserRegistered;
+            EditUserVM.UserInfoUpdated += EditUserVMUserInfoUpdated;
+            AllUsersVM.SelectedUserChanged += EditUserVM.ChangeUser;
 
-            _inactivity_timer = ConfigureInactivityTimer();
+            UserInfo = user;
+
+            InactivityResetCommand = ReactiveCommand.Create(ResetSeconds);
+            MainShowCommand = ReactiveCommand.Create(DisplayMain);
+            DisposeImageOfUserCommand = ReactiveCommand.Create(ImageDiapose);
+
+            _inactivity_timer = TimerConfig();
             _inactivity_timer.Start();
-
-            ResetInactivitySecondsCommand = ReactiveCommand.Create(ResetInactivitySeconds);
-            ShowMainWindowCommand = ReactiveCommand.Create(ShowMainWindow);
-            DisposeUserImageCommand = ReactiveCommand.Create(DisposeUserImage);
         }
-
-        #region ViewModels
-
-        public AdminProfileViewModel AdminProfileVM { get; }
-        public AllUsersViewModel AllUsersVM { get; }
-        public AddUserViewModel AddUserVM { get; }
-        public EditUserViewModel EditUserVM { get; }
-
-        #endregion
-
-        #region Properties
-
-        public IUserInfo UserInfo { get; }
-
-        private int _selectedTabIndex = 0;
-        public int SelectedTabIndex
-        {
-            get => _selectedTabIndex;
-            set => this.RaiseAndSetIfChanged(ref _selectedTabIndex, value);
-        }
-
-        #endregion
 
         #region Private Fields
 
@@ -106,53 +70,177 @@ namespace RentDesktop.ViewModels
 
         #region Commands
 
-        public ReactiveCommand<Unit, Unit> ResetInactivitySecondsCommand { get; }
-        public ReactiveCommand<Unit, Unit> ShowMainWindowCommand { get; }
-        public ReactiveCommand<Unit, Unit> DisposeUserImageCommand { get; }
+        public ReactiveCommand<Unit, Unit> MainShowCommand { get; }
+        public ReactiveCommand<Unit, Unit> InactivityResetCommand { get; }
+        public ReactiveCommand<Unit, Unit> DisposeImageOfUserCommand { get; }
+
+        #endregion
+
+        #region ViewModels
+
+        public EditUserViewModel EditUserVM { get; }
+        public AdminProfileViewModel AdminProfileVM { get; }
+        public AddUserViewModel AddUserVM { get; }
+        public AllUsersViewModel AllUsersVM { get; }
 
         #endregion
 
         #region Private Methods
 
-        private DispatcherTimer ConfigureInactivityTimer()
+        private DispatcherTimer TimerConfig()
         {
             return new DispatcherTimer(
                 new TimeSpan(0, 0, INACTIVITY_TIMER_INTERVAL_SECONDS),
                 DispatcherPriority.Background,
-                (sender, e) => VerifyInactivityStatus());
+                (s, e) => CheckInactivity());
         }
 
-        private void VerifyInactivityStatus()
+        public static void MyMethod()
         {
-            _inactivity_seconds += INACTIVITY_TIMER_INTERVAL_SECONDS;
+            int a = 0;
+            int b = 1;
 
-            if (_inactivity_seconds < MAX_INACTIVITY_SECONDS)
+            int c = a + b;
+
+            for (int i = 0; i < 10; ++i)
+            {
+                c *= i;
+                string message = "Message";
+
+                message += c;
+
+                if (message == "End")
+                    break;
+            }
+        }
+        
+        private void CheckInactivity()
+        {
+            Increase();
+
+            if (Check())
                 return;
 
             _inactivity_timer.Stop();
-            ResetInactivitySeconds();
+            ResetSeconds();
 
             AppInteraction.CloseUserWindow();
         }
 
-        private void ResetInactivitySeconds()
+        public static void MyMethod1()
+        {
+            int a = 0;
+            int b = 1;
+
+            int c = a + b;
+
+            for (int i = 0; i < 10; ++i)
+            {
+                c *= i;
+                string message = "Message";
+
+                message += c;
+
+                if (message == "End")
+                    break;
+            }
+        }
+
+        private void Increase()
+        {
+            _inactivity_seconds += INACTIVITY_TIMER_INTERVAL_SECONDS;
+        }
+
+        private bool Check()
+        {
+            return _inactivity_seconds < MAX_INACTIVITY_SECONDS;
+        }
+
+        private void ResetSeconds()
         {
             _inactivity_seconds = 0;
         }
 
-        private void ShowMainWindow()
+        public static void MyMethod3()
+        {
+            int a = 0;
+            int b = 1;
+
+            int c = a + b;
+
+            for (int i = 0; i < 10; ++i)
+            {
+                c *= i;
+                string message = "Message";
+
+                message += c;
+
+                if (message == "End")
+                    break;
+            }
+        }
+
+        private void DisplayMain()
         {
             AppInteraction.ShowMainWindow();
         }
 
-        private void DisposeUserImage()
+        private void ImageDiapose()
         {
             AdminProfileVM.UserImage?.Dispose();
         }
 
-        private void OpenAdminProfileTab()
+        public static void MyMethod4()
+        {
+            int a = 0;
+            int b = 1;
+
+            int c = a + b;
+
+            for (int i = 0; i < 10; ++i)
+            {
+                c *= i;
+                string message = "Message";
+
+                message += c;
+
+                if (message == "End")
+                    break;
+            }
+        }
+
+        private void AdminPageOpen()
         {
             SelectedTabIndex = ADMIN_PROFILE_TAB_INDEX;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public IUser UserInfo { get; }
+
+        private int _selectedTabIndex = 0;
+        public int SelectedTabIndex
+        {
+            get => _selectedTabIndex;
+            set => this.RaiseAndSetIfChanged(ref _selectedTabIndex, value);
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void EditUserVMUserInfoUpdated()
+        {
+            Avalonia.Controls.Window? window = WindowFinder.FindByType(typeof(AdminWindow));
+            QuickMessage.Info("Изменения успешно сохранены.").ShowDialog(window);
+        }
+
+        private void AddUserVMUserRegistered(IUser registeredUser)
+        {
+            registeredUser.Password = Models.Informing.UserInfo.HIDDEN_PASSWORD;
+            AllUsersVM.AddUser(registeredUser);
         }
 
         #endregion

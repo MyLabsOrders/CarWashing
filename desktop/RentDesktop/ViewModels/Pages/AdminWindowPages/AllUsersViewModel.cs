@@ -15,18 +15,18 @@ using System.Reactive;
 
 namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 {
-    public class AllUsersViewModel : ViewModelBase
+    public class AllUsersViewModel : BaseViewModel
     {
         public AllUsersViewModel() : this(new UserInfo())
         {
         }
 
-        public AllUsersViewModel(IUserInfo userInfo)
+        public AllUsersViewModel(IUser userInfo)
         {
-            Users = new ObservableCollection<IUserInfo>();
+            Users = new ObservableCollection<IUser>();
 
             _currentUserInfo = userInfo;
-            _databaseUsers = Array.Empty<IUserInfo>();
+            _databaseUsers = Array.Empty<IUser>();
 
             RefreshUsers();
 
@@ -42,23 +42,23 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         #region Events
 
-        public delegate void SelectedUserChangedHandler(IUserInfo? userInfo);
+        public delegate void SelectedUserChangedHandler(IUser? userInfo);
         public event SelectedUserChangedHandler? SelectedUserChanged;
 
-        public delegate void SelectedUserChangingHandler(IUserInfo? userInfo);
+        public delegate void SelectedUserChangingHandler(IUser? userInfo);
         public event SelectedUserChangingHandler? SelectedUserChanging;
 
         #endregion
 
         #region Properties
 
-        public ObservableCollection<IUserInfo> Users { get; }
+        public ObservableCollection<IUser> Users { get; }
         public ObservableCollection<string> Positions { get; }
         public ObservableCollection<string> Statuses { get; }
         public ObservableCollection<string> Genders { get; }
 
-        private IUserInfo? _selectedUser = null;
-        public IUserInfo? SelectedUser
+        private IUser? _selectedUser = null;
+        public IUser? SelectedUser
         {
             get => _selectedUser;
             set
@@ -118,8 +118,8 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         #endregion
 
-        private readonly IUserInfo _currentUserInfo;
-        private ICollection<IUserInfo> _databaseUsers;
+        private readonly IUser _currentUserInfo;
+        private ICollection<IUser> _databaseUsers;
 
         #endregion
 
@@ -134,7 +134,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         #region Public Methods
 
-        public void AddUser(IUserInfo user)
+        public void AddUser(IUser user)
         {
             Users.Add(user);
             _databaseUsers.Add(user);
@@ -146,7 +146,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         private void FindUsers()
         {
-            IEnumerable<IUserInfo> foundUsers = _databaseUsers;
+            IEnumerable<IUser> foundUsers = _databaseUsers;
 
             if (SelectedPositionIndex > 0 && SelectedPositionIndex < Positions.Count)
                 foundUsers = foundUsers.Where(t => t.Position == Positions[SelectedPositionIndex]);
@@ -186,7 +186,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         private void RefreshUsers()
         {
-            List<IUserInfo> users;
+            List<IUser> users;
 
             try
             {
@@ -208,14 +208,14 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
             ResetUsers(_databaseUsers);
         }
 
-        private void ResetUsers(IEnumerable<IUserInfo> newUsers)
+        private void ResetUsers(IEnumerable<IUser> newUsers)
         {
             Users.ResetItems(newUsers);
         }
 
         private void SelectClickedUser(RoutedEventArgs e)
         {
-            if (e.Source is not IDataContextProvider p || p.DataContext is not IUserInfo userInfo)
+            if (e.Source is not IDataContextProvider p || p.DataContext is not IUser userInfo)
                 return;
 
             SelectedUserChanging?.Invoke(userInfo);

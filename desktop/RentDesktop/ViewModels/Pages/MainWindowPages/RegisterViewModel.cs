@@ -15,7 +15,7 @@ using System.Reactive;
 
 namespace RentDesktop.ViewModels.Pages.MainWindowPages
 {
-    public class RegisterViewModel : ViewModelBase
+    public class RegisterViewModel : BaseViewModel
     {
         public RegisterViewModel() : this(UserInfo.USER_POSITION)
         {
@@ -36,7 +36,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
         public delegate void PageClosingHandler();
         public event PageClosingHandler? PageClosing;
 
-        public delegate void UserRegisteredHandler(IUserInfo user);
+        public delegate void UserRegisteredHandler(IUser user);
         public event UserRegisteredHandler? UserRegistered;
 
         #endregion
@@ -176,7 +176,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
             return typeof(MainWindow);
         }
 
-        protected virtual IUserInfo GetUserInfo()
+        protected virtual IUser GetUserInfo()
         {
             byte[] userImageBytes = UserImage is not null
                 ? BitmapService.BitmapToBytes(UserImage)
@@ -287,7 +287,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
             if (!VerifyFieldsCorrectness())
                 return;
 
-            IUserInfo userInfo = GetUserInfo();
+            IUser userInfo = GetUserInfo();
 
             try
             {
