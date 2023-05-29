@@ -1,12 +1,7 @@
-using Avalonia.Controls;
+using Avalonia . Controls;
 
-namespace RentDesktop.Views
-{
-    public partial class AdminWindow : Window
-    {
-        public AdminWindow()
-        {
-            InitializeComponent();
-        }
-    }
-}
+namespace RentDesktop . Views {
+	public partial class AdminWindow : Window {
+		public AdminWindow ( ) => InitializeComponent ( );
+		}
+	}

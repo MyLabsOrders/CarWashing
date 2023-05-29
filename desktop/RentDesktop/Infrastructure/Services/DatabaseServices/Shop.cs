@@ -1,74 +1,73 @@
-﻿using RentDesktop.Models;
-using RentDesktop.Models.DatabaseModels;
+﻿using RentDesktop . Models;
+using RentDesktop . Models . DatabaseModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
+using System . Collections . Generic;
+using System . Linq;
+using System . Net . Http;
+using System . Net . Http . Json;
 
-namespace RentDesktop.Infrastructure.Services.DatabaseServices
-{
-    internal static class Shop
-    {
-        public static void AddProduct(IProductModel transport)
-        {
-            using var db = new ConnectToDb();
+namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+	internal static class Shop {
+		public static void AddProduct ( IProductModel transport ) {
+		using var db = new ConnectToDb();
 
-            const string addOrderHandle = "/api/Order";
+		const string addOrderHandle = "/api/Order";
 
-            byte[] transportIconBytes = transport.Icon is null
-                ? Array.Empty<byte>()
-                : BitmapService.BmpToBytes(transport.Icon);
+		byte[] transportIconBytes = transport.Icon is null
+								? Array.Empty<byte>()
+								: BitmapService.BmpToBytes(transport.Icon);
 
-            var content = new DatabaseCreateProduct()
-            {
-                name = transport.Name,
-                company = transport.Company,
-                status = OrderModel.AVAILABLE_STATUS,
-                price = transport.Price,
-                orderImage = BitmapService.BytesToStr(transportIconBytes)
-            };
+		var content = new DatabaseCreateProduct()
+						{
+			name = transport.Name,
+			company = transport.Company,
+			status = OrderModel.AVAILABLE_STATUS,
+			price = transport.Price,
+			orderImage = BitmapService.BytesToStr(transportIconBytes)
+			};
 
-            using HttpResponseMessage addOrderResponse = db.Post(addOrderHandle, content).Result;
+		using HttpResponseMessage addOrderResponse = db.Post(addOrderHandle, content).Result;
 
-            if (!addOrderResponse.IsSuccessStatusCode)
-                throw new ErrorResponseException(addOrderResponse);
-        }
+		if ( !addOrderResponse . IsSuccessStatusCode ) {
+		throw new ErrorResponseException ( addOrderResponse );
+			}
+			}
 
-        public static List<ProductModel> Products()
-        {
-            var transports = new List<ProductModel>();
-            using var db = new ConnectToDb();
+		public static List<ProductModel> Products ( ) {
+		var transports = new List<ProductModel>();
+		using var db = new ConnectToDb();
 
-            int currentPage = 1;
-            IEnumerable<DatabaseOrder> currentOrder;
+		int currentPage = 1;
+		IEnumerable<DatabaseOrder> currentOrder;
 
-            do
-            {
-                string getOrdersHandle = $"/api/Order?page={currentPage++}";
-                using HttpResponseMessage getOrdersResponse = db.Get(getOrdersHandle).Result;
+		do {
+		string getOrdersHandle = $"/api/Order?page={currentPage++}";
+		using HttpResponseMessage getOrdersResponse = db.Get(getOrdersHandle).Result;
 
-                if (!getOrdersResponse.IsSuccessStatusCode)
-                    throw new ErrorResponseException(getOrdersResponse);
+		if ( !getOrdersResponse . IsSuccessStatusCode ) {
+		throw new ErrorResponseException ( getOrdersResponse );
+			}
 
-                DatabaseOrderCollection? orderCollection = getOrdersResponse.Content.ReadFromJsonAsync<DatabaseOrderCollection>().Result;
+		DatabaseOrderCollection? orderCollection = getOrdersResponse.Content.ReadFromJsonAsync<DatabaseOrderCollection>().Result;
 
-                if (orderCollection is null || orderCollection.orders is null)
-                    throw new IncorrectContentException(getOrdersResponse.Content);
+		if ( orderCollection is null||orderCollection . orders is null ) {
+		throw new IncorrectContentException ( getOrdersResponse . Content );
+			}
 
-                IEnumerable<DatabaseOrder> orders = orderCollection.orders.Where(t => t.orderDate is null);
+		IEnumerable<DatabaseOrder> orders = orderCollection.orders.Where(t => t.orderDate is null);
 
-                IEnumerable<IReadOnlyList<ProductModel>> transportsCollection = ModelConverter.ConvertProductsToOrder(orders)
-                    .Select(t => t.Models);
+		IEnumerable<IReadOnlyList<ProductModel>> transportsCollection = ModelConverter.ConvertProductsToOrder(orders)
+										.Select(t => t.Models);
 
-                foreach (IReadOnlyList<ProductModel>? currTransports in transportsCollection)
-                    transports.AddRange(currTransports);
+		foreach ( IReadOnlyList<ProductModel>? currTransports in transportsCollection ) {
+		transports . AddRange ( currTransports );
+			}
 
-                currentOrder = orderCollection.orders;
-            }
-            while (currentOrder.Any());
+		currentOrder=orderCollection . orders;
+			}
+		while ( currentOrder . Any ( ) );
 
-            return transports;
-        }
-    }
-}
+		return transports;
+			}
+		}
+	}

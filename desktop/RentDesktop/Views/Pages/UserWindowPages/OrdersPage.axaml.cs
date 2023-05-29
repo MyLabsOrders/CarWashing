@@ -1,12 +1,7 @@
-using Avalonia.Controls;
+using Avalonia . Controls;
 
-namespace RentDesktop.Views.Pages
-{
-    public partial class OrdersPage : UserControl
-    {
-        public OrdersPage()
-        {
-            InitializeComponent();
-        }
-    }
-}
+namespace RentDesktop . Views . Pages {
+	public partial class OrdersPage : UserControl {
+		public OrdersPage ( ) => InitializeComponent ( );
+		}
+	}

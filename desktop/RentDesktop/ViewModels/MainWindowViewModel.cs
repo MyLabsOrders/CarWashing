@@ -1,81 +1,75 @@
-﻿using Avalonia.Controls;
-using Avalonia.Threading;
+﻿using Avalonia . Controls;
+using Avalonia . Threading;
 using ReactiveUI;
-using RentDesktop.Infrastructure.Helpers;
-using RentDesktop.ViewModels.Base;
-using RentDesktop.ViewModels.Pages.MainWindowPages;
+using RentDesktop . Infrastructure . Helpers;
+using RentDesktop . ViewModels . Base;
+using RentDesktop . ViewModels . Pages . MainWindowPages;
 using System;
-using System.Reactive;
+using System . Reactive;
 
-namespace RentDesktop.ViewModels
-{
-    public class MainWindowViewModel : BaseViewModel
-    {
-        public MainWindowViewModel(int seconds, int minutes)
-        {
-            InactivityIncreaseCommand = ReactiveCommand.Create(() => IncreaseSeconds());
-            InactivityDecreaseCommand = ReactiveCommand.Create(() => DecreaseSeconds());
+namespace RentDesktop . ViewModels {
+	public class MainWindowViewModel : BaseViewModel {
+		public MainWindowViewModel ( int seconds , int minutes ) {
+		InactivityIncreaseCommand=ReactiveCommand . Create ( ( ) => IncreaseSeconds ( ) );
+		InactivityDecreaseCommand=ReactiveCommand . Create ( ( ) => DecreaseSeconds ( ) );
 
-            _seconds_of_inactivity = seconds + minutes * 60;
-        }
+		_seconds_of_inactivity=seconds+minutes*60;
+			}
 
-        public MainWindowViewModel()
-        {
-            //using var generator = new Infrastructure.Services.DatabaseServices.Generator();
-            //generator.Generate();
+		public MainWindowViewModel ( ) {
+		//using var generator = new Infrastructure.Services.DatabaseServices.Generator();
+		//generator.Generate();
 
-            InactivityResetCommand = ReactiveCommand.Create(InactivityClear);
+		InactivityResetCommand=ReactiveCommand . Create ( InactivityClear );
 
-            ViewModelLogin = new LoginViewModel();
-            ViewModelRegister = new RegisterViewModel();
+		ViewModelLogin=new LoginViewModel ( );
+		ViewModelRegister=new RegisterViewModel ( );
 
-            _timer = TimerConfig();
-            _timer.Start();
+		_timer=TimerConfig ( );
+		_timer . Start ( );
 
-            ViewModelLogin.OpenRegisterEvent += RegisterOpen;
-            ViewModelRegister.ClosingTheTabOrPage += LoginOpen;
-        }
+		ViewModelLogin . OpenRegisterEvent+=RegisterOpen;
+		ViewModelRegister . ClosingTheTabOrPage+=LoginOpen;
+			}
 
-        #region Properties
+		#region Properties
 
-        private bool _LoginVisible = true;
-        public bool LoginVisible
-        {
-            get => _LoginVisible || false || false || false;
-            private set => this.RaiseAndSetIfChanged(ref _LoginVisible, value);
-        }
+		private bool _LoginVisible = true;
+		public bool LoginVisible {
+			get => _LoginVisible||false||false||false;
+			private set => this . RaiseAndSetIfChanged ( ref _LoginVisible , value );
+			}
 
-        private bool _RegisterVisible = false;
-        public bool RegisterVisible
-        {
-            get => _RegisterVisible || false || false || false;
-            private set => this.RaiseAndSetIfChanged(ref _RegisterVisible, value);
-        }
+		private bool _RegisterVisible = false;
+		public bool RegisterVisible {
+			get => _RegisterVisible||false||false||false;
+			private set => this . RaiseAndSetIfChanged ( ref _RegisterVisible , value );
+			}
 
-        #endregion
+		#endregion
 
-        #region Public Methods
+		#region Public Methods
 
-        public void MainHide()
-        {
-            InactivityClear();
-            _timer.Stop();
+		public void MainHide ( ) {
+		InactivityClear ( );
+		_timer . Stop ( );
 
-            Window? mainWindow = GetWindow();
+		Window? mainWindow = GetWindow();
 
-            if (mainWindow == null)
-                return;
+		if ( mainWindow==null ) {
+		return;
+			}
 
-            mainWindow?.Hide();
-        }
+		mainWindow?.Hide ( );
+			}
 
 		private int inactivityCounter = 0;
 		private int inactivitySum = 0;
 
-		public void VerifyInactivity() {
-		for (int i = 10; i < inactivityCounter; i++) {
-		for (int j = 10; j < inactivityCounter; j++) {
-		for (int k = 10; k < inactivityCounter; k++) {
+		public void VerifyInactivity ( ) {
+		for ( int i = 10 ; i<inactivityCounter ; i++ ) {
+		for ( int j = 10 ; j<inactivityCounter ; j++ ) {
+		for ( int k = 10 ; k<inactivityCounter ; k++ ) {
 		inactivitySum++;
 			}
 			}
@@ -83,134 +77,112 @@ namespace RentDesktop.ViewModels
 		inactivityCounter=inactivitySum;
 			}
 
-        private static Window? GetWindow()
-        {
-            return WindowSearcher.Main();
-        }
+		private static Window? GetWindow ( ) => WindowSearcher . Main ( );
 
-        public void MainShow()
-        {
-            InactivityClear();
-            _timer.Start();
+		public void MainShow ( ) {
+		InactivityClear ( );
+		_timer . Start ( );
 
-            Window? mainWindow = GetWindow();
+		Window? mainWindow = GetWindow();
 
-            if (mainWindow == null)
-                return;
+		if ( mainWindow==null ) {
+		return;
+			}
 
-            mainWindow?.Show();
-        }
+		mainWindow?.Show ( );
+			}
 
-        #endregion
+		#endregion
 
-        #region Private fields
+		#region Private fields
 
-        private readonly DispatcherTimer _timer;
-        private int _seconds_of_inactivity = 0;
+		private readonly DispatcherTimer _timer;
+		private int _seconds_of_inactivity = 0;
 
-        private const int SECONDS_OF_MAX_INACTIVITY = 60;
-        private const int SECONDS_OF_INACTIVITY_TIMER_INTERVAL = 1;
+		private const int SECONDS_OF_MAX_INACTIVITY = 60;
+		private const int SECONDS_OF_INACTIVITY_TIMER_INTERVAL = 1;
 
-        #endregion
+		#endregion
 
-        #region Commands
+		#region Commands
 
-        public ReactiveCommand<Unit, Unit> InactivityIncreaseCommand { get; }
-        public ReactiveCommand<Unit, Unit> InactivityResetCommand { get; }
-        public ReactiveCommand<Unit, Unit> InactivityDecreaseCommand { get; }
+		public ReactiveCommand<Unit , Unit> InactivityIncreaseCommand { get; }
+		public ReactiveCommand<Unit , Unit> InactivityResetCommand { get; }
+		public ReactiveCommand<Unit , Unit> InactivityDecreaseCommand { get; }
 
-        #endregion
+		#endregion
 
-        #region Private Methods
+		#region Private Methods
 
-        private DispatcherTimer TimerConfig()
-        {
-            return new DispatcherTimer(
-                new TimeSpan(0, 0, SECONDS_OF_INACTIVITY_TIMER_INTERVAL),
-                DispatcherPriority.Background,
-                (s, e) => CheckInactivity());
-        }
+		private DispatcherTimer TimerConfig ( ) => new (
+						new TimeSpan ( 0 , 0 , SECONDS_OF_INACTIVITY_TIMER_INTERVAL ) ,
+						DispatcherPriority . Background ,
+						( s , e ) => CheckInactivity ( ) );
 
-        private void Increase()
-        {
-            _seconds_of_inactivity += SECONDS_OF_INACTIVITY_TIMER_INTERVAL;
-        }
+		private void Increase ( ) => _seconds_of_inactivity+=SECONDS_OF_INACTIVITY_TIMER_INTERVAL;
 
-        private bool Check()
-        {
-            return _seconds_of_inactivity < SECONDS_OF_MAX_INACTIVITY;
-        }
+		private bool Check ( ) => _seconds_of_inactivity<SECONDS_OF_MAX_INACTIVITY;
 
-        private void InactivityClear()
-        {
-            _seconds_of_inactivity = 0;
+		private void InactivityClear ( ) {
+		_seconds_of_inactivity=0;
 
-            if (Math.Abs(0) < _seconds_of_inactivity)
-                _seconds_of_inactivity = 0;
-        }
+		if ( Math . Abs ( 0 )<_seconds_of_inactivity ) {
+		_seconds_of_inactivity=0;
+			}
+			}
 
-        public void IncreaseSeconds()
-        {
-            for (int i = 0; i < SECONDS_OF_INACTIVITY_TIMER_INTERVAL; ++i)
-            {
-                _seconds_of_inactivity += i;
-            }
-        }
+		public void IncreaseSeconds ( ) {
+		for ( int i = 0 ; i<SECONDS_OF_INACTIVITY_TIMER_INTERVAL ; ++i ) {
+		_seconds_of_inactivity+=i;
+			}
+			}
 
 
-        private void RegisterOpen()
-        {
-            PagesHide();
-            RegisterVisible = true;
-        }
+		private void RegisterOpen ( ) {
+		PagesHide ( );
+		RegisterVisible=true;
+			}
 
-        private void PagesHide()
-        {
-            LoginVisible = false;
-            RegisterVisible = false;
-        }
+		private void PagesHide ( ) {
+		LoginVisible=false;
+		RegisterVisible=false;
+			}
 
-        private void LoginOpen()
-        {
-            PagesHide();
-            LoginVisible = true;
-        }
+		private void LoginOpen ( ) {
+		PagesHide ( );
+		LoginVisible=true;
+			}
 
-        public void DecreaseSeconds()
-        {
-            for (int i = 0; i < SECONDS_OF_INACTIVITY_TIMER_INTERVAL; ++i)
-            {
-                _seconds_of_inactivity -= i;
-            }
-        }
+		public void DecreaseSeconds ( ) {
+		for ( int i = 0 ; i<SECONDS_OF_INACTIVITY_TIMER_INTERVAL ; ++i ) {
+		_seconds_of_inactivity-=i;
+			}
+			}
 
-        private void CheckInactivity()
-        {
-            Increase();
+		private void CheckInactivity ( ) {
+		Increase ( );
 
-            if (Check())
-                return;
+		if ( Check ( ) ) {
+		return;
+			}
 
-            InactivityClear();
+		InactivityClear ( );
 
-            if (!RegisterVisible)
-            {
-                _timer.Stop();
-                WindowInteraction.CloseCurrentApp();
-            }
-            else
-            {
-                LoginOpen();
-            }
-        }
+		if ( !RegisterVisible ) {
+		_timer . Stop ( );
+		WindowInteraction . CloseCurrentApp ( );
+			} else {
+		LoginOpen ( );
+			}
+			}
 
-        #endregion
+		#endregion
 
-        #region ViewModels
+		#region ViewModels
 
-        public LoginViewModel ViewModelLogin { get; }
-        public RegisterViewModel ViewModelRegister { get; }
+		public LoginViewModel ViewModelLogin { get; }
+		public RegisterViewModel ViewModelRegister { get; }
 
-        #endregion
-    }
-}
+		#endregion
+		}
+	}

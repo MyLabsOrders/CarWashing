@@ -1,60 +1,51 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System . Collections . ObjectModel;
 
-namespace RentDesktop.Models.Informing
-{
-    public class UserInfo : IUser
-    {
-        public const string POS_ADMIN = "admin";
-        public const string POS_USER = "user";
-        public const string ST_ACTIVE = "Активен";
-        public const string ST_INACTIVE = "Неактивен";
-        public const string MALE = "Мужской";
-        public const string FEMALE = "Женский";
-        public const string HIDDEN = "*";
+namespace RentDesktop . Models . Informing {
+	public class UserInfo : IUser {
+		public const string POS_ADMIN = "admin";
+		public const string POS_USER = "user";
+		public const string ST_ACTIVE = "Активен";
+		public const string ST_INACTIVE = "Неактивен";
+		public const string MALE = "Мужской";
+		public const string FEMALE = "Женский";
+		public const string HIDDEN = "*";
 
-        public ObservableCollection<OrderModel> Orders { get; set; } = new ObservableCollection<OrderModel>();
-        public string Position { get; set; } = string.Empty;
-        public string Status { get; set; } = string.Empty;
-        public string ID { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public string Surname { get; set; } = string.Empty;
-        public string Patronymic { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-        public string Login { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string Gender { get; set; } = string.Empty;
-        public double Money { get; set; } = 0;
-        public byte[] Icon { get; set; } = Array.Empty<byte>();
-        public DateTime DateOfBirth { get; set; } = default;
+		public ObservableCollection<OrderModel> Orders { get; set; } = new ObservableCollection<OrderModel> ( );
+		public string Position { get; set; } = string . Empty;
+		public string Status { get; set; } = string . Empty;
+		public string ID { get; set; } = string . Empty;
+		public string Name { get; set; } = string . Empty;
+		public string Surname { get; set; } = string . Empty;
+		public string Patronymic { get; set; } = string . Empty;
+		public string PhoneNumber { get; set; } = string . Empty;
+		public string Login { get; set; } = string . Empty;
+		public string Password { get; set; } = string . Empty;
+		public string Gender { get; set; } = string . Empty;
+		public double Money { get; set; } = 0;
+		public byte [ ] Icon { get; set; } = Array . Empty<byte> ( );
+		public DateTime DateOfBirth { get; set; } = default;
 
-        public string DateOfBirthPresenter => DateOfBirth.ToShortDateString();
+		public string DateOfBirthPresenter => DateOfBirth . ToShortDateString ( );
 
-        public bool IsTheAdmin()
-        {
-            return Position == POS_ADMIN;
-        }
+		public bool IsTheAdmin ( ) => Position==POS_ADMIN;
 
-        public bool IsTheUser()
-        {
-            return Position == POS_USER;
-        }
+		public bool IsTheUser ( ) => Position==POS_USER;
 
-        public void CopyToOtherUser(IUser other)
-        {
-            other.ID = ID;
-            other.Login = Login;
-            other.Password = Password;
-            other.Name = Name;
-            other.Surname = Surname;
-            other.Patronymic = Patronymic;
-            other.PhoneNumber = PhoneNumber;
-            other.Gender = Gender;
-            other.Position = Position;
-            other.Status = Status;
-            other.Money = Money;
-            other.Icon = Icon;
-            other.DateOfBirth = DateOfBirth;
-        }
-    }
-}
+		public void CopyToOtherUser ( IUser other ) {
+		other . ID=ID;
+		other . Login=Login;
+		other . Password=Password;
+		other . Name=Name;
+		other . Surname=Surname;
+		other . Patronymic=Patronymic;
+		other . PhoneNumber=PhoneNumber;
+		other . Gender=Gender;
+		other . Position=Position;
+		other . Status=Status;
+		other . Money=Money;
+		other . Icon=Icon;
+		other . DateOfBirth=DateOfBirth;
+			}
+		}
+	}

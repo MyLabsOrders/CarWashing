@@ -1,20 +1,14 @@
-﻿namespace RentDesktop.Models.DatabaseModels
-{
+﻿namespace RentDesktop . Models . DatabaseModels {
 #pragma warning disable IDE1006
 
-    internal class DatabaseCash
-    {
-        public DatabaseCash()
-        {
-        }
+	internal class DatabaseCash {
+		public DatabaseCash ( ) {
+			}
 
-        public DatabaseCash(double total)
-        {
-            this.total = total;
-        }
+		public DatabaseCash ( double total ) => this . total=total;
 
-        public double total { get; set; }
-    }
+		public double total { get; set; }
+		}
 
 #pragma warning restore IDE1006
-}
+	}

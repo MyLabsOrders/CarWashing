@@ -1,12 +1,7 @@
-using Avalonia.Controls;
+using Avalonia . Controls;
 
-namespace RentDesktop.Views.Pages
-{
-    public partial class AddUserPage : UserControl
-    {
-        public AddUserPage()
-        {
-            InitializeComponent();
-        }
-    }
-}
+namespace RentDesktop . Views . Pages {
+	public partial class AddUserPage : UserControl {
+		public AddUserPage ( ) => InitializeComponent ( );
+		}
+	}

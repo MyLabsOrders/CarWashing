@@ -1,19 +1,14 @@
-﻿using RentDesktop.Models;
-using RentDesktop.ViewModels.Base;
-using System.Collections.ObjectModel;
+﻿using RentDesktop . Models;
+using RentDesktop . ViewModels . Base;
+using System . Collections . ObjectModel;
 
-namespace RentDesktop.ViewModels.Pages.UserWindowPages
-{
-    public class OrdersViewModel : BaseViewModel
-    {
-        public OrdersViewModel(ObservableCollection<OrderModel> orders)
-        {
-            Orders = orders;
-        }
+namespace RentDesktop . ViewModels . Pages . UserWindowPages {
+	public class OrdersViewModel : BaseViewModel {
+		public OrdersViewModel ( ObservableCollection<OrderModel> orders ) => Orders=orders;
 
-        #region Properties
+		#region Properties
 
-        public ObservableCollection<OrderModel> Orders { get; }
+		public ObservableCollection<OrderModel> Orders { get; }
 
 		#endregion
 
@@ -31,4 +26,4 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 		inactivityCounter=inactivitySum;
 			}
 		}
-}
+	}

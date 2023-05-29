@@ -1,12 +1,7 @@
-using Avalonia.Controls;
+using Avalonia . Controls;
 
-namespace RentDesktop.Views.Pages
-{
-    public partial class TransportPage : UserControl
-    {
-        public TransportPage()
-        {
-            InitializeComponent();
-        }
-    }
-}
+namespace RentDesktop . Views . Pages {
+	public partial class TransportPage : UserControl {
+		public TransportPage ( ) => InitializeComponent ( );
+		}
+	}

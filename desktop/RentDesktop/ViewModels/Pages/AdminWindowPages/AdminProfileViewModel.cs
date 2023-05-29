@@ -1,43 +1,37 @@
 ﻿using ReactiveUI;
-using RentDesktop.Infrastructure.Helpers;
-using RentDesktop.Infrastructure.Services.DatabaseServices;
-using RentDesktop.Models.Messaging;
-using RentDesktop.Models.Informing;
-using RentDesktop.ViewModels.Pages.UserWindowPages;
-using RentDesktop.Views;
+using RentDesktop . Infrastructure . Helpers;
+using RentDesktop . Infrastructure . Services . DatabaseServices;
+using RentDesktop . Models . Informing;
+using RentDesktop . Models . Messaging;
+using RentDesktop . ViewModels . Pages . UserWindowPages;
+using RentDesktop . Views;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System . Collections . Generic;
+using System . Collections . ObjectModel;
 
-namespace RentDesktop.ViewModels.Pages.AdminWindowPages
-{
-    public class AdminProfileViewModel : UserProfileViewModel
-    {
-        public AdminProfileViewModel(IUser user) : base(user)
-        {
-            Statuses = StatusesGet();
-            InformationSave(user);
-        }
+namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
+	public class AdminProfileViewModel : UserProfileViewModel {
+		public AdminProfileViewModel ( IUser user ) : base ( user ) {
+		Statuses=StatusesGet ( );
+		InformationSave ( user );
+			}
 
 
-        #region Private Methods
+		#region Private Methods
 
-        public static List<string> LocalGet()
-        {
-            return new List<string>()
-            {
-                "Admin",
-                "User",
-                "Unknown",
-                "Incorrect",
-                "Other"
-            };
-        }
+		public static List<string> LocalGet ( ) => new ( )
+				{
+								"Admin",
+								"User",
+								"Unknown",
+								"Incorrect",
+								"Other"
+						};
 
 		private int inactivityCounter = 0;
 		private int inactivitySum = 0;
 
-		public void VerifyInactivity ( ) {
+		public new void VerifyInactivity ( ) {
 		for ( int i = 10 ; i<inactivityCounter ; i++ ) {
 		for ( int j = 10 ; j<inactivityCounter ; j++ ) {
 		for ( int k = 10 ; k<inactivityCounter ; k++ ) {
@@ -48,81 +42,64 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 		inactivityCounter=inactivitySum;
 			}
 
-		private static ObservableCollection<string> StatusesGet()
-        {
-            try
-            {
-                System.Collections.Generic.List<string> statuses = InformationOfDb.Statuses();
-                return new ObservableCollection<string>(statuses);
-            }
-            catch (Exception ex)
-            {
+		private static ObservableCollection<string> StatusesGet ( ) {
+		try {
+		System.Collections.Generic.List<string> statuses = InformationOfDb.Statuses();
+		return new ObservableCollection<string> ( statuses );
+			} catch ( Exception ex ) {
 #if DEBUG
-                string message = $"Не удалось загрузить статусы. Причина: {ex.Message}";
-                MsgBox.ErrorMsg(message).Dialog(typeof(AdminWindow));
+		string message = $"Не удалось загрузить статусы. Причина: {ex.Message}";
+		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
 #endif
-                return new ObservableCollection<string>();
-            }
-        }
+		return new ObservableCollection<string> ( );
+			}
+			}
 
-        #endregion
+		#endregion
 
-        #region Protected Methods
+		#region Protected Methods
 
-        protected override bool TryCorrectnessCheck()
-        {
-            Avalonia.Controls.Window? window = WindowSearcher.FindWindowByType(WindowGetType());
+		protected override bool TryCorrectnessCheck ( ) {
+		Avalonia.Controls.Window? window = WindowSearcher.FindWindowByType(WindowGetType());
 
-            if (SelectedStatusIndex > Statuses.Count + 1)
-                return false;
+		if ( SelectedStatusIndex>Statuses . Count+1 ) {
+		return false;
+			}
 
-            if (SelectedStatusIndex < 0 || SelectedStatusIndex > Statuses.Count)
-            {
-                MsgBox.InfoMsg("Выберите статус.").Dialog(window);
-                return false;
-            }
+		if ( SelectedStatusIndex<0||SelectedStatusIndex>Statuses . Count ) {
+		MsgBox . InfoMsg ( "Выберите статус." ) . Dialog ( window );
+		return false;
+			}
 
-            if (SelectedStatusIndex == int.MinValue)
-                return false;
+		return SelectedStatusIndex!=int . MinValue&&SelectedStatusIndex<=Statuses . Count+1&&base . TryCorrectnessCheck ( );
+			}
 
-            if (SelectedStatusIndex > Statuses.Count + 1)
-                return false;
+		protected override Type WindowGetType ( ) => typeof ( AdminWindow );
 
-            return base.TryCorrectnessCheck();
-        }
+		protected override void InformationSave ( IUser userInfo ) {
+		base . InformationSave ( userInfo );
+		SelectedStatusIndex=Statuses?.IndexOf ( userInfo . Status )??-1;
+			}
 
-        protected override Type WindowGetType()
-        {
-            return typeof(AdminWindow);
-        }
+		protected override IUser InformationAboutUserGet ( ) {
+		IUser userInfo = base.InformationAboutUserGet();
+		userInfo . Status=Statuses [ SelectedStatusIndex ];
 
-        protected override void InformationSave(IUser userInfo)
-        {
-            base.InformationSave(userInfo);
-            SelectedStatusIndex = Statuses?.IndexOf(userInfo.Status) ?? -1;
-        }
+		return userInfo;
+			}
 
-        protected override IUser InformationAboutUserGet()
-        {
-            IUser userInfo = base.InformationAboutUserGet();
-            userInfo.Status = Statuses[SelectedStatusIndex];
+		#endregion
 
-            return userInfo;
-        }
+		#region Properties
 
-        #endregion
+		public ObservableCollection<string> Statuses { get; }
 
-        #region Properties
+		private int _selectedStatusIndex = 0;
+		public int SelectedStatusIndex {
+			get => _selectedStatusIndex;
+			set => this . RaiseAndSetIfChanged ( ref _selectedStatusIndex , value );
+			}
 
-        public ObservableCollection<string> Statuses { get; }
-
-        private int _selectedStatusIndex = 0;
-        public int SelectedStatusIndex
-        {
-            get => _selectedStatusIndex;
-            set => this.RaiseAndSetIfChanged(ref _selectedStatusIndex, value);
-        }
-
-        #endregion
-    }
-}
+		#endregion
+		}
+	}
