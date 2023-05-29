@@ -17,7 +17,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		throw new InvalidOperationException ( "The number of users does not match the number of their positions." );
 			}
 
-		UserInfo UserConverter ( DatabaseUser user , int index ) => ConvertDbUser ( user , positions [ index ] );
+		User UserConverter ( DatabaseUser user , int index ) => ConvertDbUser ( user , positions [ index ] );
 
 		return databaseUsers . users!
 								. Select ( UserConverter )
@@ -62,7 +62,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		DatabaseOrder firstDatabaseOrder = transportGroup.First();
 		IEnumerable<ProductModel> transports = transportGroup.Select(t => ConvertDbOrderToProduct(t));
 
-		string status = OrderModel.RENTED_STATUS;
+		string status = OrderModel.RENT;
 		string id = firstDatabaseOrder.id;
 		double price = transportGroup.Sum(t => t.total * t.count!.Value * t.days!.Value);
 
@@ -77,7 +77,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		return orders;
 			}
 
-		public static UserInfo ConvertDbUser ( DatabaseUser user , string position ) => new ( ) {
+		public static User ConvertDbUser ( DatabaseUser user , string position ) => new ( ) {
 			ID=user . id ,
 			Login=string . Empty ,
 			Password=string . Empty ,
@@ -87,7 +87,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			PhoneNumber=user . number ,
 			Gender=GenderTranslator . FromDb ( user . gender ) ,
 			Position=position ,
-			Status=user . isActive ? UserInfo . ST_ACTIVE : UserInfo . ST_INACTIVE ,
+			Status=user . isActive ? User . ST_ACTIVE : User . ST_INACTIVE ,
 			Money=user . money ,
 			Icon=BitmapService . StrToBytes ( user . image ) ,
 			DateOfBirth=DateTimeService . StringToShortDateTime ( user . birthDate ) ,

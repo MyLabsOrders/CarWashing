@@ -4,18 +4,12 @@ using System;
 namespace RentDesktop . Models . Security {
 	public class Secret : ModelBase, ISecret {
 		public Secret ( int length = 5 ) {
-		Length=length;
+		Len=length;
 		UpdateText ( );
 			}
 
-		private string _text = string.Empty;
-		public string Text {
-			get => _text;
-			private set => RaiseAndSetIfChanged ( ref _text , value );
-			}
-
 		private int _length = 0;
-		public int Length {
+		public int Len {
 			get => _length;
 			set {
 			if ( value<=0 ) {
@@ -24,6 +18,12 @@ namespace RentDesktop . Models . Security {
 
 			_=RaiseAndSetIfChanged ( ref _length , value );
 				}
+			}
+
+		private string _text = string.Empty;
+		public string Captcha {
+			get => _text;
+			private set => RaiseAndSetIfChanged ( ref _text , value );
 			}
 
 		public void UpdateText ( ) {
@@ -40,7 +40,7 @@ namespace RentDesktop . Models . Security {
 				: char . ToUpper ( symbols [ index ] );
 			}
 
-		Text=text;
+		Captcha=text;
 			}
 		}
 	}

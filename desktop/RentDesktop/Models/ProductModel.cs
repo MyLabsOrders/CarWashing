@@ -13,17 +13,17 @@ namespace RentDesktop . Models {
 			}
 
 		public string ID { get; }
-		public string Name { get; }
-		public string Company { get; }
 		public double Price { get; }
 		public DateTime CreationDate { get; }
 		public Bitmap? Icon { get; }
-
-		public ProductModel Self => this;
-		public string PricePresenter => $"Цена: {Price}";
+		public string Name { get; }
+		public string Company { get; }
 
 		public ProductModel Copy ( ) => new ( ID , Name , Company , Price , CreationDate , Icon );
 
 		public override string ToString ( ) => Name;
+
+		public ProductModel Self => this;
+		public string PricePresenter => $"Цена: {Price}";
 		}
 	}

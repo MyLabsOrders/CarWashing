@@ -17,10 +17,10 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 								?? throw new ContentException(profileResponse.Content);
 
 		string position = InformationOfDb.IsAdmin(login, db)
-								? UserInfo.POS_ADMIN
-								: UserInfo.POS_USER;
+								? User.POS_ADMIN
+								: User.POS_USER;
 
-		UserInfo userInfo = ModelConverter.ConvertDbUser(profileContent, position);
+		User userInfo = ModelConverter.ConvertDbUser(profileContent, position);
 		userInfo . Login=login;
 		userInfo . Password=password;
 

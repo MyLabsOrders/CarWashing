@@ -79,7 +79,7 @@ namespace RentDesktop . ViewModels {
 
 		if ( userInTable!=null ) {
 		user . CopyToOtherUser ( userInTable );
-		userInTable . Password=Models . Informing . UserInfo . HIDDEN;
+		userInTable . Password=Models . Informing . User . HIDDEN;
 			}
 		};
 
@@ -316,7 +316,7 @@ namespace RentDesktop . ViewModels {
 			}
 
 		private void ViewModelAddUserUserRegistered ( IUser registeredUser ) {
-		registeredUser . Password=Models . Informing . UserInfo . HIDDEN;
+		registeredUser . Password=Models . Informing . User . HIDDEN;
 		ViewModelAllUsers . UserPutAndAdd ( registeredUser );
 			}
 

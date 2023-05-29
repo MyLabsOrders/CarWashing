@@ -34,7 +34,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 
 		userInfo . Money-=thePrice;
 
-		string status = OrderModel.RENTED_STATUS;
+		string status = OrderModel.RENT;
 		string ordId = productsInfo[0].Item1.Transport.ID;
 
 		return new OrderModel ( ordId , thePrice , status , crDate , productsInfo . Select ( t => t . Item1 . Transport ) , stamp );

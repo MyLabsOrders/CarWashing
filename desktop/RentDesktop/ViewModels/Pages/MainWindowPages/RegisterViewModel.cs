@@ -58,7 +58,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		ClosePageCommand=ReactiveCommand . Create ( ClosePage );
 			}
 
-		public RegisterViewModel ( ) : this ( UserInfo . POS_USER ) {
+		public RegisterViewModel ( ) : this ( User . POS_USER ) {
 			}
 
 		#region Private Methods
@@ -302,7 +302,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 								? BitmapService.BmpToBytes(UserImage)
 								: Array.Empty<byte>();
 
-		return new UserInfo ( ) {
+		return new User ( ) {
 			Login=Login ,
 			Password=Password ,
 			Name=Name ,
@@ -311,7 +311,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			PhoneNumber=PhoneNumber ,
 			Gender=Gender ,
 			Position=_position ,
-			Status=UserInfo . ST_ACTIVE ,
+			Status=User . ST_ACTIVE ,
 			Money=0 ,
 			Icon=image ,
 			DateOfBirth=DateOfBirth! . Value

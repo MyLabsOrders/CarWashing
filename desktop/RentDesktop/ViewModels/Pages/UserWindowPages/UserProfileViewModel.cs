@@ -422,9 +422,9 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			}
 
 
-		if ( Gender==UserInfo . MALE ) {
+		if ( Gender==User . MALE ) {
 		IsMaleGenderChecked=true;
-			} else if ( Gender==UserInfo . FEMALE ) {
+			} else if ( Gender==User . FEMALE ) {
 		IsFemaleGenderChecked=true;
 			}
 			}
@@ -434,7 +434,7 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 							 ? BitmapService.BmpToBytes(UserImage)
 							 : Array.Empty<byte>();
 
-		var userInfo = new UserInfo();
+		var userInfo = new User();
 		_user . CopyToOtherUser ( userInfo );
 
 		userInfo . Login=Login;

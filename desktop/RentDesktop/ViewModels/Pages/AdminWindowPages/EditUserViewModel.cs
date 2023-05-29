@@ -32,7 +32,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		ChangeUserCommand=ReactiveCommand . Create<IUser> ( UserPut );
 			}
 
-		public EditUserViewModel ( ) : this ( new UserInfo ( ) ) {
+		public EditUserViewModel ( ) : this ( new User ( ) ) {
 			}
 
 		#region Protected Methods
@@ -187,7 +187,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 			}
 
-		_user=newUser??new UserInfo ( );
+		_user=newUser??new User ( );
 		InformationSave ( _user );
 			}
 

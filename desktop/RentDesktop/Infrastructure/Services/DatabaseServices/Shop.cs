@@ -21,7 +21,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 						{
 			name = transport.Name,
 			company = transport.Company,
-			status = OrderModel.AVAILABLE_STATUS,
+			status = OrderModel.AVAIL,
 			price = transport.Price,
 			orderImage = BitmapService.BytesToStr(transportIconBytes)
 			};

@@ -59,7 +59,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			middleName = curr.Surname,
 			lastName = curr.Patronymic,
 			phoneNumber = curr.PhoneNumber,
-			isActive = curr.Status == UserInfo.ST_ACTIVE
+			isActive = curr.Status == User.ST_ACTIVE
 			};
 
 		using HttpResponseMessage editUserResponse = db.Patch(editUserHandle, content).Result;

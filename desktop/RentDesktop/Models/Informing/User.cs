@@ -2,14 +2,11 @@
 using System . Collections . ObjectModel;
 
 namespace RentDesktop . Models . Informing {
-	public class UserInfo : IUser {
+	public class User : IUser {
 		public const string POS_ADMIN = "admin";
 		public const string POS_USER = "user";
 		public const string ST_ACTIVE = "Активен";
 		public const string ST_INACTIVE = "Неактивен";
-		public const string MALE = "Мужской";
-		public const string FEMALE = "Женский";
-		public const string HIDDEN = "*";
 
 		public ObservableCollection<OrderModel> Orders { get; set; } = new ObservableCollection<OrderModel> ( );
 		public string Position { get; set; } = string . Empty;
@@ -25,6 +22,10 @@ namespace RentDesktop . Models . Informing {
 		public double Money { get; set; } = 0;
 		public byte [ ] Icon { get; set; } = Array . Empty<byte> ( );
 		public DateTime DateOfBirth { get; set; } = default;
+
+		public const string MALE = "Мужской";
+		public const string FEMALE = "Женский";
+		public const string HIDDEN = "*";
 
 		public string DateOfBirthPresenter => DateOfBirth . ToShortDateString ( );
 

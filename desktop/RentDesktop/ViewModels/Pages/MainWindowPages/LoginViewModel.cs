@@ -159,7 +159,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		MsgBox . InfoMsg ( "Введите логин." ) . Dialog ( ownerWindow );
 		return false;
 			}
-		if ( UserCaptchaText!=Captcha . Text ) {
+		if ( UserCaptchaText!=Captcha . Captcha ) {
 		MsgBox . InfoMsg ( "Текст с картинки введен неверно." ) . Dialog ( ownerWindow );
 
 		CaptchaRefresh ( );

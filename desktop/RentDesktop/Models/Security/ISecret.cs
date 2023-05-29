@@ -1,7 +1,7 @@
 ﻿namespace RentDesktop . Models . Security {
 	public interface ISecret {
-		string Text { get; }
-		int Length { get; set; }
+		string Captcha { get; }
+		int Len { get; set; }
 
 		void UpdateText ( );
 		}
