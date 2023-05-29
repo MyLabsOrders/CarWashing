@@ -50,7 +50,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
             try
             {
-                UserEditService.EditInfo(_user, newUserInfo);
+                EditDbUser.Edit(_user, newUserInfo);
             }
             catch (Exception ex)
             {
@@ -138,8 +138,8 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
             try
             {
-                UserCashService.AddCash(_user, money);
-                _user.Money = UserCashService.GetUserBalace(_user);
+                DatabaseUserCash.IncreaseMoney(_user, money);
+                _user.Money = DatabaseUserCash.CheckBalace(_user);
             }
             catch (Exception ex)
             {

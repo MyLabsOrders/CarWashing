@@ -7,7 +7,7 @@ namespace RentDesktop.Infrastructure.Services.DatabaseServices
     internal class ErrorResponseException : ApplicationException
     {
         public ErrorResponseException(HttpResponseMessage response, string? message = null, Exception? innerException = null)
-            : this(response.StatusCode, ResponseAnalyzeService.GetErrorReason(response), message, innerException)
+            : this(response.StatusCode, AnalyzeResp.Reason(response), message, innerException)
         {
         }
 

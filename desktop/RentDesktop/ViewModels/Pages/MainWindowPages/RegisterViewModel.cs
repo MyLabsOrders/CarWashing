@@ -44,7 +44,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
             try
             {
-                UserRegisterService.RegisterUser(userInfo);
+                RegisterDbUserToDatabase.Register(userInfo);
                 FieldsClear();
 
                 RegisteredTheUser?.Invoke(userInfo);

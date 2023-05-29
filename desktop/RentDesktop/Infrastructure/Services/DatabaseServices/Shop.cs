@@ -8,47 +8,11 @@ using System.Net.Http.Json;
 
 namespace RentDesktop.Infrastructure.Services.DatabaseServices
 {
-    internal static class ShopService
+    internal static class Shop
     {
-        public static List<ProductModel> GetTransports()
+        public static void AddProduct(IProductModel transport)
         {
-            var transports = new List<ProductModel>();
-            using var db = new DatabaseConnectionService();
-
-            int currentPage = 1;
-            IEnumerable<DatabaseOrder> currentOrder;
-
-            do
-            {
-                string getOrdersHandle = $"/api/Order?page={currentPage++}";
-                using HttpResponseMessage getOrdersResponse = db.GetAsync(getOrdersHandle).Result;
-
-                if (!getOrdersResponse.IsSuccessStatusCode)
-                    throw new ErrorResponseException(getOrdersResponse);
-
-                DatabaseOrderCollection? orderCollection = getOrdersResponse.Content.ReadFromJsonAsync<DatabaseOrderCollection>().Result;
-
-                if (orderCollection is null || orderCollection.orders is null)
-                    throw new IncorrectContentException(getOrdersResponse.Content);
-
-                IEnumerable<DatabaseOrder> orders = orderCollection.orders.Where(t => t.orderDate is null);
-
-                IEnumerable<IReadOnlyList<ProductModel>> transportsCollection = DatabaseModelConverterService.ConvertProducts(orders)
-                    .Select(t => t.Models);
-
-                foreach (IReadOnlyList<ProductModel>? currTransports in transportsCollection)
-                    transports.AddRange(currTransports);
-
-                currentOrder = orderCollection.orders;
-            }
-            while (currentOrder.Any());
-
-            return transports;
-        }
-
-        public static void AddTransport(IProductModel transport)
-        {
-            using var db = new DatabaseConnectionService();
+            using var db = new ConnectToDb();
 
             const string addOrderHandle = "/api/Order";
 
@@ -65,10 +29,46 @@ namespace RentDesktop.Infrastructure.Services.DatabaseServices
                 orderImage = BitmapService.BytesToStr(transportIconBytes)
             };
 
-            using HttpResponseMessage addOrderResponse = db.PostAsync(addOrderHandle, content).Result;
+            using HttpResponseMessage addOrderResponse = db.Post(addOrderHandle, content).Result;
 
             if (!addOrderResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(addOrderResponse);
+        }
+
+        public static List<ProductModel> Products()
+        {
+            var transports = new List<ProductModel>();
+            using var db = new ConnectToDb();
+
+            int currentPage = 1;
+            IEnumerable<DatabaseOrder> currentOrder;
+
+            do
+            {
+                string getOrdersHandle = $"/api/Order?page={currentPage++}";
+                using HttpResponseMessage getOrdersResponse = db.Get(getOrdersHandle).Result;
+
+                if (!getOrdersResponse.IsSuccessStatusCode)
+                    throw new ErrorResponseException(getOrdersResponse);
+
+                DatabaseOrderCollection? orderCollection = getOrdersResponse.Content.ReadFromJsonAsync<DatabaseOrderCollection>().Result;
+
+                if (orderCollection is null || orderCollection.orders is null)
+                    throw new IncorrectContentException(getOrdersResponse.Content);
+
+                IEnumerable<DatabaseOrder> orders = orderCollection.orders.Where(t => t.orderDate is null);
+
+                IEnumerable<IReadOnlyList<ProductModel>> transportsCollection = ModelConverter.ConvertProductsToOrder(orders)
+                    .Select(t => t.Models);
+
+                foreach (IReadOnlyList<ProductModel>? currTransports in transportsCollection)
+                    transports.AddRange(currTransports);
+
+                currentOrder = orderCollection.orders;
+            }
+            while (currentOrder.Any());
+
+            return transports;
         }
     }
 }

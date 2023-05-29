@@ -38,7 +38,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
         {
             try
             {
-                System.Collections.Generic.List<string> statuses = InfoService.GetAllStatuses();
+                System.Collections.Generic.List<string> statuses = InformationOfDb.Statuses();
                 return new ObservableCollection<string>(statuses);
             }
             catch (Exception ex)

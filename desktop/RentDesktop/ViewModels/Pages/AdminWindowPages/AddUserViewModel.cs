@@ -39,7 +39,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
         {
             try
             {
-                List<string> positions = InfoService.GetAllPositions();
+                List<string> positions = InformationOfDb.Positions();
                 return new ObservableCollection<string>(positions);
             }
             catch (Exception ex)

@@ -6,8 +6,59 @@ using System;
 
 namespace RentDesktop.Infrastructure.Services.DatabaseServices
 {
-    internal class DatabaseGenerationService : IDisposable
+    internal class Generator : IDisposable
     {
+        private bool _isDisposed;
+        private readonly string? _previousAuthorizationToken;
+
+        public Generator()
+        {
+            _previousAuthorizationToken = ConnectToDb.AuthorizationToken;
+
+            DatabaseLoginResponseContent loginContent = LoginToDatabase.LogToSystem(_defaultAdmin.Login, _defaultAdmin.Password, null, true);
+            ConnectToDb.AuthorizationToken = loginContent.token;
+        }
+
+        ~Generator()
+        {
+            if (!_isDisposed)
+                Dispose();
+        }
+
+        private void GenerateUsers()
+        {
+            foreach (UserInfo user in _defaultUsers)
+            {
+                RegisterDbUserToDatabase.Register(user);
+
+                if (user.Position != UserInfo.POS_ADMIN)
+                    DatabaseUserCash.IncreaseMoney(user, user.Money, true);
+            }
+        }
+
+        private void GenerateProducts()
+        {
+            foreach (ProductModel transport in _defaultTransports)
+            {
+                Shop.AddProduct(transport);
+            }
+        }
+
+
+        public void Dispose()
+        {
+            ConnectToDb.AuthorizationToken = _previousAuthorizationToken;
+            _isDisposed = true;
+
+            GC.SuppressFinalize(this);
+        }
+
+        public void Generate()
+        {
+            GenerateUsers();
+            GenerateProducts();
+        }
+
         #region Default values
 
         private const string DEFAULT_ICON_LADA7_PATH = "D://Testing//TechRental//lada7.jpg";
@@ -106,55 +157,5 @@ namespace RentDesktop.Infrastructure.Services.DatabaseServices
         };
 
         #endregion
-
-        private bool _isDisposed;
-        private readonly string? _previousAuthorizationToken;
-
-        public DatabaseGenerationService()
-        {
-            _previousAuthorizationToken = DatabaseConnectionService.AuthorizationToken;
-
-            DatabaseLoginResponseContent loginContent = LoginService.EnterSystem(_defaultAdmin.Login, _defaultAdmin.Password, null, true);
-            DatabaseConnectionService.AuthorizationToken = loginContent.token;
-        }
-
-        ~DatabaseGenerationService()
-        {
-            if (!_isDisposed)
-                Dispose();
-        }
-
-        public void Dispose()
-        {
-            DatabaseConnectionService.AuthorizationToken = _previousAuthorizationToken;
-            _isDisposed = true;
-
-            GC.SuppressFinalize(this);
-        }
-
-        public void Generate()
-        {
-            AddUsers();
-            AddTransports();
-        }
-
-        private void AddUsers()
-        {
-            foreach (UserInfo user in _defaultUsers)
-            {
-                UserRegisterService.RegisterUser(user);
-
-                if (user.Position != UserInfo.POS_ADMIN)
-                    UserCashService.AddCash(user, user.Money, true);
-            }
-        }
-
-        private void AddTransports()
-        {
-            foreach (ProductModel transport in _defaultTransports)
-            {
-                ShopService.AddTransport(transport);
-            }
-        }
     }
 }

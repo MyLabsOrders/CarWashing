@@ -8,36 +8,11 @@ using System.Net.Http;
 
 namespace RentDesktop.Infrastructure.Services.DatabaseServices
 {
-    internal static class OrdersService
+    internal static class DatabaseOrders
     {
-        public static void ChangeOrderStatus(IOrderModel order, string newStatus)
+        private static OrderModel Register(List<Tuple<ProductRentModel, int>> productsInfo, IUser userInfo)
         {
-            using var db = new DatabaseConnectionService();
-
-            const string changeOrderStatusHandle = "/api/Order/status";
-            var content = new DatabaseOrderStatus(order.ID, newStatus);
-
-            using HttpResponseMessage changeOrderStatusResponse = db.PutAsync(changeOrderStatusHandle, content).Result;
-
-            if (!changeOrderStatusResponse.IsSuccessStatusCode)
-                throw new ErrorResponseException(changeOrderStatusResponse);
-
-            order.Status = newStatus;
-        }
-
-        public static OrderModel CreateOrder(IEnumerable<ProductRentModel> cart, IUser userInfo)
-        {
-            var products = cart
-                .GroupBy(t => t.Transport.ID)
-                .Select(t => new Tuple<ProductRentModel, int>(t.First(), t.Count()))
-                .ToList();
-
-            return RegisterOrder(products, userInfo);
-        }
-
-        private static OrderModel RegisterOrder(List<Tuple<ProductRentModel, int>> productsInfo, IUser userInfo)
-        {
-            using var db = new DatabaseConnectionService();
+            using var db = new ConnectToDb();
 
             string addOrderHandle = $"/api/User/{userInfo.ID}/orders";
 
@@ -45,7 +20,7 @@ namespace RentDesktop.Infrastructure.Services.DatabaseServices
                 .Select(t => new DatabaseOrderProduct(t.Item1.Transport.ID, t.Item2, t.Item1.Days))
                 .ToList();
 
-            using HttpResponseMessage addOrderResponse = db.PutAsync(addOrderHandle, content).Result;
+            using HttpResponseMessage addOrderResponse = db.Put(addOrderHandle, content).Result;
 
             if (!addOrderResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(addOrderResponse);
@@ -61,6 +36,16 @@ namespace RentDesktop.Infrastructure.Services.DatabaseServices
             userInfo.Money -= price;
 
             return new OrderModel(id, price, status, creationDate, models, creationDateStamp);
+        }
+
+        public static OrderModel Create(IEnumerable<ProductRentModel> cart, IUser userInfo)
+        {
+            var products = cart
+                .GroupBy(t => t.Transport.ID)
+                .Select(t => new Tuple<ProductRentModel, int>(t.First(), t.Count()))
+                .ToList();
+
+            return Register(products, userInfo);
         }
     }
 }

@@ -56,7 +56,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
             try
             {
-                statuses = InfoService.GetAllStatuses();
+                statuses = InformationOfDb.Statuses();
             }
             catch (Exception ex)
             {
@@ -119,7 +119,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
             try
             {
-                genders = InfoService.GetAllGenders();
+                genders = InformationOfDb.Genders();
             }
             catch (Exception ex)
             {
@@ -161,7 +161,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
             try
             {
-                usersList = InfoService.GetAllUsers();
+                usersList = InformationOfDb.Users();
             }
             catch (Exception exception)
             {
@@ -190,7 +190,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
             try
             {
-                positions = InfoService.GetAllPositions();
+                positions = InformationOfDb.Positions();
             }
             catch (Exception ex)
             {

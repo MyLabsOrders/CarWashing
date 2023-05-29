@@ -53,7 +53,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
             try
             {
-                userInfo = LoginService.Login(Login, Password);
+                userInfo = LoginToDatabase.TryLogin(Login, Password);
             }
             catch (Exception ex)
             {

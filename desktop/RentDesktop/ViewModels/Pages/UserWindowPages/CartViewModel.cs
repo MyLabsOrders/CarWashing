@@ -119,7 +119,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
         {
             try
             {
-                using MemoryStream cheque = FileDownloadService.DownloadCheque(_ordersCollection[^1]);
+                using MemoryStream cheque = FileDownloadService.ChequeGet(_ordersCollection[^1]);
                 await AsyncSaveFile(cheque);
 
                 MsgBox.InfoMsg("Чек успешно загружен.").Dialog(typeof(UserWindow));
@@ -174,7 +174,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         private void OrderMakePay()
         {
-            if (!UserCashService.CanPayOrder(Cart, _user))
+            if (!DatabaseUserCash.CanPay(Cart, _user))
             {
                 MsgBox.ErrorMsg("У вас не хватает средств для оплаты.").Dialog(typeof(UserWindow));
                 return;
@@ -184,7 +184,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
             try
             {
-                order = OrdersService.CreateOrder(Cart, _user);
+                order = DatabaseOrders.Create(Cart, _user);
             }
             catch (Exception ex)
             {
@@ -206,7 +206,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
         {
             try
             {
-                using MemoryStream invoice = FileDownloadService.DownloadInvoice(_ordersCollection[^1]);
+                using MemoryStream invoice = FileDownloadService.InvoiceGet(_ordersCollection[^1]);
                 await AsyncSaveFile(invoice);
 
                 MsgBox.InfoMsg("Ведомость успешно загружена.").Dialog(typeof(UserWindow));
