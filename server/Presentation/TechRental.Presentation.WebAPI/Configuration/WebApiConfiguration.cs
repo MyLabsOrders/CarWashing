@@ -2,10 +2,8 @@
 
 namespace TechRental.Presentation.WebAPI.Configuration;
 
-internal class WebApiConfiguration
-{
-    public WebApiConfiguration(IConfiguration configuration)
-    {
+internal class WebApiConfiguration {
+    public WebApiConfiguration(IConfiguration configuration) {
         if (configuration is null)
             throw new ArgumentNullException(nameof(configuration));
 

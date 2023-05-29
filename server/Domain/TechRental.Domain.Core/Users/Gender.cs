@@ -1,6 +1,5 @@
 namespace TechRental.Domain.Core.Users;
 
-public enum Gender
-{
+public enum Gender {
     Male, Female
 }

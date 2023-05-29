@@ -8,19 +8,16 @@ using static TechRental.Application.Contracts.Orders.Queries.GetAllOrders;
 
 namespace TechRental.Application.Handlers.Orders;
 
-internal class GetAllOrdersHandler : IRequestHandler<Query, Response>
-{
+internal class GetAllOrdersHandler : IRequestHandler<Query, Response> {
     private readonly IDatabaseContext _context;
     private readonly int _pageCount;
 
-    public GetAllOrdersHandler(IDatabaseContext context, PaginationConfiguration paginationConfiguration)
-    {
+    public GetAllOrdersHandler(IDatabaseContext context, PaginationConfiguration paginationConfiguration) {
         _context = context;
         _pageCount = paginationConfiguration.PageSize;
     }
 
-    public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-    {
+    public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
         var query = _context.Orders;
 
         var ordersCount = await query.CountAsync(cancellationToken);
@@ -30,7 +27,6 @@ internal class GetAllOrdersHandler : IRequestHandler<Query, Response>
             return new Response(Array.Empty<UserOrderDto>(), request.Page, pageTotalCount);
 
         var orders = await query
-            .OrderBy(x => x.Status)
             .Skip((request.Page - 1) * _pageCount)
             .Take(_pageCount)
             .ToListAsync(cancellationToken);

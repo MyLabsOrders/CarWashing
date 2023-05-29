@@ -3,10 +3,8 @@ using TechRental.Presentation.Middlewares;
 
 namespace TechRental.Presentation.WebAPI.Extensions;
 
-internal static class WebApplicationExtensions
-{
-    internal static WebApplication Configure(this WebApplication app)
-    {
+internal static class WebApplicationExtensions {
+    internal static WebApplication Configure(this WebApplication app) {
         app
             .UseSwagger()
             .UseSwaggerUI();
@@ -24,10 +22,8 @@ internal static class WebApplicationExtensions
         return app;
     }
 
-    private static void UseRequestLogging(this WebApplication app)
-    {
-        app.UseSerilogRequestLogging(o =>
-        {
+    private static void UseRequestLogging(this WebApplication app) {
+        app.UseSerilogRequestLogging(o => {
             o.IncludeQueryInRequestPath = true;
             o.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()

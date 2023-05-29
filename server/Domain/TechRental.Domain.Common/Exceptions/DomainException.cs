@@ -1,7 +1,6 @@
 ﻿namespace TechRental.Domain.Common.Exceptions;
 
-public abstract class DomainException : Exception
-{
+public abstract class DomainException : Exception {
     protected DomainException() : base() { }
 
     protected DomainException(string? message)

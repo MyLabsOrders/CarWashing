@@ -10,19 +10,15 @@ using static TechRental.Application.Contracts.Users.Commands.CreateUser;
 
 namespace TechRental.Application.Handlers.Users;
 
-internal class CreateUserHandler : IRequestHandler<Command, Response>
-{
+internal class CreateUserHandler : IRequestHandler<Command, Response> {
     private readonly IDatabaseContext _context;
 
-    public CreateUserHandler(IDatabaseContext context)
-    {
+    public CreateUserHandler(IDatabaseContext context) {
         _context = context;
     }
 
-    public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
-    {
-        if (!Enum.TryParse(request.Gender, true, out Gender gender))
-        {
+    public async Task<Response> Handle(Command request, CancellationToken cancellationToken) {
+        if (!Enum.TryParse(request.Gender, true, out Gender gender)) {
             throw new InvalidGenderException();
         }
         var user = new User(

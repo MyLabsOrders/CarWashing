@@ -6,13 +6,11 @@ using TechRental.Domain.Core.ValueObject;
 
 namespace TechRental.Domain.Core.Users;
 
-public class User
-{
+public class User {
     private readonly List<Order> _orders;
     private decimal _money;
 
-    protected User()
-    {
+    protected User() {
         _orders = new List<Order>();
     }
 
@@ -24,8 +22,7 @@ public class User
         Image image,
         DateOnly birthDate,
         PhoneNumber phoneNumber,
-        Gender gender)
-    {
+        Gender gender) {
         ArgumentNullException.ThrowIfNull(firstName);
         ArgumentNullException.ThrowIfNull(middleName);
         ArgumentNullException.ThrowIfNull(lastName);
@@ -56,11 +53,9 @@ public class User
     public Gender Gender { get; set; }
     public bool IsActive { get; set; }
     public virtual IEnumerable<Order> Orders => _orders;
-    public decimal Money
-    {
+    public decimal Money {
         get => _money;
-        set
-        {
+        set {
             if (value < 0)
                 throw UserInputException.NegativeUserBalanceException("User has not enough money");
 
@@ -68,13 +63,11 @@ public class User
         }
     }
 
-    public override string ToString()
-    {
+    public override string ToString() {
         return $"{LastName} {FirstName} {MiddleName}";
     }
 
-    public Order AddOrder(Order order)
-    {
+    public Order AddOrder(Order order) {
         ArgumentNullException.ThrowIfNull(order);
 
         _orders.Add(order);
@@ -83,8 +76,7 @@ public class User
         return order;
     }
 
-    public void RemoveOrder(Order order)
-    {
+    public void RemoveOrder(Order order) {
         order.User = null;
         _orders.Remove(order);
     }

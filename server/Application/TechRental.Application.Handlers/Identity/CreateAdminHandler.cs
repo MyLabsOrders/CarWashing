@@ -4,18 +4,15 @@ using static TechRental.Application.Contracts.Identity.Commands.CreateAdmin;
 
 namespace TechRental.Application.Handlers.Identity;
 
-internal class CreateAdminHandler : IRequestHandler<Command>
-{
+internal class CreateAdminHandler : IRequestHandler<Command> {
     private readonly IAuthorizationService _authorizationService;
 
-    public CreateAdminHandler(IAuthorizationService authorizationService)
-    {
+    public CreateAdminHandler(IAuthorizationService authorizationService) {
         _authorizationService = authorizationService;
     }
 
 
-    public async Task Handle(Command request, CancellationToken cancellationToken)
-    {
+    public async Task Handle(Command request, CancellationToken cancellationToken) {
         await _authorizationService.CreateUserAsync(
             Guid.NewGuid(),
             request.Username,

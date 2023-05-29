@@ -2,7 +2,7 @@
 
 namespace TechRental.Application.Dto.Users;
 
-public record UserDto(
+public record UserDto (
     Guid Id,
     string FirstName,
     string MiddleName,
@@ -13,4 +13,5 @@ public record UserDto(
     string Gender,
     bool IsActive,
     decimal Money,
-    IEnumerable<UserOrderDto> Orders);
+    IEnumerable<UserOrderDto> Orders
+);

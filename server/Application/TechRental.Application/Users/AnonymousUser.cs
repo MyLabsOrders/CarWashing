@@ -4,12 +4,10 @@ using TechRental.Domain.Common.Exceptions;
 
 namespace TechRental.Application.Users;
 
-internal class AnonymousUser : ICurrentUser
-{
+internal class AnonymousUser : ICurrentUser {
     public Guid Id => throw new UnauthorizedException("Attempt to access anonymous user id");
 
-    public bool CanCreateUserWithRole(string roleName)
-    {
+    public bool CanCreateUserWithRole(string roleName) {
         return roleName.Equals(TechRentalIdentityRoleNames.DefaultUserRoleName, StringComparison.Ordinal)
                 ? true
                 : throw AccessDeniedException.AnonymousUserHasNotAccess();

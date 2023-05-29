@@ -9,17 +9,14 @@ using static TechRental.Application.Contracts.Orders.Queries.GetOrder;
 
 namespace TechRental.Application.Handlers.Orders;
 
-internal class GetOrderHandler : IRequestHandler<Query, Response>
-{
+internal class GetOrderHandler : IRequestHandler<Query, Response> {
     private readonly IDatabaseContext _context;
 
-    public GetOrderHandler(IDatabaseContext context)
-    {
+    public GetOrderHandler(IDatabaseContext context) {
         _context = context;
     }
 
-    public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-    {
+    public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
         var orders = await _context.Orders
             .Where(order => order.OrderDate == request.OrderTime)
             .Include(order => order.User)

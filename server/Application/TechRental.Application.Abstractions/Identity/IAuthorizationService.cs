@@ -2,8 +2,7 @@
 
 namespace TechRental.Application.Abstractions.Identity;
 
-public interface IAuthorizationService
-{
+public interface IAuthorizationService {
     Task<string> GetUserTokenAsync(string username, CancellationToken cancellationToken);
 
     Task AuthorizeAdminAsync(string username, CancellationToken cancellationToken = default);

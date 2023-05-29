@@ -2,10 +2,8 @@
 
 namespace TechRental.Application.Users;
 
-internal class DefaultUser : ICurrentUser
-{
-    public DefaultUser(Guid id)
-    {
+internal class DefaultUser : ICurrentUser {
+    public DefaultUser(Guid id) {
         Id = id;
     }
 

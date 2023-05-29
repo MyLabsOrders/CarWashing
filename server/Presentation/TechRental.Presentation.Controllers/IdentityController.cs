@@ -10,12 +10,10 @@ namespace TechRental.Presentation.Controllers;
 
 [ApiController]
 [Route("api/identity")]
-public class IdentityController : ControllerBase
-{
+public class IdentityController : ControllerBase {
     private readonly IMediator _mediator;
 
-    public IdentityController(IMediator mediator)
-    {
+    public IdentityController(IMediator mediator) {
         _mediator = mediator;
     }
 
@@ -25,8 +23,7 @@ public class IdentityController : ControllerBase
     /// <param name="request"></param>
     /// <returns>Jwt access token</returns>
     [HttpPost("login")]
-    public async Task<ActionResult<LoginResponse>> LoginAsync([FromBody] LoginRequest request)
-    {
+    public async Task<ActionResult<LoginResponse>> LoginAsync([FromBody] LoginRequest request) {
         var query = new Login.Query(request.Username, request.Password);
         Login.Response response = await _mediator.Send(query, HttpContext.RequestAborted);
 
@@ -42,8 +39,7 @@ public class IdentityController : ControllerBase
     /// <returns></returns>
     [HttpPut("users/{username}/role")]
     [Authorize(Roles = TechRentalIdentityRoleNames.AdminRoleName)]
-    public async Task<IActionResult> ChangeUserRoleAsync(string username, [FromQuery] string roleName)
-    {
+    public async Task<IActionResult> ChangeUserRoleAsync(string username, [FromQuery] string roleName) {
         var command = new ChangeUserRole.Command(username, roleName);
         await _mediator.Send(command);
 
@@ -56,8 +52,7 @@ public class IdentityController : ControllerBase
     /// <param name="request"></param>
     /// <returns>Jwt access token</returns>
     [HttpPost("user/register")]
-    public async Task<ActionResult<CreateUserAccountResponse>> CreateUserAccountAsync([FromBody] CreateUserAccountRequest request)
-    {
+    public async Task<ActionResult<CreateUserAccountResponse>> CreateUserAccountAsync([FromBody] CreateUserAccountRequest request) {
         var command = new CreateUserAccount.Command(request.Username, request.Password, request.RoleName);
         var response = await _mediator.Send(command);
 
@@ -72,8 +67,7 @@ public class IdentityController : ControllerBase
     /// <returns>Jwt access token</returns>
     [HttpPut("username")]
     [Authorize]
-    public async Task<ActionResult<UpdateUsernameResponse>> UpdateUsernameAsync([FromBody] UpdateUsernameRequest request)
-    {
+    public async Task<ActionResult<UpdateUsernameResponse>> UpdateUsernameAsync([FromBody] UpdateUsernameRequest request) {
         var command = new UpdateUsername.Command(request.Username);
         var response = await _mediator.Send(command);
 
@@ -87,8 +81,7 @@ public class IdentityController : ControllerBase
     /// <returns>Jwt access token</returns>
     [HttpPut("password")]
     [Authorize]
-    public async Task<ActionResult<UpdatePasswordResponse>> UpdatePasswordAsync([FromBody] UpdatePasswordRequest request)
-    {
+    public async Task<ActionResult<UpdatePasswordResponse>> UpdatePasswordAsync([FromBody] UpdatePasswordRequest request) {
         var command = new UpdatePassword.Command(request.CurrentPassword, request.NewPassword);
         var response = await _mediator.Send(command);
 
@@ -102,8 +95,7 @@ public class IdentityController : ControllerBase
     /// <returns>200 if user is admin</returns>
     [HttpPost("authorize-admin")]
     [Authorize]
-    public async Task<IActionResult> AuthorizeAdminAsync([FromBody] AuthorizeAdminRequest request)
-    {
+    public async Task<IActionResult> AuthorizeAdminAsync([FromBody] AuthorizeAdminRequest request) {
         var query = new AuthorizeAdmin.Query(request.Username);
         await _mediator.Send(query);
 
@@ -117,8 +109,7 @@ public class IdentityController : ControllerBase
     /// <returns>Username and user role</returns>
     [HttpGet("{userId:guid}")]
     [Authorize(Roles = TechRentalIdentityRoleNames.AdminRoleName)]
-    public async Task<ActionResult<GetIdentityResponse>> GetRoleByIdAsync(Guid userId)
-    {
+    public async Task<ActionResult<GetIdentityResponse>> GetRoleByIdAsync(Guid userId) {
         var query = new GetIdentity.Query(userId);
         var response = await _mediator.Send(query);
 

@@ -2,10 +2,8 @@
 
 namespace TechRental.Application.Users;
 
-internal class AdminUser : ICurrentUser
-{
-    public AdminUser(Guid id)
-    {
+internal class AdminUser : ICurrentUser {
+    public AdminUser(Guid id) {
         Id = id;
     }
 

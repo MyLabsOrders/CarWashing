@@ -1,7 +1,6 @@
 ﻿namespace TechRental.Application.Abstractions.Identity;
 
-public interface ICurrentUser
-{
+public interface ICurrentUser {
     Guid Id { get; }
 
     bool CanCreateUserWithRole(string roleName);

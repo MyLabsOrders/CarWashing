@@ -5,10 +5,8 @@ using TechRental.Application.Contracts.Tools;
 
 namespace TechRental.Application.Handlers.Extensions;
 
-public static class RegistrationExtensions
-{
-    public static IServiceCollection AddHandlers(this IServiceCollection collection, IConfiguration configuration)
-    {
+public static class RegistrationExtensions {
+    public static IServiceCollection AddHandlers(this IServiceCollection collection, IConfiguration configuration) {
         var paginationConfiguration = configuration.GetSection("Pagination").Get<PaginationConfiguration>()
             ?? throw new ArgumentException(nameof(configuration));
 

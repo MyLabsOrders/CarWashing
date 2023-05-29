@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TechRental.DataAccess.Abstractions;
 
-public interface IDatabaseContext
-{
+public interface IDatabaseContext {
     DbSet<Order> Orders { get; }
 
     DbSet<User> Users { get; }

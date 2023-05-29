@@ -10,19 +10,16 @@ using static TechRental.Application.Contracts.Orders.Commands.CreateOrder;
 
 namespace TechRental.Application.Handlers.Orders;
 
-internal class CreateOrderHandler : IRequestHandler<Command, Response>
-{
+internal class CreateOrderHandler : IRequestHandler<Command, Response> {
     private readonly IDatabaseContext _context;
     private readonly ICurrentUser _currentUser;
 
-    public CreateOrderHandler(IDatabaseContext context, ICurrentUser currentUser)
-    {
+    public CreateOrderHandler(IDatabaseContext context, ICurrentUser currentUser) {
         _context = context;
         _currentUser = currentUser;
     }
 
-    public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
-    {
+    public async Task<Response> Handle(Command request, CancellationToken cancellationToken) {
         if (_currentUser.CanManageOrders() is false)
             throw AccessDeniedException.AccessViolation();
 
@@ -31,7 +28,6 @@ internal class CreateOrderHandler : IRequestHandler<Command, Response>
                               name: request.Name,
                               company: request.Company,
                               image: new Image(request.OrderImage),
-                              status: Enum.Parse<OrderStatus>(request.Status, true),
                               price: request.Price,
                               orderDate: null);
 

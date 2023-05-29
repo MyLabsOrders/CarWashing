@@ -12,28 +12,11 @@ namespace TechRental.Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class OrderController : ControllerBase
-{
+public class OrderController : ControllerBase {
     private readonly IMediator _mediator;
 
-    public OrderController(IMediator mediator)
-    {
+    public OrderController(IMediator mediator) {
         _mediator = mediator;
-    }
-
-    /// <summary>
-    /// Changes order status to the provided one
-    /// </summary>
-    /// <param name="request">Order id and new status</param>
-    /// <returns></returns>
-    [HttpPut("status")]
-    [Authorize(Roles = TechRentalIdentityRoleNames.AdminRoleName)]
-    public async Task<IActionResult> ChangeOrderStatusAsync([FromBody] ChangeOrderStatusRequest request)
-    {
-        var command = new ChangeOrderStatus.Command(request.OrderId, request.Status);
-        await _mediator.Send(command);
-
-        return Ok();
     }
 
     /// <summary>
@@ -43,13 +26,11 @@ public class OrderController : ControllerBase
     /// <returns>Information about created order</returns>
     [HttpPost]
     [Authorize(Roles = TechRentalIdentityRoleNames.AdminRoleName)]
-    public async Task<ActionResult<OrderDto>> CreateOrderAsync([FromBody] CreateOrderRequest request)
-    {
+    public async Task<ActionResult<OrderDto>> CreateOrderAsync([FromBody] CreateOrderRequest request) {
         var command = new CreateOrder.Command(
             request.Name,
             request.Company,
             request.OrderImage ?? string.Empty,
-            request.Status,
             request.Price);
         var response = await _mediator.Send(command);
 
@@ -63,8 +44,7 @@ public class OrderController : ControllerBase
     /// <returns>Information about specified order</returns>
     [HttpGet("at")]
     [Authorize]
-    public async Task<ActionResult<IList<OrderDto>>> GetOrderAsync([FromQuery] DateTime orderTime)
-    {
+    public async Task<ActionResult<IList<OrderDto>>> GetOrderAsync([FromQuery] DateTime orderTime) {
         var query = new GetOrder.Query(orderTime);
         var response = await _mediator.Send(query);
 
@@ -80,8 +60,7 @@ public class OrderController : ControllerBase
     [HttpGet("stats")]
     [Authorize(Roles = TechRentalIdentityRoleNames.AdminRoleName)]
     [Produces("application/pdf", new string[] { })]
-    public async Task<ActionResult> GetStats([FromQuery] DateTime From, [FromQuery] DateTime To)
-    {
+    public async Task<ActionResult> GetStats([FromQuery] DateTime From, [FromQuery] DateTime To) {
         var query = new GetStats.Query(From, To);
         var response = await _mediator.Send(query);
 
@@ -96,8 +75,7 @@ public class OrderController : ControllerBase
     [HttpGet("invoice")]
     [Authorize]
     [Produces("application/pdf", new string[] { })]
-    public async Task<ActionResult> GetInvoice([FromQuery] DateTime orderTime)
-    {
+    public async Task<ActionResult> GetInvoice([FromQuery] DateTime orderTime) {
         var query = new GetInvoice.Query(orderTime);
         var response = await _mediator.Send(query);
 
@@ -112,8 +90,7 @@ public class OrderController : ControllerBase
     [HttpGet("cheque")]
     [Authorize]
     [Produces("application/pdf", new string[] { })]
-    public async Task<ActionResult> GetCheque([FromQuery] DateTime orderTime)
-    {
+    public async Task<ActionResult> GetCheque([FromQuery] DateTime orderTime) {
         var query = new GetCheque.Query(orderTime);
         var response = await _mediator.Send(query);
 
@@ -125,8 +102,7 @@ public class OrderController : ControllerBase
     /// </summary>
     /// <returns>Information about all orders</returns>
     [HttpGet]
-    public async Task<ActionResult<GetAllOrdersResponse>> GetAllOrdersAsync(int? page)
-    {
+    public async Task<ActionResult<GetAllOrdersResponse>> GetAllOrdersAsync(int? page) {
         var query = new GetAllOrders.Query(page ?? 1);
         var response = await _mediator.Send(query);
 

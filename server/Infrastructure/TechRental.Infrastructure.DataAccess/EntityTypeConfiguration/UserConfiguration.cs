@@ -5,10 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace TechRental.Infrastructure.DataAccess.EntityTypeConfiguration;
 
-public class UserConfiguration : IEntityTypeConfiguration<User>
-{
-    public void Configure(EntityTypeBuilder<User> builder)
-    {
+public class UserConfiguration : IEntityTypeConfiguration<User> {
+    public void Configure(EntityTypeBuilder<User> builder) {
         builder.HasKey(x => x.Id);
         builder.Property(x => x.LastName);
         builder.Property(x => x.FirstName);

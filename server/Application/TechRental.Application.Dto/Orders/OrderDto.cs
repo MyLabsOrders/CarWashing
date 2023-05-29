@@ -8,7 +8,6 @@ public record OrderDto(
     string Name,
     string Company,
     string Image,
-    string Status,
     decimal Total,
     DateTime? OrderDate,
     int? Count,

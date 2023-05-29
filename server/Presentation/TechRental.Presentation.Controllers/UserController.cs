@@ -11,12 +11,10 @@ namespace TechRental.Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
-{
+public class UserController : ControllerBase {
     private readonly IMediator _mediator;
 
-    public UserController(IMediator mediator)
-    {
+    public UserController(IMediator mediator) {
         _mediator = mediator;
     }
 
@@ -28,8 +26,7 @@ public class UserController : ControllerBase
     /// <returns>Information about created account</returns>
     [HttpPost("{identityId:guid}/profile")]
     [Authorize]
-    public async Task<ActionResult<UserDto>> CreateUserAsync(Guid identityId, [FromBody] CreateUserRequest request)
-    {
+    public async Task<ActionResult<UserDto>> CreateUserAsync(Guid identityId, [FromBody] CreateUserRequest request) {
         var command = new CreateUser.Command(
             identityId,
             request.FirstName,
@@ -53,8 +50,7 @@ public class UserController : ControllerBase
     /// <returns>Information about created account</returns>
     [HttpPatch("{identityId:guid}/profile")]
     [Authorize]
-    public async Task<ActionResult<UserDto>> UpdateUserAsync(Guid identityId, [FromBody] UpdateUserRequest request)
-    {
+    public async Task<ActionResult<UserDto>> UpdateUserAsync(Guid identityId, [FromBody] UpdateUserRequest request) {
         var command = new UpdateUser.Command(
             identityId,
             request.FirstName,
@@ -79,8 +75,7 @@ public class UserController : ControllerBase
     /// <returns>Order's timestamp</returns>
     [HttpPut("{userId:guid}/orders")]
     [Authorize(Roles = TechRentalIdentityRoleNames.DefaultUserRoleName)]
-    public async Task<ActionResult<DateTime>> AddOrderAsync(Guid userId, [FromBody] IList<AddOrderRequest> request)
-    {
+    public async Task<ActionResult<DateTime>> AddOrderAsync(Guid userId, [FromBody] IList<AddOrderRequest> request) {
         var command = new AddOrder.Command(
             userId,
             request.Select(order => (order.OrderId, order.Count, order.Days)).ToList());
@@ -97,8 +92,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{userId:guid}/orders")]
     [Authorize(Roles = TechRentalIdentityRoleNames.DefaultUserRoleName)]
-    public async Task<IActionResult> RemoveOrderAsync(Guid userId, [FromBody] RemoveOrderRequest request)
-    {
+    public async Task<IActionResult> RemoveOrderAsync(Guid userId, [FromBody] RemoveOrderRequest request) {
         var command = new RemoveOrder.Command(request.OrderId, userId);
         await _mediator.Send(command);
 
@@ -112,8 +106,7 @@ public class UserController : ControllerBase
     /// <returns>Information about specified user</returns>
     [HttpGet("{id:guid}")]
     [Authorize]
-    public async Task<ActionResult<UserDto>> GetUserAsync(Guid id)
-    {
+    public async Task<ActionResult<UserDto>> GetUserAsync(Guid id) {
         var query = new GetUser.Query(id);
         var response = await _mediator.Send(query);
 
@@ -126,8 +119,7 @@ public class UserController : ControllerBase
     /// <returns>All users</returns>
     [HttpGet]
     [Authorize(Roles = TechRentalIdentityRoleNames.AdminRoleName)]
-    public async Task<ActionResult<GetAllUsersResponse>> GetUsersAsync(int? page)
-    {
+    public async Task<ActionResult<GetAllUsersResponse>> GetUsersAsync(int? page) {
         var query = new GetAllUsers.Query(page ?? 1);
         var response = await _mediator.Send(query);
 
@@ -147,8 +139,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id:guid}/account")]
     [Authorize]
-    public async Task<IActionResult> MakeDepositAsync(Guid id, [FromBody] ReplenishBalanceRequest request)
-    {
+    public async Task<IActionResult> MakeDepositAsync(Guid id, [FromBody] ReplenishBalanceRequest request) {
         var command = new ReplenishBalance.Command(id, request.Total);
         await _mediator.Send(command);
 

@@ -12,13 +12,11 @@ using TechRental.Infrastructure.Identity.Tools;
 
 namespace TechRental.Infrastructure.Identity.Extensions;
 
-public static class RegistrationExtensions
-{
+public static class RegistrationExtensions {
     public static void AddIdentityConfiguration(
         this IServiceCollection collection,
         IConfigurationSection identityConfigurationSection,
-        Action<DbContextOptionsBuilder> action)
-    {
+        Action<DbContextOptionsBuilder> action) {
         var config = identityConfigurationSection.Get<IdentityConfiguration>();
 
         var options = identityConfigurationSection.GetSection("Options");
@@ -35,18 +33,15 @@ public static class RegistrationExtensions
             .AddEntityFrameworkStores<TechRentalIdentityContext>()
             .AddDefaultTokenProviders();
 
-        collection.AddAuthentication(options =>
-            {
+        collection.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(options =>
-            {
+            .AddJwtBearer(options => {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
+                options.TokenValidationParameters = new TokenValidationParameters {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidAudience = config?.Audience,
@@ -54,10 +49,8 @@ public static class RegistrationExtensions
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(config?.Secret ?? string.Empty)),
                 };
-                options.Events = new JwtBearerEvents
-                {
-                    OnTokenValidated = context =>
-                    {
+                options.Events = new JwtBearerEvents {
+                    OnTokenValidated = context => {
                         if (context.Principal is null)
                             return Task.CompletedTask;
 

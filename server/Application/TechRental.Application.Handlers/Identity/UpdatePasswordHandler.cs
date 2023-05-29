@@ -4,19 +4,16 @@ using static TechRental.Application.Contracts.Identity.Commands.UpdatePassword;
 
 namespace TechRental.Application.Handlers.Identity;
 
-internal class UpdatePasswordHandler : IRequestHandler<Command, Response>
-{
+internal class UpdatePasswordHandler : IRequestHandler<Command, Response> {
     private readonly ICurrentUser _currentUser;
     private readonly IAuthorizationService _authorizationService;
 
-    public UpdatePasswordHandler(ICurrentUser currentUser, IAuthorizationService authorizationService)
-    {
+    public UpdatePasswordHandler(ICurrentUser currentUser, IAuthorizationService authorizationService) {
         _currentUser = currentUser;
         _authorizationService = authorizationService;
     }
 
-    public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
-    {
+    public async Task<Response> Handle(Command request, CancellationToken cancellationToken) {
         var existingUser = await _authorizationService.UpdateUserPasswordAsync(
             _currentUser.Id,
             request.CurrentPassword,

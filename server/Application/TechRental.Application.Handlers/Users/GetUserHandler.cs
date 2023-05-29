@@ -9,23 +9,16 @@ using static TechRental.Application.Contracts.Users.Queries.GetUser;
 
 namespace TechRental.Application.Handlers.Users;
 
-internal class GetUserHandler : IRequestHandler<Query, Response>
-{
+internal class GetUserHandler : IRequestHandler<Query, Response> {
     private readonly IDatabaseContext _context;
 
-    public GetUserHandler(IDatabaseContext context)
-    {
+    public GetUserHandler(IDatabaseContext context) {
         _context = context;
     }
 
-    public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-    {
+    public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
         var user = await _context.Users.Include(x => x.Orders)
-            .FirstAsync(x => x.Id.Equals(request.UserId), cancellationToken);
-
-        if (user is null)
-            throw EntityNotFoundException.For<User>(request.UserId);
-
+            .FirstAsync(x => x.Id.Equals(request.UserId), cancellationToken) ?? throw EntityNotFoundException.For<User>(request.UserId);
         return new Response(user.ToDto()!);
     }
 }

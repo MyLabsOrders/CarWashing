@@ -5,17 +5,14 @@ using static TechRental.Application.Contracts.Identity.Queries.Login;
 
 namespace TechRental.Application.Handlers.Identity;
 
-internal class LoginHandler : IRequestHandler<Query, Response>
-{
+internal class LoginHandler : IRequestHandler<Query, Response> {
     private readonly IAuthorizationService _authorizationService;
 
-    public LoginHandler(IAuthorizationService authorizationService)
-    {
+    public LoginHandler(IAuthorizationService authorizationService) {
         _authorizationService = authorizationService;
     }
 
-    public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-    {
+    public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
         var user = await _authorizationService.GetUserByNameAsync(request.Username, cancellationToken);
 
         var passwordCorrect = await _authorizationService.CheckUserPasswordAsync(

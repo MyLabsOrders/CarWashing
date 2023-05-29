@@ -8,21 +8,18 @@ using static TechRental.Application.Contracts.Identity.Commands.CreateUserAccoun
 
 namespace TechRental.Application.Handlers.Identity;
 
-internal class CreateUserAccountHandler : IRequestHandler<Command, Response>
-{
+internal class CreateUserAccountHandler : IRequestHandler<Command, Response> {
     private readonly ICurrentUser _currentUser;
     private readonly IAuthorizationService _authorizationService;
 
     public CreateUserAccountHandler(
         IAuthorizationService authorizationService,
-        ICurrentUser currentUser)
-    {
+        ICurrentUser currentUser) {
         _authorizationService = authorizationService;
         _currentUser = currentUser;
     }
 
-    public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
-    {
+    public async Task<Response> Handle(Command request, CancellationToken cancellationToken) {
         if (_currentUser.CanCreateUserWithRole(request.RoleName) is false)
             throw AccessDeniedException.NotInRoleException();
 

@@ -6,19 +6,16 @@ using static TechRental.Application.Contracts.Identity.Commands.ChangeUserRole;
 
 namespace TechRental.Application.Handlers.Identity;
 
-internal class ChangeUserRoleHandler : IRequestHandler<Command>
-{
+internal class ChangeUserRoleHandler : IRequestHandler<Command> {
     private readonly ICurrentUser _currentUser;
     private readonly IAuthorizationService _authorizationService;
 
-    public ChangeUserRoleHandler(ICurrentUser currentUser, IAuthorizationService authorizationService)
-    {
+    public ChangeUserRoleHandler(ICurrentUser currentUser, IAuthorizationService authorizationService) {
         _currentUser = currentUser;
         _authorizationService = authorizationService;
     }
 
-    public async Task Handle(Command request, CancellationToken cancellationToken)
-    {
+    public async Task Handle(Command request, CancellationToken cancellationToken) {
         var user = await _authorizationService.GetUserByNameAsync(request.Username, cancellationToken);
         var userRoleName = await _authorizationService.GetUserRoleAsync(user.Id, cancellationToken);
 

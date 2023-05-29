@@ -5,10 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace TechRental.Infrastructure.DataAccess.EntityTypeConfiguration;
 
-public class OrderConfiguration : IEntityTypeConfiguration<Order>
-{
-    public void Configure(EntityTypeBuilder<Order> builder)
-    {
+public class OrderConfiguration : IEntityTypeConfiguration<Order> {
+    public void Configure(EntityTypeBuilder<Order> builder) {
         builder.HasKey(x => x.Id);
         builder.Property(x => x.OrderDate).IsRequired(false);
         builder.Property(x => x.Price);
@@ -18,7 +16,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(x => x.Period);
 
         builder.Property(x => x.Image).HasConversion<ImageValueConverter>();
-        builder.Property(x => x.Status).HasConversion<OrderStatusValueConverter>();
 
         builder.HasOne(x => x.User)
             .WithMany(x => x.Orders)

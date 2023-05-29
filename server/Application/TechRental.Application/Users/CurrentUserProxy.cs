@@ -5,34 +5,28 @@ using TechRental.Domain.Common.Exceptions;
 
 namespace TechRental.Application.Users;
 
-public class CurrentUserProxy : ICurrentUser, ICurrentUserManager
-{
+public class CurrentUserProxy : ICurrentUser, ICurrentUserManager {
     private ICurrentUser _user = new AnonymousUser();
 
     public Guid Id => _user.Id;
 
-    public bool CanCreateUserWithRole(string roleName)
-    {
+    public bool CanCreateUserWithRole(string roleName) {
         return _user.CanCreateUserWithRole(roleName);
     }
 
-    public bool CanChangeUserRole(string currentRoleName, string newRoleName)
-    {
+    public bool CanChangeUserRole(string currentRoleName, string newRoleName) {
         return _user.CanChangeUserRole(currentRoleName, newRoleName);
     }
 
-    public bool CanManageOrders()
-    {
+    public bool CanManageOrders() {
         return _user.CanManageOrders();
     }
 
-    public bool CanManageBalance()
-    {
+    public bool CanManageBalance() {
         return _user.CanManageBalance();
     }
 
-    public void Authenticate(ClaimsPrincipal principal)
-    {
+    public void Authenticate(ClaimsPrincipal principal) {
         var roles = principal.Claims
             .Where(x => x.Type.Equals(ClaimTypes.Role, StringComparison.OrdinalIgnoreCase))
             .Select(x => x.Value)

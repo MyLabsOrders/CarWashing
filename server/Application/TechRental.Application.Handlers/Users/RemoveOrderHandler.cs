@@ -10,17 +10,14 @@ using static TechRental.Application.Contracts.Users.Commands.RemoveOrder;
 
 namespace TechRental.Application.Handlers.Users;
 
-internal class RemoveOrderHandler : IRequestHandler<Command>
-{
+internal class RemoveOrderHandler : IRequestHandler<Command> {
     private readonly IDatabaseContext _context;
 
-    public RemoveOrderHandler(IDatabaseContext context)
-    {
+    public RemoveOrderHandler(IDatabaseContext context) {
         _context = context;
     }
 
-    public async Task Handle(Command request, CancellationToken cancellationToken)
-    {
+    public async Task Handle(Command request, CancellationToken cancellationToken) {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Id.Equals(request.UserId), cancellationToken);
         var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id.Equals(request.OrderId), cancellationToken);
 
@@ -36,11 +33,9 @@ internal class RemoveOrderHandler : IRequestHandler<Command>
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    private static void ProcessOperation(Order order)
-    {
+    private static void ProcessOperation(Order order) {
         order.OrderDate = null;
         order.Period = null;
         order.Amount = null;
-        order.Status = OrderStatus.Available;
     }
 }

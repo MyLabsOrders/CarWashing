@@ -13,8 +13,7 @@ using TechRental.Infrastructure.Identity.Tools;
 
 namespace TechRental.Infrastructure.Identity.Services;
 
-internal class AuthorizationService : IAuthorizationService
-{
+internal class AuthorizationService : IAuthorizationService {
     private readonly UserManager<TechRentalIdentityUser> _userManager;
     private readonly RoleManager<TechRentalIdentityRole> _roleManager;
     private readonly IdentityConfiguration _configuration;
@@ -22,15 +21,13 @@ internal class AuthorizationService : IAuthorizationService
     public AuthorizationService(
         UserManager<TechRentalIdentityUser> userManager,
         RoleManager<TechRentalIdentityRole> roleManager,
-        IdentityConfiguration configuration)
-    {
+        IdentityConfiguration configuration) {
         _userManager = userManager;
         _roleManager = roleManager;
         _configuration = configuration;
     }
 
-    public async Task AuthorizeAdminAsync(string username, CancellationToken cancellationToken = default)
-    {
+    public async Task AuthorizeAdminAsync(string username, CancellationToken cancellationToken = default) {
         TechRentalIdentityUser? user = await _userManager.FindByNameAsync(username);
 
         if (user is not null && await _userManager.IsInRoleAsync(user, TechRentalIdentityRoleNames.AdminRoleName))
@@ -39,8 +36,7 @@ internal class AuthorizationService : IAuthorizationService
         throw new UnauthorizedException("User is not admin");
     }
 
-    public async Task CreateRoleIfNotExistsAsync(string roleName, CancellationToken cancellationToken = default)
-    {
+    public async Task CreateRoleIfNotExistsAsync(string roleName, CancellationToken cancellationToken = default) {
         await _roleManager.CreateIfNotExistsAsync(roleName, cancellationToken);
     }
 
@@ -49,10 +45,8 @@ internal class AuthorizationService : IAuthorizationService
         string username,
         string password,
         string roleName,
-        CancellationToken cancellationToken = default)
-    {
-        var user = new TechRentalIdentityUser
-        {
+        CancellationToken cancellationToken = default) {
+        var user = new TechRentalIdentityUser {
             Id = userId,
             UserName = username,
             SecurityStamp = Guid.NewGuid().ToString(),
@@ -67,8 +61,7 @@ internal class AuthorizationService : IAuthorizationService
         return user.ToDto();
     }
 
-    public async Task<IdentityUserDto> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken = default)
-    {
+    public async Task<IdentityUserDto> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken = default) {
         var user = await _userManager.GetByIdAsync(userId, cancellationToken);
 
         return user.ToDto();
@@ -76,8 +69,7 @@ internal class AuthorizationService : IAuthorizationService
 
     public async Task<IEnumerable<IdentityUserDto>> GetUsersByIdsAsync(
         IEnumerable<Guid> userIds,
-        CancellationToken cancellationToken = default)
-    {
+        CancellationToken cancellationToken = default) {
         List<TechRentalIdentityUser> users = await _userManager.Users
             .Where(x => userIds.Contains(x.Id))
             .ToListAsync(cancellationToken);
@@ -87,8 +79,7 @@ internal class AuthorizationService : IAuthorizationService
 
     public async Task<IdentityUserDto> GetUserByNameAsync(
         string username,
-        CancellationToken cancellationToken = default)
-    {
+        CancellationToken cancellationToken = default) {
         var user = await _userManager.GetByNameAsync(username, cancellationToken);
 
         return user.ToDto();
@@ -97,8 +88,7 @@ internal class AuthorizationService : IAuthorizationService
     public async Task UpdateUserNameAsync(
         Guid userId,
         string newUserName,
-        CancellationToken cancellationToken = default)
-    {
+        CancellationToken cancellationToken = default) {
         var user = await _userManager.GetByIdAsync(userId, cancellationToken);
 
         user.UserName = newUserName;
@@ -112,10 +102,11 @@ internal class AuthorizationService : IAuthorizationService
         Guid userId,
         string currentPassword,
         string newPassword,
-        CancellationToken cancellationToken = default)
-    {
+        CancellationToken cancellationToken = default) {
         if (currentPassword.Equals(newPassword, StringComparison.Ordinal))
+        {
             throw UserInputException.IdentityOperationNotSucceededException("New password cannot be the same as old password");
+        }
 
         var user = await _userManager.GetByIdAsync(userId, cancellationToken);
 
@@ -129,8 +120,7 @@ internal class AuthorizationService : IAuthorizationService
     public async Task UpdateUserRoleAsync(
         Guid userId,
         string newRoleName,
-        CancellationToken cancellationToken = default)
-    {
+        CancellationToken cancellationToken = default) {
         var user = await _userManager.GetByIdAsync(userId, cancellationToken);
         var roles = await _userManager.GetRolesAsync(user);
 
@@ -138,8 +128,7 @@ internal class AuthorizationService : IAuthorizationService
         await _userManager.AddToRoleAsync(user, newRoleName);
     }
 
-    public async Task<string> GetUserRoleAsync(Guid userId, CancellationToken cancellationToken = default)
-    {
+    public async Task<string> GetUserRoleAsync(Guid userId, CancellationToken cancellationToken = default) {
         var user = await _userManager.GetByIdAsync(userId, cancellationToken);
         var roles = await _userManager.GetRolesAsync(user);
 
@@ -149,15 +138,13 @@ internal class AuthorizationService : IAuthorizationService
     public async Task<bool> CheckUserPasswordAsync(
         Guid userId,
         string password,
-        CancellationToken cancellationToken = default)
-    {
+        CancellationToken cancellationToken = default) {
         var user = await _userManager.GetByIdAsync(userId, cancellationToken);
 
         return await _userManager.CheckPasswordAsync(user, password);
     }
 
-    public async Task<string> GetUserTokenAsync(string username, CancellationToken cancellationToken)
-    {
+    public async Task<string> GetUserTokenAsync(string username, CancellationToken cancellationToken) {
         var user = await _userManager.GetByNameAsync(username, cancellationToken);
         var roles = await _userManager.GetRolesAsync(user);
 

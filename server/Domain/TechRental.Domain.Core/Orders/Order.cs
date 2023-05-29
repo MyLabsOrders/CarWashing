@@ -5,8 +5,7 @@ using TechRental.Domain.Core.Users;
 
 namespace TechRental.Domain.Core.Orders;
 
-public class Order
-{
+public class Order {
     private int? _amount;
     private int? _rentDays;
 
@@ -18,17 +17,14 @@ public class Order
         string name,
         string company,
         Image image,
-        OrderStatus status,
         decimal price,
-        DateTime? orderDate)
-    {
+        DateTime? orderDate) {
         Id = id;
         User = user;
         UserId = user?.Id;
         Name = name;
         Company = company;
         Image = image;
-        Status = status;
         Price = price;
         OrderDate = orderDate;
     }
@@ -39,14 +35,11 @@ public class Order
     public string Name { get; }
     public string Company { get; }
     public Image Image { get; }
-    public OrderStatus Status { get; set; }
     public DateTime? OrderDate { get; set; }
     public decimal Price { get; }
-    public int? Amount
-    {
+    public int? Amount {
         get => _amount;
-        set
-        {
+        set {
             if (value < 0)
                 throw UserInputException.NegativeOrderAmountException();
 
@@ -54,11 +47,9 @@ public class Order
         }
     }
 
-    public int? Period
-    {
+    public int? Period {
         get => _rentDays;
-        set
-        {
+        set {
             if (value < 0)
                 throw UserInputException.NegativeOrderPeriodException();
 

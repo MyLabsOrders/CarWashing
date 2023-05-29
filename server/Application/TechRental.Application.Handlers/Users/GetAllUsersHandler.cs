@@ -8,19 +8,16 @@ using static TechRental.Application.Contracts.Users.Queries.GetAllUsers;
 
 namespace TechRental.Application.Handlers.Users;
 
-internal class GetAllUsersHandler : IRequestHandler<Query, Response>
-{
+internal class GetAllUsersHandler : IRequestHandler<Query, Response> {
     private readonly IDatabaseContext _context;
     private readonly int _pageCount;
 
-    public GetAllUsersHandler(IDatabaseContext context, PaginationConfiguration paginationConfiguration)
-    {
+    public GetAllUsersHandler(IDatabaseContext context, PaginationConfiguration paginationConfiguration) {
         _context = context;
         _pageCount = paginationConfiguration.PageSize;
     }
 
-    public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
-    {
+    public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
         var query = _context.Users;
 
         var usersCount = await _context.Users.CountAsync(cancellationToken);

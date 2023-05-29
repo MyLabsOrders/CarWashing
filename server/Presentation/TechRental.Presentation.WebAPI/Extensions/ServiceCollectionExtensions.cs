@@ -12,14 +12,12 @@ using TechRental.Presentation.WebAPI.Configuration;
 
 namespace TechRental.Presentation.WebAPI.Extensions;
 
-internal static class ServiceCollectionExtensions
-{
+internal static class ServiceCollectionExtensions {
     internal static IServiceCollection ConfigureServices(
         this IServiceCollection collection,
         WebApiConfiguration webApiConfiguration,
         IConfigurationSection identityConfigurationSection,
-        IConfiguration configuration)
-    {
+        IConfiguration configuration) {
         collection
             .AddControllers()
             .AddApplicationPart(typeof(IControllerProjectMarker).Assembly)
@@ -30,33 +28,26 @@ internal static class ServiceCollectionExtensions
 
         collection
             .AddEndpointsApiExplorer()
-            .AddSwaggerGen(c =>
-            {
-                var openApiSecurityScheme = new OpenApiSecurityScheme
-                {
-                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
-                      Enter 'Bearer' [space] and then your token in the text input below.
-                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+            .AddSwaggerGen(c => {
+                var openApiSecurityScheme = new OpenApiSecurityScheme {
+                    Description = @"JWT Authorization header using the Bearer scheme.
+                      Example: 'Bearer 12345abcdef'",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer",
                 };
-
                 c.AddSecurityDefinition("Bearer", openApiSecurityScheme);
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
                     {
-                        new OpenApiSecurityScheme
-                        {
+                        new OpenApiSecurityScheme {
                             Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" },
                             Scheme = "oauth2",
                             Name = "Bearer",
                             In = ParameterLocation.Header,
                         },
                         new List<string>()
-                    },
+                    }
                 });
 
                 var xmlFilename = $"{typeof(IControllerProjectMarker).Assembly.GetName().Name}.xml";

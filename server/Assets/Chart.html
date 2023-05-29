@@ -92,8 +92,7 @@
         return Object.assign(svg.node(), {scales: {color}});
     }
 
-    let chart = PieChart([
-        {Statistics}
+    let chart = PieChart([ {Statistics}
     ], {
         name: d => d.name,
         value: d => d.value,

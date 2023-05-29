@@ -1,7 +1,6 @@
 ﻿namespace TechRental.Domain.Common.Exceptions;
 
-public class EntityNotFoundException : DomainException
-{
+public class EntityNotFoundException : DomainException {
     public EntityNotFoundException(string message) : base(message) { }
 
     public static EntityNotFoundException For<T>(Guid id)
