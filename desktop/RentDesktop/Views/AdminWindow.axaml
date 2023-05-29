@@ -31,16 +31,16 @@
 
 	<TabControl SelectedIndex="{Binding SelectedTabIndex}">
 		<TabItem Header="Профиль">
-			<pages:AdminProfilePage DataContext="{Binding AdminProfileVM}" />
+			<pages:AdminProfilePage DataContext="{Binding ViewModelAdminProfile}" />
 		</TabItem>
 		<TabItem Header="Пользователи">
-			<pages:AllUsersPage DataContext="{Binding AllUsersVM}" />
+			<pages:AllUsersPage DataContext="{Binding ViewModelAllUsers}" />
 		</TabItem>
 		<TabItem Header="Добавить">
-			<pages:AddUserPage DataContext="{Binding AddUserVM}" />
+			<pages:AddUserPage DataContext="{Binding ViewModelAddUser}" />
 		</TabItem>
-		<TabItem Header="Изменить" IsEnabled="{Binding AllUsersVM.IsUserSelected}">
-			<pages:EditUserPage DataContext="{Binding EditUserVM}" />
+		<TabItem Header="Изменить" IsEnabled="{Binding ViewModelAllUsers.IsUserSelected}">
+			<pages:EditUserPage DataContext="{Binding ViewModelEditUser}" />
 		</TabItem>
 	</TabControl>
 	

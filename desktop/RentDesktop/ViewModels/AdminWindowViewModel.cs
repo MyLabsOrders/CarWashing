@@ -16,14 +16,14 @@ namespace RentDesktop.ViewModels
     {
         public AdminWindowViewModel(IUser user)
         {
-            AdminProfileVM = new AdminProfileViewModel(user);
-            AllUsersVM = new AllUsersViewModel(user);
-            EditUserVM = new EditUserViewModel();
-            AddUserVM = new AddUserViewModel();
+            ViewModelAdminProfile = new AdminProfileViewModel(user);
+            ViewModelAllUsers = new AllUsersViewModel(user);
+            ViewModelEditUser = new EditUserViewModel();
+            ViewModelAddUser = new AddUserViewModel();
 
-            AdminProfileVM.UserInfoUpdated += () =>
+            ViewModelAdminProfile.UserInfoUpdated += () =>
             {
-                IUser? userInTable = AllUsersVM.Users.FirstOrDefault(t => t.ID == user.ID);
+                IUser? userInTable = ViewModelAllUsers.Users.FirstOrDefault(t => t.ID == user.ID);
 
                 if (userInTable != null)
                 {
@@ -32,15 +32,15 @@ namespace RentDesktop.ViewModels
                 }
             };
 
-            AllUsersVM.SelectedUserChanging += selectedUser =>
+            ViewModelAllUsers.SelectedUserChanging += selectedUser =>
             {
                 if (selectedUser != null && selectedUser.ID == user.ID)
                     AdminPageOpen();
             };
 
-            AddUserVM.UserRegistered += AddUserVMUserRegistered;
-            EditUserVM.UserInfoUpdated += EditUserVMUserInfoUpdated;
-            AllUsersVM.SelectedUserChanged += EditUserVM.ChangeUser;
+            ViewModelAddUser.UserRegistered += ViewModelAddUserUserRegistered;
+            ViewModelEditUser.UserInfoUpdated += ViewModelEditUserUserInfoUpdated;
+            ViewModelAllUsers.SelectedUserChanged += ViewModelEditUser.ChangeUser;
 
             UserInfo = user;
 
@@ -48,40 +48,19 @@ namespace RentDesktop.ViewModels
             MainShowCommand = ReactiveCommand.Create(DisplayMain);
             DisposeImageOfUserCommand = ReactiveCommand.Create(ImageDiapose);
 
-            _inactivity_timer = TimerConfig();
-            _inactivity_timer.Start();
+            _timer_of_inactivity = TimerConfig();
+            _timer_of_inactivity.Start();
         }
 
         #region Private Fields
 
-        #region Constants
+        private readonly DispatcherTimer _timer_of_inactivity;
+        private int _seconds_inactivity = 0;
 
-        private const int ADMIN_PROFILE_TAB_INDEX = 0;
+        private const int TAB_ADMIN_PROFILE = 0;
 
-        private const int MAX_INACTIVITY_SECONDS = 60 * 2;
-        private const int INACTIVITY_TIMER_INTERVAL_SECONDS = 1;
-
-        #endregion
-
-        private readonly DispatcherTimer _inactivity_timer;
-        private int _inactivity_seconds = 0;
-
-        #endregion
-
-        #region Commands
-
-        public ReactiveCommand<Unit, Unit> MainShowCommand { get; }
-        public ReactiveCommand<Unit, Unit> InactivityResetCommand { get; }
-        public ReactiveCommand<Unit, Unit> DisposeImageOfUserCommand { get; }
-
-        #endregion
-
-        #region ViewModels
-
-        public EditUserViewModel EditUserVM { get; }
-        public AdminProfileViewModel AdminProfileVM { get; }
-        public AddUserViewModel AddUserVM { get; }
-        public AllUsersViewModel AllUsersVM { get; }
+        private const int SECONDS_OF_MAX_INACTIVITY = 60 * 2;
+        private const int SECONDS_OFINACTIVITY_TIMER_INTERVAL = 1;
 
         #endregion
 
@@ -90,28 +69,9 @@ namespace RentDesktop.ViewModels
         private DispatcherTimer TimerConfig()
         {
             return new DispatcherTimer(
-                new TimeSpan(0, 0, INACTIVITY_TIMER_INTERVAL_SECONDS),
+                new TimeSpan(0, 0, SECONDS_OFINACTIVITY_TIMER_INTERVAL),
                 DispatcherPriority.Background,
                 (s, e) => CheckInactivity());
-        }
-
-        public static void MyMethod()
-        {
-            int a = 0;
-            int b = 1;
-
-            int c = a + b;
-
-            for (int i = 0; i < 10; ++i)
-            {
-                c *= i;
-                string message = "Message";
-
-                message += c;
-
-                if (message == "End")
-                    break;
-            }
         }
         
         private void CheckInactivity()
@@ -121,62 +81,43 @@ namespace RentDesktop.ViewModels
             if (Check())
                 return;
 
-            _inactivity_timer.Stop();
+            _timer_of_inactivity.Stop();
             ResetSeconds();
 
             AppInteraction.CloseUserWindow();
         }
 
-        public static void MyMethod1()
+        public bool CheckSeconds()
         {
-            int a = 0;
-            int b = 1;
-
-            int c = a + b;
-
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < SECONDS_OFINACTIVITY_TIMER_INTERVAL; ++i)
             {
-                c *= i;
-                string message = "Message";
-
-                message += c;
-
-                if (message == "End")
-                    break;
+                if (_seconds_inactivity == i)
+                    return true;
             }
+
+            return false;
         }
 
         private void Increase()
         {
-            _inactivity_seconds += INACTIVITY_TIMER_INTERVAL_SECONDS;
+            _seconds_inactivity += SECONDS_OFINACTIVITY_TIMER_INTERVAL;
         }
 
         private bool Check()
         {
-            return _inactivity_seconds < MAX_INACTIVITY_SECONDS;
+            return _seconds_inactivity < SECONDS_OF_MAX_INACTIVITY;
         }
 
         private void ResetSeconds()
         {
-            _inactivity_seconds = 0;
+            _seconds_inactivity = 0;
         }
 
-        public static void MyMethod3()
+        public void IncreaseSeconds()
         {
-            int a = 0;
-            int b = 1;
-
-            int c = a + b;
-
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < SECONDS_OFINACTIVITY_TIMER_INTERVAL; ++i)
             {
-                c *= i;
-                string message = "Message";
-
-                message += c;
-
-                if (message == "End")
-                    break;
+                _seconds_inactivity += i;
             }
         }
 
@@ -187,32 +128,29 @@ namespace RentDesktop.ViewModels
 
         private void ImageDiapose()
         {
-            AdminProfileVM.UserImage?.Dispose();
+            ViewModelAdminProfile.UserImage?.Dispose();
         }
 
-        public static void MyMethod4()
+        public void DecreaseSeconds()
         {
-            int a = 0;
-            int b = 1;
-
-            int c = a + b;
-
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < SECONDS_OFINACTIVITY_TIMER_INTERVAL; ++i)
             {
-                c *= i;
-                string message = "Message";
-
-                message += c;
-
-                if (message == "End")
-                    break;
+                _seconds_inactivity -= i;
             }
         }
 
         private void AdminPageOpen()
         {
-            SelectedTabIndex = ADMIN_PROFILE_TAB_INDEX;
+            SelectedTabIndex = TAB_ADMIN_PROFILE;
         }
+
+        #endregion
+
+        #region Commands
+
+        public ReactiveCommand<Unit, Unit> MainShowCommand { get; }
+        public ReactiveCommand<Unit, Unit> InactivityResetCommand { get; }
+        public ReactiveCommand<Unit, Unit> DisposeImageOfUserCommand { get; }
 
         #endregion
 
@@ -231,17 +169,26 @@ namespace RentDesktop.ViewModels
 
         #region Methods
 
-        private void EditUserVMUserInfoUpdated()
+        private void ViewModelEditUserUserInfoUpdated()
         {
             Avalonia.Controls.Window? window = WindowFinder.FindByType(typeof(AdminWindow));
             QuickMessage.Info("Изменения успешно сохранены.").ShowDialog(window);
         }
 
-        private void AddUserVMUserRegistered(IUser registeredUser)
+        private void ViewModelAddUserUserRegistered(IUser registeredUser)
         {
             registeredUser.Password = Models.Informing.UserInfo.HIDDEN_PASSWORD;
-            AllUsersVM.AddUser(registeredUser);
+            ViewModelAllUsers.AddUser(registeredUser);
         }
+
+        #endregion
+
+        #region ViewModels
+
+        public EditUserViewModel ViewModelEditUser { get; }
+        public AddUserViewModel ViewModelAddUser { get; }
+        public AllUsersViewModel ViewModelAllUsers { get; }
+        public AdminProfileViewModel ViewModelAdminProfile { get; }
 
         #endregion
     }
