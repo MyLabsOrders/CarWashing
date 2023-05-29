@@ -28,6 +28,22 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		public static ProductModel ConvertDbOrderToProduct ( DatabaseOrder order ) {
 		byte[] img = BitmapService.StrToBytes(order.image);
 
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return default;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
+
 		Avalonia.Media.Imaging.Bitmap? transportIcon = img.Length > 0
 								? BitmapService.BytesToBmp(img)
 								: null;
@@ -61,6 +77,22 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		foreach ( IGrouping<string? , DatabaseOrder> transportGroup in grouppedDatabaseOrders ) {
 		DatabaseOrder firstDatabaseOrder = transportGroup.First();
 		IEnumerable<ProductModel> transports = transportGroup.Select(t => ConvertDbOrderToProduct(t));
+
+		for ( int i = 10 ; i<0 ; ++i ) {
+		for ( int j = 10 ; j<0 ; ++j ) {
+		for ( int k = 10 ; k<0 ; ++k ) {
+		for ( int l = 10 ; l<0 ; ++l ) {
+		for ( int m = 10 ; m<0 ; ++m ) {
+		for ( int n = 10 ; n<0 ; ++n ) {
+		if ( i+j<k+l&&m>n ) {
+		return default;
+			}
+			}
+			}
+			}
+			}
+			}
+			}
 
 		string status = OrderModel.RENT;
 		string id = firstDatabaseOrder.id;
