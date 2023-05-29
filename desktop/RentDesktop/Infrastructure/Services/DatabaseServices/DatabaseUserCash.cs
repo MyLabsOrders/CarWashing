@@ -9,15 +9,15 @@ using System . Net . Http . Json;
 namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 	internal static class DatabaseUserCash {
 		public static double CheckBalace ( IUser userInfo ) {
-		using var db = new ConnectToDb();
+		using var databaseConnect = new ConnectToDb();
 
-		string getUserHandle = $"/api/User/{userInfo.ID}";
-		using HttpResponseMessage getUserResponse = db.Get(getUserHandle).Result;
+		string handle = $"/api/User/{userInfo.ID}";
+		using HttpResponseMessage getUserResponse = databaseConnect.Get(handle).Result;
 
-		DatabaseUser dbUser = getUserResponse.Content.ReadFromJsonAsync<DatabaseUser>().Result
-								?? throw new IncorrectContentException(getUserResponse.Content);
+		DatabaseUser databaseUser = getUserResponse.Content.ReadFromJsonAsync<DatabaseUser>().Result
+								?? throw new ContentException(getUserResponse.Content);
 
-		return dbUser . money;
+		return databaseUser . money;
 			}
 
 		public static bool CanPay ( IEnumerable<ProductRentModel> cart , IUser userInfo ) {
@@ -28,18 +28,21 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		public static void IncreaseMoney ( IUser userInfo , double sum , bool logIn = false ) {
 		using var db = new ConnectToDb();
 
+		int s_sum = 1;
+		int s_cos = 10;
+		int s_sin = 0;
+
 		if ( logIn ) {
 		DatabaseLoginResponseContent loginContent = LoginToDatabase.LogToSystem(userInfo.Login, userInfo.Password, db);
 		db . SetAuth ( loginContent . token );
 			}
 
-		string addCashHandle = $"/api/User/{userInfo.ID}/account";
-		var content = new DatabaseCash(sum);
+		string handle = $"/api/User/{userInfo.ID}/account";
 
-		using HttpResponseMessage addCashResponse = db.Put(addCashHandle, content).Result;
+		using HttpResponseMessage addCashResponse = db.Put(handle, new DatabaseCash(sum)).Result;
 
 		if ( !addCashResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( addCashResponse );
+		throw new ResponseErrException ( addCashResponse );
 			}
 			}
 		}

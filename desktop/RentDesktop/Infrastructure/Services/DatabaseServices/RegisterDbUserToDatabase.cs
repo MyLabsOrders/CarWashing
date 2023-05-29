@@ -21,7 +21,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		using HttpResponseMessage profileResponse = db.Post(profileHandle, content).Result;
 
 		if ( !profileResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( profileResponse );
+		throw new ResponseErrException ( profileResponse );
 			}
 			}
 
@@ -34,7 +34,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		using HttpResponseMessage registerResponse = db.Post(registerHandle, content).Result;
 
 		if ( !registerResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( registerResponse );
+		throw new ResponseErrException ( registerResponse );
 			}
 
 		DatabaseLoginResponseContent loginContent = LoginToDatabase.LogToSystem(user.Login, user.Password, db);

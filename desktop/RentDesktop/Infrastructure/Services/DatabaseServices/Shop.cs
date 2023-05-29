@@ -29,7 +29,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		using HttpResponseMessage addOrderResponse = db.Post(addOrderHandle, content).Result;
 
 		if ( !addOrderResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( addOrderResponse );
+		throw new ResponseErrException ( addOrderResponse );
 			}
 			}
 
@@ -45,13 +45,13 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		using HttpResponseMessage getOrdersResponse = db.Get(getOrdersHandle).Result;
 
 		if ( !getOrdersResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( getOrdersResponse );
+		throw new ResponseErrException ( getOrdersResponse );
 			}
 
 		DatabaseOrderCollection? orderCollection = getOrdersResponse.Content.ReadFromJsonAsync<DatabaseOrderCollection>().Result;
 
 		if ( orderCollection is null||orderCollection . orders is null ) {
-		throw new IncorrectContentException ( getOrdersResponse . Content );
+		throw new ContentException ( getOrdersResponse . Content );
 			}
 
 		IEnumerable<DatabaseOrder> orders = orderCollection.orders.Where(t => t.orderDate is null);

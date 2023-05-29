@@ -6,7 +6,7 @@ using System . Threading . Tasks;
 
 namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 	internal class ConnectToDb : IDisposable {
-		private bool _isDisposed;
+		private bool _disp;
 		private readonly HttpClient _httpClient;
 
 		public static string? AuthorizationToken { get; set; }
@@ -16,13 +16,13 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 
 		if ( authorization is not null ) {
 		SetAuth ( authorization );
-			} else if ( restoreToken&&AuthorizationToken is not null ) {
+			} else if ( restoreToken&&AuthorizationToken != null ) {
 		SetAuth ( AuthorizationToken );
 			}
 			}
 
 		~ConnectToDb ( ) {
-		if ( !_isDisposed ) {
+		if ( !_disp ) {
 		Dispose ( );
 			}
 			}
@@ -42,7 +42,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 
 		public void Close ( ) {
 		_httpClient . Dispose ( );
-		_isDisposed=true;
+		_disp=true;
 			}
 
 		private static string Correct ( string handle ) => !handle . StartsWith ( "/" )

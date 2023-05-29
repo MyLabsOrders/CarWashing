@@ -10,11 +10,11 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		using HttpResponseMessage profileResponse = db.Get(profileHandle).Result;
 
 		if ( !profileResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( profileResponse );
+		throw new ResponseErrException ( profileResponse );
 			}
 
 		DatabaseUser? profileContent = profileResponse.Content.ReadFromJsonAsync<DatabaseUser>().Result
-								?? throw new IncorrectContentException(profileResponse.Content);
+								?? throw new ContentException(profileResponse.Content);
 
 		string position = InformationOfDb.IsAdmin(login, db)
 								? UserInfo.POS_ADMIN
@@ -44,11 +44,11 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		using HttpResponseMessage loginResponse = db.Post(loginHandle, content).Result;
 
 		if ( !loginResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( loginResponse );
+		throw new ResponseErrException ( loginResponse );
 			}
 
 		DatabaseLoginResponseContent loginContent = loginResponse.Content.ReadFromJsonAsync<DatabaseLoginResponseContent>().Result
-								?? throw new IncorrectContentException(loginResponse.Content);
+								?? throw new ContentException(loginResponse.Content);
 
 		if ( registerAuthorizationToken ) {
 		ConnectToDb . AuthorizationToken=loginContent . token;

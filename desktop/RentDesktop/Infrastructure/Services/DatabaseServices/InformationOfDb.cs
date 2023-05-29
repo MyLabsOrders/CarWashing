@@ -21,7 +21,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		using HttpResponseMessage getIdentityInfoResponse = db.Get(getIdentityInfoHandle).Result;
 
 		return getIdentityInfoResponse . Content . ReadFromJsonAsync<DatabaseIdentityInfo> ( ) . Result
-				??throw new IncorrectContentException ( getIdentityInfoResponse . Content );
+				??throw new ContentException ( getIdentityInfoResponse . Content );
 			}
 
 		public static List<IUser> Users ( ) {
@@ -36,13 +36,13 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		using HttpResponseMessage allUsersResponse = db.Get(allUsersHandle).Result;
 
 		if ( !allUsersResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( allUsersResponse );
+		throw new ResponseErrException ( allUsersResponse );
 			}
 
 		DatabaseUsers? usersCollection = allUsersResponse.Content.ReadFromJsonAsync<DatabaseUsers>().Result;
 
 		if ( usersCollection is null||usersCollection . users is null ) {
-		throw new IncorrectContentException ( allUsersResponse . Content );
+		throw new ContentException ( allUsersResponse . Content );
 			}
 
 		string[] positions = usersCollection.users

@@ -12,13 +12,13 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		Task<HttpResponseMessage> getChequeTask = db.Get(getChequeHandle);
 
 		if ( !getChequeTask . Wait ( WAIT_TIME ) ) {
-		throw new ResponseWaitingTimeExceededException ( WAIT_TIME );
+		throw new TimeExceededException ( WAIT_TIME );
 			}
 
 		using HttpResponseMessage getChequeResponse = getChequeTask.Result;
 
 		if ( !getChequeResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( getChequeResponse );
+		throw new ResponseErrException ( getChequeResponse );
 			}
 
 		byte[] chequeBytes = getChequeResponse.Content.ReadAsByteArrayAsync().Result;
@@ -32,13 +32,13 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		Task<HttpResponseMessage> getInvoiceTask = db.Get(getInvoiceHandle);
 
 		if ( !getInvoiceTask . Wait ( WAIT_TIME ) ) {
-		throw new ResponseWaitingTimeExceededException ( WAIT_TIME );
+		throw new TimeExceededException ( WAIT_TIME );
 			}
 
 		using HttpResponseMessage getInvoiceResponse = getInvoiceTask.Result;
 
 		if ( !getInvoiceResponse . IsSuccessStatusCode ) {
-		throw new ErrorResponseException ( getInvoiceResponse );
+		throw new ResponseErrException ( getInvoiceResponse );
 			}
 
 		byte[] invoiceBytes = getInvoiceResponse.Content.ReadAsByteArrayAsync().Result;
