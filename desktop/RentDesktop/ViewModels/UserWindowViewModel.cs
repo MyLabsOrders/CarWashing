@@ -7,12 +7,16 @@ using RentDesktop.ViewModels.Pages.UserWindowPages;
 using System;
 using System.Reactive;
 
-namespace RentDesktop.ViewModels {
-    public class UserWindowViewModel : ViewModelBase {
-        public UserWindowViewModel() : this(new UserInfo()) {
-            }
+namespace RentDesktop.ViewModels
+{
+    public class UserWindowViewModel : ViewModelBase
+    {
+        public UserWindowViewModel() : this(new UserInfo())
+        {
+        }
 
-        public UserWindowViewModel(IUserInfo userInfo) {
+        public UserWindowViewModel(IUserInfo userInfo)
+        {
             UserProfileVM = new UserProfileViewModel(userInfo);
             OrdersVM = new OrdersViewModel(userInfo.Orders);
             CartVM = new CartViewModel(userInfo, OrdersVM.Orders);
@@ -22,7 +26,8 @@ namespace RentDesktop.ViewModels {
             CartVM.OrdersTabOpening += OpenOrdersTab;
             TransportVM.CartTabOpening += OpenCartTab;
 
-            TransportVM.TransportAddingToCart += t => {
+            TransportVM.TransportAddingToCart += t =>
+            {
                 if (CartVM.IsOrderPaidFor)
                     CartVM.ResetUserPaymentSteps();
             };
@@ -38,7 +43,7 @@ namespace RentDesktop.ViewModels {
             ResetInactivitySecondsCommand = ReactiveCommand.Create(ResetInactivitySeconds);
             ShowMainWindowCommand = ReactiveCommand.Create(ShowMainWindow);
             DisposeUserImageCommand = ReactiveCommand.Create(DisposeUserImage);
-            }
+        }
 
         #region ViewModels
 
@@ -54,10 +59,11 @@ namespace RentDesktop.ViewModels {
         public IUserInfo UserInfo { get; }
 
         private int _selectedTabIndex = 1;
-        public int SelectedTabIndex {
+        public int SelectedTabIndex
+        {
             get => _selectedTabIndex;
             set => this.RaiseAndSetIfChanged(ref _selectedTabIndex, value);
-            }
+        }
 
         #endregion
 
@@ -95,21 +101,24 @@ namespace RentDesktop.ViewModels {
 
         #region Private Methods
 
-        private DispatcherTimer ConfigurePreloadTabsTimer() {
+        private DispatcherTimer ConfigurePreloadTabsTimer()
+        {
             return new DispatcherTimer(
                 new TimeSpan(0, 0, 0, 0, PRELOAD_TABS_TIMER_INTERVAL_MILLISECONDS),
                 DispatcherPriority.MaxValue,
                 (sender, e) => PreloadTabs());
-            }
+        }
 
-        private DispatcherTimer ConfigureInactivityTimer() {
+        private DispatcherTimer ConfigureInactivityTimer()
+        {
             return new DispatcherTimer(
                 new TimeSpan(0, 0, INACTIVITY_TIMER_INTERVAL_SECONDS),
                 DispatcherPriority.Background,
                 (sender, e) => VerifyInactivityStatus());
-            }
+        }
 
-        private void VerifyInactivityStatus() {
+        private void VerifyInactivityStatus()
+        {
             _inactivity_seconds += INACTIVITY_TIMER_INTERVAL_SECONDS;
 
             if (_inactivity_seconds < MAX_INACTIVITY_SECONDS)
@@ -119,38 +128,47 @@ namespace RentDesktop.ViewModels {
             ResetInactivitySeconds();
 
             AppInteraction.CloseUserWindow();
-            }
+        }
 
-        private void ResetInactivitySeconds() {
+        private void ResetInactivitySeconds()
+        {
             _inactivity_seconds = 0;
-            }
+        }
 
-        private void OpenUserProfileTab() {
+        private void OpenUserProfileTab()
+        {
             SelectedTabIndex = USER_PROFILE_TAB_INDEX;
-            }
+        }
 
-        private void OpenTransportTab() {
+        private void OpenTransportTab()
+        {
             SelectedTabIndex = TRANSPORT_TAB_INDEX;
-            }
+        }
 
-        private void OpenCartTab() {
+        private void OpenCartTab()
+        {
             SelectedTabIndex = CART_TAB_INDEX;
-            }
+        }
 
-        private void OpenOrdersTab() {
+        private void OpenOrdersTab()
+        {
             SelectedTabIndex = ORDERS_TAB_INDEX;
-            }
+        }
 
-        private void ShowMainWindow() {
+        private void ShowMainWindow()
+        {
             AppInteraction.ShowMainWindow();
-            }
+        }
 
-        private void DisposeUserImage() {
+        private void DisposeUserImage()
+        {
             UserProfileVM.UserImage?.Dispose();
-            }
+        }
 
-        private void PreloadTabs() {
-            switch (_preloadedTabs++) {
+        private void PreloadTabs()
+        {
+            switch (_preloadedTabs++)
+            {
                 case 0:
                     OpenTransportTab();
                     break;
@@ -167,9 +185,9 @@ namespace RentDesktop.ViewModels {
                     OpenUserProfileTab();
                     _preloadTabsTimer.Stop();
                     break;
-                }
             }
+        }
 
         #endregion
-        }
     }
+}

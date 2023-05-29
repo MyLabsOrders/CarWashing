@@ -2,9 +2,12 @@
 using RentDesktop.Models.Informing;
 using System.Net.Http;
 
-namespace RentDesktop.Infrastructure.Services.DB {
-    internal static class UserRegisterService {
-        public static void RegisterUser(IUserInfo userInfo) {
+namespace RentDesktop.Infrastructure.Services.DB
+{
+    internal static class UserRegisterService
+    {
+        public static void RegisterUser(IUserInfo userInfo)
+        {
             using var db = new DatabaseConnectionService();
 
             const string registerHandle = "/api/identity/user/register";
@@ -21,12 +24,14 @@ namespace RentDesktop.Infrastructure.Services.DB {
             userInfo.ID = loginContent.userId;
 
             SetUserInfo(userInfo, db);
-            }
+        }
 
-        private static void SetUserInfo(IUserInfo userInfo, DatabaseConnectionService db) {
+        private static void SetUserInfo(IUserInfo userInfo, DatabaseConnectionService db)
+        {
             string profileHandle = $"/api/User/{userInfo.ID}/profile";
 
-            var content = new DbUserProfile() {
+            var content = new DbUserProfile()
+            {
                 firstName = userInfo.Name,
                 middleName = userInfo.Surname,
                 lastName = userInfo.Patronymic,
@@ -34,12 +39,12 @@ namespace RentDesktop.Infrastructure.Services.DB {
                 userImage = BitmapService.BytesToString(userInfo.Icon),
                 birthDate = DateTimeService.ShortDateTimeToString(userInfo.DateOfBirth),
                 gender = GenderService.ToDatabaseFormat(userInfo.Gender)
-                };
+            };
 
             using HttpResponseMessage profileResponse = db.PostAsync(profileHandle, content).Result;
 
             if (!profileResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(profileResponse);
-            }
         }
     }
+}

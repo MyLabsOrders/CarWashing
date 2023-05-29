@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace RentDesktop.Models.Informing {
-    public interface IUserInfo {
+namespace RentDesktop.Models.Informing
+{
+    public interface IUserInfo
+    {
         string ID { get; set; }
         string Login { get; set; }
         string Password { get; set; }
@@ -23,5 +25,5 @@ namespace RentDesktop.Models.Informing {
         void CopyTo(IUserInfo other);
         bool IsAdmin();
         bool IsUser();
-        }
     }
+}

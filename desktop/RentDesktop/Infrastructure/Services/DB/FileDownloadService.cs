@@ -3,11 +3,14 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace RentDesktop.Infrastructure.Services.DB {
-    internal static class FileDownloadService {
+namespace RentDesktop.Infrastructure.Services.DB
+{
+    internal static class FileDownloadService
+    {
         private const int RESPONSE_WAIT_TIME_MILLISECONDS = 3000;
 
-        public static MemoryStream DownloadCheque(IOrder order) {
+        public static MemoryStream DownloadCheque(IOrder order)
+        {
             using var db = new DatabaseConnectionService();
 
             string getChequeHandle = $"/api/Order/cheque?orderTime={order.DateOfCreationStamp}";
@@ -23,9 +26,10 @@ namespace RentDesktop.Infrastructure.Services.DB {
 
             byte[] chequeBytes = getChequeResponse.Content.ReadAsByteArrayAsync().Result;
             return new MemoryStream(chequeBytes);
-            }
+        }
 
-        public static MemoryStream DownloadInvoice(IOrder order) {
+        public static MemoryStream DownloadInvoice(IOrder order)
+        {
             using var db = new DatabaseConnectionService();
 
             string getInvoiceHandle = $"/api/Order/invoice?orderTime={order.DateOfCreationStamp}";
@@ -41,6 +45,6 @@ namespace RentDesktop.Infrastructure.Services.DB {
 
             byte[] invoiceBytes = getInvoiceResponse.Content.ReadAsByteArrayAsync().Result;
             return new MemoryStream(invoiceBytes);
-            }
         }
     }
+}

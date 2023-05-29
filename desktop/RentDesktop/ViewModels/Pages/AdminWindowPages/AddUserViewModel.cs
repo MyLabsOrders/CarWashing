@@ -9,22 +9,26 @@ using System;
 using System.Collections.ObjectModel;
 using System.Reactive;
 
-namespace RentDesktop.ViewModels.Pages.AdminWindowPages {
-    public class AddUserViewModel : RegisterViewModel {
-        public AddUserViewModel() : base() {
+namespace RentDesktop.ViewModels.Pages.AdminWindowPages
+{
+    public class AddUserViewModel : RegisterViewModel
+    {
+        public AddUserViewModel() : base()
+        {
             Positions = GetPositions();
             ResetAllFieldsCommand = ReactiveCommand.Create(ResetAllFields);
-            }
+        }
 
         #region Properties
 
         public ObservableCollection<string> Positions { get; }
 
         private int _selectedPositionIndex = 0;
-        public int SelectedPositionIndex {
+        public int SelectedPositionIndex
+        {
             get => _selectedPositionIndex;
             set => this.RaiseAndSetIfChanged(ref _selectedPositionIndex, value);
-            }
+        }
 
         #endregion
 
@@ -36,52 +40,61 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages {
 
         #region Protected Methods
 
-        protected override Type GetOwnerWindowType() {
+        protected override Type GetOwnerWindowType()
+        {
             return typeof(AdminWindow);
-            }
+        }
 
-        protected override IUserInfo GetUserInfo() {
+        protected override IUserInfo GetUserInfo()
+        {
             IUserInfo userInfo = base.GetUserInfo();
             userInfo.Position = Positions[SelectedPositionIndex];
 
             return userInfo;
-            }
+        }
 
-        protected override bool VerifyFieldsCorrectness() {
+        protected override bool VerifyFieldsCorrectness()
+        {
             Avalonia.Controls.Window? window = WindowFinder.FindByType(GetOwnerWindowType());
 
-            if (SelectedPositionIndex < 0 || SelectedPositionIndex > Positions.Count) {
+            if (SelectedPositionIndex < 0 || SelectedPositionIndex > Positions.Count)
+            {
                 QuickMessage.Info("Выберите должность.").ShowDialog(window);
                 return false;
-                }
-
-            return base.VerifyFieldsCorrectness();
             }
 
-        protected override void ResetAllFields() {
+            return base.VerifyFieldsCorrectness();
+        }
+
+        protected override void ResetAllFields()
+        {
             base.ResetAllFields();
 
             PasswordConfirmation = string.Empty;
             SelectedPositionIndex = 0;
-            }
+        }
 
         #endregion
 
         #region Private Methods
 
-        private static ObservableCollection<string> GetPositions() {
-            try {
+        private static ObservableCollection<string> GetPositions()
+        {
+            try
+            {
                 System.Collections.Generic.List<string> positions = InfoService.GetAllPositions();
                 return new ObservableCollection<string>(positions);
-                } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
 #if DEBUG
                 string message = $"Не удалось получить роли. Причина: {ex.Message}";
                 QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
 #endif
                 return new ObservableCollection<string>();
-                }
             }
+        }
 
         #endregion
-        }
     }
+}

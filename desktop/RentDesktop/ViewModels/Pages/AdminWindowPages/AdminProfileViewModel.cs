@@ -8,74 +8,88 @@ using RentDesktop.Views;
 using System;
 using System.Collections.ObjectModel;
 
-namespace RentDesktop.ViewModels.Pages.AdminWindowPages {
-    public class AdminProfileViewModel : UserProfileViewModel {
-        public AdminProfileViewModel() : this(new UserInfo()) {
-            }
+namespace RentDesktop.ViewModels.Pages.AdminWindowPages
+{
+    public class AdminProfileViewModel : UserProfileViewModel
+    {
+        public AdminProfileViewModel() : this(new UserInfo())
+        {
+        }
 
-        public AdminProfileViewModel(IUserInfo userInfo) : base(userInfo) {
+        public AdminProfileViewModel(IUserInfo userInfo) : base(userInfo)
+        {
             Statuses = GetStatuses();
             SetUserInfo(userInfo);
-            }
+        }
 
         #region Properties
 
         public ObservableCollection<string> Statuses { get; }
 
         private int _selectedStatusIndex = 0;
-        public int SelectedStatusIndex {
+        public int SelectedStatusIndex
+        {
             get => _selectedStatusIndex;
             set => this.RaiseAndSetIfChanged(ref _selectedStatusIndex, value);
-            }
+        }
 
         #endregion
 
         #region Protected Methods
 
-        protected override Type GetOwnerWindowType() {
+        protected override Type GetOwnerWindowType()
+        {
             return typeof(AdminWindow);
-            }
+        }
 
-        protected override IUserInfo GetUserInfo() {
+        protected override IUserInfo GetUserInfo()
+        {
             IUserInfo userInfo = base.GetUserInfo();
             userInfo.Status = Statuses[SelectedStatusIndex];
 
             return userInfo;
-            }
+        }
 
-        protected override void SetUserInfo(IUserInfo userInfo) {
+        protected override void SetUserInfo(IUserInfo userInfo)
+        {
             base.SetUserInfo(userInfo);
             SelectedStatusIndex = Statuses?.IndexOf(userInfo.Status) ?? -1;
-            }
+        }
 
-        protected override bool VerifyFieldsCorrectness() {
+        protected override bool VerifyFieldsCorrectness()
+        {
             Avalonia.Controls.Window? window = WindowFinder.FindByType(GetOwnerWindowType());
 
-            if (SelectedStatusIndex < 0 || SelectedStatusIndex > Statuses.Count) {
+            if (SelectedStatusIndex < 0 || SelectedStatusIndex > Statuses.Count)
+            {
                 QuickMessage.Info("Выберите статус.").ShowDialog(window);
                 return false;
-                }
+            }
 
             return base.VerifyFieldsCorrectness();
-            }
+        }
 
         #endregion
 
         #region Private Methods
 
-        private static ObservableCollection<string> GetStatuses() {
-            try {
+        private static ObservableCollection<string> GetStatuses()
+        {
+            try
+            {
                 System.Collections.Generic.List<string> statuses = InfoService.GetAllStatuses();
                 return new ObservableCollection<string>(statuses);
-                } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
 #if DEBUG
                 string message = $"Не удалось загрузить статусы. Причина: {ex.Message}";
                 QuickMessage.Error(message).ShowDialog(typeof(AdminWindow));
 #endif
                 return new ObservableCollection<string>();
-                }
             }
+        }
 
         #endregion
-        }
     }
+}

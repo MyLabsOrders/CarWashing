@@ -7,9 +7,12 @@ using RentDesktop.ViewModels.Pages.MainWindowPages;
 using System;
 using System.Reactive;
 
-namespace RentDesktop.ViewModels {
-    public class MainWindowViewModel : ViewModelBase {
-        public MainWindowViewModel() {
+namespace RentDesktop.ViewModels
+{
+    public class MainWindowViewModel : ViewModelBase
+    {
+        public MainWindowViewModel()
+        {
             LoginVM = new LoginViewModel();
             RegisterVM = new RegisterViewModel();
 
@@ -23,7 +26,7 @@ namespace RentDesktop.ViewModels {
 
             //using var generator = new Infrastructure.Services.DB.DatabaseGenerationService();
             //generator.Generate();
-            }
+        }
 
         #region ViewModels
 
@@ -35,16 +38,18 @@ namespace RentDesktop.ViewModels {
         #region Properties
 
         private bool _isLoginPageVisible = true;
-        public bool IsLoginPageVisible {
+        public bool IsLoginPageVisible
+        {
             get => _isLoginPageVisible;
             private set => this.RaiseAndSetIfChanged(ref _isLoginPageVisible, value);
-            }
+        }
 
         private bool _isRegisterPageVisible = false;
-        public bool IsRegisterPageVisible {
+        public bool IsRegisterPageVisible
+        {
             get => _isRegisterPageVisible;
             private set => this.RaiseAndSetIfChanged(ref _isRegisterPageVisible, value);
-            }
+        }
 
         #endregion
 
@@ -70,34 +75,38 @@ namespace RentDesktop.ViewModels {
 
         #region Public Methods
 
-        public void HideMainWindow() {
+        public void HideMainWindow()
+        {
             ResetInactivitySeconds();
             _inactivity_timer.Stop();
 
             Window? mainWindow = WindowFinder.FindMainWindow();
             mainWindow?.Hide();
-            }
+        }
 
-        public void ShowMainWindow() {
+        public void ShowMainWindow()
+        {
             ResetInactivitySeconds();
             _inactivity_timer.Start();
 
             Window? mainWindow = WindowFinder.FindMainWindow();
             mainWindow?.Show();
-            }
+        }
 
         #endregion
 
         #region Private Methods
 
-        private DispatcherTimer ConfigureInactivityTimer() {
+        private DispatcherTimer ConfigureInactivityTimer()
+        {
             return new DispatcherTimer(
                 new TimeSpan(0, 0, INACTIVITY_TIMER_INTERVAL_SECONDS),
                 DispatcherPriority.Background,
                 (sender, e) => VerifyInactivityStatus());
-            }
+        }
 
-        private void VerifyInactivityStatus() {
+        private void VerifyInactivityStatus()
+        {
             _inactivity_seconds += INACTIVITY_TIMER_INTERVAL_SECONDS;
 
             if (_inactivity_seconds < MAX_INACTIVITY_SECONDS)
@@ -105,33 +114,40 @@ namespace RentDesktop.ViewModels {
 
             ResetInactivitySeconds();
 
-            if (IsRegisterPageVisible) {
+            if (IsRegisterPageVisible)
+            {
                 OpenLoginPage();
-                } else {
+            }
+            else
+            {
                 _inactivity_timer.Stop();
                 AppInteraction.CloseCurrentApp();
-                }
             }
+        }
 
-        private void ResetInactivitySeconds() {
+        private void ResetInactivitySeconds()
+        {
             _inactivity_seconds = 0;
-            }
+        }
 
-        private void HideAllPages() {
+        private void HideAllPages()
+        {
             IsLoginPageVisible = false;
             IsRegisterPageVisible = false;
-            }
+        }
 
-        private void OpenLoginPage() {
+        private void OpenLoginPage()
+        {
             HideAllPages();
             IsLoginPageVisible = true;
-            }
+        }
 
-        private void OpenRegisterPage() {
+        private void OpenRegisterPage()
+        {
             HideAllPages();
             IsRegisterPageVisible = true;
-            }
+        }
 
         #endregion
-        }
     }
+}

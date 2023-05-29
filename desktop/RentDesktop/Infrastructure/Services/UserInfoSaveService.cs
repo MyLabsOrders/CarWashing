@@ -2,20 +2,25 @@
 using System;
 using System.IO;
 
-namespace RentDesktop.Infrastructure.Services {
-    internal static class UserInfoSaveService {
+namespace RentDesktop.Infrastructure.Services
+{
+    internal static class UserInfoSaveService
+    {
         private const string PATH = "saved_user.txt";
 
-        public static void ClearInfo() {
+        public static void ClearInfo()
+        {
             File.Create(PATH).Close();
-            }
+        }
 
-        public static void SaveInfo(string login, string password) {
+        public static void SaveInfo(string login, string password)
+        {
             string encryptedPassword = RSA.Encrypt(password);
             File.WriteAllText(PATH, $"{login}{Environment.NewLine}{encryptedPassword}");
-            }
+        }
 
-        public static (string Login, string Password) LoadInfo() {
+        public static (string Login, string Password) LoadInfo()
+        {
             string[] data = File.ReadAllLines(PATH);
 
             if (data.Length == 0)
@@ -25,34 +30,46 @@ namespace RentDesktop.Infrastructure.Services {
             string password = RSA.Decrypt(data[1]);
 
             return (login, password);
-            }
+        }
 
-        public static bool TryClearInfo() {
-            try {
+        public static bool TryClearInfo()
+        {
+            try
+            {
                 ClearInfo();
                 return true;
-                } catch {
-                return false;
-                }
             }
+            catch
+            {
+                return false;
+            }
+        }
 
-        public static bool TrySaveInfo(string login, string password) {
-            try {
+        public static bool TrySaveInfo(string login, string password)
+        {
+            try
+            {
                 SaveInfo(login, password);
                 return true;
-                } catch {
-                return false;
-                }
             }
+            catch
+            {
+                return false;
+            }
+        }
 
-        public static bool TryLoadInfo(out (string Login, string Password) info) {
-            try {
+        public static bool TryLoadInfo(out (string Login, string Password) info)
+        {
+            try
+            {
                 info = LoadInfo();
                 return !string.IsNullOrEmpty(info.Login);
-                } catch {
+            }
+            catch
+            {
                 info = (string.Empty, string.Empty);
                 return false;
-                }
             }
         }
     }
+}
