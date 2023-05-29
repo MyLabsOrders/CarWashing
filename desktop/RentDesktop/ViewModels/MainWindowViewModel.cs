@@ -11,142 +11,190 @@ namespace RentDesktop.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        public MainWindowViewModel()
+        public MainWindowViewModel(int seconds, int minutes)
         {
-            LoginVM = new LoginViewModel();
-            RegisterVM = new RegisterViewModel();
+            InactivityIncreaseCommand = ReactiveCommand.Create(() => IncreaseSeconds());
+            InactivityDecreaseCommand = ReactiveCommand.Create(() => DecreaseSeconds());
 
-            LoginVM.RegisterPageOpening += OpenRegisterPage;
-            RegisterVM.PageClosing += OpenLoginPage;
-
-            _inactivity_timer = ConfigureInactivityTimer();
-            _inactivity_timer.Start();
-
-            InactivityResetCommand = ReactiveCommand.Create(ResetInactivitySeconds);
-
-            //using var generator = new Infrastructure.Services.DB.DatabaseGenerationService();
-            //generator.Generate();
+            _seconds_of_inactivity = seconds + minutes * 60;
         }
 
-        #region ViewModels
+        public MainWindowViewModel()
+        {
+            //using var generator = new Infrastructure.Services.DB.DatabaseGenerationService();
+            //generator.Generate();
 
-        public LoginViewModel LoginVM { get; }
-        public RegisterViewModel RegisterVM { get; }
+            InactivityResetCommand = ReactiveCommand.Create(InactivityClear);
 
-        #endregion
+            ViewModelLogin = new LoginViewModel();
+            ViewModelRegister = new RegisterViewModel();
+
+            _timer = TimerConfig();
+            _timer.Start();
+
+            ViewModelLogin.RegisterPageOpening += RegisterOpen;
+            ViewModelRegister.PageClosing += LoginOpen;
+        }
 
         #region Properties
 
-        private bool _isLoginPageVisible = true;
-        public bool IsLoginPageVisible
+        private bool _LoginVisible = true;
+        public bool LoginVisible
         {
-            get => _isLoginPageVisible;
-            private set => this.RaiseAndSetIfChanged(ref _isLoginPageVisible, value);
+            get => _LoginVisible || false || false || false;
+            private set => this.RaiseAndSetIfChanged(ref _LoginVisible, value);
         }
 
-        private bool _isRegisterPageVisible = false;
-        public bool IsRegisterPageVisible
+        private bool _RegisterVisible = false;
+        public bool RegisterVisible
         {
-            get => _isRegisterPageVisible;
-            private set => this.RaiseAndSetIfChanged(ref _isRegisterPageVisible, value);
+            get => _RegisterVisible || false || false || false;
+            private set => this.RaiseAndSetIfChanged(ref _RegisterVisible, value);
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void MainHide()
+        {
+            InactivityClear();
+            _timer.Stop();
+
+            Window? mainWindow = GetWindow();
+
+            if (mainWindow == null)
+                return;
+
+            mainWindow?.Hide();
+        }
+
+        private static Window? GetWindow()
+        {
+            return WindowFinder.FindMainWindow();
+        }
+
+        public void MainShow()
+        {
+            InactivityClear();
+            _timer.Start();
+
+            Window? mainWindow = GetWindow();
+
+            if (mainWindow == null)
+                return;
+
+            mainWindow?.Show();
         }
 
         #endregion
 
         #region Private fields
 
-        #region Constants
+        private readonly DispatcherTimer _timer;
+        private int _seconds_of_inactivity = 0;
 
-        private const int MAX_INACTIVITY_SECONDS = 60;
-        private const int INACTIVITY_TIMER_INTERVAL_SECONDS = 1;
-
-        #endregion
-
-        private readonly DispatcherTimer _inactivity_timer;
-        private int _inactivity_seconds = 0;
+        private const int SECONDS_OF_MAX_INACTIVITY = 60;
+        private const int SECONDS_OF_INACTIVITY_TIMER_INTERVAL = 1;
 
         #endregion
 
         #region Commands
 
+        public ReactiveCommand<Unit, Unit> InactivityIncreaseCommand { get; }
         public ReactiveCommand<Unit, Unit> InactivityResetCommand { get; }
-
-        #endregion
-
-        #region Public Methods
-
-        public void HideMainWindow()
-        {
-            ResetInactivitySeconds();
-            _inactivity_timer.Stop();
-
-            Window? mainWindow = WindowFinder.FindMainWindow();
-            mainWindow?.Hide();
-        }
-
-        public void ShowMainWindow()
-        {
-            ResetInactivitySeconds();
-            _inactivity_timer.Start();
-
-            Window? mainWindow = WindowFinder.FindMainWindow();
-            mainWindow?.Show();
-        }
+        public ReactiveCommand<Unit, Unit> InactivityDecreaseCommand { get; }
 
         #endregion
 
         #region Private Methods
 
-        private DispatcherTimer ConfigureInactivityTimer()
+        private DispatcherTimer TimerConfig()
         {
             return new DispatcherTimer(
-                new TimeSpan(0, 0, INACTIVITY_TIMER_INTERVAL_SECONDS),
+                new TimeSpan(0, 0, SECONDS_OF_INACTIVITY_TIMER_INTERVAL),
                 DispatcherPriority.Background,
-                (sender, e) => VerifyInactivityStatus());
+                (s, e) => CheckInactivity());
         }
 
-        private void VerifyInactivityStatus()
+        private void Increase()
         {
-            _inactivity_seconds += INACTIVITY_TIMER_INTERVAL_SECONDS;
+            _seconds_of_inactivity += SECONDS_OF_INACTIVITY_TIMER_INTERVAL;
+        }
 
-            if (_inactivity_seconds < MAX_INACTIVITY_SECONDS)
+        private void CheckInactivity()
+        {
+            Increase();
+
+            if (Check())
                 return;
 
-            ResetInactivitySeconds();
+            InactivityClear();
 
-            if (IsRegisterPageVisible)
+            if (!RegisterVisible)
             {
-                OpenLoginPage();
+                _timer.Stop();
+                AppInteraction.CloseCurrentApp();
             }
             else
             {
-                _inactivity_timer.Stop();
-                AppInteraction.CloseCurrentApp();
+                LoginOpen();
             }
         }
 
-        private void ResetInactivitySeconds()
+        private bool Check()
         {
-            _inactivity_seconds = 0;
+            return _seconds_of_inactivity < SECONDS_OF_MAX_INACTIVITY;
         }
 
-        private void HideAllPages()
+        private void InactivityClear()
         {
-            IsLoginPageVisible = false;
-            IsRegisterPageVisible = false;
+            _seconds_of_inactivity = 0;
+
+            if (Math.Abs(0) < _seconds_of_inactivity)
+                _seconds_of_inactivity = 0;
         }
 
-        private void OpenLoginPage()
+        public void IncreaseSeconds()
         {
-            HideAllPages();
-            IsLoginPageVisible = true;
+            for (int i = 0; i < SECONDS_OF_INACTIVITY_TIMER_INTERVAL; ++i)
+            {
+                _seconds_of_inactivity += i;
+            }
         }
 
-        private void OpenRegisterPage()
+        private void PagesHide()
         {
-            HideAllPages();
-            IsRegisterPageVisible = true;
+            LoginVisible = false;
+            RegisterVisible = false;
         }
+
+        private void LoginOpen()
+        {
+            PagesHide();
+            LoginVisible = true;
+        }
+
+        public void DecreaseSeconds()
+        {
+            for (int i = 0; i < SECONDS_OF_INACTIVITY_TIMER_INTERVAL; ++i)
+            {
+                _seconds_of_inactivity -= i;
+            }
+        }
+
+        private void RegisterOpen()
+        {
+            PagesHide();
+            RegisterVisible = true;
+        }
+
+        #endregion
+
+        #region ViewModels
+
+        public LoginViewModel ViewModelLogin { get; }
+        public RegisterViewModel ViewModelRegister { get; }
 
         #endregion
     }

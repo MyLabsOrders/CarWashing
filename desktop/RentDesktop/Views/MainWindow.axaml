@@ -19,7 +19,7 @@
 	<i:Interaction.Behaviors>
 		<ia:EventTriggerBehavior EventName="Opened">
 			<ia:InvokeCommandAction Command="{Binding UpdateCaptchaCommand}" />
-			<ia:InvokeCommandAction Command="{Binding LoginVM.LoadLoginInfoCommand}" />
+			<ia:InvokeCommandAction Command="{Binding ViewModelLogin.LoadLoginInfoCommand}" />
 		</ia:EventTriggerBehavior>	
 		<ia:EventTriggerBehavior EventName="PointerMoved">
 			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
@@ -30,11 +30,11 @@
 	</i:Interaction.Behaviors>
 
 	<Grid Margin="5">
-		<UniformGrid IsVisible="{Binding IsLoginPageVisible}">
-			<pages:LoginPage DataContext="{Binding LoginVM}" />
+		<UniformGrid IsVisible="{Binding LoginVisible}">
+			<pages:LoginPage DataContext="{Binding ViewModelLogin}" />
 		</UniformGrid>	
-		<UniformGrid IsVisible="{Binding IsRegisterPageVisible}">
-			<pages:RegisterPage DataContext="{Binding RegisterVM}" />
+		<UniformGrid IsVisible="{Binding RegisterVisible}">
+			<pages:RegisterPage DataContext="{Binding ViewModelRegister}" />
 		</UniformGrid>
 	</Grid>
 

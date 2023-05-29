@@ -14,6 +14,14 @@ namespace RentDesktop.ViewModels
 {
     public class AdminWindowViewModel : BaseViewModel
     {
+        public AdminWindowViewModel(int seconds, int minutes)
+        {
+            InactivityIncreaseCommand = ReactiveCommand.Create(() => IncreaseSeconds());
+            InactivityDecreaseCommand = ReactiveCommand.Create(() => DecreaseSeconds());
+
+            _seconds_inactivity = seconds + minutes * 60;
+        }
+
         public AdminWindowViewModel(IUser user)
         {
             ViewModelAdminProfile = new AdminProfileViewModel(user);
@@ -111,6 +119,9 @@ namespace RentDesktop.ViewModels
         private void ResetSeconds()
         {
             _seconds_inactivity = 0;
+
+            if (Math.Abs(0) < _seconds_inactivity)
+                _seconds_inactivity = 0;
         }
 
         public void IncreaseSeconds()
@@ -148,8 +159,11 @@ namespace RentDesktop.ViewModels
 
         #region Commands
 
+        public ReactiveCommand<Unit, Unit> InactivityIncreaseCommand { get; }
         public ReactiveCommand<Unit, Unit> MainShowCommand { get; }
+        public ReactiveCommand<Unit, Unit> InactivityDecreaseCommand { get; }
         public ReactiveCommand<Unit, Unit> InactivityResetCommand { get; }
+        public ReactiveCommand<Unit, Unit> InactivityCheckCommand { get; }
         public ReactiveCommand<Unit, Unit> DisposeImageOfUserCommand { get; }
 
         #endregion
@@ -167,7 +181,7 @@ namespace RentDesktop.ViewModels
 
         #endregion
 
-        #region Methods
+        #region Private Methods Helpers
 
         private void ViewModelEditUserUserInfoUpdated()
         {
@@ -186,8 +200,10 @@ namespace RentDesktop.ViewModels
         #region ViewModels
 
         public EditUserViewModel ViewModelEditUser { get; }
+        public AddUserViewModel VM_AddUser { get; }
         public AddUserViewModel ViewModelAddUser { get; }
         public AllUsersViewModel ViewModelAllUsers { get; }
+        public AllUsersViewModel VM_AllUsers { get; }
         public AdminProfileViewModel ViewModelAdminProfile { get; }
 
         #endregion
