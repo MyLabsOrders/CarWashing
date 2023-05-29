@@ -217,7 +217,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 
         protected virtual bool VerifyFieldsCorrectness()
         {
-            var window = WindowFinder.FindByType(GetOwnerWindowType());
+            Window? window = WindowFinder.FindByType(GetOwnerWindowType());
 
             if (string.IsNullOrEmpty(Login))
             {
@@ -303,7 +303,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
                 Name = "Отмена"
             };
 
-            var inputWindow = MessageBoxManager.GetMessageBoxInputWindow(new MessageBoxInputParams()
+            MessageBox.Avalonia.BaseWindows.Base.IMsBoxWindow<MessageWindowResultDTO> inputWindow = MessageBoxManager.GetMessageBoxInputWindow(new MessageBoxInputParams()
             {
                 MinWidth = 350,
                 Icon = Icon.Plus,
@@ -371,7 +371,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
 #if DEBUG
                 message += $"Причина: {ex.Message}";
 #endif
-                var window = WindowFinder.FindByType(GetOwnerWindowType());
+                Window? window = WindowFinder.FindByType(GetOwnerWindowType());
                 QuickMessage.Error(message).ShowDialog(window);
                 return;
             }

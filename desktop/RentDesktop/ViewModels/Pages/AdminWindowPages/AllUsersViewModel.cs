@@ -65,7 +65,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
             {
                 bool isChanged = _selectedUser != value;
 
-                this.RaiseAndSetIfChanged(ref _selectedUser, value);
+                _ = this.RaiseAndSetIfChanged(ref _selectedUser, value);
                 IsUserSelected = value is not null;
 
                 if (isChanged)
@@ -118,7 +118,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         #endregion
 
-        private IUserInfo _currentUserInfo;
+        private readonly IUserInfo _currentUserInfo;
         private ICollection<IUserInfo> _databaseUsers;
 
         #endregion

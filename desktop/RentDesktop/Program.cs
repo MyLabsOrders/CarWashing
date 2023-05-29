@@ -11,7 +11,7 @@ namespace RentDesktop
         [STAThread]
         public static void Main(string[] args)
         {
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+            _ = BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         }
 
         public static AppBuilder BuildAvaloniaApp()

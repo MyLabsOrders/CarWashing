@@ -1,5 +1,4 @@
-﻿using RentDesktop.Infrastructure.Services.DB.Exceptions;
-using RentDesktop.Models;
+﻿using RentDesktop.Models;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -25,7 +24,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             if (!getChequeResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(getChequeResponse);
 
-            var chequeBytes = getChequeResponse.Content.ReadAsByteArrayAsync().Result;
+            byte[] chequeBytes = getChequeResponse.Content.ReadAsByteArrayAsync().Result;
             return new MemoryStream(chequeBytes);
         }
 
@@ -44,7 +43,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             if (!getInvoiceResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(getInvoiceResponse);
 
-            var invoiceBytes = getInvoiceResponse.Content.ReadAsByteArrayAsync().Result;
+            byte[] invoiceBytes = getInvoiceResponse.Content.ReadAsByteArrayAsync().Result;
             return new MemoryStream(invoiceBytes);
         }
     }

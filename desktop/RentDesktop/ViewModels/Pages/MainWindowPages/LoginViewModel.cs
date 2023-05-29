@@ -63,7 +63,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
             get => _showPassword;
             set
             {
-                this.RaiseAndSetIfChanged(ref _showPassword, value);
+                _ = this.RaiseAndSetIfChanged(ref _showPassword, value);
                 PasswordChar = value ? null : HIDDEN_PASSWORD_CHAR;
             }
         }
@@ -173,7 +173,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
         private void LoadLoginInfo()
         {
-            if (UserInfoSaveService.TryLoadInfo(out var info))
+            if (UserInfoSaveService.TryLoadInfo(out (string Login, string Password) info))
             {
                 Login = info.Login;
                 Password = info.Password;
@@ -192,7 +192,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 
         private bool VerifyFieldsCorrectness()
         {
-            var window = WindowFinder.FindMainWindow();
+            Avalonia.Controls.Window? window = WindowFinder.FindMainWindow();
 
             if (string.IsNullOrEmpty(Login))
             {

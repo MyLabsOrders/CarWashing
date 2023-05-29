@@ -27,7 +27,7 @@ namespace RentDesktop.Infrastructure.Services.DB
 
         public static Order CreateOrder(IEnumerable<TransportRent> cart, IUserInfo userInfo)
         {
-            List<Tuple<TransportRent, int>> products = cart
+            var products = cart
                 .GroupBy(t => t.Transport.ID)
                 .Select(t => new Tuple<TransportRent, int>(t.First(), t.Count()))
                 .ToList();
@@ -51,12 +51,12 @@ namespace RentDesktop.Infrastructure.Services.DB
                 throw new ErrorResponseException(addOrderResponse);
 
             string creationDateStamp = addOrderResponse.Content.ReadAsStringAsync().Result.Replace("\"", null);
-            DateTime creationDate = DateTime.TryParse(creationDateStamp, out var date) ? date : DateTime.Now;
+            DateTime creationDate = DateTime.TryParse(creationDateStamp, out DateTime date) ? date : DateTime.Now;
 
             string status = Order.RENTED_STATUS;
             string id = productsInfo[0].Item1.Transport.ID;
             double price = productsInfo.Sum(t => t.Item1.TotalPrice * t.Item2);
-            var models = productsInfo.Select(t => t.Item1.Transport);
+            IEnumerable<Transport> models = productsInfo.Select(t => t.Item1.Transport);
 
             userInfo.Money -= price;
 

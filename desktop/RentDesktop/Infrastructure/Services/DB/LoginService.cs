@@ -28,7 +28,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             if (!loginResponse.IsSuccessStatusCode)
                 throw new ErrorResponseException(loginResponse);
 
-            var loginContent = loginResponse.Content.ReadFromJsonAsync<DbLoginResponseContent>().Result
+            DbLoginResponseContent loginContent = loginResponse.Content.ReadFromJsonAsync<DbLoginResponseContent>().Result
                 ?? throw new IncorrectContentException(loginResponse.Content);
 
             if (registerAuthorizationToken)

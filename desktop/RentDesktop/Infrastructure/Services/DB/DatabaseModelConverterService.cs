@@ -39,7 +39,10 @@ namespace RentDesktop.Infrastructure.Services.DB
             if (databaseUsers.users.Count() != positions.Count)
                 throw new InvalidOperationException("The number of users does not match the number of their positions.");
 
-            UserInfo UserConverter(DbUser user, int index) => ConvertUser(user, positions[index]);
+            UserInfo UserConverter(DbUser user, int index)
+            {
+                return ConvertUser(user, positions[index]);
+            }
 
             return databaseUsers.users!
                 .Select(UserConverter)
@@ -61,12 +64,12 @@ namespace RentDesktop.Infrastructure.Services.DB
         public static IEnumerable<Order> ConvertOrders(IEnumerable<DbOrder> databaseOrders)
         {
             var orders = new List<Order>();
-            var grouppedDatabaseOrders = databaseOrders.GroupBy(t => t.orderDate);
+            IEnumerable<IGrouping<string?, DbOrder>> grouppedDatabaseOrders = databaseOrders.GroupBy(t => t.orderDate);
 
-            foreach (var transportGroup in grouppedDatabaseOrders)
+            foreach (IGrouping<string?, DbOrder> transportGroup in grouppedDatabaseOrders)
             {
-                var firstDatabaseOrder = transportGroup.First();
-                var transports = transportGroup.Select(t => ConvertDbOrderToTransport(t));
+                DbOrder firstDatabaseOrder = transportGroup.First();
+                IEnumerable<Transport> transports = transportGroup.Select(t => ConvertDbOrderToTransport(t));
 
                 string status = Order.RENTED_STATUS;
                 string id = firstDatabaseOrder.id;
@@ -87,7 +90,7 @@ namespace RentDesktop.Infrastructure.Services.DB
         {
             byte[] imageBytes = BitmapService.StringToBytes(order.image);
 
-            var transportIcon = imageBytes.Length > 0
+            Avalonia.Media.Imaging.Bitmap? transportIcon = imageBytes.Length > 0
                 ? BitmapService.BytesToBitmap(imageBytes)
                 : null;
 

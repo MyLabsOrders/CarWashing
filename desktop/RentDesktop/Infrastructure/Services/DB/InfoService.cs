@@ -53,7 +53,7 @@ namespace RentDesktop.Infrastructure.Services.DB
                 if (!allUsersResponse.IsSuccessStatusCode)
                     throw new ErrorResponseException(allUsersResponse);
 
-                var usersCollection = allUsersResponse.Content.ReadFromJsonAsync<DbUsers>().Result;
+                DbUsers? usersCollection = allUsersResponse.Content.ReadFromJsonAsync<DbUsers>().Result;
 
                 if (usersCollection is null || usersCollection.users is null)
                     throw new IncorrectContentException(allUsersResponse.Content);
@@ -64,7 +64,7 @@ namespace RentDesktop.Infrastructure.Services.DB
 
                 List<IUserInfo> currentUsers = DatabaseModelConverterService.ConvertUsers(usersCollection, positions);
 
-                foreach (var user in currentUsers)
+                foreach (IUserInfo user in currentUsers)
                 {
                     user.Login = GetUserIdentityInfo(user.ID, db).username;
                     user.Password = UserInfo.HIDDEN_PASSWORD;

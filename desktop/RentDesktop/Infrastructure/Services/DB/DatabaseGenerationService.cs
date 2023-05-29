@@ -140,7 +140,7 @@ namespace RentDesktop.Infrastructure.Services.DB
 
         private void AddUsers()
         {
-            foreach (var user in _defaultUsers)
+            foreach (UserInfo user in _defaultUsers)
             {
                 UserRegisterService.RegisterUser(user);
 
@@ -151,7 +151,7 @@ namespace RentDesktop.Infrastructure.Services.DB
 
         private void AddTransports()
         {
-            foreach (var transport in _defaultTransports)
+            foreach (Transport transport in _defaultTransports)
             {
                 ShopService.AddTransport(transport);
             }

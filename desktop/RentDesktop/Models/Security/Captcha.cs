@@ -27,7 +27,7 @@ namespace RentDesktop.Models.Security
                 if (value <= 0)
                     throw new ArgumentException("Length must be greater than zero.", nameof(value));
 
-                RaiseAndSetIfChanged(ref _length, value);
+                _ = RaiseAndSetIfChanged(ref _length, value);
             }
         }
 

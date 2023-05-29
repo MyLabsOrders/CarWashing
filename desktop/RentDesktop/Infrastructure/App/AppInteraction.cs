@@ -10,7 +10,7 @@ namespace RentDesktop.Infrastructure.App
     {
         public static void CloseCurrentApp()
         {
-            var currAppLifetime = Application.Current?.ApplicationLifetime;
+            IApplicationLifetime? currAppLifetime = Application.Current?.ApplicationLifetime;
 
             if (currAppLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
                 lifetime.Shutdown();

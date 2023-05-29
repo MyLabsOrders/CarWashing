@@ -69,7 +69,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         protected override bool VerifyFieldsCorrectness()
         {
-            var window = WindowFinder.FindByType(GetOwnerWindowType());
+            Avalonia.Controls.Window? window = WindowFinder.FindByType(GetOwnerWindowType());
 
             if (SelectedPositionIndex < 0 || SelectedPositionIndex > Positions.Count)
             {
@@ -88,7 +88,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
         {
             try
             {
-                var positions = InfoService.GetAllPositions();
+                System.Collections.Generic.List<string> positions = InfoService.GetAllPositions();
                 return new ObservableCollection<string>(positions);
             }
             catch (Exception ex)

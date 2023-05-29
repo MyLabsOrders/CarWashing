@@ -13,7 +13,7 @@ namespace RentDesktop.Infrastructure.Extensions
 
         public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
         {
-            foreach (var item in items)
+            foreach (T? item in items)
                 collection.Add(item);
         }
     }

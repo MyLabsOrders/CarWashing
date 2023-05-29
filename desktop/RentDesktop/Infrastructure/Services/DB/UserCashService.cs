@@ -42,7 +42,7 @@ namespace RentDesktop.Infrastructure.Services.DB
             string getUserHandle = $"/api/User/{userInfo.ID}";
             using HttpResponseMessage getUserResponse = db.GetAsync(getUserHandle).Result;
 
-            var dbUser = getUserResponse.Content.ReadFromJsonAsync<DbUser>().Result
+            DbUser dbUser = getUserResponse.Content.ReadFromJsonAsync<DbUser>().Result
                 ?? throw new IncorrectContentException(getUserResponse.Content);
 
             return dbUser.money;

@@ -58,7 +58,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
 
         protected override bool VerifyFieldsCorrectness()
         {
-            var window = WindowFinder.FindByType(GetOwnerWindowType());
+            Avalonia.Controls.Window? window = WindowFinder.FindByType(GetOwnerWindowType());
 
             if (SelectedStatusIndex < 0 || SelectedStatusIndex > Statuses.Count)
             {
@@ -77,7 +77,7 @@ namespace RentDesktop.ViewModels.Pages.AdminWindowPages
         {
             try
             {
-                var statuses = InfoService.GetAllStatuses();
+                System.Collections.Generic.List<string> statuses = InfoService.GetAllStatuses();
                 return new ObservableCollection<string>(statuses);
             }
             catch (Exception ex)

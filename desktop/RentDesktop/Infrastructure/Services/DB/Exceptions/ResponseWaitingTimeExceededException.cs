@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RentDesktop.Infrastructure.Services.DB.Exceptions
+namespace RentDesktop.Infrastructure.Services.DB
 {
     internal class ResponseWaitingTimeExceededException : ApplicationException
     {

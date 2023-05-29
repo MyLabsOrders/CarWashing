@@ -47,7 +47,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             get => _selectedTransport;
             private set
             {
-                this.RaiseAndSetIfChanged(ref _selectedTransport, value);
+                _ = this.RaiseAndSetIfChanged(ref _selectedTransport, value);
 
                 IsTransportSelected = value is not null;
                 SelectedTransportName = value is not null ? value.Name : string.Empty;
@@ -129,7 +129,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
         {
             try
             {
-                var transport = ShopService.GetTransports();
+                System.Collections.Generic.List<Transport> transport = ShopService.GetTransports();
                 return new ObservableCollection<Transport>(transport);
             }
             catch (Exception ex)

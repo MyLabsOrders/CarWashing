@@ -52,7 +52,7 @@ namespace RentDesktop.ViewModels
 
             EditUserVM.UserInfoUpdated += () =>
             {
-                var window = WindowFinder.FindByType(typeof(AdminWindow));
+                Avalonia.Controls.Window? window = WindowFinder.FindByType(typeof(AdminWindow));
                 QuickMessage.Info("Изменения успешно сохранены.").ShowDialog(window);
             };
 

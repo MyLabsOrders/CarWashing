@@ -73,7 +73,7 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             get => _selectedTransportRent;
             private set
             {
-                this.RaiseAndSetIfChanged(ref _selectedTransportRent, value);
+                _ = this.RaiseAndSetIfChanged(ref _selectedTransportRent, value);
 
                 IsTransportRentSelected = value is not null;
                 SelectedTransportName = value is not null ? value.Transport.Name : string.Empty;
@@ -254,9 +254,9 @@ namespace RentDesktop.ViewModels.Pages.UserWindowPages
             if (SelectedTransportRent is null)
                 return;
 
-            var relatedProducts = Cart.Where(t => t.Transport.ID == SelectedTransportRent.Transport.ID);
+            System.Collections.Generic.IEnumerable<TransportRent> relatedProducts = Cart.Where(t => t.Transport.ID == SelectedTransportRent.Transport.ID);
 
-            foreach (var relatedProduct in relatedProducts)
+            foreach (TransportRent? relatedProduct in relatedProducts)
             {
                 relatedProduct.Days = (int)e.NewValue;
             }

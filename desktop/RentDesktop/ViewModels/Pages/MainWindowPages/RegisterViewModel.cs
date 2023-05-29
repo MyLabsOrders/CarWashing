@@ -126,7 +126,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
             get => _showPassword;
             set
             {
-                this.RaiseAndSetIfChanged(ref _showPassword, value);
+                _ = this.RaiseAndSetIfChanged(ref _showPassword, value);
                 PasswordChar = value ? null : HIDDEN_PASSWORD_CHAR;
             }
         }
@@ -202,7 +202,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
         protected virtual bool VerifyFieldsCorrectness()
         {
             var passwordVerifier = new PasswordVerifier(Password);
-            var window = WindowFinder.FindByType(GetOwnerWindowType());
+            Window? window = WindowFinder.FindByType(GetOwnerWindowType());
 
             if (string.IsNullOrEmpty(Login))
             {
@@ -303,7 +303,7 @@ namespace RentDesktop.ViewModels.Pages.MainWindowPages
 #if DEBUG
                 message += $" Причина: {ex.Message}";
 #endif
-                var window = WindowFinder.FindByType(GetOwnerWindowType());
+                Window? window = WindowFinder.FindByType(GetOwnerWindowType());
                 QuickMessage.Error(message).ShowDialog(window);
             }
         }
