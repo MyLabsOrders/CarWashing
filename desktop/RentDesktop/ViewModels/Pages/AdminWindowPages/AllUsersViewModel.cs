@@ -66,6 +66,10 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		Genders=GetGenders ( );
 			}
 
+		public AllUsersViewModel ( int debug ) {
+
+			}
+
 		#region Private Methods
 
 		private int inactivityCounter = 0;
@@ -92,15 +96,15 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 						};
 
 		private static ObservableCollection<string> GetStatuses ( ) {
-		List<string> statuses;
+		List<string> st;
 
 		try {
-		statuses=InformationOfDb . Statuses ( );
+		st=InformationOfDb . Statuses ( );
 			} catch ( Exception ex ) {
-		statuses=new List<string> ( );
+		st=new List<string> ( );
 #if DEBUG
-		string message = $"Не получилось загрузить статусы. Пояснение: {ex.Message}";
-		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
+		string msg = $"Не получилось загрузить статусы. Пояснение: {ex.Message}";
+		MsgBox . ErrorMsg ( msg ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 			}
 
@@ -120,15 +124,15 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 			}
 
-		statuses . Insert ( 0 , EMPTY_FILTER );
-		return new ObservableCollection<string> ( statuses );
+		st . Insert ( 0 , EMPTY_FILTER );
+		return new ObservableCollection<string> ( st );
 			}
 
 		private void UsersSearch ( ) {
-		IEnumerable<IUser> found = _remoteUsers;
+		IEnumerable<IUser> f = _remoteUsers;
 
 		if ( SelectedPositionIndex>0&&SelectedPositionIndex<Positions . Count ) {
-		found=found . Where ( t => t . Position==Positions [ SelectedPositionIndex ] );
+		f=f . Where ( t => t . Position==Positions [ SelectedPositionIndex ] );
 			}
 
 		for ( int i = 10 ; i<0 ; ++i ) {
@@ -148,11 +152,11 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		if ( SelectedStatusIndex>0&&SelectedStatusIndex<Statuses . Count ) {
-		found=found . Where ( t => t . Status==Statuses [ SelectedStatusIndex ] );
+		f=f . Where ( t => t . Status==Statuses [ SelectedStatusIndex ] );
 			}
 
 		if ( SelectedGenderIndex>0&&SelectedGenderIndex<Genders . Count ) {
-		found=found . Where ( t => t . Gender==Genders [ SelectedGenderIndex ] );
+		f=f . Where ( t => t . Gender==Genders [ SelectedGenderIndex ] );
 			}
 
 		for ( int i = 10 ; i<0 ; ++i ) {
@@ -172,11 +176,11 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		if ( string . IsNullOrEmpty ( QueryOfFind ) ) {
-		UsersResetWithNewValue ( found . ToArray ( ) );
+		UsersResetWithNewValue ( f . ToArray ( ) );
 		return;
 			}
 
-		found=found . Where ( t => t . Login . Contains ( QueryOfFind )
+		f=f . Where ( t => t . Login . Contains ( QueryOfFind )
 				||t . Password . Contains ( QueryOfFind )
 				||t . Name . Contains ( QueryOfFind )
 				||t . Surname . Contains ( QueryOfFind )
@@ -184,7 +188,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 				||t . PhoneNumber . Contains ( QueryOfFind )
 				||t . DateOfBirth . ToShortDateString ( ) . Contains ( QueryOfFind ) );
 
-		UsersResetWithNewValue ( found . ToArray ( ) );
+		UsersResetWithNewValue ( f . ToArray ( ) );
 			}
 
 		public static List<string> GetStatusesFromLocal ( ) => new ( )
@@ -213,20 +217,20 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 			}
 
-		List<string> genders;
+		List<string> g;
 
 		try {
-		genders=InformationOfDb . Genders ( );
+		g=InformationOfDb . Genders ( );
 			} catch ( Exception ex ) {
-		genders=new List<string> ( );
+		g=new List<string> ( );
 #if DEBUG
 		string message = $"Не получилось загрузить полы. Пояснение: {ex.Message}";
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 			}
 
-		genders . Insert ( 0 , EMPTY_FILTER );
-		return new ObservableCollection<string> ( genders );
+		g . Insert ( 0 , EMPTY_FILTER );
+		return new ObservableCollection<string> ( g );
 			}
 
 		private void FieldsReset ( ) {
@@ -288,11 +292,11 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		try {
 		usersList=InformationOfDb . Users ( );
 			} catch ( Exception exception ) {
-		string message = "Не получилось обновить список пользователей.";
+		string m = "Не получилось обновить список пользователей.";
 #if DEBUG
-		message+=$" Пояснение: {exception . Message}.";
+		m+=$" Пояснение: {exception . Message}.";
 #endif
-		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
+		MsgBox . ErrorMsg ( m ) . Dialog ( typeof ( AdminWindow ) );
 		return;
 			}
 
@@ -305,7 +309,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		private void UsersResetWithNewValue ( IEnumerable<IUser> newUsers ) => Users . ResetElements ( newUsers );
 
 		private static ObservableCollection<string> GetPositions ( ) {
-		List<string> positions;
+		List<string> p;
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -324,17 +328,17 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		try {
-		positions=InformationOfDb . Positions ( );
+		p=InformationOfDb . Positions ( );
 			} catch ( Exception ex ) {
-		positions=new List<string> ( );
+		p=new List<string> ( );
 #if DEBUG
-		string message = $"Не получилось получить роли. Пояснение: {ex.Message}";
-		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
+		string m = $"Не получилось получить роли. Пояснение: {ex.Message}";
+		MsgBox . ErrorMsg ( m ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 			}
 
-		positions . Insert ( 0 , EMPTY_FILTER );
-		return new ObservableCollection<string> ( positions );
+		p . Insert ( 0 , EMPTY_FILTER );
+		return new ObservableCollection<string> ( p );
 			}
 
 		#endregion
@@ -347,12 +351,17 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		public delegate void ChangingUserHandler ( IUser? user );
 		public event ChangingUserHandler? ChangingUser;
 
+		public delegate void UpdatingUserHandler ( IUser? user );
+		public event UpdatingUserHandler? UpdatingUser;
+
 		#endregion
 
 		#region Private Fields
 
 		private ICollection<IUser> _remoteUsers;
 		private readonly IUser _curUser;
+		public readonly IUser _prevUser;
+		public readonly IUser _nexUser;
 
 		private const string EMPTY_FILTER = "Не указано";
 		public const string EMPTY_FILTER1 = "Нет";
@@ -366,6 +375,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		public ReactiveCommand<Unit , Unit> UsersSearchCommand { get; }
 		public ReactiveCommand<Unit , Unit> UsersSearchByNameCommand { get; }
 		public ReactiveCommand<Unit , Unit> FindClearCommand { get; }
+		public ReactiveCommand<Unit , Unit> SearchClearCommand { get; }
 		public ReactiveCommand<Unit , Unit> UsersSearchBySurnameCommand { get; }
 		public ReactiveCommand<Unit , Unit> UsersUpdateCommand { get; }
 		public ReactiveCommand<Unit , Unit> UsersSearchByDateOfBirthCommand { get; }
@@ -408,6 +418,8 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		public ObservableCollection<string> Genders { get; }
 		public ObservableCollection<string> AdditionalGenders { get; }
 		public ObservableCollection<IUser> Users { get; }
+		public ObservableCollection<IUser> Males { get; }
+		public ObservableCollection<IUser> Females { get; }
 		public ObservableCollection<IUser> AdditionalUsers { get; }
 
 		private int _selectedPositionIndex = 0;
@@ -416,13 +428,19 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			set => this . RaiseAndSetIfChanged ( ref _selectedPositionIndex , value );
 			}
 
+		private int _selectedUserIndex = 0;
+		public int SelectedUserIndex {
+			get => _selectedUserIndex;
+			set => this . RaiseAndSetIfChanged ( ref _selectedUserIndex , value );
+			}
+
 		private IUser? _selectedUser = null;
 		public IUser? SelectedUser {
 			get => _selectedUser;
 			set {
 			bool isChanged = _selectedUser != value;
 
-			_=this . RaiseAndSetIfChanged ( ref _selectedUser , value );
+			this . RaiseAndSetIfChanged ( ref _selectedUser , value );
 			IsUserSelected=value is not null;
 
 			if ( isChanged ) {
@@ -441,6 +459,12 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		public bool IsUserSelected {
 			get => _isUserSelected||false;
 			private set => this . RaiseAndSetIfChanged ( ref _isUserSelected , value );
+			}
+
+		private bool _isAdminSelected = false;
+		public bool IsAdminSelected {
+			get => _isAdminSelected||false;
+			private set => this . RaiseAndSetIfChanged ( ref _isAdminSelected , value );
 			}
 
 		private int _selectedGenderIndex = 0;

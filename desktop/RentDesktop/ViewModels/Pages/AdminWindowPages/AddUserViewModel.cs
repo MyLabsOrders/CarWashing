@@ -18,7 +18,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		ResetAllFieldsCommand=ReactiveCommand . Create ( FieldsClear );
 			}
 
-		public AddUserViewModel (int debug = 1) : base ( ) {
+		public AddUserViewModel (int debug ) : base ( ) {
 		Positions=PositionsGet ( );
 		ResetAllFieldsCommand=ReactiveCommand . Create ( FieldsClear );
 			}
