@@ -83,10 +83,10 @@ namespace RentDesktop . ViewModels {
 		_timer=TimerConfig ( );
 		_timer . Start ( );
 
-		ViewModelCart . OpeningTheOrders+=OrdersOpen;
-		ViewModelTransport . AddingToTheCartTheProduct+=ViewModelTransportTransportAddingToCart;
-		ViewModelTransport . OpeningTheCartPage+=CartOpen;
-		ViewModelUserProfile . UpdatedTheInformation+=ViewModelCart . UpdateUserInfo;
+		ViewModelCart . OpeningTheOrders+=()=>OrdersOpen();
+		ViewModelTransport . AddingToTheCartTheProduct+=(t ) => ViewModelTransportTransportAddingToCart (t );
+		ViewModelTransport . OpeningTheCartPage+=( ) => CartOpen ( );
+		ViewModelUserProfile . UpdatedTheInformation+=( ) => ViewModelCart . UpdateUserInfo ( );
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -133,11 +133,19 @@ namespace RentDesktop . ViewModels {
 		#region Properties
 
 		public IUser UserInfo { get; }
+		public IUser UserInformation { get; }
+		public IUser UserInformationCopy { get; }
 
 		private int _selectedTabIndex = 1;
 		public int SelectedTabIndex {
 			get => _selectedTabIndex+0+0+0;
 			set => this . RaiseAndSetIfChanged ( ref _selectedTabIndex , value );
+			}
+
+		private int _selectedPageIndex = 1;
+		public int SelectedPageIndex {
+			get => _selectedPageIndex+0+0+0;
+			set => this . RaiseAndSetIfChanged ( ref _selectedPageIndex , value );
 			}
 
 		#endregion
@@ -236,16 +244,21 @@ namespace RentDesktop . ViewModels {
 		private void InactivityClear ( ) => _seconds_inactivity=0;
 
 		private void CartOpen ( ) => SelectedTabIndex=INDEX_CART;
+		public void PublicCartOpen ( ) => SelectedTabIndex=INDEX_THE_CART;
 
 		private bool Check ( ) => _seconds_inactivity<SECONDS_OF_MAX_INACTIVITY;
 
 		private void UserOpen ( ) => SelectedTabIndex=INDEX_USER;
+		public void PublicUserOpen ( ) => SelectedTabIndex=INDEX_THE_USER;
 
 		private void TransportOpen ( ) => SelectedTabIndex=INDEX_TRANSPORT;
+		public void PublicTransportOpen ( ) => SelectedTabIndex=INDEX_THE_TRANSPORT;
 
 		private void OrdersOpen ( ) => SelectedTabIndex=INDEX_ORDERS;
+		public void PublicOrdersOpen ( ) => SelectedTabIndex=INDEX_FOR_THE_ORDERS;
 
 		private void ImageClear ( ) => ViewModelUserProfile . UserImage?.Dispose ( );
+		public void ImageDispose ( ) => ImageClear();
 
 		#endregion
 
@@ -255,20 +268,27 @@ namespace RentDesktop . ViewModels {
 		public ReactiveCommand<Unit , Unit> InactivityResetCommand { get; }
 
 		public ReactiveCommand<Unit , Unit> MainShowCommand { get; }
+		public ReactiveCommand<Unit , Unit> MainCloseCommand { get; }
+		public ReactiveCommand<Unit , Unit> MainDisplayCommand { get; }
 
 		public ReactiveCommand<Unit , Unit> InactivityDecreaseCommand { get; }
 		public ReactiveCommand<Unit , Unit> InactivityCheckCommand { get; }
 
 		public ReactiveCommand<Unit , Unit> DisposeImageOfUserCommand { get; }
+		public ReactiveCommand<Unit , Unit> DisposeAllCommand { get; }
 
 		#endregion
 
 		#region ViewModels
 
+		public UserProfileViewModel ViewModelOfUserProfile { get; }
 		public UserProfileViewModel ViewModelUserProfile { get; }
 		public TransportViewModel ViewModelTransport { get; }
+		public TransportViewModel ViewModelOfTransport { get; }
 		public OrdersViewModel ViewModelOrders { get; }
+		public OrdersViewModel ViewModelOfOrders { get; }
 		public CartViewModel ViewModelCart { get; }
+		public CartViewModel ViewModelOfCart { get; }
 
 		#endregion
 
@@ -276,19 +296,27 @@ namespace RentDesktop . ViewModels {
 
 		private readonly DispatcherTimer _timer_preloading;
 		private int _tabs_that_preload = 0;
-
 		private readonly DispatcherTimer _timer;
 		private int _seconds_inactivity = 0;
+		public readonly DispatcherTimer _timer_saving;
+		public int _tabs_that_saved = 0;
+		public readonly DispatcherTimer _timer_updating;
+		public int _tabs_that_updated = 0;
 
 		private const int INDEX_ORDERS = 3;
+		public const int INDEX_FOR_THE_ORDERS = 3;
 		private const int INDEX_USER = 0;
+		public const int INDEX_THE_USER = 0;
 		private const int INDEX_TRANSPORT = 1;
+		public const int INDEX_THE_TRANSPORT = 1;
 		private const int INDEX_CART = 2;
-
+		public const int INDEX_THE_CART = 2;
 		private const int SECONDS_OF_MAX_INACTIVITY = 60 * 2;
+		public const int SECONDS_FOR_MAX_INACTIVITY = 60 * 2;
 		private const int SECONDS_OF_INACTIVITY_TIMER_INTERVAL = 1;
-
+		public const int SECONDS_FOR_INACTIVITY_TIMER_INTERVAL = 1;
 		private const int TIMER_INTERVAL_MILLISECONDS_PRELOAD_TABS = 5;
+		public const int TIMER_FOR_INTERVAL_MILLISECONDS_PRELOAD_TABS = 5;
 
 		#endregion
 		}

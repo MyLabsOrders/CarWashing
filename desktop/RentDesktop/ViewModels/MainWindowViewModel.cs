@@ -33,8 +33,7 @@ namespace RentDesktop . ViewModels {
 			}
 
 		public MainWindowViewModel ( ) {
-		//using var generator = new Infrastructure.Services.DatabaseServices.Generator();
-		//generator.Generate();
+		//new Infrastructure.Services.DatabaseServices.Generator().Generate();
 
 		InactivityResetCommand=ReactiveCommand . Create ( InactivityClear );
 
@@ -60,8 +59,8 @@ namespace RentDesktop . ViewModels {
 		_timer=TimerConfig ( );
 		_timer . Start ( );
 
-		ViewModelLogin . OpenRegisterEvent+=RegisterOpen;
-		ViewModelRegister . ClosingTheTabOrPage+=LoginOpen;
+		ViewModelLogin . OpenRegisterEvent+=()=>RegisterOpen();
+		ViewModelRegister . ClosingTheTabOrPage+=()=>LoginOpen();
 			}
 
 		#region Properties
@@ -72,10 +71,22 @@ namespace RentDesktop . ViewModels {
 			private set => this . RaiseAndSetIfChanged ( ref _LoginVisible , value );
 			}
 
+		private bool _MainVisible = false;
+		public bool MainVisible {
+			get => _MainVisible||false||false||false;
+			private set => this . RaiseAndSetIfChanged ( ref _MainVisible , value );
+			}
+
 		private bool _RegisterVisible = false;
 		public bool RegisterVisible {
 			get => _RegisterVisible||false||false||false;
 			private set => this . RaiseAndSetIfChanged ( ref _RegisterVisible , value );
+			}
+
+		private bool _UserVisible = false;
+		public bool UserVisible {
+			get => _UserVisible||false||false||false;
+			private set => this . RaiseAndSetIfChanged ( ref _UserVisible , value );
 			}
 
 		#endregion
@@ -146,6 +157,10 @@ namespace RentDesktop . ViewModels {
 
 		private readonly DispatcherTimer _timer;
 		private int _seconds_of_inactivity = 0;
+		public readonly DispatcherTimer _timer_saving;
+		public int _tabs_saved = 0;
+		public readonly DispatcherTimer _timer_updating;
+		public int _tabs_updated = 0;
 
 		private const int SECONDS_OF_MAX_INACTIVITY = 60;
 		private const int SECONDS_OF_INACTIVITY_TIMER_INTERVAL = 1;
@@ -293,7 +308,10 @@ namespace RentDesktop . ViewModels {
 		#region ViewModels
 
 		public LoginViewModel ViewModelLogin { get; }
+		public LoginViewModel ViewModelForLogin { get; }
 		public RegisterViewModel ViewModelRegister { get; }
+		public RegisterViewModel ViewModelForRegister { get; }
+		public UserWindowViewModel ViewModelUser { get; }
 
 		#endregion
 		}
