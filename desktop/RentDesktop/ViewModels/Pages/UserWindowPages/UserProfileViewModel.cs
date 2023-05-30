@@ -88,7 +88,7 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 						{
 			IsCancel = false,
 			IsDefault = true,
-			Name = "Поплнить"
+			Name = "Пополнить"
 			};
 
 		var cancelButton = new ButtonDefinition()
