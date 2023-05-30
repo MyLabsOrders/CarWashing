@@ -10,6 +10,11 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
     <None Remove=".gitignore" />
+    <None Remove="Assets\avalonia-logo - Copy (2).ico" />
+    <None Remove="Assets\avalonia-logo - Copy (3).ico" />
+    <None Remove="Assets\avalonia-logo - Copy (4).ico" />
+    <None Remove="Assets\avalonia-logo - Copy (5).ico" />
+    <None Remove="Assets\avalonia-logo - Copy.ico" />
   </ItemGroup>
   <ItemGroup>
     <!--This helps with theme dll-s trimming.

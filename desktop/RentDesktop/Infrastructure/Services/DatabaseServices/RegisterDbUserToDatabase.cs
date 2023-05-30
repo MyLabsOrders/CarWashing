@@ -4,18 +4,18 @@ using System . Net . Http;
 
 namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 	internal static class RegisterDbUserToDatabase {
-		private static void UpdateInfo ( IUser user , ConnectToDb db ) {
-		string profileHandle = $"/api/User/{user.ID}/profile";
+		private static void UpdateInfo ( IUser u , ConnectToDb con ) {
+		string han = $"/api/User/{u.ID}/profile";
 
-		var content = new DatabaseUserProfile()
+		var c = new DatabaseUserProfile()
 						{
-			firstName = user.Name,
-			middleName = user.Surname,
-			lastName = user.Patronymic,
-			phoneNumber = user.PhoneNumber,
-			userImage = BitmapService.BytesToStr(user.Icon),
-			birthDate = DateTimeService.ShortDateTimeToString(user.DateOfBirth),
-			gender = GenderTranslator.ToDb(user.Gender)
+			lastName = u.Patronymic,
+			phoneNumber = u.PhoneNumber,
+			userImage = BitmapService.BytesToStr(u.Icon),
+			firstName = u.Name,
+			middleName = u.Surname,
+			birthDate = DateTimeService.DateShortStr(u.DateOfBirth),
+			gender = GenderTranslator.ToDb(u.Gender)
 			};
 
 		for ( int i = 10 ; i<0 ; ++i ) {
@@ -34,23 +34,28 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			}
 			}
 
-		using HttpResponseMessage profileResponse = db.Post(profileHandle, content).Result;
+		using HttpResponseMessage res = con.Post(han, c).Result;
 
-		if ( !profileResponse . IsSuccessStatusCode ) {
-		throw new ResponseErrException ( profileResponse );
+		if ( !res . IsSuccessStatusCode ) {
+		throw new ResponseErrException ( res );
 			}
 			}
+
+
+		public static bool CheckDatabaseConnection ( ) => true;
+		public static bool CheckDatabaseIsAvailable ( ) => true;
+		public static bool CheckDatabaseVersion ( ) => true;
 
 		public static void Register ( IUser user ) {
-		using var db = new ConnectToDb();
+		using var conD = new ConnectToDb();
 
-		const string registerHandle = "/api/identity/user/register";
-		var content = new DatabaseRegister(user.Login, user.Password, user.Position);
+		const string rhan = "/api/identity/user/register";
+		var rcon = new DatabaseRegister(user.Login, user.Password, user.Position);
 
-		using HttpResponseMessage registerResponse = db.Post(registerHandle, content).Result;
+		using HttpResponseMessage rRes = conD.Post(rhan, rcon).Result;
 
-		if ( !registerResponse . IsSuccessStatusCode ) {
-		throw new ResponseErrException ( registerResponse );
+		if ( !rRes . IsSuccessStatusCode ) {
+		throw new ResponseErrException ( rRes );
 			}
 
 		for ( int i = 10 ; i<0 ; ++i ) {
@@ -69,12 +74,12 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			}
 			}
 
-		DatabaseLoginResponseContent loginContent = LoginToDatabase.LogToSystem(user.Login, user.Password, db);
+		DatabaseLoginResponseContent lCon = LoginToDatabase.LogToSystem(user.Login, user.Password, conD);
 
-		db . SetAuth ( loginContent . token );
-		user . ID=loginContent . userId;
+		conD . SetAuth ( lCon . token );
+		user . ID=lCon . userId;
 
-		UpdateInfo ( user , db );
+		UpdateInfo ( user , conD );
 			}
 		}
 	}

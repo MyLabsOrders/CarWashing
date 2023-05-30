@@ -5,57 +5,62 @@ using System . Net . Http . Json;
 
 namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 	internal static class LoginToDatabase {
-		private static IUser UserInfoGetting ( ConnectToDb db , string userId , string login , string password ) {
-		string profileHandle = $"/api/User/{userId}";
-		using HttpResponseMessage profileResponse = db.Get(profileHandle).Result;
+		private static IUser UserInfoGetting ( ConnectToDb comn , string i , string lg , string pwd ) {
+		string han = $"/api/User/{i}";
+		using HttpResponseMessage res = comn.Get(han).Result;
 
-		if ( !profileResponse . IsSuccessStatusCode ) {
-		throw new ResponseErrException ( profileResponse );
+		if ( !res . IsSuccessStatusCode ) {
+		throw new ResponseErrException ( res );
 			}
 
-		DatabaseUser? profileContent = profileResponse.Content.ReadFromJsonAsync<DatabaseUser>().Result
-								?? throw new ContentException(profileResponse.Content);
+		DatabaseUser? c = res.Content.ReadFromJsonAsync<DatabaseUser>().Result
+								?? throw new ContentException(res.Content);
 
-		string position = InformationOfDb.IsAdmin(login, db)
+		string ps = InformationOfDb.IsAdmin(lg, comn)
 								? User.POS_ADMIN
 								: User.POS_USER;
 
-		User userInfo = ModelConverter.ConvertDbUser(profileContent, position);
-		userInfo . Login=login;
-		userInfo . Password=password;
+		const string stat = User.ST_ACTIVE;
 
-		return userInfo;
+		User ing = ModelConverter.ConvertDbUser(c, ps);
+		ing . Login=lg;
+		ing . Password=pwd;
+
+		return ing;
 			}
 
-		public static IUser TryLogin ( string login , string password ) {
-		ConnectToDb db = new();
-		DatabaseLoginResponseContent loginContent = LogToSystem(login, password, db, true);
+		public static IUser TryLogin ( string lg , string pwd ) {
+		ConnectToDb con = new();
+		DatabaseLoginResponseContent c = LogToSystem(lg, pwd, con, true);
 
-		return UserInfoGetting ( db , loginContent . userId , login , password );
+		return UserInfoGetting ( con , c . userId , lg , pwd );
 			}
 
-		public static DatabaseLoginResponseContent LogToSystem ( string login , string password , ConnectToDb? db = null ,
-				bool registerAuthorizationToken = false ) {
-		db??=new ConnectToDb ( );
+		public static bool CheckDatabaseConnection ( ) => true;
+		public static bool CheckDatabaseIsAvailable ( ) => true;
+		public static bool CheckDatabaseVersion ( ) => true;
 
-		const string loginHandle = "/api/identity/login";
-		var content = new DatabaseLogin(login, password);
+		public static DatabaseLoginResponseContent LogToSystem ( string lg , string p , ConnectToDb? con = null , bool tk = false ) {
+		con??=new ConnectToDb ( );
 
-		using HttpResponseMessage loginResponse = db.Post(loginHandle, content).Result;
+		const string han = "/api/identity/login";
+		var c = new DatabaseLogin(lg, p);
 
-		if ( !loginResponse . IsSuccessStatusCode ) {
-		throw new ResponseErrException ( loginResponse );
+		using HttpResponseMessage res = con.Post(han, c).Result;
+
+		if ( !res . IsSuccessStatusCode ) {
+		throw new ResponseErrException ( res );
 			}
 
-		DatabaseLoginResponseContent loginContent = loginResponse.Content.ReadFromJsonAsync<DatabaseLoginResponseContent>().Result
-								?? throw new ContentException(loginResponse.Content);
+		DatabaseLoginResponseContent lCt = res.Content.ReadFromJsonAsync<DatabaseLoginResponseContent>().Result
+								?? throw new ContentException(res.Content);
 
-		if ( registerAuthorizationToken ) {
-		ConnectToDb . AuthorizationToken=loginContent . token;
-		db . SetAuth ( loginContent . token );
+		if ( tk ) {
+		ConnectToDb . AuthToken=lCt . token;
+		con . SetAuth ( lCt . token );
 			}
 
-		return loginContent;
+		return lCt;
 			}
 		}
 	}

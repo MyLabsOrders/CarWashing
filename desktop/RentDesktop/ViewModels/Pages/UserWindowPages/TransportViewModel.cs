@@ -11,7 +11,7 @@ using System . Reactive;
 
 namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 	public class TransportViewModel : BaseViewModel {
-		public TransportViewModel ( ObservableCollection<ProductRentModel> cart ) {
+		public TransportViewModel ( ObservableCollection<ProductRentModel> items ) {
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
 		for ( int k = 10 ; k<0 ; ++k ) {
@@ -33,7 +33,7 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		ProductSelectCommand=ReactiveCommand . Create<ProductModel> ( ProductSelect );
 
 		Transports=ProductsGetFromDatabase ( );
-		_cartWithProducts=cart;
+		_cartWithProducts=items;
 			}
 
 		#region Private Methods
@@ -56,14 +56,14 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			}
 
 		try {
-		System.Collections.Generic.List<ProductModel> transport = Shop.Products();
-		return new ObservableCollection<ProductModel> ( transport );
+		System.Collections.Generic.List<ProductModel> tr = Shop.Products();
+		return new ObservableCollection<ProductModel> ( tr );
 			} catch ( Exception ex ) {
-		string message = "Не удалось получить коллекцию доступных товаров.";
+		string m = "Не получилось получить коллекцию доступных товаров.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		m+=$" Пояснение: {ex . Message}";
 #endif
-		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( UserWindow ) );
+		MsgBox . ErrorMsg ( m ) . Dialog ( typeof ( UserWindow ) );
 		return new ObservableCollection<ProductModel> ( );
 			}
 			}
@@ -85,8 +85,8 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		private void ToTheCartAddProduct ( ProductModel transport ) {
 		AddingToTheCartTheProduct?.Invoke ( transport );
 
-		ProductRentModel? existingCartItem = _cartWithProducts.FirstOrDefault(t => t.Transport.ID == transport.ID);
-		int days = existingCartItem is null ? 1 : existingCartItem.Days;
+		ProductRentModel? exis = _cartWithProducts.FirstOrDefault(t => t.Transport.ID == transport.ID);
+		int days = exis is null ? 1 : exis.Days;
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -104,13 +104,14 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			}
 			}
 
-		var transportRent = new ProductRentModel(transport.Copy(), days);
-		_cartWithProducts . Add ( transportRent );
+		var rent = new ProductRentModel(transport.Copy(), days);
+		_cartWithProducts . Add ( rent );
 
 		SelectedTransport=null;
 			}
 
 		private void CartOpen ( ) => OpeningTheCartPage?.Invoke ( );
+		public void PublicCartOpen ( ) => CartOpen( );
 
 		private void ProductSelect ( ProductModel transport ) => SelectedTransport=transport;
 
@@ -119,24 +120,26 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		#region Properties
 
 		public ObservableCollection<ProductModel> Transports { get; }
+		public ObservableCollection<ProductModel> TransportsOfUsers { get; }
+		public ObservableCollection<ProductModel> TransportsOfAdmins { get; }
 
-		private string _selectedProductName = string.Empty;
+		private string _selPrName = string.Empty;
 		public string SelectedTransportName {
-			get => $"Название: {_selectedProductName}";
-			private set => this . RaiseAndSetIfChanged ( ref _selectedProductName , value );
+			get => $"Название: {_selPrName}";
+			private set => this . RaiseAndSetIfChanged ( ref _selPrName , value );
 			}
 
-		private string _selectedProductCompany = string.Empty;
+		private string _selPrCompany = string.Empty;
 		public string SelectedTransportCompany {
-			get => $"Компания: {_selectedProductCompany}";
-			private set => this . RaiseAndSetIfChanged ( ref _selectedProductCompany , value );
+			get => $"Компания: {_selPrCompany}";
+			private set => this . RaiseAndSetIfChanged ( ref _selPrCompany , value );
 			}
 
-		private ProductModel? _selectedProduct = null;
+		private ProductModel? _selPr = null;
 		public ProductModel? SelectedTransport {
-			get => _selectedProduct;
+			get => _selPr;
 			private set {
-			_=this . RaiseAndSetIfChanged ( ref _selectedProduct , value );
+			_=this . RaiseAndSetIfChanged ( ref _selPr , value );
 
 			IsTransportSelected=value is not null;
 			SelectedTransportName=value is not null ? value . Name : string . Empty;
@@ -162,8 +165,14 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		#region Commands
 
 		public ReactiveCommand<ProductModel , Unit> ProductSelectCommand { get; }
+		public ReactiveCommand<ProductModel , Unit> UserProductSelectCommand { get; }
+		public ReactiveCommand<ProductModel , Unit> AdminProductSelectCommand { get; }
 		public ReactiveCommand<ProductModel , Unit> ProductAddToTheCartCommand { get; }
+		public ReactiveCommand<ProductModel , Unit> UserProductAddToTheCartCommand { get; }
+		public ReactiveCommand<ProductModel , Unit> AdminProductAddToTheCartCommand { get; }
 		public ReactiveCommand<Unit , Unit> CartOpenCommand { get; }
+		public ReactiveCommand<Unit , Unit> CartCloseCommand { get; }
+		public ReactiveCommand<Unit , Unit> CartUpdateCommand { get; }
 
 		#endregion
 
@@ -175,11 +184,19 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		public delegate void OpeningTheCartPageHandler ( );
 		public event OpeningTheCartPageHandler? OpeningTheCartPage;
 
+		public delegate void ClosingTheCartPageHandler ( );
+		public event ClosingTheCartPageHandler? ClosingTheCartPage;
+
+		public delegate void UpdatingTheCartPageHandler ( );
+		public event UpdatingTheCartPageHandler? UpdatingTheCartPage;
+
 		#endregion
 
 		#region Private Fields
 
 		private readonly ObservableCollection<ProductRentModel> _cartWithProducts;
+		private readonly ObservableCollection<ProductRentModel> _cartWithUserProducts;
+		private readonly ObservableCollection<ProductRentModel> _cartWithAdminProducts;
 
 		#endregion
 		}

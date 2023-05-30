@@ -1,4 +1,4 @@
-﻿namespace YProgsLibrary.Communication.Messages
+﻿namespace RentDesktop.Communication.Messages
 {
     /// <summary>
     /// The message types.

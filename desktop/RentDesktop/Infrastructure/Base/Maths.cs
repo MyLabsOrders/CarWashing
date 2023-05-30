@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace YProgsLibrary.Base
+namespace RentDesktop.Base
 {
     /// <summary>
     /// Represents static methods of mathematical functions.

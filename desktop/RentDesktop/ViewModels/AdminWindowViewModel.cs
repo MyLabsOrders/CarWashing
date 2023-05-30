@@ -89,9 +89,9 @@ namespace RentDesktop . ViewModels {
 			}
 		};
 
-		ViewModelAddUser . RegisteredTheUser+=ViewModelAddUserUserRegistered;
-		ViewModelEditUser . UpdatedTheInformation+=ViewModelEditUserUserInfoUpdated;
-		ViewModelAllUsers . ChangedUser+=ViewModelEditUser . UserPut;
+		ViewModelAddUser . RegisteredTheUser+=t=>ViewModelAddUserUserRegistered(t);
+		ViewModelEditUser . UpdatedTheInformation+=()=>ViewModelEditUserUserInfoUpdated();
+		ViewModelAllUsers . ChangedUser+=t=>ViewModelEditUser . UserPut(t);
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -123,11 +123,19 @@ namespace RentDesktop . ViewModels {
 
 		private readonly DispatcherTimer _timer_of_inactivity;
 		private int _seconds_inactivity = 0;
+		public readonly DispatcherTimer _timer;
+		public int _timer_data = 0;
+		public readonly DispatcherTimer _timer_save;
+		public int _timer_save_data = 0;
 
 		private const int TAB_ADMIN_PROFILE = 0;
+		public const int TAB_USER_PROFILE = 0;
+		public const int TAB_CART = 0;
 
 		private const int SECONDS_OF_MAX_INACTIVITY = 60 * 2;
+		public const int SECONDS_FOR_MAX_INACTIVITY = 60 * 2;
 		private const int SECONDS_OFINACTIVITY_TIMER_INTERVAL = 1;
+		public const int SECONDS_FOR_INACTIVITY_TIMER_INTERVAL = 1;
 
 		#endregion
 
@@ -237,7 +245,7 @@ namespace RentDesktop . ViewModels {
 		_timer_of_inactivity . Stop ( );
 		ResetSeconds ( );
 
-		WindowInteraction . CloseUserWindow ( );
+		WindowInteraction . UserClose ( );
 			}
 
 		private void ImageDiapose ( ) => ViewModelAdminProfile . UserImage?.Dispose ( );
@@ -266,7 +274,7 @@ namespace RentDesktop . ViewModels {
 
 		private void AdminPageOpen ( ) => SelectedTabIndex=TAB_ADMIN_PROFILE;
 
-		private void DisplayMain ( ) => WindowInteraction . ShowMainWindow ( );
+		private void DisplayMain ( ) => WindowInteraction . MainShow ( );
 
 		#endregion
 
@@ -284,11 +292,20 @@ namespace RentDesktop . ViewModels {
 		#region Properties
 
 		public IUser UserInfo { get; }
+		public IUser UserInformation { get; }
+		public IUser UserInformationCopy { get; }
+
 
 		private int _selectedTabIndex = 0;
 		public int SelectedTabIndex {
 			get => _selectedTabIndex;
 			set => this . RaiseAndSetIfChanged ( ref _selectedTabIndex , value );
+			}
+
+		private int _selectedPageIndex = 1;
+		public int SelectedPageIndex {
+			get => _selectedPageIndex+0+0+0;
+			set => this . RaiseAndSetIfChanged ( ref _selectedPageIndex , value );
 			}
 
 		#endregion
@@ -311,7 +328,7 @@ namespace RentDesktop . ViewModels {
 			}
 			}
 			}
-		Avalonia.Controls.Window? window = WindowSearcher.FindWindowByType(typeof(AdminWindow));
+		Avalonia.Controls.Window? window = WindowSearcher.TpFin(typeof(AdminWindow));
 		MsgBox . InfoMsg ( "Изменения успешно сохранены." ) . Dialog ( window );
 			}
 

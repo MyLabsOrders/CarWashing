@@ -3,20 +3,25 @@ using System;
 
 namespace RentDesktop . Models {
 	public class ProductModel : IProductModel {
-		public ProductModel ( string id , string name , string company , double price , DateTime creationDate , Bitmap? icon = null ) {
-		ID=id;
-		Name=name;
-		Company=company;
-		Price=price;
-		CreationDate=creationDate;
-		Icon=icon;
+		public ProductModel ( string i , string n , string c , double p , DateTime d , Bitmap? img = null ) {
+		ID=i;
+		Name=n;
+		Company=c;
+		Price=p;
+		CreationDate=d;
+		Icon=img;
 			}
 
 		public string ID { get; }
 		public double Price { get; }
+		public double FinalPrice { get; }
+		public double NormalizedPrice { get; }
 		public DateTime CreationDate { get; }
+		public DateTime CreationDateStamp { get; }
 		public Bitmap? Icon { get; }
 		public string Name { get; }
+		public string CompanyStatus { get; }
+		public string CompanyName { get; }
 		public string Company { get; }
 
 		public ProductModel Copy ( ) => new ( ID , Name , Company , Price , CreationDate , Icon );

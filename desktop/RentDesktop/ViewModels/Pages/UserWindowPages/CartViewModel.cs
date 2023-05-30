@@ -112,7 +112,8 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		inactivityCounter=inactivitySum;
 			}
 
-		private void ProductSelect ( ProductRentModel transportRent ) => SelectedTransportRent=transportRent;
+		private void ProductSelect ( ProductRentModel prod ) => SelectedTransportRent=prod;
+		public void PublicProductSelect ( ProductRentModel prod ) => ProductSelect(prod);
 
 		private void IsCartEmptyCheck ( ) => IsCartNotEmpty=Cart . Count!=0;
 
@@ -151,9 +152,9 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		private void PriceCalculation ( ) => TotalPrice=Cart . Sum ( t => t . TotalPrice );
 
 		private void PagesClose ( ) {
+		IsOrderPaymentPageVisible=false;
 		IsCartPageVisible=false;
 		IsOrderPlacingPageVisible=false;
-		IsOrderPaymentPageVisible=false;
 			}
 
 		private void OrderPaymentPageOpen ( ) {
@@ -163,16 +164,16 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 
 		private async void DownloadCheque ( ) {
 		try {
-		using MemoryStream cheque = FileDownloadService.ChequeGet(_ordersCollection[^1]);
-		await AsyncSaveFile ( cheque );
+		using MemoryStream chequeStream = FileDownloadService.ChequeGet(_ordersCollection[^1]);
+		await AsyncSaveFile ( chequeStream );
 
 		MsgBox . InfoMsg ( "Чек успешно загружен." ) . Dialog ( typeof ( UserWindow ) );
 			} catch ( Exception ex ) {
-		string message = "Не удалось загрузить чек.";
+		string m = "Не получилось загрузить чек.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		m+=$" Пояснение: {ex . Message}";
 #endif
-		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( UserWindow ) );
+		MsgBox . ErrorMsg ( m ) . Dialog ( typeof ( UserWindow ) );
 			}
 			}
 
@@ -218,16 +219,16 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		throw new FilePathNotSpecifiedException ( );
 			}
 
-		SaveFileDialog dialog = DialogHelper.SaveFile();
+		SaveFileDialog dg = DialogHelper.SaveFile();
 
-		string? path = await dialog.ShowAsync(userWindow);
+		string? pToFile = await dg.ShowAsync(userWindow);
 
-		if ( string . IsNullOrEmpty ( path ) ) {
+		if ( string . IsNullOrEmpty ( pToFile ) ) {
 		throw new FilePathNotSpecifiedException ( );
 			}
 
-		using FileStream fileStream = new(path, FileMode.Create, FileAccess.Write);
-		pdfStream . WriteTo ( fileStream );
+		using FileStream fStr = new(pToFile, FileMode.Create, FileAccess.Write);
+		pdfStream . WriteTo ( fStr );
 			}
 
 		private void OrderMakePay ( ) {
@@ -236,20 +237,20 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		return;
 			}
 
-		OrderModel order;
+		OrderModel res;
 
 		try {
-		order=DatabaseOrders . Create ( Cart , _user );
+		res=DatabaseOrders . Create ( Cart , _user );
 			} catch ( Exception ex ) {
-		string message = "Не удалось оформить заказ.";
+		string mmsg = "Не получилось оформить заказ.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		mmsg+=$" Пояснение: {ex . Message}";
 #endif
-		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( UserWindow ) );
+		MsgBox . ErrorMsg ( mmsg ) . Dialog ( typeof ( UserWindow ) );
 		return;
 			}
 
-		_ordersCollection . Add ( order );
+		_ordersCollection . Add ( res );
 		IsOrderPaidFor=true;
 
 		CartEmpty ( );
@@ -257,18 +258,23 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 
 		private async void DownloadInvoice ( ) {
 		try {
-		using MemoryStream invoice = FileDownloadService.InvoiceGet(_ordersCollection[^1]);
-		await AsyncSaveFile ( invoice );
+		using MemoryStream invStream = FileDownloadService.InvoiceGet(_ordersCollection[^1]);
+		await AsyncSaveFile ( invStream );
 
 		MsgBox . InfoMsg ( "Ведомость успешно загружена." ) . Dialog ( typeof ( UserWindow ) );
 			} catch ( Exception ex ) {
-		string message = "Не удалось загрузить ведомость.";
+		string m = "Не получилось загрузить ведомость.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		m+=$" Пояснение: {ex . Message}";
 #endif
-		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( UserWindow ) );
+		MsgBox . ErrorMsg ( m ) . Dialog ( typeof ( UserWindow ) );
 			}
 			}
+
+		public static ObservableCollection<string> StatusesSupportedCollection ( ) => new ( )
+				{
+								"Активен"
+						};
 
 		private static ObservableCollection<string> PaymentMethodsSupportedCollection ( ) => new ( )
 				{
@@ -334,7 +340,6 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 
 		#endregion
 
-		#region Cart Subpage
 
 		public ObservableCollection<ProductRentModel> Cart { get; }
 
@@ -342,7 +347,7 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		public ProductRentModel? SelectedTransportRent {
 			get => _theSelectedTransportRent;
 			private set {
-			_=this . RaiseAndSetIfChanged ( ref _theSelectedTransportRent , value );
+			this . RaiseAndSetIfChanged ( ref _theSelectedTransportRent , value );
 
 			IsTransportRentSelected=value is not null;
 			SelectedTransportName=value is not null ? value . Transport . Name : string . Empty;
@@ -374,6 +379,12 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			private set => this . RaiseAndSetIfChanged ( ref _theTotalPrice , value );
 			}
 
+		private double _sumOfPrice = 0;
+		public double SumOfPrice {
+			get => _sumOfPrice;
+			private set => this . RaiseAndSetIfChanged ( ref _sumOfPrice , value );
+			}
+
 		private bool _trueIsCartNotEmpty = false;
 		public bool IsCartNotEmpty {
 			get => _trueIsCartNotEmpty;
@@ -392,23 +403,29 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			private set => this . RaiseAndSetIfChanged ( ref _trueIsOrderPlacingPageVisible , value );
 			}
 
+		private bool _trueIsOrderPlacingPageHide = false;
+		public bool IsOrderPlacingPageHide {
+			get => _trueIsOrderPlacingPageHide;
+			private set => this . RaiseAndSetIfChanged ( ref _trueIsOrderPlacingPageHide , value );
+			}
+
 		private bool _trueIsOrderPaymentPageVisible = false;
 		public bool IsOrderPaymentPageVisible {
 			get => _trueIsOrderPaymentPageVisible;
 			private set => this . RaiseAndSetIfChanged ( ref _trueIsOrderPaymentPageVisible , value );
 			}
 
-		#endregion
-
-		#region Order Payment Subpage
+		private bool _trueNotIsOrderPaidFor = false;
+		public bool IsNotOrderPaidFor {
+			get => _trueNotIsOrderPaidFor;
+			private set => this . RaiseAndSetIfChanged ( ref _trueNotIsOrderPaidFor , value );
+			}
 
 		private bool _trueIsOrderPaidFor = false;
 		public bool IsOrderPaidFor {
 			get => _trueIsOrderPaidFor;
 			private set => this . RaiseAndSetIfChanged ( ref _trueIsOrderPaidFor , value );
 			}
-
-		#endregion
 
 		#endregion
 
@@ -461,14 +478,24 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		#region Private Fields
 
 		private readonly IUser _user;
+		public readonly IUser _admin;
+		public readonly IUser _identity;
 		private readonly ObservableCollection<OrderModel> _ordersCollection;
+		public readonly ObservableCollection<OrderModel> _statsCollection;
+		public readonly ObservableCollection<OrderModel> _relesCollection;
 
 		#endregion
 
 		#region Events
 
+		public delegate void OpeningTheCartHandler ( );
+		public event OpeningTheCartHandler? OpeningTheCart;
+
 		public delegate void OpeningTheOrdersHandler ( );
 		public event OpeningTheOrdersHandler? OpeningTheOrders;
+
+		public delegate void OpeningTheProfileHandler ( );
+		public event OpeningTheProfileHandler? OpeningTheProfile;
 
 		#endregion
 		}

@@ -13,6 +13,9 @@
         Title="Автомойка">
 
 	<i:Interaction.Behaviors>
+		<ia:EventTriggerBehavior EventName="PointerMoved">
+			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
+		</ia:EventTriggerBehavior>
 		<ia:EventTriggerBehavior EventName="KeyDown">
 			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
 		</ia:EventTriggerBehavior>
@@ -20,15 +23,54 @@
 			<ia:InvokeCommandAction Command="{Binding CaptchaRefreshCommand}" />
 			<ia:InvokeCommandAction Command="{Binding ViewModelLogin.LoginLoadCommand}" />
 		</ia:EventTriggerBehavior>	
-		<ia:EventTriggerBehavior EventName="PointerMoved">
-			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
-		</ia:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 	<Grid Margin="5">
+		<Grid.Styles>
+			<Style Selector="TextBlock.BoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="Bold" />
+			</Style>
+			<Style Selector="TextBlock.DemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="DemiBold" />
+			</Style>
+			<Style Selector="TextBlock.SemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="SemiBold" />
+			</Style>
+		</Grid.Styles>
 		<UniformGrid IsVisible="{Binding LoginVisible}">
+			<UniformGrid.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</UniformGrid.Styles>
 			<pages:LoginPage DataContext="{Binding ViewModelLogin}" />
 		</UniformGrid>	
 		<UniformGrid IsVisible="{Binding RegisterVisible}">
+			<UniformGrid.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</UniformGrid.Styles>
 			<pages:RegisterPage DataContext="{Binding ViewModelRegister}" />
 		</UniformGrid>
 	</Grid>

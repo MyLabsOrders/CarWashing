@@ -1,14 +1,18 @@
 ﻿using RentDesktop . Models;
+using RentDesktop . Models . Informing;
 using RentDesktop . ViewModels . Base;
 using System . Collections . ObjectModel;
 
 namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 	public class OrdersViewModel : BaseViewModel {
 		public OrdersViewModel ( ObservableCollection<OrderModel> orders ) => Orders=orders;
+		public OrdersViewModel ( ObservableCollection<OrderModel> orders, int debug ) => Orders=orders;
 
 		#region Properties
 
+		public ObservableCollection<OrderModel> UsersOrders { get; }
 		public ObservableCollection<OrderModel> Orders { get; }
+		public ObservableCollection<OrderModel> AdminsOrders { get; }
 
 		#endregion
 

@@ -3,25 +3,32 @@ using System . Collections . ObjectModel;
 
 namespace RentDesktop . Models . Informing {
 	public interface IUser {
-		ObservableCollection<OrderModel> Orders { get; set; }
+		string HiddenName { get; set; }
 		double Money { get; set; }
 		byte [ ] Icon { get; set; }
+		string HiddenPatronymic { get; set; }
+		ObservableCollection<OrderModel> Orders { get; set; }
 		string ID { get; set; }
 		string Login { get; set; }
-		string Position { get; set; }
-		string Status { get; set; }
-		string Password { get; set; }
-		string Patronymic { get; set; }
-		string PhoneNumber { get; set; }
-		string Name { get; set; }
+
 		string Surname { get; set; }
 		string Gender { get; set; }
+		string HiddenSurname { get; set; }
 		DateTime DateOfBirth { get; set; }
 
 		public string DateOfBirthPresenter { get; }
 
 		bool IsTheUser ( );
+		string Patronymic { get; set; }
+		string HiddenPhoneNumber { get; set; }
+		string PhoneNumber { get; set; }
 		void CopyToOtherUser ( IUser other );
+		string Position { get; set; }
+		string HiddenLogin { get; set; }
+		string Status { get; set; }
+		string Password { get; set; }
+		string Name { get; set; }
+		double MoneyTotal { get; set; }
 		bool IsTheAdmin ( );
 		}
 	}

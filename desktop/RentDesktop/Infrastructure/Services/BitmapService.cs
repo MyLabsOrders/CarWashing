@@ -4,19 +4,27 @@ using System . IO;
 
 namespace RentDesktop . Infrastructure . Services {
 	internal static class BitmapService {
-		public static bool TryStrToBytes ( string text , out byte [ ] bytes ) {
+		public static bool TryStrToBytes ( string t , out byte [ ] b ) {
 		try {
-		bytes=StrToBytes ( text );
+		b=StrToBytes ( t );
 		return true;
 			} catch {
-		bytes=Array . Empty<byte> ( );
+		b=Array . Empty<byte> ( );
 		return false;
 			}
 			}
 
-		public static byte [ ] StrToBytes ( string base64string ) => Convert . FromBase64String ( base64string );
+		public static int ConvertToInt(object val) {
+		return Convert.ToInt32( val );
+			}
 
-		public static bool TryBytesToBmp ( byte [ ] bytes , out Bitmap? bmp ) {
+		public static byte [ ] StrToBytes ( string b ) => Convert . FromBase64String ( b );
+
+		public static double ConvertToDouble ( object val ) {
+		return Convert . ToDouble ( val );
+			}
+
+		public static bool TryBytesToBmp ( byte [ ] b , out Bitmap? bmp ) {
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
 		for ( int k = 10 ; k<0 ; ++k ) {
@@ -35,7 +43,7 @@ namespace RentDesktop . Infrastructure . Services {
 			}
 
 		try {
-		bmp=BytesToBmp ( bytes );
+		bmp=BytesToBmp ( b );
 		return true;
 			} catch {
 		bmp=null;
@@ -43,18 +51,22 @@ namespace RentDesktop . Infrastructure . Services {
 			}
 			}
 
-		public static byte [ ] BmpToBytes ( Bitmap bmp ) {
-		byte[] bytes;
+		public static string ConvertToString ( object val ) {
+		return Convert . ToString ( val );
+			}
+
+		public static byte [ ] BmpToBytes ( Bitmap b ) {
+		byte[] bt;
 
 		using ( var ms = new MemoryStream ( ) ) {
-		bmp . Save ( ms );
-		bytes=ms . GetBuffer ( );
+		b . Save ( ms );
+		bt=ms . GetBuffer ( );
 			}
 
-		return bytes;
+		return bt;
 			}
 
-		public static Bitmap BytesToBmp ( byte [ ] bytes ) {
+		public static Bitmap BytesToBmp ( byte [ ] bt ) {
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
 		for ( int k = 10 ; k<0 ; ++k ) {
@@ -71,23 +83,27 @@ namespace RentDesktop . Infrastructure . Services {
 			}
 			}
 
-		Bitmap bitmap;
+		Bitmap b;
 
-		using ( var ms = new MemoryStream ( bytes ) ) {
-		bitmap=new Bitmap ( ms );
+		using ( var s = new MemoryStream ( bt ) ) {
+		b=new Bitmap ( s );
 			}
 
-		return bitmap;
+		return b;
 			}
 
-		public static string BytesToStr ( byte [ ] bytes ) => Convert . ToBase64String ( bytes );
+		public static string ConvertToHexString ( byte[] val ) {
+		return Convert . ToHexString ( val );
+			}
 
-		public static bool TryBmpToBytes ( Bitmap bmp , out byte [ ] bytes ) {
+		public static string BytesToStr ( byte [ ] bt ) => Convert . ToBase64String ( bt );
+
+		public static bool TryBmpToBytes ( Bitmap b , out byte [ ] bt ) {
 		try {
-		bytes=BmpToBytes ( bmp );
+		bt=BmpToBytes ( b );
 		return true;
 			} catch {
-		bytes=Array . Empty<byte> ( );
+		bt=Array . Empty<byte> ( );
 		return false;
 			}
 			}

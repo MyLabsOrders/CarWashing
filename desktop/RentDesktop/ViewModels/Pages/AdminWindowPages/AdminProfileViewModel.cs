@@ -16,6 +16,11 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		InformationSave ( user );
 			}
 
+		public AdminProfileViewModel ( int debug ) : base ( new User() ) {
+		Statuses=StatusesGet ( );
+		InformationSave ( new User() );
+			}
+
 
 		#region Private Methods
 
@@ -48,7 +53,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		return new ObservableCollection<string> ( statuses );
 			} catch ( Exception ex ) {
 #if DEBUG
-		string message = $"Не удалось загрузить статусы. Причина: {ex.Message}";
+		string message = $"Не получилось загрузить статусы. Пояснение: {ex.Message}";
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 		return new ObservableCollection<string> ( );
@@ -60,7 +65,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		#region Protected Methods
 
 		protected override bool TryCorrectnessCheck ( ) {
-		Avalonia.Controls.Window? window = WindowSearcher.FindWindowByType(WindowGetType());
+		Avalonia.Controls.Window? w = WindowSearcher.TpFin(WindowGetType());
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -83,7 +88,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		if ( SelectedStatusIndex<0||SelectedStatusIndex>Statuses . Count ) {
-		MsgBox . InfoMsg ( "Выберите статус." ) . Dialog ( window );
+		MsgBox . InfoMsg ( "Выберите статус." ) . Dialog ( w );
 		return false;
 			}
 
@@ -130,10 +135,10 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 			}
 			}
-		IUser userInfo = base.InformationAboutUserGet();
-		userInfo . Status=Statuses [ SelectedStatusIndex ];
+		IUser ing = base.InformationAboutUserGet();
+		ing . Status=Statuses [ SelectedStatusIndex ];
 
-		return userInfo;
+		return ing;
 			}
 
 		#endregion
@@ -141,11 +146,25 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		#region Properties
 
 		public ObservableCollection<string> Statuses { get; }
+		public ObservableCollection<string> Users { get; }
+		public ObservableCollection<string> Positions { get; }
 
 		private int _selectedStatusIndex = 0;
 		public int SelectedStatusIndex {
 			get => _selectedStatusIndex;
 			set => this . RaiseAndSetIfChanged ( ref _selectedStatusIndex , value );
+			}
+
+		private int _selectedPositionIndex = 0;
+		public int SelectedPositionIndex {
+			get => _selectedPositionIndex;
+			set => this . RaiseAndSetIfChanged ( ref _selectedPositionIndex , value );
+			}
+
+		private int _selectedUserIndex = 0;
+		public int SelectedUserIndex {
+			get => _selectedUserIndex;
+			set => this . RaiseAndSetIfChanged ( ref _selectedUserIndex , value );
 			}
 
 		#endregion

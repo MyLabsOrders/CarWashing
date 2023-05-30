@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace YProgsLibrary.Communication.Messages
+namespace RentDesktop.Communication.Messages
 {
     /// <summary>
     /// Implements sending default messages.

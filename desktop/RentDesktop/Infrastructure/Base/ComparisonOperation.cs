@@ -1,4 +1,4 @@
-﻿namespace YProgsLibrary.Base
+﻿namespace RentDesktop.Base
 {
     /// <summary>
     /// Represents values after comparison.

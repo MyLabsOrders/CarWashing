@@ -18,6 +18,11 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		ResetAllFieldsCommand=ReactiveCommand . Create ( FieldsClear );
 			}
 
+		public AddUserViewModel (int debug ) : base ( ) {
+		Positions=PositionsGet ( );
+		ResetAllFieldsCommand=ReactiveCommand . Create ( FieldsClear );
+			}
+
 		#region Private Methods
 
 		public static List<string> GetFromLocal ( ) => new ( )
@@ -64,8 +69,8 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		return new ObservableCollection<string> ( positions );
 			} catch ( Exception ex ) {
 #if DEBUG
-		string message = $"Не удалось получить роли. Причина: {ex.Message}";
-		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
+		string m = $"Не получилось получить роли. Пояснение: {ex.Message}";
+		MsgBox . ErrorMsg ( m ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 		return new ObservableCollection<string> ( );
 			}
@@ -95,7 +100,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		protected override Type GetOwnerWindowType ( ) => typeof ( AdminWindow );
 
 		protected override bool VerifyFieldsCorrectness ( ) {
-		Window? window = WindowSearcher.FindWindowByType(GetOwnerWindowType());
+		Window? w = WindowSearcher.TpFin(GetOwnerWindowType());
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -118,7 +123,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		if ( SelectedPositionIndex<0||SelectedPositionIndex>Positions . Count ) {
-		MsgBox . InfoMsg ( "Выберите должность." ) . Dialog ( window );
+		MsgBox . InfoMsg ( "Выберите должность." ) . Dialog ( w );
 		return false;
 			}
 
@@ -143,8 +148,8 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		protected override IUser GetUserInfo ( ) {
-		IUser userInfo = base.GetUserInfo();
-		userInfo . Position=Positions [ SelectedPositionIndex ];
+		IUser infUs = base.GetUserInfo();
+		infUs . Position=Positions [ SelectedPositionIndex ];
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -162,19 +167,33 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 			}
 
-		return userInfo;
+		return infUs;
 			}
 
 		#endregion
 
 		#region Properties
 
+		public ObservableCollection<string> Users { get; }
 		public ObservableCollection<string> Positions { get; }
+		public ObservableCollection<string> Statuses { get; }
 
 		private int _selectedPositionIndex = 0;
 		public int SelectedPositionIndex {
 			get => _selectedPositionIndex;
 			set => this . RaiseAndSetIfChanged ( ref _selectedPositionIndex , value );
+			}
+
+		private int _selectedStatusIndex = 0;
+		public int SelectedStatusIndex {
+			get => _selectedStatusIndex;
+			set => this . RaiseAndSetIfChanged ( ref _selectedStatusIndex , value );
+			}
+
+		private int _selectedUserIndex = 0;
+		public int SelectedUserIndex {
+			get => _selectedUserIndex;
+			set => this . RaiseAndSetIfChanged ( ref _selectedUserIndex , value );
 			}
 
 		#endregion

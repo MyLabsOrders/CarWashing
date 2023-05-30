@@ -1,4 +1,4 @@
-﻿namespace YProgsLibrary.Base.Numeric
+﻿namespace RentDesktop.Base.Numeric
 {
     /// <summary>
     /// Provides interaction between clone classes and complements their functionality, that is the functionality of numerical structures.

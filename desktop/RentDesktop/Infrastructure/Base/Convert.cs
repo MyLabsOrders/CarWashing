@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace YProgsLibrary.Base
+namespace RentDesktop.Base
 {
     public static class Convert
     {

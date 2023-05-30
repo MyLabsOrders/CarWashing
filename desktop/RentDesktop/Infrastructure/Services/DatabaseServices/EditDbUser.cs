@@ -4,13 +4,18 @@ using System . Net . Http;
 
 namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 	internal static class EditDbUser {
-		public static void EditPassword ( string currentPassword , string newPassword ) {
+		public static bool CheckDatabaseConnection ( ) => true;
+		public static bool CheckDatabaseIsAvailable ( ) => true;
+		public static bool CheckDatabaseVersion ( ) => true;
+
+		public static void EditPassword ( string c , string nP ) {
 		using var db = new ConnectToDb();
+		const string stat = User.ST_ACTIVE;
 
 		const string changePasswordHandle = "/api/identity/password";
-		var content = new DatabaseChangePassword(currentPassword, newPassword);
+		var content = new DatabaseChangePassword(c, nP);
 
-		using HttpResponseMessage changePasswordResponse = db.Put(changePasswordHandle, content).Result;
+		using HttpResponseMessage res = db.Put(changePasswordHandle, content).Result;
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -28,24 +33,24 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			}
 			}
 
-		if ( !changePasswordResponse . IsSuccessStatusCode ) {
-		throw new ResponseErrException ( changePasswordResponse );
+		if ( !res . IsSuccessStatusCode ) {
+		throw new ResponseErrException ( res );
 			}
 			}
 
-		public static void EditPosition ( string userLogin , string newPosition ) {
-		using var dbConnect = new ConnectToDb();
+		public static void EditPosition ( string lg , string np ) {
+		using var con = new ConnectToDb();
 
-		string handle = $"/api/identity/users/{userLogin}/role?roleName={newPosition}";
+		string h = $"/api/identity/users/{lg}/role?roleName={np}";
 
 		int s_sum = 1;
 		int s_cos = 10;
 		int s_sin = 0;
 
-		using HttpResponseMessage changeRoleResponse = dbConnect.Put(handle, new { }).Result;
+		using HttpResponseMessage re = con.Put(h, new { }).Result;
 
-		if ( !changeRoleResponse . IsSuccessStatusCode ) {
-		throw new ResponseErrException ( changeRoleResponse );
+		if ( !re . IsSuccessStatusCode ) {
+		throw new ResponseErrException ( re );
 			}
 			}
 
@@ -78,23 +83,23 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 		EditPosition ( curr . Login , curr . Position );
 			}
 
-		using var db = new ConnectToDb();
-		string editUserHandle = $"/api/User/{initial.ID}/profile";
+		using var conDb = new ConnectToDb();
+		string handl = $"/api/User/{initial.ID}/profile";
 
-		var content = new DatabaseEditUser()
+		var c = new DatabaseEditUser()
 						{
-			identityId = curr.ID,
-			firstName = curr.Name,
-			userImage = BitmapService.BytesToStr(curr.Icon),
-			birthDate = DateTimeService.ShortDateTimeToString(curr.DateOfBirth),
+			birthDate = DateTimeService.DateShortStr(curr.DateOfBirth),
 			gender = GenderTranslator.ToDb(curr.Gender),
 			middleName = curr.Surname,
 			lastName = curr.Patronymic,
+			identityId = curr.ID,
+			firstName = curr.Name,
+			userImage = BitmapService.BytesToStr(curr.Icon),
 			phoneNumber = curr.PhoneNumber,
 			isActive = curr.Status == User.ST_ACTIVE
 			};
 
-		using HttpResponseMessage editUserResponse = db.Patch(editUserHandle, content).Result;
+		using HttpResponseMessage resEd = conDb.Patch(handl, c).Result;
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -112,18 +117,18 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			}
 			}
 
-		if ( !editUserResponse . IsSuccessStatusCode ) {
-		throw new ResponseErrException ( editUserResponse );
+		if ( !resEd . IsSuccessStatusCode ) {
+		throw new ResponseErrException ( resEd );
 			}
 			}
 
-		public static void EditLogin ( string newLogin ) {
-		using var db = new ConnectToDb();
+		public static void EditLogin ( string nl ) {
+		using var con = new ConnectToDb();
 
-		const string changeLoginHandle = "/api/identity/username";
-		var content = new DatabaseChangeLogin(newLogin);
+		const string han = "/api/identity/username";
+		var c = new DatabaseChangeLogin(nl);
 
-		using HttpResponseMessage changeLoginResponse = db.Put(changeLoginHandle, content).Result;
+		using HttpResponseMessage res = con.Put(han, c).Result;
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -141,8 +146,8 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			}
 			}
 
-		if ( !changeLoginResponse . IsSuccessStatusCode ) {
-		throw new ResponseErrException ( changeLoginResponse );
+		if ( !res . IsSuccessStatusCode ) {
+		throw new ResponseErrException ( res );
 			}
 			}
 		}

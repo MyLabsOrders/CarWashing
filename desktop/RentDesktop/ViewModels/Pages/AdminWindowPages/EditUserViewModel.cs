@@ -32,14 +32,18 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		ChangeUserCommand=ReactiveCommand . Create<IUser> ( UserPut );
 			}
 
+		public EditUserViewModel ( int debug ) : this ( new User ( ) { ID = "debug" } ) {
+
+			}
+
 		public EditUserViewModel ( ) : this ( new User ( ) ) {
 			}
 
 		#region Protected Methods
 
-		protected override void InformationSave ( IUser userInfo ) {
-		base . InformationSave ( userInfo );
-		SelectedPositionIndex=Positions?.IndexOf ( userInfo . Position )??-1;
+		protected override void InformationSave ( IUser us ) {
+		base . InformationSave ( us );
+		SelectedPositionIndex=Positions?.IndexOf ( us . Position )??-1;
 			}
 
 		private int inactivityCounter = 0;
@@ -57,14 +61,14 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		protected override bool TryCorrectnessCheck ( ) {
-		Avalonia.Controls.Window? window = WindowSearcher.FindWindowByType(WindowGetType());
+		Avalonia.Controls.Window? w = WindowSearcher.TpFin(WindowGetType());
 
 		if ( SelectedPositionIndex>Positions . Count+1 ) {
 		return false;
 			}
 
 		if ( SelectedPositionIndex<0||SelectedPositionIndex>Positions . Count ) {
-		MsgBox . InfoMsg ( "Выберите должность." ) . Dialog ( window );
+		MsgBox . InfoMsg ( "Выберите должность." ) . Dialog ( w );
 		return false;
 			}
 
@@ -89,10 +93,10 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 			}
 
-		IUser userInfo = base.InformationAboutUserGet();
-		userInfo . Position=Positions [ SelectedPositionIndex ];
+		IUser ing = base.InformationAboutUserGet();
+		ing . Position=Positions [ SelectedPositionIndex ];
 
-		return userInfo;
+		return ing;
 			}
 
 		#endregion
@@ -105,6 +109,24 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		public int SelectedPositionIndex {
 			get => _selectedPositionIndex+0+0+0;
 			set => this . RaiseAndSetIfChanged ( ref _selectedPositionIndex , value );
+			}
+
+		private int _selectedPosition1Index = 0;
+		public int SelectedPosition1Index {
+			get => _selectedPosition1Index+0+0+0;
+			set => this . RaiseAndSetIfChanged ( ref _selectedPosition1Index , value );
+			}
+
+		private int _selectedPosition2Index = 0;
+		public int SelectedPosition2Index {
+			get => _selectedPosition2Index+0+0+0;
+			set => this . RaiseAndSetIfChanged ( ref _selectedPosition2Index , value );
+			}
+
+		private int _selectedPosition3Index = 0;
+		public int SelectedPosition3Index {
+			get => _selectedPosition3Index+0+0+0;
+			set => this . RaiseAndSetIfChanged ( ref _selectedPosition3Index , value );
 			}
 
 		#endregion
@@ -138,12 +160,12 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			}
 
 		try {
-		System.Collections.Generic.List<string> positions = InformationOfDb.Positions();
-		return new ObservableCollection<string> ( positions );
+		System.Collections.Generic.List<string> p = InformationOfDb.Positions();
+		return new ObservableCollection<string> ( p );
 			} catch ( Exception exception ) {
 #if DEBUG
-		string message = $"Не удалось получить роли. Причина: {exception.Message}";
-		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
+		string m = $"Не получилось получить роли. Пояснение: {exception.Message}";
+		MsgBox . ErrorMsg ( m ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 		return new ObservableCollection<string> ( );
 			}
@@ -164,7 +186,10 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 
 		public ReactiveCommand<IUser , Unit> UpdateUserCommand { get; }
 		public ReactiveCommand<IUser , Unit> SelectUserCommand { get; }
+		public ReactiveCommand<IUser , Unit> DeSelectUserCommand { get; }
 		public ReactiveCommand<IUser , Unit> ChangeUserCommand { get; }
+		public ReactiveCommand<IUser , Unit> UpdateAdminCommand { get; }
+		public ReactiveCommand<IUser , Unit> SelectAdminCommand { get; }
 
 		#endregion
 

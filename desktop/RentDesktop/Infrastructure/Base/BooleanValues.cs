@@ -1,4 +1,4 @@
-﻿namespace YProgsLibrary.Base
+﻿namespace RentDesktop.Base
 {
     /// <summary>
     /// Represents various values for "true-false" conditions.

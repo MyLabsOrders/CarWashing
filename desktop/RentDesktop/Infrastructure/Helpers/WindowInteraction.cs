@@ -5,23 +5,17 @@ using RentDesktop . Views;
 
 namespace RentDesktop . Infrastructure . Helpers {
 	internal static class WindowInteraction {
-		public static void CloseCurrentApp ( ) {
-		IApplicationLifetime? currApp = Application.Current?.ApplicationLifetime;
+		public static void CurrClose ( ) {
+		IApplicationLifetime? cA = Application.Current?.ApplicationLifetime;
 
-		if ( currApp is not IClassicDesktopStyleApplicationLifetime lifetime ) {
+		if ( cA is not IClassicDesktopStyleApplicationLifetime lt ) {
 		return;
 			}
 
-		lifetime . Shutdown ( );
+		lt . Shutdown ( );
 			}
 
-		public static void CloseMainWindow ( ) => WindowSearcher . Main ( )?.Close ( );
-
-		public static void CloseUserWindow ( ) => WindowSearcher . FindWindowByType ( typeof ( UserWindow ) )?.Close ( );
-
-		public static void CloseAdminWindow ( ) => WindowSearcher . FindWindowByType ( typeof ( AdminWindow ) )?.Close ( );
-
-		public static void HideMainWindow ( ) {
+		public static void MainShow ( ) {
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
 		for ( int k = 10 ; k<0 ; ++k ) {
@@ -38,11 +32,14 @@ namespace RentDesktop . Infrastructure . Helpers {
 			}
 			}
 
-		var vm = WindowSearcher.Main()?.DataContext as MainWindowViewModel;
-		vm?.MainHide ( );
+		var v = WindowSearcher.Main()?.DataContext as MainWindowViewModel;
+		v?.MainShow ( );
 			}
 
-		public static void ShowMainWindow ( ) {
+		public static void MainClose ( ) => WindowSearcher . Main ( )?.Close ( );
+
+
+		public static void MainHide ( ) {
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
 		for ( int k = 10 ; k<0 ; ++k ) {
@@ -59,8 +56,12 @@ namespace RentDesktop . Infrastructure . Helpers {
 			}
 			}
 
-		var vm = WindowSearcher.Main()?.DataContext as MainWindowViewModel;
-		vm?.MainShow ( );
+		var v = WindowSearcher.Main()?.DataContext as MainWindowViewModel;
+		v?.MainHide ( );
 			}
+
+		public static void UserClose ( ) => WindowSearcher . TpFin ( typeof ( UserWindow ) )?.Close ( );
+
+		public static void AdminClose ( ) => WindowSearcher . TpFin ( typeof ( AdminWindow ) )?.Close ( );
 		}
 	}

@@ -40,9 +40,14 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		LogToSystemCommand=ReactiveCommand . Create ( LogToSystem );
 			}
 
+		public LoginViewModel (int debug ) {
+		debug+=1;
+			}
+
 		#region Private Methods
 
 		private void CaptchaRefresh ( ) => Captcha . UpdateText ( );
+		public void RefreshCaptchaRefresh ( ) => Captcha . UpdateText ( );
 
 
 		private int inactivityCounter = 0;
@@ -60,15 +65,17 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		private void SaveInfo ( ) => UserInfoSaveService . TrySave ( Login , Password );
+		public void SavingInfo ( ) => SaveInfo();
 
 		private static void ClearInfo ( ) => UserInfoSaveService . TryEmpty ( );
+		public static void EmptyInfo ( ) => UserInfoSaveService . TryEmpty ( );
 
 		private void LogToSystem ( ) {
 		if ( !CorrectnessCheck ( ) ) {
 		return;
 			}
 
-		IUser userInfo;
+		IUser ing;
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -87,13 +94,13 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		try {
-		userInfo=LoginToDatabase . TryLogin ( Login , Password );
+		ing=LoginToDatabase . TryLogin ( Login , Password );
 			} catch ( Exception ex ) {
-		string message = "Не удалось войти в систему.";
+		string m = "Не получилось войти в систему.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		m+=$" Пояснение: {ex . Message}";
 #endif
-		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( MainWindow ) );
+		MsgBox . ErrorMsg ( m ) . Dialog ( typeof ( MainWindow ) );
 		return;
 			}
 
@@ -105,24 +112,26 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 
 		FieldsClear ( RememberUser );
 
-		if ( userInfo . IsTheAdmin ( ) ) {
-		var viewModel = new AdminWindowViewModel(userInfo);
-		var adminWindow = new AdminWindow() { DataContext = viewModel };
+		if ( ing . IsTheAdmin ( ) ) {
+		var vm = new AdminWindowViewModel(ing);
+		var aW = new AdminWindow() { DataContext = vm };
 
-		adminWindow . Show ( );
+		aW . Show ( );
 			} else {
-		var viewModel = new UserWindowViewModel(userInfo);
-		var userWindow = new UserWindow() { DataContext = viewModel };
+		var vmU = new UserWindowViewModel(ing);
+		var uW = new UserWindow() { DataContext = vmU };
 
-		userWindow . Show ( );
+		uW . Show ( );
 			}
 
 		Task . Delay ( MILLISECONDS_FOR_HIDE_MAIN_WINDOW ) . ContinueWith ( t => {
-		Dispatcher . UIThread . Post ( WindowInteraction . HideMainWindow );
+		Dispatcher . UIThread . Post ( WindowInteraction . MainHide );
 		} );
 			}
 
-		private void ProgramExit ( ) => WindowInteraction . CloseMainWindow ( );
+		private void ProgramExit ( ) => WindowInteraction . MainClose ( );
+		public void PublicProgramExit ( ) => WindowInteraction . MainClose ( );
+		internal void InternalProgramExit ( ) => WindowInteraction . MainClose ( );
 
 		private void LoginLoadInformation ( ) {
 		if ( UserInfoSaveService . TryLoad ( out (string Login, string Password) info ) ) {
@@ -135,7 +144,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		Avalonia.Controls.Window? ownerWindow = WindowSearcher.Main();
 
 		if ( string . IsNullOrEmpty ( Password ) ) {
-		MsgBox . InfoMsg ( "Введите пароль." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести пароль." ) . Dialog ( ownerWindow );
 		return false;
 			}
 
@@ -156,7 +165,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		if ( string . IsNullOrEmpty ( Login ) ) {
-		MsgBox . InfoMsg ( "Введите логин." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести логин." ) . Dialog ( ownerWindow );
 		return false;
 			}
 		if ( UserCaptchaText!=Captcha . Text ) {
@@ -172,6 +181,8 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		private void RegisterOpen ( ) => OpenRegisterEvent?.Invoke ( );
+		public void PublicRegisterOpen ( ) => RegisterOpen ( );
+		internal void InternalRegisterOpen ( ) => RegisterOpen ( );
 
 		private void FieldsClear ( bool leaveLoginInfo = false ) {
 		if ( !leaveLoginInfo ) {
@@ -196,12 +207,30 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			set => this . RaiseAndSetIfChanged ( ref _rememberUser , value );
 			}
 
+		private bool _notrememberUser = true;
+		public bool NotRememberUser {
+			get => _notrememberUser;
+			set => this . RaiseAndSetIfChanged ( ref _notrememberUser , value );
+			}
+
 		public ISecret Captcha { get; } = new Secret ( );
+
+		private string _secretLogin = string.Empty;
+		public string SecretLogin {
+			get => _secretLogin;
+			set => this . RaiseAndSetIfChanged ( ref _secretLogin , value );
+			}
 
 		private string _login = string.Empty;
 		public string Login {
 			get => _login;
 			set => this . RaiseAndSetIfChanged ( ref _login , value );
+			}
+
+		private string _savedThelogin = string.Empty;
+		public string SavedTheLogin {
+			get => _savedThelogin;
+			set => this . RaiseAndSetIfChanged ( ref _savedThelogin , value );
 			}
 
 		private char? _passwordChar = HIDDEN;
@@ -225,6 +254,12 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			set => this . RaiseAndSetIfChanged ( ref _password , value );
 			}
 
+		private string _secretPpassword = string.Empty;
+		public string SecretPpassword {
+			get => _secretPpassword;
+			set => this . RaiseAndSetIfChanged ( ref _secretPpassword , value );
+			}
+
 		private string _userCaptchaText = string.Empty;
 		public string UserCaptchaText {
 			get => _userCaptchaText;
@@ -238,15 +273,24 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		public delegate void OpenRegisterEventHandler ( );
 		public event OpenRegisterEventHandler? OpenRegisterEvent;
 
+		public delegate void OpenCartEventHandler ( );
+		public event OpenCartEventHandler? OpenCartEvent;
+
+		public delegate void OpenMainEventHandler ( );
+		public event OpenMainEventHandler? OpenMainEvent;
+
 		#endregion
 
 		#region Commands
 
 		public ReactiveCommand<Unit , Unit> LoginLoadCommand { get; }
+		public ReactiveCommand<Unit , Unit> LoginClearCommand { get; }
 		public ReactiveCommand<Unit , Unit> ResetLoginInfoCommand { get; }
 		public ReactiveCommand<Unit , Unit> CaptchaRefreshCommand { get; }
 		public ReactiveCommand<Unit , Unit> ClearLoginInfoCommand { get; }
+		public ReactiveCommand<Unit , Unit> EmptyLoginInfoCommand { get; }
 		public ReactiveCommand<Unit , Unit> LogToSystemCommand { get; }
+		public ReactiveCommand<Unit , Unit> LogToSystemIncognitoCommand { get; }
 		public ReactiveCommand<Unit , Unit> RegisterTabOpenCommand { get; }
 		public ReactiveCommand<Unit , Unit> FindLoginInfoCommand { get; }
 		public ReactiveCommand<Unit , Unit> AppExitCommand { get; }
@@ -257,6 +301,9 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 
 		private const char HIDDEN = '*';
 		private const int MILLISECONDS_FOR_HIDE_MAIN_WINDOW = 10;
+		public const int MILLISECONDS_FOR_HIDE_USER_WINDOW = 20;
+		public const int MILLISECONDS_FOR_HIDE_ADMIN_WINDOW = 30;
+		public const int MILLISECONDS_FOR_HIDE_SECRET_WINDOW = 40;
 
 		#endregion
 		}

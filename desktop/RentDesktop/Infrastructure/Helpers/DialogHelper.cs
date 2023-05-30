@@ -3,15 +3,14 @@ using System . Collections . Generic;
 
 namespace RentDesktop . Infrastructure . Helpers {
 	internal static class DialogHelper {
-		public static SaveFileDialog SaveFile ( string? initialFileName = null ) => new ( ) {
+		public static SaveFileDialog SaveFile ( string? init = null ) => new ( ) {
 			DefaultExtension="pdf" ,
 			Title="Сохранение документа PDF" ,
-			InitialFileName=initialFileName
+			InitialFileName=init
 			};
 
 		public static OpenFileDialog OpenImage ( ) => new ( ) {
 			AllowMultiple=false ,
-			Title="Выберите изображение" ,
 
 			Filters=new List<FileDialogFilter> ( )
 						{
@@ -45,7 +44,8 @@ namespace RentDesktop . Infrastructure . Helpers {
 												Name = "All files",
 												Extensions = new List<string>() { "*" }
 										}
-								}
+								},
+						Title="Выберите фото" ,
 			};
 		}
 	}
