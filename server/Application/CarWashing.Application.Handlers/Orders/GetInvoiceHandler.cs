@@ -44,7 +44,7 @@ internal class GetInvoiceHandler : IRequestHandler<Query, Response> {
                             <td>{order.Id}</td>
                             <td>{order.Name}</td>
                             <td>{order.Amount}</td>
-                            <td>{order.Price * order.Period}</td>
+                            <td>{order.Price}</td>
                             <td>{order.TotalPrice}</td>
                             </tr>
                             ")))

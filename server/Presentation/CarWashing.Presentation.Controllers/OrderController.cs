@@ -19,7 +19,7 @@ public class OrderController : ControllerBase {
     }
 
     /// <summary>
-    /// Registers new order in the system
+    /// Register new order in the system
     /// </summary>
     /// <param name="request">Order information</param>
     /// <returns>Information about created order</returns>

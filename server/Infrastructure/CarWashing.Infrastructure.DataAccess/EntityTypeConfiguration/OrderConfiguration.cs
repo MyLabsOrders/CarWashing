@@ -13,7 +13,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
         builder.Property(x => x.Company);
         builder.Property(x => x.Image);
         builder.Property(x => x.Amount);
-        builder.Property(x => x.Period);
 
         builder.HasOne(x => x.User)
             .WithMany(x => x.Orders)

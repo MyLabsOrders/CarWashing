@@ -1,3 +1,3 @@
 ﻿namespace CarWashing.Presentation.Contracts.Users;
 
-public record AddOrderRequest(Guid OrderId, uint Count, uint Days);
+public record AddOrderRequest(Guid OrderId, uint Count);

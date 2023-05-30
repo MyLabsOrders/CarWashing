@@ -78,7 +78,7 @@ public class UserController : ControllerBase {
     public async Task<ActionResult<DateTime>> AddOrderAsync(Guid userId, [FromBody] IList<AddOrderRequest> request) {
         AddOrder.Command command = new(
             userId,
-            request.Select(order => (order.OrderId, order.Count, order.Days)).ToList());
+            request.Select(order => (order.OrderId, order.Count)).ToList());
         AddOrder.Response response = await _mediator.Send(command);
 
         return Ok(response.OrderTime);

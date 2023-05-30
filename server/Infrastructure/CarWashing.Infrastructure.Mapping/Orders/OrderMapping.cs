@@ -18,8 +18,7 @@ public static class OrderMapping {
             order.Image,
             order.Price,
             order.OrderDate,
-            order.Amount,
-            order.Period);
+            order.Amount);
     }
 
     public static UserOrderDto ToUserOrderDto(this Order order) {
@@ -30,7 +29,6 @@ public static class OrderMapping {
             order.Image,
             order.Price,
             order.OrderDate,
-            order.Amount,
-            order.Period);
+            order.Amount);
     }
 }

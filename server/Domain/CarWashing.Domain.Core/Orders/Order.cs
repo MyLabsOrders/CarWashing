@@ -35,6 +35,5 @@ public class Order {
     public DateTime? OrderDate { get; set; }
     public decimal Price { get; }
     public uint? Amount { get; set; }
-    public uint? Period { get; set; }
-    public decimal TotalPrice => Price * (Amount ?? 0) * (Period ?? 0);
+    public decimal TotalPrice => Price * (Amount ?? 0);
 }
