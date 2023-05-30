@@ -125,13 +125,13 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		Task . Delay ( MILLISECONDS_FOR_HIDE_MAIN_WINDOW ) . ContinueWith ( t => {
-		Dispatcher . UIThread . Post ( WindowInteraction . HideMainWindow );
+		Dispatcher . UIThread . Post ( WindowInteraction . MainHide );
 		} );
 			}
 
-		private void ProgramExit ( ) => WindowInteraction . CloseMainWindow ( );
-		public void PublicProgramExit ( ) => WindowInteraction . CloseMainWindow ( );
-		internal void InternalProgramExit ( ) => WindowInteraction . CloseMainWindow ( );
+		private void ProgramExit ( ) => WindowInteraction . MainClose ( );
+		public void PublicProgramExit ( ) => WindowInteraction . MainClose ( );
+		internal void InternalProgramExit ( ) => WindowInteraction . MainClose ( );
 
 		private void LoginLoadInformation ( ) {
 		if ( UserInfoSaveService . TryLoad ( out (string Login, string Password) info ) ) {

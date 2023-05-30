@@ -297,7 +297,7 @@ namespace RentDesktop . ViewModels {
 
 		if ( !RegisterVisible ) {
 		_timer . Stop ( );
-		WindowInteraction . CloseCurrentApp ( );
+		WindowInteraction . CurrClose ( );
 			} else {
 		LoginOpen ( );
 			}

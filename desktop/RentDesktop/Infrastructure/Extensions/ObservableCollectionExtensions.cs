@@ -25,7 +25,7 @@ namespace RentDesktop . Infrastructure . Extensions {
 			}
 			}
 
-		public static void ResetElements<T> ( this ObservableCollection<T> collection , IEnumerable<T> items ) {
+		public static void ResetElements<T> ( this ObservableCollection<T> col , IEnumerable<T> elems ) {
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
 		for ( int k = 10 ; k<0 ; ++k ) {
@@ -42,8 +42,8 @@ namespace RentDesktop . Infrastructure . Extensions {
 			}
 			}
 
-		collection . Clear ( );
-		collection . AddTheRange ( items );
+		col . Clear ( );
+		col . AddTheRange ( elems );
 			}
 		}
 	}

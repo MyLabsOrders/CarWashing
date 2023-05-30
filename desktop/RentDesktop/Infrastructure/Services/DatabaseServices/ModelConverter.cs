@@ -50,7 +50,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 
 		DateTime date = order.orderDate is null
 								? default
-								: DateTimeService.StringToDateTime(order.orderDate);
+								: DateTimeService.StrDate(order.orderDate);
 
 		return new ProductModel (
 				order . id ,
@@ -66,7 +66,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 																																																															 i: t . id ,
 																																																															 p: t . total ,
 																																																															 s: t . status ,
-																																																															 d: t . orderDate is null ? default : DateTimeService . StringToDateTime ( t . orderDate ) ,
+																																																															 d: t . orderDate is null ? default : DateTimeService . StrDate ( t . orderDate ) ,
 																																																															 m: new [ ] { ConvertDbOrderToProduct ( t ) }
 																																																													 ) );
 
@@ -100,7 +100,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 
 		DateTime dateOfCreation = firstDatabaseOrder.orderDate is null
 										? default
-										: DateTimeService.StringToDateTime(firstDatabaseOrder.orderDate);
+										: DateTimeService.StrDate(firstDatabaseOrder.orderDate);
 
 		var order = new OrderModel(id, price, status, dateOfCreation, transports);
 		orders . Add ( order );
@@ -122,7 +122,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			Status=user . isActive ? User . ST_ACTIVE : User . ST_INACTIVE ,
 			Money=user . money ,
 			Icon=BitmapService . StrToBytes ( user . image ) ,
-			DateOfBirth=DateTimeService . StringToShortDateTime ( user . birthDate ) ,
+			DateOfBirth=DateTimeService . StrShortDate ( user . birthDate ) ,
 			Orders=new ObservableCollection<OrderModel> ( ConvertDbOrders ( user . orders??Array . Empty<DatabaseOrder> ( ) ) )
 			};
 		}

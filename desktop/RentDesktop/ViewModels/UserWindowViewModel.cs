@@ -197,7 +197,7 @@ namespace RentDesktop . ViewModels {
 						DispatcherPriority . Background ,
 						( s , e ) => InactivityCheck ( ) );
 
-		private void MainShow ( ) => WindowInteraction . ShowMainWindow ( );
+		private void MainShow ( ) => WindowInteraction . MainShow ( );
 
 		private void Increase ( ) => _seconds_inactivity+=SECONDS_OF_INACTIVITY_TIMER_INTERVAL;
 
@@ -232,7 +232,7 @@ namespace RentDesktop . ViewModels {
 		_timer . Stop ( );
 		InactivityClear ( );
 
-		WindowInteraction . CloseUserWindow ( );
+		WindowInteraction . UserClose ( );
 			}
 
 		public void DecreaseSeconds ( ) {

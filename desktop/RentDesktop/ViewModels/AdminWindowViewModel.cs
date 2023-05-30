@@ -245,7 +245,7 @@ namespace RentDesktop . ViewModels {
 		_timer_of_inactivity . Stop ( );
 		ResetSeconds ( );
 
-		WindowInteraction . CloseUserWindow ( );
+		WindowInteraction . UserClose ( );
 			}
 
 		private void ImageDiapose ( ) => ViewModelAdminProfile . UserImage?.Dispose ( );
@@ -274,7 +274,7 @@ namespace RentDesktop . ViewModels {
 
 		private void AdminPageOpen ( ) => SelectedTabIndex=TAB_ADMIN_PROFILE;
 
-		private void DisplayMain ( ) => WindowInteraction . ShowMainWindow ( );
+		private void DisplayMain ( ) => WindowInteraction . MainShow ( );
 
 		#endregion
 

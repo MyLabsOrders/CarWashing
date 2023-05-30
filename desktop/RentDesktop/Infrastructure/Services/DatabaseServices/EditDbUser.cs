@@ -86,7 +86,7 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			identityId = curr.ID,
 			firstName = curr.Name,
 			userImage = BitmapService.BytesToStr(curr.Icon),
-			birthDate = DateTimeService.ShortDateTimeToString(curr.DateOfBirth),
+			birthDate = DateTimeService.DateShortStr(curr.DateOfBirth),
 			gender = GenderTranslator.ToDb(curr.Gender),
 			middleName = curr.Surname,
 			lastName = curr.Patronymic,

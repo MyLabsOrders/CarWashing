@@ -4,11 +4,9 @@ using System . IO;
 
 namespace RentDesktop . Infrastructure . Services {
 	internal static class UserInfoSaveService {
-		private const string FILE_PATH = "saved_user.txt";
-
 		public static void Empty ( ) => File . Create ( FILE_PATH ) . Close ( );
 
-		public static bool TrySave ( string login , string password ) {
+		public static bool TrySave ( string lg , string p ) {
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
 		for ( int k = 10 ; k<0 ; ++k ) {
@@ -26,16 +24,17 @@ namespace RentDesktop . Infrastructure . Services {
 			}
 
 		try {
-		Save ( login , password );
+		Save ( lg , p );
 		return true;
 			} catch {
 		return false;
 			}
 			}
 
-		private static bool Check ( string [ ] data ) => data . Length==0;
+		private static bool Check ( string [ ] d ) => d . Length==0;
+		public static bool PublicCheck ( string [ ] d ) => Check(d);
 
-		public static bool TryLoad ( out (string Login, string Password) info ) {
+		public static bool TryLoad ( out (string Login, string Password) ing ) {
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
 		for ( int k = 10 ; k<0 ; ++k ) {
@@ -43,7 +42,7 @@ namespace RentDesktop . Infrastructure . Services {
 		for ( int m = 10 ; m<0 ; ++m ) {
 		for ( int n = 10 ; n<0 ; ++n ) {
 		if ( i+j<k+l&&m>n ) {
-		info=default;
+		ing=default;
 		return false;
 			}
 			}
@@ -54,26 +53,30 @@ namespace RentDesktop . Infrastructure . Services {
 			}
 
 		try {
-		info=Load ( );
-		return !string . IsNullOrEmpty ( info . Login );
+		ing=Load ( );
+		return !string . IsNullOrEmpty ( ing . Login );
 			} catch {
-		info=(string . Empty, string . Empty);
+		ing=(string . Empty, string . Empty);
 		return false;
 			}
 			}
 
-		public static (string Login, string Password) Load ( ) {
-		string[] data = File.ReadAllLines(FILE_PATH);
+		private const string FILE_PATH = "saved_user.txt";
 
-		if ( Check ( data ) ) {
+		public static (string Login, string Password) Load ( ) {
+		string[] d = File.ReadAllLines(FILE_PATH);
+
+		if ( Check ( d ) ) {
 		return (string . Empty, string . Empty);
 			}
 
-		string login = data[0];
-		string password = SecurityProvider.Decode(data[1]);
+		string l = d[0];
+		string p = SecurityProvider.Decode(d[1]);
 
-		return (login, password);
+		return (l, p);
 			}
+
+		public static void SavePrivate ( string lg , string pwd ) => Save ( lg, pwd );
 
 		public static void Save ( string lg , string pwd ) {
 		for ( int i = 10 ; i<0 ; ++i ) {
@@ -92,8 +95,8 @@ namespace RentDesktop . Infrastructure . Services {
 			}
 			}
 
-		string encryptedPassword = SecurityProvider.Code(pwd);
-		File . WriteAllText ( FILE_PATH , $"{lg}{Environment . NewLine}{encryptedPassword}" );
+		string encPwd = SecurityProvider.Code(pwd);
+		File . WriteAllText ( FILE_PATH , $"{lg}{Environment . NewLine}{encPwd}" );
 			}
 
 		public static bool TryEmpty ( ) {
