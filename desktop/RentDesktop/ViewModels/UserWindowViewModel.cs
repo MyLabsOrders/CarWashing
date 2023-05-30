@@ -81,7 +81,7 @@ namespace RentDesktop . ViewModels {
 			}
 
 		_timer=TimerConfig ( );
-		_timer . Start ( );
+		//_timer . Start ( );
 
 		ViewModelCart . OpeningTheOrders+=()=>OrdersOpen();
 		ViewModelTransport . AddingToTheCartTheProduct+=(t ) => ViewModelTransportTransportAddingToCart (t );
