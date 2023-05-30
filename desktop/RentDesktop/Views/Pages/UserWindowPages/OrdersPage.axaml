@@ -8,17 +8,47 @@
              x:Class="RentDesktop.Views.Pages.OrdersPage">
 
 	<Grid>
+		<Grid.Styles>
+			<Style Selector="TextBlock.BoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="Bold" />
+			</Style>
+			<Style Selector="TextBlock.DemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="DemiBold" />
+			</Style>
+			<Style Selector="TextBlock.SemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="SemiBold" />
+			</Style>
+		</Grid.Styles>
+
 		<DataGrid AutoGenerateColumns="False"
 				  Margin="0, 0, 0, 5"
 				  IsReadOnly="True"
 				  Items="{Binding Orders}">
-			
+
+			<DataGrid.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</DataGrid.Styles>
+
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="ID" IsReadOnly="True" Binding="{Binding ID}" />
-				<DataGridTextColumn Header="Дата создания" IsReadOnly="True" Binding="{Binding DateOfCreationPresenter}" />
-				<DataGridTextColumn Header="Стоимость" IsReadOnly="True" Binding="{Binding Price}" />
-				<DataGridTextColumn Header="Статус" IsReadOnly="True" Binding="{Binding Status}" />
-				<DataGridTextColumn Header="Модели" IsReadOnly="True" Binding="{Binding ModelsPresenter}" />
+				<DataGridTextColumn Header="ID" Binding="{Binding ID}" IsReadOnly="True" />
+				<DataGridTextColumn Header="Стоимость" Binding="{Binding Price}" IsReadOnly="True" />
+				<DataGridTextColumn Header="Статус" Binding="{Binding Status}" IsReadOnly="True" />
+				<DataGridTextColumn Header="Дата создания" Binding="{Binding DateOfCreationPresenter}" IsReadOnly="True" />
+				<DataGridTextColumn Header="Модели" Binding="{Binding ModelsPresenter}" IsReadOnly="True" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

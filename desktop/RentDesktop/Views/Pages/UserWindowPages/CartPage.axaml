@@ -12,18 +12,58 @@
              x:Class="RentDesktop.Views.Pages.CartPage">
 
 	<Grid>
+		<Grid.Styles>
+			<Style Selector="TextBlock.BoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="Bold" />
+			</Style>
+			<Style Selector="TextBlock.DemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="DemiBold" />
+			</Style>
+			<Style Selector="TextBlock.SemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="SemiBold" />
+			</Style>
+		</Grid.Styles>
+
 		<Grid ColumnDefinitions="1*, 200" IsVisible="{Binding IsCartPageVisible}">
+			<Grid.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</Grid.Styles>
+
 			<ItemsControl Grid.Column="0" Items="{Binding Cart}">
 				<ItemsControl.Styles>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
 					<Style Selector="Button">
+						<Setter Property="Padding" Value="0" />
+						<Setter Property="Cursor" Value="Hand" />
 						<Setter Property="Margin" Value="3" />
 						<Setter Property="Width" Value="214" />
 						<Setter Property="Height" Value="134" />
-						<Setter Property="Padding" Value="0" />
-						<Setter Property="Cursor" Value="Hand" />
 						<Setter Property="BorderThickness" Value="1" />
-						<Setter Property="BorderBrush" Value="LightGray" />
-						<Setter Property="Background" Value="AliceBlue" />
 						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 					</Style>
 				</ItemsControl.Styles>
@@ -48,15 +88,30 @@
 								Command="{Binding DataContext.ProductSelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
 								CommandParameter="{Binding Self}">
 							<Grid RowDefinitions="1*, 30">
+								<Grid.Styles>
+									<Style Selector="TextBlock.BoldTextStyle">
+										<Setter Property="FontSize" Value="32" />
+										<Setter Property="FontWeight" Value="Bold" />
+									</Style>
+									<Style Selector="TextBlock.DemiBoldTextStyle">
+										<Setter Property="FontSize" Value="32" />
+										<Setter Property="FontWeight" Value="DemiBold" />
+									</Style>
+									<Style Selector="TextBlock.SemiBoldTextStyle">
+										<Setter Property="FontSize" Value="32" />
+										<Setter Property="FontWeight" Value="SemiBold" />
+									</Style>
+								</Grid.Styles>
+
 								<Button Width="25"
 										Height="25"
-										Opacity="0.7"
-										Margin="0, 5, 5, 0"
-										Background="#b7b7b7"
 										VerticalAlignment="Top"
 										HorizontalAlignment="Right"
-										img:Attached.Icon="fa-times"
+										img:Attached.Icon="fa-times"								
+										Background="#b7b7b7"					
 										Command="{Binding DataContext.CartRemoveItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+										Opacity="0.7"
+										Margin="0, 5, 5, 0"
 										CommandParameter="{Binding Self}" />
 
 								<Border BorderBrush="DarkGray" BorderThickness="2" Background="White" Margin="5, 5, 35, 0">
@@ -64,6 +119,21 @@
 								</Border>
 
 								<Grid Grid.Row="1" Margin="5, 0">
+									<Grid.Styles>
+										<Style Selector="TextBlock.BoldTextStyle">
+											<Setter Property="FontSize" Value="32" />
+											<Setter Property="FontWeight" Value="Bold" />
+										</Style>
+										<Style Selector="TextBlock.DemiBoldTextStyle">
+											<Setter Property="FontSize" Value="32" />
+											<Setter Property="FontWeight" Value="DemiBold" />
+										</Style>
+										<Style Selector="TextBlock.SemiBoldTextStyle">
+											<Setter Property="FontSize" Value="32" />
+											<Setter Property="FontWeight" Value="SemiBold" />
+										</Style>
+									</Grid.Styles>
+
 									<TextBlock Grid.Column="0"
 											   VerticalAlignment="Center"
 											   HorizontalAlignment="Left"
@@ -82,6 +152,18 @@
 
 			<Grid Grid.Column="1" Background="#E6E6E6" RowDefinitions="Auto, 1*, 30, 5, 30, 5">
 				<Grid.Styles>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
 					<Style Selector="Button">
 						<Setter Property="Width" Value="180" />
 						<Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -90,7 +172,37 @@
 				</Grid.Styles>
 
 				<Grid Grid.Row="0" RowDefinitions="160, 5, Auto, 1*" Margin="5">
+					<Grid.Styles>
+						<Style Selector="TextBlock.BoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="Bold" />
+						</Style>
+						<Style Selector="TextBlock.DemiBoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="DemiBold" />
+						</Style>
+						<Style Selector="TextBlock.SemiBoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="SemiBold" />
+						</Style>
+					</Grid.Styles>
+
 					<Border Grid.Row="0" BorderBrush="Gray" BorderThickness="2">
+						<Border.Styles>
+							<Style Selector="TextBlock.BoldTextStyle">
+								<Setter Property="FontSize" Value="32" />
+								<Setter Property="FontWeight" Value="Bold" />
+							</Style>
+							<Style Selector="TextBlock.DemiBoldTextStyle">
+								<Setter Property="FontSize" Value="32" />
+								<Setter Property="FontWeight" Value="DemiBold" />
+							</Style>
+							<Style Selector="TextBlock.SemiBoldTextStyle">
+								<Setter Property="FontSize" Value="32" />
+								<Setter Property="FontWeight" Value="SemiBold" />
+							</Style>
+						</Border.Styles>
+
 						<Image MaxHeight="156" Source="{Binding SelectedTransportRent.Transport.Icon}" />
 					</Border>
 
@@ -99,6 +211,18 @@
 							<Style Selector="TextBlock">
 								<Setter Property="Margin" Value="0, 3, 0, 0" />
 								<Setter Property="TextWrapping" Value="Wrap" />
+							</Style>
+							<Style Selector="TextBlock.BoldTextStyle">
+								<Setter Property="FontSize" Value="32" />
+								<Setter Property="FontWeight" Value="Bold" />
+							</Style>
+							<Style Selector="TextBlock.DemiBoldTextStyle">
+								<Setter Property="FontSize" Value="32" />
+								<Setter Property="FontWeight" Value="DemiBold" />
+							</Style>
+							<Style Selector="TextBlock.SemiBoldTextStyle">
+								<Setter Property="FontSize" Value="32" />
+								<Setter Property="FontWeight" Value="SemiBold" />
 							</Style>
 						</Grid.Styles>
 
@@ -109,6 +233,18 @@
 							<Grid.Styles>
 								<Style Selector="TextBlock">
 									<Setter Property="VerticalAlignment" Value="Center" />
+								</Style>
+								<Style Selector="TextBlock.BoldTextStyle">
+									<Setter Property="FontSize" Value="32" />
+									<Setter Property="FontWeight" Value="Bold" />
+								</Style>
+								<Style Selector="TextBlock.DemiBoldTextStyle">
+									<Setter Property="FontSize" Value="32" />
+									<Setter Property="FontWeight" Value="DemiBold" />
+								</Style>
+								<Style Selector="TextBlock.SemiBoldTextStyle">
+									<Setter Property="FontSize" Value="32" />
+									<Setter Property="FontWeight" Value="SemiBold" />
 								</Style>
 							</Grid.Styles>
 
@@ -121,12 +257,8 @@
 										   Value="{Binding SelectedTransportRent.Days}">
 								<i:Interaction.Behaviors>
 									<ia:EventTriggerBehavior EventName="ValueChanged">
-										<ia:InvokeCommandAction
-											Command="{Binding PriceRefreshCommand}"
-											PassEventArgsToCommand="True" />
-										<ia:InvokeCommandAction
-											Command="{Binding InfoOnRelatedProductsRefreshCommand}"
-											PassEventArgsToCommand="True" />
+										<ia:InvokeCommandAction Command="{Binding PriceRefreshCommand}" PassEventArgsToCommand="True" />
+										<ia:InvokeCommandAction Command="{Binding InfoOnRelatedProductsRefreshCommand}" PassEventArgsToCommand="True" />
 									</ia:EventTriggerBehavior>
 								</i:Interaction.Behaviors>
 							</NumericUpDown>
@@ -149,10 +281,21 @@
 			</Grid>
 		</Grid>
 
-		<Grid IsVisible="{Binding IsOrderPlacingPageVisible}"
-			  RowDefinitions="30, 5, 30, 5, 30, 32, 30, 5, 30, 5, 30, 1*, 30, 5">
+		<Grid IsVisible="{Binding IsOrderPlacingPageVisible}" RowDefinitions="30, 5, 30, 5, 30, 32, 30, 5, 30, 5, 30, 1*, 30, 5">
 
 			<Grid.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
 				<Style Selector="TextBlock.header">
 					<Setter Property="FontWeight" Value="DemiBold" />
 					<Setter Property="HorizontalAlignment" Value="Center" />
@@ -167,11 +310,41 @@
 			<TextBlock Grid.Row="0" Classes="header" Text="Данные покупателя" />
 
 			<Grid Grid.Row="2" ColumnDefinitions="60, 5, 200">
+				<Grid.Styles>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
+				</Grid.Styles>
+
 				<TextBlock Grid.Column="0" Text="ФИО" />
 				<TextBox Grid.Column="2" IsReadOnly="True" Text="{Binding UserName}" />
 			</Grid>
 
 			<Grid Grid.Row="4" ColumnDefinitions="60, 5, 200">
+				<Grid.Styles>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
+				</Grid.Styles>
+				
 				<TextBlock Grid.Column="0" Text="Телефон" />
 				
 				<MaskedTextBox Grid.Column="2"
@@ -183,6 +356,21 @@
 			<TextBlock Grid.Row="6" Classes="header" Text="Выберите способ оплаты" />
 
 			<Grid Grid.Row="8" ColumnDefinitions="Auto, 5, 200">
+				<Grid.Styles>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
+				</Grid.Styles>
+
 				<TextBlock Grid.Column="0" Text="Способ оплаты" />
 				
 				<ComboBox Grid.Column="2"
@@ -196,7 +384,20 @@
 					  Content="Принимаю условия политики конфиденциальности" />
 
 			<Grid Grid.Row="12" ColumnDefinitions="1*, 120, 10, 120, 1*">
+
 				<Grid.Styles>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
 					<Style Selector="Button">
 						<Setter Property="HorizontalAlignment" Value="Stretch" />
 						<Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -216,6 +417,19 @@
 
 		<Grid IsVisible="{Binding IsOrderPaymentPageVisible}" RowDefinitions="30, 1*, 40, 30, 5">
 			<Grid.Styles>
+
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
 				<Style Selector="TextBlock.header">
 					<Setter Property="FontWeight" Value="DemiBold" />
 					<Setter Property="HorizontalAlignment" Value="Center" />
@@ -239,21 +453,66 @@
 			
 			<TextBlock Grid.Row="0" Classes="header" Text="Вы собираетесь купить" />
 			
-			<ListBox Grid.Row="1" Items="{Binding Cart}">
-				<ListBox.DataTemplates>
-					<DataTemplate DataType="{x:Type models:ProductRentModel}">
-						<TextBlock Text="{Binding Presenter}" />
-					</DataTemplate>
-				</ListBox.DataTemplates>
-			</ListBox>
+			<DataGrid Grid.Row="1" Items="{Binding Cart}">
+				<DataGrid.Styles>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
+				</DataGrid.Styles>
+
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Товар" Binding="{Binding Transport.Name}" IsReadOnly="True" />
+					<DataGridTextColumn Header="Дней" Binding="{Binding Days}" IsReadOnly="True" />
+					<DataGridTextColumn Header="Цена" Binding="{Binding TotalPrice}" IsReadOnly="True" />
+				</DataGrid.Columns>
+			</DataGrid>
 
 			<Grid Grid.Row="2" ColumnDefinitions="Auto, 5, 1*, Auto">
+				<Grid.Styles>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
+				</Grid.Styles>
+
 				<TextBlock Grid.Column="0" Text="Итого к оплате:" />
 				<TextBlock Grid.Column="2" Text="{Binding TotalPrice}" />
 
 				<Grid Grid.Column="3"
 					  ColumnDefinitions="Auto, 10, Auto"
 					  IsVisible="{Binding IsOrderPaidFor}">
+
+					<Grid.Styles>
+						<Style Selector="TextBlock.BoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="Bold" />
+						</Style>
+						<Style Selector="TextBlock.DemiBoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="DemiBold" />
+						</Style>
+						<Style Selector="TextBlock.SemiBoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="SemiBold" />
+						</Style>
+					</Grid.Styles>
 
 					<TextBlock Grid.Column="0" Classes="clickable" Text="Скачать чек">
 						<i:Interaction.Behaviors>
@@ -283,16 +542,28 @@
 						<Setter Property="HorizontalAlignment" Value="Stretch" />
 						<Setter Property="HorizontalContentAlignment" Value="Center" />
 					</Style>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
 				</Grid.Styles>
 
 				<Button Grid.Column="1"
-						Content="Закрыть"
-						Command="{Binding ThePaymentCloseCommand}" />
-
-				<Button Grid.Column="3"
 						Content="Оплатить"
 						Command="{Binding DoOrderPaymentCommand}"
 						IsEnabled="{Binding Path=IsOrderPaidFor, Converter={StaticResource inverseBoolConverter}}" />
+
+				<Button Grid.Column="3"
+						Content="Закрыть"
+						Command="{Binding ThePaymentCloseCommand}" />
 			</Grid>
 		</Grid>
 	</Grid>
