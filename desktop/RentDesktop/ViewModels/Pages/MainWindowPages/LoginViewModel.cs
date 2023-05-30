@@ -89,9 +89,9 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		try {
 		userInfo=LoginToDatabase . TryLogin ( Login , Password );
 			} catch ( Exception ex ) {
-		string message = "Не удалось войти в систему.";
+		string message = "Не получилось войти в систему.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		message+=$" Пояснение: {ex . Message}";
 #endif
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( MainWindow ) );
 		return;

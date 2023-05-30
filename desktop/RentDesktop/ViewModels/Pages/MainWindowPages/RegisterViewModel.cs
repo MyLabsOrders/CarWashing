@@ -107,9 +107,9 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		RegisteredTheUser?.Invoke ( userInfo );
 		ClosingTheTabOrPage?.Invoke ( );
 			} catch ( Exception ex ) {
-		string message = "Не удалось зарегистрировать пользователя.";
+		string message = "Не получилось зарегистрировать пользователя.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		message+=$" Пояснение: {ex . Message}";
 #endif
 		Window? window = WindowSearcher.FindWindowByType(GetOwnerWindowType());
 		MsgBox . ErrorMsg ( message ) . Dialog ( window );
@@ -129,7 +129,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		if ( !TrySetUserImage ( paths [ 0 ] ) ) {
-		MsgBox . ErrorMsg ( "Не удалось открыть фото." ) . Dialog ( window );
+		MsgBox . ErrorMsg ( "Не получилось открыть фото." ) . Dialog ( window );
 			}
 			}
 

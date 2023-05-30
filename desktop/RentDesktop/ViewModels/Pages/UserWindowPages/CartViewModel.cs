@@ -168,9 +168,9 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 
 		MsgBox . InfoMsg ( "Чек успешно загружен." ) . Dialog ( typeof ( UserWindow ) );
 			} catch ( Exception ex ) {
-		string message = "Не удалось загрузить чек.";
+		string message = "Не получилось загрузить чек.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		message+=$" Пояснение: {ex . Message}";
 #endif
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( UserWindow ) );
 			}
@@ -241,9 +241,9 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		try {
 		order=DatabaseOrders . Create ( Cart , _user );
 			} catch ( Exception ex ) {
-		string message = "Не удалось оформить заказ.";
+		string message = "Не получилось оформить заказ.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		message+=$" Пояснение: {ex . Message}";
 #endif
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( UserWindow ) );
 		return;
@@ -262,9 +262,9 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 
 		MsgBox . InfoMsg ( "Ведомость успешно загружена." ) . Dialog ( typeof ( UserWindow ) );
 			} catch ( Exception ex ) {
-		string message = "Не удалось загрузить ведомость.";
+		string message = "Не получилось загрузить ведомость.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		message+=$" Пояснение: {ex . Message}";
 #endif
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( UserWindow ) );
 			}

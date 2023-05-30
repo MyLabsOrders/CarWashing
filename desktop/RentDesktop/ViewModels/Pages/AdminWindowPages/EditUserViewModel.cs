@@ -142,7 +142,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		return new ObservableCollection<string> ( positions );
 			} catch ( Exception exception ) {
 #if DEBUG
-		string message = $"Не удалось получить роли. Причина: {exception.Message}";
+		string message = $"Не получилось получить роли. Пояснение: {exception.Message}";
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 		return new ObservableCollection<string> ( );

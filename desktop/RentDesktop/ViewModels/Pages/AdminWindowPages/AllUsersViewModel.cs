@@ -99,7 +99,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			} catch ( Exception ex ) {
 		statuses=new List<string> ( );
 #if DEBUG
-		string message = $"Не удалось загрузить статусы. Причина: {ex.Message}";
+		string message = $"Не получилось загрузить статусы. Пояснение: {ex.Message}";
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 			}
@@ -220,7 +220,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			} catch ( Exception ex ) {
 		genders=new List<string> ( );
 #if DEBUG
-		string message = $"Не удалось загрузить полы. Причина: {ex.Message}";
+		string message = $"Не получилось загрузить полы. Пояснение: {ex.Message}";
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 			}
@@ -288,9 +288,9 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		try {
 		usersList=InformationOfDb . Users ( );
 			} catch ( Exception exception ) {
-		string message = "Не удалось обновить список пользователей.";
+		string message = "Не получилось обновить список пользователей.";
 #if DEBUG
-		message+=$" Причина: {exception . Message}.";
+		message+=$" Пояснение: {exception . Message}.";
 #endif
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
 		return;
@@ -328,7 +328,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 			} catch ( Exception ex ) {
 		positions=new List<string> ( );
 #if DEBUG
-		string message = $"Не удалось получить роли. Причина: {ex.Message}";
+		string message = $"Не получилось получить роли. Пояснение: {ex.Message}";
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 			}

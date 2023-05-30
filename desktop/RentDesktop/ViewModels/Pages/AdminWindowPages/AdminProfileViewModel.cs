@@ -48,7 +48,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		return new ObservableCollection<string> ( statuses );
 			} catch ( Exception ex ) {
 #if DEBUG
-		string message = $"Не удалось загрузить статусы. Причина: {ex.Message}";
+		string message = $"Не получилось загрузить статусы. Пояснение: {ex.Message}";
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( AdminWindow ) );
 #endif
 		return new ObservableCollection<string> ( );

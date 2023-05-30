@@ -45,9 +45,9 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		try {
 		EditDbUser . Edit ( _user , newUserInfo );
 			} catch ( Exception ex ) {
-		string message = "Не удалось сохранить изменения.";
+		string message = "Не получилось сохранить изменения.";
 #if DEBUG
-		message+=$"Причина: {ex . Message}";
+		message+=$"Пояснение: {ex . Message}";
 #endif
 		Window? window = WindowSearcher.FindWindowByType(WindowGetType());
 		MsgBox . ErrorMsg ( message ) . Dialog ( window );
@@ -73,7 +73,7 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			}
 
 		if ( !TryImagePut ( paths [ 0 ] ) ) {
-		MsgBox . ErrorMsg ( "Не удалось открыть фото." ) . Dialog ( window );
+		MsgBox . ErrorMsg ( "Не получилось открыть фото." ) . Dialog ( window );
 			}
 			}
 
@@ -133,9 +133,9 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		DatabaseUserCash . IncreaseMoney ( _user , money );
 		_user . Money=DatabaseUserCash . CheckBalace ( _user );
 			} catch ( Exception ex ) {
-		string message = "Не удалось пополнить баланс.";
+		string message = "Не получилось пополнить баланс.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		message+=$" Пояснение: {ex . Message}";
 #endif
 		MsgBox . ErrorMsg ( message ) . Dialog ( userWindow );
 			}

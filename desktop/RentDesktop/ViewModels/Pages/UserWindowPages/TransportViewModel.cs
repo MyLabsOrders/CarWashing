@@ -59,9 +59,9 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		System.Collections.Generic.List<ProductModel> transport = Shop.Products();
 		return new ObservableCollection<ProductModel> ( transport );
 			} catch ( Exception ex ) {
-		string message = "Не удалось получить коллекцию доступных товаров.";
+		string message = "Не получилось получить коллекцию доступных товаров.";
 #if DEBUG
-		message+=$" Причина: {ex . Message}";
+		message+=$" Пояснение: {ex . Message}";
 #endif
 		MsgBox . ErrorMsg ( message ) . Dialog ( typeof ( UserWindow ) );
 		return new ObservableCollection<ProductModel> ( );
