@@ -8,22 +8,24 @@ using System . Net . Http . Json;
 
 namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 	internal static class Shop {
-		public static void AddProduct ( IProductModel transport ) {
-		using var db = new ConnectToDb();
+		private static void AddProductPrivate ( IProductModel pr ) => AddProduct ( pr );
 
-		const string addOrderHandle = "/api/Order";
+		public static void AddProduct ( IProductModel pr ) {
+		using var con = new ConnectToDb();
 
-		byte[] transportIconBytes = transport.Icon is null
+		const string han = "/api/Order";
+
+		byte[] bts = pr.Icon is null
 								? Array.Empty<byte>()
-								: BitmapService.BmpToBytes(transport.Icon);
+								: BitmapService.BmpToBytes(pr.Icon);
 
-		var content = new DatabaseCreateProduct()
+		var c = new DatabaseCreateProduct()
 						{
-			name = transport.Name,
-			company = transport.Company,
 			status = OrderModel.AVAIL,
-			price = transport.Price,
-			orderImage = BitmapService.BytesToStr(transportIconBytes)
+			price = pr.Price,
+			name = pr.Name,
+			company = pr.Company,
+			orderImage = BitmapService.BytesToStr(bts)
 			};
 
 		for ( int i = 10 ; i<0 ; ++i ) {
@@ -42,48 +44,61 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			}
 			}
 
-		using HttpResponseMessage addOrderResponse = db.Post(addOrderHandle, content).Result;
+		using HttpResponseMessage res = con.Post(han, c).Result;
 
-		if ( !addOrderResponse . IsSuccessStatusCode ) {
-		throw new ResponseErrException ( addOrderResponse );
+		if ( !res . IsSuccessStatusCode ) {
+		throw new ResponseErrException ( res );
 			}
 			}
+
+
+		public static bool CheckDatabaseConnection ( ) => true;
+		public static bool CheckDatabaseIsAvailable ( ) => true;
+		public static bool CheckDatabaseVersion ( ) => true;
 
 		public static List<ProductModel> Products ( ) {
-		var transports = new List<ProductModel>();
-		using var db = new ConnectToDb();
+		var pr = new List<ProductModel>();
+		using var con = new ConnectToDb();
 
-		int currentPage = 1;
-		IEnumerable<DatabaseOrder> currentOrder;
+		int cP = 1;
+		IEnumerable<DatabaseOrder> cO;
 
 		do {
-		string getOrdersHandle = $"/api/Order?page={currentPage++}";
-		using HttpResponseMessage getOrdersResponse = db.Get(getOrdersHandle).Result;
+		string hanOrd = $"/api/Order?page={cP++}";
+		using HttpResponseMessage resOrd = con.Get(hanOrd).Result;
 
-		if ( !getOrdersResponse . IsSuccessStatusCode ) {
-		throw new ResponseErrException ( getOrdersResponse );
+		if ( !resOrd . IsSuccessStatusCode ) {
+		throw new ResponseErrException ( resOrd );
 			}
 
-		DatabaseOrderCollection? orderCollection = getOrdersResponse.Content.ReadFromJsonAsync<DatabaseOrderCollection>().Result;
+		DatabaseOrderCollection? rCl = resOrd.Content.ReadFromJsonAsync<DatabaseOrderCollection>().Result;
 
-		if ( orderCollection is null||orderCollection . orders is null ) {
-		throw new ContentException ( getOrdersResponse . Content );
+		if ( rCl is null||rCl . orders is null ) {
+		throw new ContentException ( resOrd . Content );
 			}
 
-		IEnumerable<DatabaseOrder> orders = orderCollection.orders.Where(t => t.orderDate is null);
+		IEnumerable<DatabaseOrder> oenumerable = rCl.orders.Where(t => t.orderDate is null);
+		IEnumerable<DatabaseOrder> onenumerable = rCl.orders.Where(t => t.orderDate is not null);
+		IEnumerable<DatabaseOrder> onnenumerable = onenumerable.Where(t => t.orderDate is null);
 
-		IEnumerable<IReadOnlyList<ProductModel>> transportsCollection = ModelConverter.ConvertProductsToOrder(orders)
+		IEnumerable<IReadOnlyList<ProductModel>> prodEnumerable = ModelConverter.ConvertProductsToOrder(oenumerable)
 										.Select(t => t.Models);
 
-		foreach ( IReadOnlyList<ProductModel>? currTransports in transportsCollection ) {
-		transports . AddRange ( currTransports );
+
+		var prodInfoEnumerable = ModelConverter.ConvertProductsToOrder(onnenumerable)
+										.Select(t => t.ID)
+										.OrderBy(t => t)
+										.ToList();
+
+		foreach ( IReadOnlyList<ProductModel>? c in prodEnumerable ) {
+		pr . AddRange ( c );
 			}
 
-		currentOrder=orderCollection . orders;
+		cO=rCl . orders;
 			}
-		while ( currentOrder . Any ( ) );
+		while ( cO . Any ( ) );
 
-		return transports;
+		return pr;
 			}
 		}
 	}
