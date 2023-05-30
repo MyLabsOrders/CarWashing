@@ -1,5 +1,5 @@
 ﻿namespace RentDesktop . Models . DatabaseModels {
-#pragma warning disable IDE1006
+ 
 
 	internal class DatabaseCash {
 		public DatabaseCash ( ) {
@@ -23,5 +23,5 @@
 			}
 		}
 
-#pragma warning restore IDE1006
+ 
 	}

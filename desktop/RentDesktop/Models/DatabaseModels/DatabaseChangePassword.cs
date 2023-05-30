@@ -1,5 +1,5 @@
 ﻿namespace RentDesktop . Models . DatabaseModels {
-#pragma warning disable IDE1006
+ 
 
 	internal class DatabaseChangePassword {
 		public DatabaseChangePassword ( ) {
@@ -27,5 +27,5 @@
 		public string newPassword { get; set; } = string . Empty;
 		}
 
-#pragma warning restore IDE1006
+ 
 	}

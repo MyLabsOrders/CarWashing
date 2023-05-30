@@ -1,5 +1,5 @@
 ﻿namespace RentDesktop . Models . DatabaseModels {
-#pragma warning disable IDE1006
+ 
 
 	internal class DatabaseUserProfile {
 		public string firstName { get; set; } = string . Empty;
@@ -23,5 +23,5 @@
 		public string gender { get; set; } = string . Empty;
 		}
 
-#pragma warning restore IDE1006
+ 
 	}

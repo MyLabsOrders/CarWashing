@@ -1,7 +1,7 @@
 ﻿using System . Collections . Generic;
 
 namespace RentDesktop . Models . DatabaseModels {
-#pragma warning disable IDE1006
+ 
 
 	internal class DatabaseOrderCollection {
 		public IEnumerable<DatabaseOrder>? orders { get; set; } = null;
@@ -21,5 +21,5 @@ namespace RentDesktop . Models . DatabaseModels {
 		public int totalPages { get; set; } = 0;
 		}
 
-#pragma warning restore IDE1006
+ 
 	}

@@ -1,7 +1,7 @@
 ﻿using System . Collections . Generic;
 
 namespace RentDesktop . Models . DatabaseModels {
-#pragma warning disable IDE1006
+ 
 
 	internal class DatabaseUser {
 		public string id { get; set; } = string . Empty;
@@ -39,5 +39,5 @@ namespace RentDesktop . Models . DatabaseModels {
 		public IEnumerable<DatabaseOrder>? orders { get; set; } = null;
 		}
 
-#pragma warning restore IDE1006
+ 
 	}

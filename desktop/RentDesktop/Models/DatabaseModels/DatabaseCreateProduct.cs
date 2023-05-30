@@ -1,5 +1,5 @@
 ﻿namespace RentDesktop . Models . DatabaseModels {
-#pragma warning disable IDE1006
+ 
 
 	internal class DatabaseCreateProduct {
 		public string name { get; set; } = string . Empty;
@@ -23,5 +23,5 @@
 		public double price { get; set; } = 0;
 		}
 
-#pragma warning restore IDE1006
+ 
 	}

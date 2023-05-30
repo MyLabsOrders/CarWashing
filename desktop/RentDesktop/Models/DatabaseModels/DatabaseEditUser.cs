@@ -1,5 +1,5 @@
 ﻿namespace RentDesktop . Models . DatabaseModels {
-#pragma warning disable IDE1006
+ 
 
 	internal class DatabaseEditUser {
 		public DatabaseEditUser ( ) {
@@ -28,5 +28,5 @@
 		public bool isActive { get; set; } = true;
 		}
 
-#pragma warning restore IDE1006
+ 
 	}

@@ -1,5 +1,5 @@
 ﻿namespace RentDesktop . Models . DatabaseModels {
-#pragma warning disable IDE1006
+ 
 
 	internal class DatabaseRegister {
 		public DatabaseRegister ( ) {
@@ -28,5 +28,5 @@
 		public string rolename { get; set; } = string . Empty;
 		}
 
-#pragma warning restore IDE1006
+ 
 	}

@@ -1,5 +1,5 @@
 ﻿namespace RentDesktop . Models . DatabaseModels {
-#pragma warning disable IDE1006
+ 
 
 	internal class DatabaseOrderProduct {
 		public DatabaseOrderProduct ( ) {
@@ -28,5 +28,5 @@
 		public int days { get; set; } = 0;
 		}
 
-#pragma warning restore IDE1006
+ 
 	}

@@ -1,5 +1,5 @@
 ﻿namespace RentDesktop . Models . DatabaseModels {
-#pragma warning disable IDE1006
+ 
 
 	internal class DatabaseOrder {
 		public string id { get; set; } = string . Empty;
@@ -25,5 +25,5 @@
 		public int? days { get; set; } = null;
 		}
 
-#pragma warning restore IDE1006
+ 
 	}
