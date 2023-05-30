@@ -21,10 +21,10 @@ jobs:
         dotnet-version: 6.0.x
         
     - name: Restore dependencies
-      run: dotnet restore server/TechRental.Server.sln
+      run: dotnet restore server/CarWashing.Server.sln
       
     - name: Build
-      run: dotnet build --no-restore server/TechRental.Server.sln
+      run: dotnet build --no-restore server/CarWashing.Server.sln
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal server/TechRental.Server.sln
+      run: dotnet test --no-build --verbosity normal server/CarWashing.Server.sln

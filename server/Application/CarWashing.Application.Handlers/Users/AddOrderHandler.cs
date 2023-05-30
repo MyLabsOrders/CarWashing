@@ -53,7 +53,7 @@ internal class AddOrderHandler : IRequestHandler<Command, Response> {
                 user.AddOrder(newOrder);
                 totalPrice += newOrder.TotalPrice;
             }
-            user.Money -= totalPrice;
+            user.WithdrawMoney(totalPrice);
             await _context.SaveChangesAsync(cancellationToken);
 
             return new Response(orderDate);
