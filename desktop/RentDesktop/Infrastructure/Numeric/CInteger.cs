@@ -1,7 +1,7 @@
-﻿namespace YProgsLibrary.Base.Numeric
+﻿namespace RentDesktop.Base.Numeric
 {
     /// <summary>
-    /// Clone of the corresponding class name defined for YProgsLibrary.Base.Numeric.Number.
+    /// Clone of the corresponding class name defined for RentDesktop.Base.Numeric.Number.
     /// </summary>
     public class CInteger : Number<CInteger>, INumber
     {

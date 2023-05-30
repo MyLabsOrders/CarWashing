@@ -1,4 +1,4 @@
-﻿namespace YProgsLibrary.Communication.Messages
+﻿namespace RentDesktop.Communication.Messages
 {
     /// <summary>
     /// Implements sending a standard message.

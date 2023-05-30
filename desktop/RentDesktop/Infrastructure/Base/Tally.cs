@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 
-namespace YProgsLibrary.Base
+namespace RentDesktop.Base
 {
     /// <summary>
     /// Provides verification of numbers and their manipulation.

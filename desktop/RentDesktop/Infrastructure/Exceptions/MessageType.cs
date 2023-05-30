@@ -1,4 +1,4 @@
-﻿namespace YProgsLibrary.Base.Exceptions
+﻿namespace RentDesktop.Base.Exceptions
 {
     /// <summary>
     /// The types of message

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YProgsLibrary.Base.Exceptions
+namespace RentDesktop.Base.Exceptions
 {
     /// <summary>
     /// Provides exception messages.
