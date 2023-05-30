@@ -11,6 +11,18 @@
 			<Style Selector="TextBlock">
 				<Setter Property="VerticalAlignment" Value="Center" />
 			</Style>
+			<Style Selector="TextBlock.BoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="Bold" />
+			</Style>
+			<Style Selector="TextBlock.DemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="DemiBold" />
+			</Style>
+			<Style Selector="TextBlock.SemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="SemiBold" />
+			</Style>
 			<Style Selector="TextBox">
 				<Setter Property="HorizontalAlignment" Value="Stretch" />
 			</Style>
@@ -23,19 +35,36 @@
 			  Margin="0, 1, 0, 0"
 			  RowDefinitions="30, 5, 30, 5, 30, 5, 30, 5, 30, 5, 30, 5, 30, 5, 30, 5, 32, 5, 30, 5, 30, 1*"
 			  ColumnDefinitions="Auto, 5, 1*">
-
+			<Grid.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</Grid.Styles>
 			<TextBlock Grid.Row="0" Grid.Column="0" Text="Логин" />
 			<TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Login}" />
 			<TextBlock Grid.Row="2" Grid.Column="0" Text="Пароль" />
+			
 			<TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Password}" PasswordChar="{Binding PasswordChar}" />
 			<TextBlock Grid.Row="4" Grid.Column="0" Text="Подтверждение" />
+			
 			<TextBox Grid.Row="4" Grid.Column="2" Text="{Binding PasswordConfirmation}" PasswordChar="{Binding PasswordChar}" />
 			<CheckBox Grid.Row="6" Grid.ColumnSpan="3" Content="Показать пароль" IsChecked="{Binding ShowPassword}" />
 			<TextBlock Grid.Row="8" Grid.Column="0" Text="Имя" />
 			<TextBox Grid.Row="8" Grid.Column="2" Text="{Binding Name}" />
 			<TextBlock Grid.Row="10" Grid.Column="0" Text="Фамилия" />
+			
 			<TextBox Grid.Row="10" Grid.Column="2" Text="{Binding Surname}" />
 			<TextBlock Grid.Row="12" Grid.Column="0" Text="Отчество" />
+			
 			<TextBox Grid.Row="12" Grid.Column="2" Text="{Binding Patronymic}" />
 			<TextBlock Grid.Row="14" Grid.Column="0" Text="Должность" />
 			
@@ -57,6 +86,21 @@
 			<TextBlock Grid.Row="20" Grid.Column="0" Text="Пол" />
 
 			<Grid Grid.Row="20" Grid.Column="2" ColumnDefinitions="Auto, 10, Auto" >
+				<Grid.Styles>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
+				</Grid.Styles>
+
 				<RadioButton Grid.Column="0"
 							 Content="Мужской"
 							 GroupName="Gender"
@@ -81,6 +125,18 @@
 					<Setter Property="HorizontalAlignment" Value="Stretch" />
 					<Setter Property="HorizontalContentAlignment" Value="Center" />
 				</Style>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
 			</Grid.Styles>
 
 			<Button Grid.Column="1" Content="Добавить" Command="{Binding DoUserRegistrationCommand}" />
@@ -89,6 +145,21 @@
 		</Grid>
 
 		<Border Grid.Column="2" BorderThickness="2" BorderBrush="LightGray" Name="UserImageBorder">
+			<Border.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</Border.Styles>
+
 			<Image Margin="10" Source="{Binding UserImage}" MaxHeight="323" />
 		</Border>
 	</Grid>
