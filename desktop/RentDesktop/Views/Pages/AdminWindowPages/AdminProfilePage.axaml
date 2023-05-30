@@ -52,15 +52,18 @@
 				</Style>
 			</Grid.Styles>
 
-			<TextBlock Grid.Row="0" Grid.Column="0" Text="Логин" />
-			<TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Login}" />
-			<TextBlock Grid.Row="2" Grid.Column="0" Text="Пароль" />
-			<TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Password}" />
-			<TextBlock Grid.Row="4" Grid.Column="0" Text="Имя" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="Пароль" />
+			<TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Password}" />
 			
-			<TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Name}" />
-			<TextBlock Grid.Row="6" Grid.Column="0" Text="Фамилия" />
-			<TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Surname}" />
+			<TextBlock Grid.Row="2" Grid.Column="0" Text="Логин" />
+			<TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Login}" />
+
+			<TextBlock Grid.Row="4" Grid.Column="0" Text="Фамилия" />
+			<TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Surname}" />
+
+			<TextBlock Grid.Row="6" Grid.Column="0" Text="Имя" />
+			<TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Name}" />
+		
 			
 			<TextBlock Grid.Row="8" Grid.Column="0" Text="Отчество" />
 			<TextBox Grid.Row="8" Grid.Column="2" Text="{Binding Patronymic}" />
@@ -104,20 +107,20 @@
 				</Grid.Styles>
 
 				<RadioButton Grid.Column="0"
-							 Content="Мужской"
-							 GroupName="Gender"
-							 Name="MaleGenderRadioButton"
-							 IsChecked="{Binding IsMaleGenderChecked}"
-							 Command="{Binding GenderPutCommand}"
-							 CommandParameter="{Binding ElementName=MaleGenderRadioButton, Path=Content}" />
-
-				<RadioButton Grid.Column="2"
 							 Content="Женский"
 							 GroupName="Gender"
 							 Name="FemaleGenderRadioButton"
 							 IsChecked="{Binding IsFemaleGenderChecked}"
 							 Command="{Binding GenderPutCommand}"
 							 CommandParameter="{Binding ElementName=FemaleGenderRadioButton, Path=Content}" />
+
+				<RadioButton Grid.Column="2"
+							 Content="Мужской"
+							 GroupName="Gender"
+							 Name="MaleGenderRadioButton"
+							 IsChecked="{Binding IsMaleGenderChecked}"
+							 Command="{Binding GenderPutCommand}"
+							 CommandParameter="{Binding ElementName=MaleGenderRadioButton, Path=Content}" />
 			</Grid>
 		</Grid>
 
@@ -141,9 +144,9 @@
 				</Style>
 			</Grid.Styles>
 
-			<Button Grid.Column="1" Content="Редактировать" Command="{Binding ModeChangeCommand}" />
+			<Button Grid.Column="1" Content="Изменить фото" Command="{Binding ImageChangeCommand}" IsEnabled="{Binding IsEditModeEnabled}" />
 			<Button Grid.Column="3" Content="Подтвердить" Command="{Binding InfoSavingCommand}" />
-			<Button Grid.Column="5" Content="Изменить фото" Command="{Binding ImageChangeCommand}" IsEnabled="{Binding IsEditModeEnabled}" />
+			<Button Grid.Column="5" Content="Редактировать" Command="{Binding ModeChangeCommand}" />
 		</Grid>
 
 		<Border Grid.Column="2" BorderThickness="2" BorderBrush="LightGray">

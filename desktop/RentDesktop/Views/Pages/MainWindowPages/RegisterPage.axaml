@@ -89,7 +89,7 @@
 							 Command="{Binding GenderPutCommand}"
 							 CommandParameter="{Binding ElementName=FemaleGenderRadioButton, Path=Content}" />
 
-				<RadioButton Grid.Column="1"
+				<RadioButton Grid.Column="2"
 							 Content="Мужской"
 							 GroupName="Gender"
 							 Name="MaleGenderRadioButton"

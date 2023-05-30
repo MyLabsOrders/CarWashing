@@ -49,20 +49,24 @@
 					<Setter Property="FontWeight" Value="SemiBold" />
 				</Style>
 			</Grid.Styles>
-			<TextBlock Grid.Row="0" Grid.Column="0" Text="Логин" />
-			<TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Login}" />
-			<TextBlock Grid.Row="2" Grid.Column="0" Text="Пароль" />
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="Пароль" />
 			
-			<TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Password}" PasswordChar="{Binding PasswordChar}" />
-			<TextBlock Grid.Row="4" Grid.Column="0" Text="Подтверждение" />
+			<TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Password}" PasswordChar="{Binding PasswordChar}" />
+			<TextBlock Grid.Row="2" Grid.Column="0" Text="Подтверждение" />
 			
-			<TextBox Grid.Row="4" Grid.Column="2" Text="{Binding PasswordConfirmation}" PasswordChar="{Binding PasswordChar}" />
+			<TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PasswordConfirmation}" PasswordChar="{Binding PasswordChar}" />
+
+			<TextBlock Grid.Row="4" Grid.Column="0" Text="Логин" />
+			<TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Login}" />
+			
 			<CheckBox Grid.Row="6" Grid.ColumnSpan="3" Content="Показать пароль" IsChecked="{Binding ShowPassword}" />
-			<TextBlock Grid.Row="8" Grid.Column="0" Text="Имя" />
-			<TextBox Grid.Row="8" Grid.Column="2" Text="{Binding Name}" />
-			<TextBlock Grid.Row="10" Grid.Column="0" Text="Фамилия" />
+
+			<TextBlock Grid.Row="8" Grid.Column="0" Text="Фамилия" />
 			
-			<TextBox Grid.Row="10" Grid.Column="2" Text="{Binding Surname}" />
+			<TextBox Grid.Row="8" Grid.Column="2" Text="{Binding Surname}" />
+
+			<TextBlock Grid.Row="10" Grid.Column="0" Text="Имя" />
+			<TextBox Grid.Row="10" Grid.Column="2" Text="{Binding Name}" />
 			<TextBlock Grid.Row="12" Grid.Column="0" Text="Отчество" />
 			
 			<TextBox Grid.Row="12" Grid.Column="2" Text="{Binding Patronymic}" />
@@ -102,20 +106,20 @@
 				</Grid.Styles>
 
 				<RadioButton Grid.Column="0"
-							 Content="Мужской"
-							 GroupName="Gender"
-							 Name="MaleGenderRadioButton"
-							 IsChecked="{Binding IsMaleGenderChecked}"
-							 Command="{Binding GenderPutCommand}"
-							 CommandParameter="{Binding ElementName=MaleGenderRadioButton, Path=Content}" />
-
-				<RadioButton Grid.Column="2"
 							 Content="Женский"
 							 GroupName="Gender"
 							 Name="FemaleGenderRadioButton"
 							 IsChecked="{Binding IsFemaleGenderChecked}"
 							 Command="{Binding GenderPutCommand}"
 							 CommandParameter="{Binding ElementName=FemaleGenderRadioButton, Path=Content}" />
+
+				<RadioButton Grid.Column="2"
+							 Content="Мужской"
+							 GroupName="Gender"
+							 Name="MaleGenderRadioButton"
+							 IsChecked="{Binding IsMaleGenderChecked}"
+							 Command="{Binding GenderPutCommand}"
+							 CommandParameter="{Binding ElementName=MaleGenderRadioButton, Path=Content}" />
 			</Grid>
 		</Grid>
 
@@ -139,9 +143,9 @@
 				</Style>
 			</Grid.Styles>
 
-			<Button Grid.Column="1" Content="Добавить" Command="{Binding DoUserRegistrationCommand}" />
+			<Button Grid.Column="1" Content="Загрузить фото" Command="{Binding ImageOfTheUserLoadCommand}" />
 			<Button Grid.Column="3" Content="Сброс" Command="{Binding ResetAllFieldsCommand}" />
-			<Button Grid.Column="5" Content="Загрузить фото" Command="{Binding ImageOfTheUserLoadCommand}" />
+			<Button Grid.Column="5" Content="Добавить" Command="{Binding DoUserRegistrationCommand}" />
 		</Grid>
 
 		<Border Grid.Column="2" BorderThickness="2" BorderBrush="LightGray" Name="UserImageBorder">

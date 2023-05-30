@@ -83,14 +83,14 @@
 					<Setter Property="FontWeight" Value="SemiBold" />
 				</Style>
 			</Grid.Styles>
-			
-			<TextBlock Grid.Row="0" Grid.Column="0" Text="Должность" />
-			<ComboBox Grid.Row="1" Grid.Column="0" Items="{Binding Positions}" SelectedIndex="{Binding SelectedPositionIndex}" />
+
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="Пол" />
+
+			<ComboBox Grid.Row="1" Grid.Column="0" Items="{Binding Genders}" SelectedIndex="{Binding SelectedGenderIndex}" />
 			<TextBlock Grid.Row="0" Grid.Column="2" Text="Статус" />
 			<ComboBox Grid.Row="1" Grid.Column="2" Items="{Binding Statuses}" SelectedIndex="{Binding SelectedStatusIndex}" />
-			<TextBlock Grid.Row="0" Grid.Column="4" Text="Пол" />
-			
-			<ComboBox Grid.Row="1" Grid.Column="4" Items="{Binding Genders}" SelectedIndex="{Binding SelectedGenderIndex}" />
+			<TextBlock Grid.Row="0" Grid.Column="4" Text="Должность" />
+			<ComboBox Grid.Row="1" Grid.Column="4" Items="{Binding Positions}" SelectedIndex="{Binding SelectedPositionIndex}" />
 			<TextBlock Grid.Row="0" Grid.Column="6" Text="Поиск" />
 
 			<TextBox Grid.Row="1" Grid.Column="6" Text="{Binding QueryOfFind}">
@@ -120,9 +120,9 @@
 				</Style>
 			</Grid.Styles>
 
-			<Button Grid.Column="1" Content="Найти" Command="{Binding UsersSearchCommand}" />
+			<Button Grid.Column="1" Content="Обновить" Command="{Binding UsersUpdateCommand}" />
+			<Button Grid.Column="5" Content="Найти" Command="{Binding UsersSearchCommand}" />
 			<Button Grid.Column="3" Content="Сброс" Command="{Binding FindClearCommand}" />
-			<Button Grid.Column="5" Content="Обновить" Command="{Binding UsersUpdateCommand}" />
 		</Grid>
 	</Grid>
 	
