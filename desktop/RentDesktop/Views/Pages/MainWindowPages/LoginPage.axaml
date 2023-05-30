@@ -111,7 +111,6 @@
 					
 					<Button HorizontalAlignment="Right"
 							VerticalAlignment="Bottom"
-							Background="LightGray"
 							img:Attached.Icon="fa-sync"
 							Command="{Binding CaptchaRefreshCommand}" />
 				</Grid>
