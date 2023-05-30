@@ -26,21 +26,27 @@ namespace RentDesktop . Models . Security {
 			private set => RaiseAndSetIfChanged ( ref _text , value );
 			}
 
-		public void UpdateText ( ) {
-		const string symbols = "abcdefghijklmnopqrstuvwxyz0123456789";
-		string text = string.Empty;
-
-		var rand = new Random();
-
-		for ( int i = 0 ; i<_length ; ++i ) {
-		int index = rand.Next(0, symbols.Length - 1);
-
-		text+=index%2==0
-				? symbols [ index ]
-				: char . ToUpper ( symbols [ index ] );
+		private string _textWithoutSpace = string.Empty;
+		public string TextWithoutSpace {
+			get => _textWithoutSpace;
+			private set => RaiseAndSetIfChanged ( ref _textWithoutSpace , value );
 			}
 
-		Text=text;
+		public void UpdateText ( ) {
+		const string sb = "abcdefghijklmnopqrstuvwxyz0123456789";
+		string t = string.Empty;
+
+		var r = new Random();
+
+		for ( int j = 0 ; j<_length ; ++j ) {
+		int index = r.Next(0, sb.Length - 1);
+
+		t+=index%2==0
+				? sb [ index ]
+				: char . ToUpper ( sb [ index ] );
+			}
+
+		Text=t;
 			}
 		}
 	}

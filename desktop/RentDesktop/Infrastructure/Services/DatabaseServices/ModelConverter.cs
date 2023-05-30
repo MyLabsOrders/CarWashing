@@ -63,11 +63,11 @@ namespace RentDesktop . Infrastructure . Services . DatabaseServices {
 			}
 
 		public static IEnumerable<OrderModel> ConvertProductsToOrder ( IEnumerable<DatabaseOrder> databaseOrders ) => databaseOrders . Select ( t => new OrderModel (
-																																																															 id: t . id ,
-																																																															 price: t . total ,
-																																																															 status: t . status ,
-																																																															 dateOfCreation: t . orderDate is null ? default : DateTimeService . StringToDateTime ( t . orderDate ) ,
-																																																															 models: new [ ] { ConvertDbOrderToProduct ( t ) }
+																																																															 i: t . id ,
+																																																															 p: t . total ,
+																																																															 s: t . status ,
+																																																															 d: t . orderDate is null ? default : DateTimeService . StringToDateTime ( t . orderDate ) ,
+																																																															 m: new [ ] { ConvertDbOrderToProduct ( t ) }
 																																																													 ) );
 
 		public static IEnumerable<OrderModel> ConvertDbOrders ( IEnumerable<DatabaseOrder> databaseOrders ) {
