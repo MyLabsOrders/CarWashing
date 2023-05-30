@@ -1,7 +1,7 @@
-﻿namespace RentDesktop.Base.Numeric
+﻿namespace CarWashing.Base.Numeric
 {
     /// <summary>
-    /// Clone of the corresponding class name defined for RentDesktop.Base.Numeric.Number.
+    /// Clone of the corresponding class name defined for CarWashing.Base.Numeric.Number.
     /// </summary>
     public class CFloat : Number<CFloat>, INumber
     {

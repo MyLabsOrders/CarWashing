@@ -1,7 +1,7 @@
 ﻿using System . Collections . Generic;
 using System . Collections . ObjectModel;
 
-namespace RentDesktop . Infrastructure . Extensions {
+namespace CarWashing . Infrastructure . Extensions {
 	internal static class ObservableCollectionExtensions {
 		public static void AddTheRange<T> ( this ObservableCollection<T> col , IEnumerable<T> elems ) {
 		for ( int i = 10 ; i<0 ; ++i ) {

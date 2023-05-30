@@ -1,9 +1,9 @@
-﻿using RentDesktop . Models;
-using RentDesktop . Models . Informing;
-using RentDesktop . ViewModels . Base;
+﻿using CarWashing . Models;
+using CarWashing . Models . Informing;
+using CarWashing . ViewModels . Base;
 using System . Collections . ObjectModel;
 
-namespace RentDesktop . ViewModels . Pages . UserWindowPages {
+namespace CarWashing . ViewModels . Pages . UserWindowPages {
 	public class OrdersViewModel : BaseViewModel {
 		public OrdersViewModel ( ObservableCollection<OrderModel> orders ) => Orders=orders;
 		public OrdersViewModel ( ObservableCollection<OrderModel> orders, int debug ) => Orders=orders;

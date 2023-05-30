@@ -1,4 +1,4 @@
-﻿namespace RentDesktop.Base.Numeric
+﻿namespace CarWashing.Base.Numeric
 {
     /// <summary>
     /// Provides interaction between clone classes and complements their functionality, that is the functionality of numerical structures.

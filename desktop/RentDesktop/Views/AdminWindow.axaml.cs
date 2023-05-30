@@ -1,6 +1,6 @@
 using Avalonia . Controls;
 
-namespace RentDesktop . Views {
+namespace CarWashing . Views {
 	public partial class AdminWindow : Window {
 		public AdminWindow ( ) => InitializeComponent ( );
 		}

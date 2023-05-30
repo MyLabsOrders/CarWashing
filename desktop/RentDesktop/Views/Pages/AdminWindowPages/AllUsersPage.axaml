@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
 			 xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-             xmlns:vm="using:RentDesktop.ViewModels.Pages.AdminWindowPages"
+             xmlns:vm="using:CarWashing.ViewModels.Pages.AdminWindowPages"
 			 mc:Ignorable="d" d:DesignWidth="681" d:DesignHeight="476"
-             x:Class="RentDesktop.Views.Pages.AllUsersPage">
+             x:Class="CarWashing.Views.Pages.AllUsersPage">
 
 	<Grid Margin="0, 0, 0, 5" RowDefinitions="1*, 10, Auto, 15, Auto">
 		<Grid.Styles>

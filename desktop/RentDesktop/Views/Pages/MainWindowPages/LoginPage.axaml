@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:img="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
-			 xmlns:vm="using:RentDesktop.ViewModels.Pages.MainWindowPages"
+			 xmlns:vm="using:CarWashing.ViewModels.Pages.MainWindowPages"
              mc:Ignorable="d" d:DesignWidth="651" d:DesignHeight="401"
-             x:Class="RentDesktop.Views.Pages.LoginPage">
+             x:Class="CarWashing.Views.Pages.LoginPage">
 	
 	<Border BorderThickness="2" BorderBrush="Gray" HorizontalAlignment="Center" VerticalAlignment="Center">
 		<Grid Margin="10" RowDefinitions="70, 10, 30, 10, 100, 10, 15, 5, 30, 10, 30">

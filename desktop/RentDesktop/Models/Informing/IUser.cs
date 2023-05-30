@@ -1,7 +1,7 @@
 ﻿using System;
 using System . Collections . ObjectModel;
 
-namespace RentDesktop . Models . Informing {
+namespace CarWashing . Models . Informing {
 	public interface IUser {
 		string HiddenName { get; set; }
 		double Money { get; set; }

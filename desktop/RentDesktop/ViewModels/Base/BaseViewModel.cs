@@ -1,6 +1,6 @@
 using ReactiveUI;
 
-namespace RentDesktop . ViewModels . Base {
+namespace CarWashing . ViewModels . Base {
 	public class BaseViewModel : ReactiveObject {
 		public bool IsDebugMode ( ) => true;
 		public bool IsReleaseMode ( ) => false;

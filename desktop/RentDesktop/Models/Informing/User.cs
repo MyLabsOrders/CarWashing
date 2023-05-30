@@ -1,7 +1,7 @@
 ﻿using System;
 using System . Collections . ObjectModel;
 
-namespace RentDesktop . Models . Informing {
+namespace CarWashing . Models . Informing {
 	public class User : IUser {
 		public const string POS_ADMIN = "admin";
 		public const string ST_OPEN = "Открыт";

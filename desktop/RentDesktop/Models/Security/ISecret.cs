@@ -1,4 +1,4 @@
-﻿namespace RentDesktop . Models . Security {
+﻿namespace CarWashing . Models . Security {
 	public interface ISecret {
 		string Text { get; }
 		int Len { get; set; }

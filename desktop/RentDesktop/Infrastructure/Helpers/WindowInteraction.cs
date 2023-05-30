@@ -1,9 +1,9 @@
 ﻿using Avalonia;
 using Avalonia . Controls . ApplicationLifetimes;
-using RentDesktop . ViewModels;
-using RentDesktop . Views;
+using CarWashing . ViewModels;
+using CarWashing . Views;
 
-namespace RentDesktop . Infrastructure . Helpers {
+namespace CarWashing . Infrastructure . Helpers {
 	internal static class WindowInteraction {
 		public static void CurrClose ( ) {
 		IApplicationLifetime? cA = Application.Current?.ApplicationLifetime;

@@ -1,10 +1,10 @@
 ﻿using Avalonia . Controls;
 using MessageBox . Avalonia;
 using MessageBox . Avalonia . Enums;
-using RentDesktop . Infrastructure . Helpers;
+using CarWashing . Infrastructure . Helpers;
 using System;
 
-namespace RentDesktop . Models . Messaging {
+namespace CarWashing . Models . Messaging {
 	public class MsgBox : IMsgBox {
 		public MsgBox ( string m , string t = "" , ButtonEnum b = ButtonEnum . Ok , Icon i = Icon . None ) {
 		MsgTitle=t;

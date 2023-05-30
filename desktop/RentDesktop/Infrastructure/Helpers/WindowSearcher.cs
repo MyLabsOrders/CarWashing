@@ -1,11 +1,11 @@
 ﻿using Avalonia;
 using Avalonia . Controls;
 using Avalonia . Controls . ApplicationLifetimes;
-using RentDesktop . Views;
+using CarWashing . Views;
 using System;
 using System . Linq;
 
-namespace RentDesktop . Infrastructure . Helpers {
+namespace CarWashing . Infrastructure . Helpers {
 	internal static class WindowSearcher {
 		public static Window? User ( ) => TpFin ( typeof ( UserWindow ) );
 

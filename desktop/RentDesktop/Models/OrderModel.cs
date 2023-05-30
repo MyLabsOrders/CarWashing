@@ -1,8 +1,8 @@
-﻿using RentDesktop . Models . Base;
+﻿using CarWashing . Models . Base;
 using System;
 using System . Collections . Generic;
 
-namespace RentDesktop . Models {
+namespace CarWashing . Models {
 	public class OrderModel : ModelBase, IOrderModel {
 		public const string AVAIL = "Available";
 		public const string RENT = "Rented";

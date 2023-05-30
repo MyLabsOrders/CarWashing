@@ -1,17 +1,17 @@
 ﻿using Avalonia . Controls;
 using ReactiveUI;
-using RentDesktop . Infrastructure . Helpers;
-using RentDesktop . Infrastructure . Services . DatabaseServices;
-using RentDesktop . Models . Informing;
-using RentDesktop . Models . Messaging;
-using RentDesktop . ViewModels . Pages . MainWindowPages;
-using RentDesktop . Views;
+using CarWashing . Infrastructure . Helpers;
+using CarWashing . Infrastructure . Services . DatabaseServices;
+using CarWashing . Models . Informing;
+using CarWashing . Models . Messaging;
+using CarWashing . ViewModels . Pages . MainWindowPages;
+using CarWashing . Views;
 using System;
 using System . Collections . Generic;
 using System . Collections . ObjectModel;
 using System . Reactive;
 
-namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
+namespace CarWashing . ViewModels . Pages . AdminWindowPages {
 	public class AddUserViewModel : RegisterViewModel {
 		public AddUserViewModel ( ) : base ( ) {
 		Positions=PositionsGet ( );

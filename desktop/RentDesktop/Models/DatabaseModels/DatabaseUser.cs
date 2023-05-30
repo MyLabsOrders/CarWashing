@@ -1,6 +1,6 @@
 ﻿using System . Collections . Generic;
 
-namespace RentDesktop . Models . DatabaseModels {
+namespace CarWashing . Models . DatabaseModels {
  
 
 	internal class DatabaseUser {

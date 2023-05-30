@@ -1,10 +1,10 @@
-﻿using RentDesktop . Models;
-using RentDesktop . Models . Informing;
+﻿using CarWashing . Models;
+using CarWashing . Models . Informing;
 using System . IO;
 using System . Net . Http;
 using System . Threading . Tasks;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+namespace CarWashing . Infrastructure . Services . DatabaseServices {
 	internal static class FileDownloadService {
 		public static MemoryStream ChequeGet ( IOrderModel o ) {
 		using var con = new ConnectToDb();

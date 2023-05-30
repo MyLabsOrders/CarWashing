@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace RentDesktop.Base
+namespace CarWashing.Base
 {
     public static class Convert
     {

@@ -1,8 +1,8 @@
-﻿using RentDesktop . Models . DatabaseModels;
-using RentDesktop . Models . Informing;
+﻿using CarWashing . Models . DatabaseModels;
+using CarWashing . Models . Informing;
 using System . Net . Http;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+namespace CarWashing . Infrastructure . Services . DatabaseServices {
 	internal static class EditDbUser {
 		public static bool CheckDatabaseConnection ( ) => true;
 		public static bool CheckDatabaseIsAvailable ( ) => true;

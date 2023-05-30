@@ -1,8 +1,8 @@
-﻿using RentDesktop . Infrastructure . Safety;
+﻿using CarWashing . Infrastructure . Safety;
 using System;
 using System . IO;
 
-namespace RentDesktop . Infrastructure . Services {
+namespace CarWashing . Infrastructure . Services {
 	internal static class UserInfoSaveService {
 		public static void Empty ( ) => File . Create ( FILE_PATH ) . Close ( );
 

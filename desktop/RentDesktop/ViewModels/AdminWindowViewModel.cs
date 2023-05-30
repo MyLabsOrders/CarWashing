@@ -1,16 +1,16 @@
 ﻿using Avalonia . Threading;
 using ReactiveUI;
-using RentDesktop . Infrastructure . Helpers;
-using RentDesktop . Models . Informing;
-using RentDesktop . Models . Messaging;
-using RentDesktop . ViewModels . Base;
-using RentDesktop . ViewModels . Pages . AdminWindowPages;
-using RentDesktop . Views;
+using CarWashing . Infrastructure . Helpers;
+using CarWashing . Models . Informing;
+using CarWashing . Models . Messaging;
+using CarWashing . ViewModels . Base;
+using CarWashing . ViewModels . Pages . AdminWindowPages;
+using CarWashing . Views;
 using System;
 using System . Linq;
 using System . Reactive;
 
-namespace RentDesktop . ViewModels {
+namespace CarWashing . ViewModels {
 	public class AdminWindowViewModel : BaseViewModel {
 		public AdminWindowViewModel ( int seconds , int minutes ) {
 		InactivityIncreaseCommand=ReactiveCommand . Create ( ( ) => IncreaseSeconds ( ) );

@@ -1,4 +1,4 @@
-﻿namespace RentDesktop.Base
+﻿namespace CarWashing.Base
 {
     /// <summary>
     /// Represents values after comparison.

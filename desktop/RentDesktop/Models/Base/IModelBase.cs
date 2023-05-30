@@ -1,6 +1,6 @@
 ﻿using System . Runtime . CompilerServices;
 
-namespace RentDesktop . Models . Base {
+namespace CarWashing . Models . Base {
 	public interface IModelBase {
 		bool CanChange ( );
 		bool CanUpdate ( );

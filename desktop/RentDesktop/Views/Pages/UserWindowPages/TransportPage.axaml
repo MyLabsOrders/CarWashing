@@ -3,10 +3,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:img="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
-			 xmlns:vm="using:RentDesktop.ViewModels.Pages.UserWindowPages"
-			 xmlns:models="clr-namespace:RentDesktop.Models;assembly=RentDesktop"
+			 xmlns:vm="using:CarWashing.ViewModels.Pages.UserWindowPages"
+			 xmlns:models="clr-namespace:CarWashing.Models;assembly=CarWashing"
              mc:Ignorable="d" d:DesignWidth="671" d:DesignHeight="476"
-             x:Class="RentDesktop.Views.Pages.TransportPage">
+             x:Class="CarWashing.Views.Pages.TransportPage">
 
 	<Grid ColumnDefinitions="1*, 200">
 		<Grid.Styles>

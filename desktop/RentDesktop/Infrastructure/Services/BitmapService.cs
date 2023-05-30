@@ -2,7 +2,7 @@
 using System;
 using System . IO;
 
-namespace RentDesktop . Infrastructure . Services {
+namespace CarWashing . Infrastructure . Services {
 	internal static class BitmapService {
 		public static bool TryStrToBytes ( string t , out byte [ ] b ) {
 		try {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System . Net . Http;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+namespace CarWashing . Infrastructure . Services . DatabaseServices {
 	internal class ContentException : ApplicationException {
 		public ContentException ( HttpContent c , string? m = null , Exception? i = null )
 				: base ( m??$"Content is incorrect: {c . ReadAsStringAsync ( ) . Result}" , i ) => HttpContentObject=c;

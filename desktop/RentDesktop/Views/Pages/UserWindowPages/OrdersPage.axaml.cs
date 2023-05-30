@@ -1,6 +1,6 @@
 using Avalonia . Controls;
 
-namespace RentDesktop . Views . Pages {
+namespace CarWashing . Views . Pages {
 	public partial class OrdersPage : UserControl {
 		public OrdersPage ( ) => InitializeComponent ( );
 		}

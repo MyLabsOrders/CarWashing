@@ -1,4 +1,4 @@
-﻿namespace RentDesktop.Base.Exceptions
+﻿namespace CarWashing.Base.Exceptions
 {
     /// <summary>
     /// The types of message

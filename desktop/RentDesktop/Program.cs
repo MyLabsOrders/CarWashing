@@ -4,7 +4,7 @@ using Projektanker . Icons . Avalonia;
 using Projektanker . Icons . Avalonia . FontAwesome;
 using System;
 
-namespace RentDesktop {
+namespace CarWashing {
 	internal class Program {
 		[STAThread]
 		public static void Main ( string [ ] args ) => BuildAvaloniaApp ( ) . StartWithClassicDesktopLifetime ( args );

@@ -1,4 +1,4 @@
-﻿namespace RentDesktop.Base
+﻿namespace CarWashing.Base
 {
     /// <summary>
     /// The number types.

@@ -1,7 +1,7 @@
 ﻿using Avalonia . Media . Imaging;
 using System;
 
-namespace RentDesktop . Models {
+namespace CarWashing . Models {
 	public interface IProductModel {
 		string Company { get; }
 		double Price { get; }

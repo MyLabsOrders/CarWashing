@@ -2,7 +2,7 @@
 using System . Net;
 using System . Net . Http;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+namespace CarWashing . Infrastructure . Services . DatabaseServices {
 	internal class ResponseErrException : ApplicationException {
 		public ResponseErrException ( HttpStatusCode c , string r , string? m = null , Exception? i = null )
 				: base ( m??$"Status: {c}\n{r}" , i ) {

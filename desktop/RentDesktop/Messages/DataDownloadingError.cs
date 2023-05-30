@@ -1,4 +1,4 @@
-﻿namespace RentDesktop.Communication.Messages
+﻿namespace CarWashing.Communication.Messages
 {
     /// <summary>
     /// Implements sending a standard message.

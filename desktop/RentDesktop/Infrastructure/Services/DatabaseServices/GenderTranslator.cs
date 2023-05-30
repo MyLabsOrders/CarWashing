@@ -1,7 +1,7 @@
-﻿using RentDesktop . Models . Informing;
+﻿using CarWashing . Models . Informing;
 using System;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+namespace CarWashing . Infrastructure . Services . DatabaseServices {
 	internal static class GenderTranslator {
 		public static string FromDb ( string g ) => g switch {
 			MALE => User . MALE,

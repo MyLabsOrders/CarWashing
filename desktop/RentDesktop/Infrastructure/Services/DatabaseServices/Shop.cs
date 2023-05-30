@@ -1,12 +1,12 @@
-﻿using RentDesktop . Models;
-using RentDesktop . Models . DatabaseModels;
+﻿using CarWashing . Models;
+using CarWashing . Models . DatabaseModels;
 using System;
 using System . Collections . Generic;
 using System . Linq;
 using System . Net . Http;
 using System . Net . Http . Json;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+namespace CarWashing . Infrastructure . Services . DatabaseServices {
 	internal static class Shop {
 		private static void AddProductPrivate ( IProductModel pr ) => AddProduct ( pr );
 

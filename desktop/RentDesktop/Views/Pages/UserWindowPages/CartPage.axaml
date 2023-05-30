@@ -5,11 +5,11 @@
 			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
 			 xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 			 xmlns:img="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
-			 xmlns:vm="using:RentDesktop.ViewModels.Pages.UserWindowPages"
-			 xmlns:models="clr-namespace:RentDesktop.Models;assembly=RentDesktop"
-			 xmlns:converters="clr-namespace:RentDesktop.Infrastructure.Converters"
+			 xmlns:vm="using:CarWashing.ViewModels.Pages.UserWindowPages"
+			 xmlns:models="clr-namespace:CarWashing.Models;assembly=CarWashing"
+			 xmlns:converters="clr-namespace:CarWashing.Infrastructure.Converters"
              mc:Ignorable="d" d:DesignWidth="671" d:DesignHeight="476"
-             x:Class="RentDesktop.Views.Pages.CartPage">
+             x:Class="CarWashing.Views.Pages.CartPage">
 
 	<Grid>
 		<Grid.Styles>

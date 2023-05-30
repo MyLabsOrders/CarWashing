@@ -2,7 +2,7 @@
 using MessageBox . Avalonia . Enums;
 using System;
 
-namespace RentDesktop . Models . Messaging {
+namespace CarWashing . Models . Messaging {
 	public interface IMsgBox {
 		string MsgTitle { get; }
 		ButtonEnum MsgButtons { get; }

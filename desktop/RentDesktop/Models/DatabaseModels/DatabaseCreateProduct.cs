@@ -1,4 +1,4 @@
-﻿namespace RentDesktop . Models . DatabaseModels {
+﻿namespace CarWashing . Models . DatabaseModels {
  
 
 	internal class DatabaseCreateProduct {

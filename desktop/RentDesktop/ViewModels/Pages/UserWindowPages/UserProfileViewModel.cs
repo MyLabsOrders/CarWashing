@@ -5,18 +5,18 @@ using MessageBox . Avalonia . DTO;
 using MessageBox . Avalonia . Enums;
 using MessageBox . Avalonia . Models;
 using ReactiveUI;
-using RentDesktop . Infrastructure . Helpers;
-using RentDesktop . Infrastructure . Services;
-using RentDesktop . Infrastructure . Services . DatabaseServices;
-using RentDesktop . Models . Informing;
-using RentDesktop . Models . Messaging;
-using RentDesktop . ViewModels . Base;
-using RentDesktop . Views;
+using CarWashing . Infrastructure . Helpers;
+using CarWashing . Infrastructure . Services;
+using CarWashing . Infrastructure . Services . DatabaseServices;
+using CarWashing . Models . Informing;
+using CarWashing . Models . Messaging;
+using CarWashing . ViewModels . Base;
+using CarWashing . Views;
 using System;
 using System . Linq;
 using System . Reactive;
 
-namespace RentDesktop . ViewModels . Pages . UserWindowPages {
+namespace CarWashing . ViewModels . Pages . UserWindowPages {
 	public class UserProfileViewModel : BaseViewModel {
 		public UserProfileViewModel ( IUser user ) {
 		ImageSwitchCommand=ReactiveCommand . Create ( ImageChange );

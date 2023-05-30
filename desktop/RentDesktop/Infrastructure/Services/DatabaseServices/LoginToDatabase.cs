@@ -1,9 +1,9 @@
-﻿using RentDesktop . Models . DatabaseModels;
-using RentDesktop . Models . Informing;
+﻿using CarWashing . Models . DatabaseModels;
+using CarWashing . Models . Informing;
 using System . Net . Http;
 using System . Net . Http . Json;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+namespace CarWashing . Infrastructure . Services . DatabaseServices {
 	internal static class LoginToDatabase {
 		private static IUser UserInfoGetting ( ConnectToDb comn , string i , string lg , string pwd ) {
 		string han = $"/api/User/{i}";

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace RentDesktop.Communication.Messages
+namespace CarWashing.Communication.Messages
 {
     /// <summary>
     /// A structure that defines the relationship between Message objects.

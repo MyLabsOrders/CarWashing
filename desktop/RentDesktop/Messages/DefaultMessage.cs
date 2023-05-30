@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace RentDesktop.Communication.Messages
+namespace CarWashing.Communication.Messages
 {
     /// <summary>
     /// Implements sending default messages.

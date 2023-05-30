@@ -1,7 +1,7 @@
-﻿using RentDesktop . Models . Base;
+﻿using CarWashing . Models . Base;
 using System;
 
-namespace RentDesktop . Models . Security {
+namespace CarWashing . Models . Security {
 	public class Secret : ModelBase, ISecret {
 		public Secret ( int length = 5 ) {
 		Len=length;

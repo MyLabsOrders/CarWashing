@@ -1,10 +1,10 @@
 using Avalonia;
 using Avalonia . Controls . ApplicationLifetimes;
 using Avalonia . Markup . Xaml;
-using RentDesktop . ViewModels;
-using RentDesktop . Views;
+using CarWashing . ViewModels;
+using CarWashing . Views;
 
-namespace RentDesktop {
+namespace CarWashing {
 	public partial class App : Application {
 		public override void Initialize ( ) => AvaloniaXamlLoader . Load ( this );
 

@@ -1,12 +1,12 @@
-﻿using RentDesktop . Models;
-using RentDesktop . Models . DatabaseModels;
-using RentDesktop . Models . Informing;
+﻿using CarWashing . Models;
+using CarWashing . Models . DatabaseModels;
+using CarWashing . Models . Informing;
 using System;
 using System . Collections . Generic;
 using System . Collections . ObjectModel;
 using System . Linq;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+namespace CarWashing . Infrastructure . Services . DatabaseServices {
 	internal static class ModelConverter {
 		public static List<IUser> ConvertDbUsers ( DatabaseUsers u , IReadOnlyList<string> p ) {
 		if ( u . users is null ) {

@@ -1,18 +1,18 @@
 ﻿using Avalonia . Threading;
 using ReactiveUI;
-using RentDesktop . Infrastructure . Helpers;
-using RentDesktop . Infrastructure . Services;
-using RentDesktop . Infrastructure . Services . DatabaseServices;
-using RentDesktop . Models . Informing;
-using RentDesktop . Models . Messaging;
-using RentDesktop . Models . Security;
-using RentDesktop . ViewModels . Base;
-using RentDesktop . Views;
+using CarWashing . Infrastructure . Helpers;
+using CarWashing . Infrastructure . Services;
+using CarWashing . Infrastructure . Services . DatabaseServices;
+using CarWashing . Models . Informing;
+using CarWashing . Models . Messaging;
+using CarWashing . Models . Security;
+using CarWashing . ViewModels . Base;
+using CarWashing . Views;
 using System;
 using System . Reactive;
 using System . Threading . Tasks;
 
-namespace RentDesktop . ViewModels . Pages . MainWindowPages {
+namespace CarWashing . ViewModels . Pages . MainWindowPages {
 	public class LoginViewModel : BaseViewModel {
 		public LoginViewModel ( ) {
 		RegisterTabOpenCommand=ReactiveCommand . Create ( RegisterOpen );

@@ -1,7 +1,7 @@
 ﻿using System;
 using System . Collections . Generic;
 
-namespace RentDesktop . Models {
+namespace CarWashing . Models {
 	public interface IOrderModel {
 		string Status { get; set; }
 		string? DateOfCreationStamp { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace RentDesktop . Models {
+﻿namespace CarWashing . Models {
 	public interface IProductRentModel {
 		int Days { get; set; }
 		ProductModel Transport { get; }

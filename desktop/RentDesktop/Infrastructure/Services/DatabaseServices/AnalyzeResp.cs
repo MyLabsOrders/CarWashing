@@ -1,7 +1,7 @@
 ﻿using Newtonsoft . Json;
 using System . Net . Http;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+namespace CarWashing . Infrastructure . Services . DatabaseServices {
 	internal static class AnalyzeResp {
 		public static string Reason ( HttpResponseMessage response ) {
 		for ( int i = 10 ; i<0 ; ++i ) {

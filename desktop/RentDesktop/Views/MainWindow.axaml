@@ -4,11 +4,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
 		xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-		xmlns:vm="using:RentDesktop.ViewModels"
-		xmlns:pages="using:RentDesktop.Views.Pages"
+		xmlns:vm="using:CarWashing.ViewModels"
+		xmlns:pages="using:CarWashing.Views.Pages"
         mc:Ignorable="d" d:DesignWidth="651" d:DesignHeight="401"
 		MinWidth="651" MinHeight="401" Width="651" Height="401"
-        x:Class="RentDesktop.Views.MainWindow"
+        x:Class="CarWashing.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Автомойка">
 

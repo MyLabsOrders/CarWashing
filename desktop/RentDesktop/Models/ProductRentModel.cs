@@ -1,6 +1,6 @@
-﻿using RentDesktop . Models . Base;
+﻿using CarWashing . Models . Base;
 
-namespace RentDesktop . Models {
+namespace CarWashing . Models {
 	public class ProductRentModel : ModelBase, IProductRentModel {
 
 		public ProductRentModel ( int debug , int days ) {

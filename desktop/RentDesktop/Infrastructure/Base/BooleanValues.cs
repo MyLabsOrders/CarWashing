@@ -1,4 +1,4 @@
-﻿namespace RentDesktop.Base
+﻿namespace CarWashing.Base
 {
     /// <summary>
     /// Represents various values for "true-false" conditions.

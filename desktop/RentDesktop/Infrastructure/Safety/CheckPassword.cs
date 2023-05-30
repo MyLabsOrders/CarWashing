@@ -1,6 +1,6 @@
 ﻿using System . Linq;
 
-namespace RentDesktop . Infrastructure . Safety {
+namespace CarWashing . Infrastructure . Safety {
 	internal class CheckPassword {
 		public static string REQUIREMENTS = "Пароль должен содержать минимум " +
 						$"{MIN_LEGTH} символов, минимум {MIN_UNIQUE_CHARS_COUNT} " +

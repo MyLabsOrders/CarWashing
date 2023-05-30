@@ -2,7 +2,7 @@
 using System;
 using System . Globalization;
 
-namespace RentDesktop . Infrastructure . Converters {
+namespace CarWashing . Infrastructure . Converters {
 	internal class InverseBoolConverter : IValueConverter {
 		public object? Convert ( object? value , Type targetType , object? parameter , CultureInfo culture ) => targetType!=typeof ( bool )||value is not bool boolValue
 						? throw new InvalidOperationException ( "Incorrect type." )

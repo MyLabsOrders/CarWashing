@@ -1,11 +1,11 @@
-﻿using RentDesktop . Models . Informing;
+﻿using CarWashing . Models . Informing;
 using System;
 using System . Net . Http;
 using System . Net . Http . Headers;
 using System . Net . Http . Json;
 using System . Threading . Tasks;
 
-namespace RentDesktop . Infrastructure . Services . DatabaseServices {
+namespace CarWashing . Infrastructure . Services . DatabaseServices {
 	internal class ConnectToDb : IDisposable {
 		private bool _disp;
 		private readonly HttpClient _client;

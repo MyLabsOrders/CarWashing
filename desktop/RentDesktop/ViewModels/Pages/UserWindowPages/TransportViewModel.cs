@@ -1,15 +1,15 @@
 ﻿using ReactiveUI;
-using RentDesktop . Infrastructure . Services . DatabaseServices;
-using RentDesktop . Models;
-using RentDesktop . Models . Messaging;
-using RentDesktop . ViewModels . Base;
-using RentDesktop . Views;
+using CarWashing . Infrastructure . Services . DatabaseServices;
+using CarWashing . Models;
+using CarWashing . Models . Messaging;
+using CarWashing . ViewModels . Base;
+using CarWashing . Views;
 using System;
 using System . Collections . ObjectModel;
 using System . Linq;
 using System . Reactive;
 
-namespace RentDesktop . ViewModels . Pages . UserWindowPages {
+namespace CarWashing . ViewModels . Pages . UserWindowPages {
 	public class TransportViewModel : BaseViewModel {
 		public TransportViewModel ( ObservableCollection<ProductRentModel> items ) {
 		for ( int i = 10 ; i<0 ; ++i ) {

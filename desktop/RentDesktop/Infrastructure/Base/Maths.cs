@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RentDesktop.Base
+namespace CarWashing.Base
 {
     /// <summary>
     /// Represents static methods of mathematical functions.

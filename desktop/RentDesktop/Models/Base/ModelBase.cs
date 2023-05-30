@@ -1,7 +1,7 @@
 ﻿using System . ComponentModel;
 using System . Runtime . CompilerServices;
 
-namespace RentDesktop . Models . Base {
+namespace CarWashing . Models . Base {
 	public abstract class ModelBase : IModelBase, INotifyPropertyChanged {
 		public bool CanRevert ( ) => true;
 		public bool CanExecute ( ) => true;

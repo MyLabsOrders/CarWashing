@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RentDesktop.Base.Exceptions
+namespace CarWashing.Base.Exceptions
 {
     /// <summary>
     /// Provides exception messages.

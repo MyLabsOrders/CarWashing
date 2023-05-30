@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 
-namespace RentDesktop.Base
+namespace CarWashing.Base
 {
     /// <summary>
     /// Provides verification of numbers and their manipulation.

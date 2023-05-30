@@ -1,7 +1,7 @@
 ﻿using System;
 using System . Globalization;
 
-namespace RentDesktop . Infrastructure . Services {
+namespace CarWashing . Infrastructure . Services {
 	internal static class DateTimeService {
 		public static string DateStr ( DateTime date ) => DateStrProvider ( date );
 

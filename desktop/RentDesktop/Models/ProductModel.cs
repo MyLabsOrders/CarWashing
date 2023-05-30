@@ -1,7 +1,7 @@
 ﻿using Avalonia . Media . Imaging;
 using System;
 
-namespace RentDesktop . Models {
+namespace CarWashing . Models {
 	public class ProductModel : IProductModel {
 		public ProductModel ( string i , string n , string c , double p , DateTime d , Bitmap? img = null ) {
 		ID=i;

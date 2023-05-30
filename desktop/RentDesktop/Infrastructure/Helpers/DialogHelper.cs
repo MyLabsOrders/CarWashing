@@ -1,7 +1,7 @@
 ﻿using Avalonia . Controls;
 using System . Collections . Generic;
 
-namespace RentDesktop . Infrastructure . Helpers {
+namespace CarWashing . Infrastructure . Helpers {
 	internal static class DialogHelper {
 		public static SaveFileDialog SaveFile ( string? init = null ) => new ( ) {
 			DefaultExtension="pdf" ,

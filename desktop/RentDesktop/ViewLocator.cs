@@ -1,9 +1,9 @@
 using Avalonia . Controls;
 using Avalonia . Controls . Templates;
-using RentDesktop . ViewModels . Base;
+using CarWashing . ViewModels . Base;
 using System;
 
-namespace RentDesktop {
+namespace CarWashing {
 	public class ViewLocator : IDataTemplate {
 		public IControl Build ( object data ) {
 		string name = data.GetType().FullName!.Replace("ViewModel", "View");
