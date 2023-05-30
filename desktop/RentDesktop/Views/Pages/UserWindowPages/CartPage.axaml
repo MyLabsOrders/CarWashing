@@ -248,23 +248,8 @@
 								</Style>
 							</Grid.Styles>
 
-							<TextBlock Text="Дней" Grid.Row="0" Grid.Column="0" />
-
-							<NumericUpDown Grid.Row="0"
-										   Grid.Column="2"
-										   Minimum="1"
-										   IsEnabled="{Binding IsTransportRentSelected}"
-										   Value="{Binding SelectedTransportRent.Days}">
-								<i:Interaction.Behaviors>
-									<ia:EventTriggerBehavior EventName="ValueChanged">
-										<ia:InvokeCommandAction Command="{Binding PriceRefreshCommand}" PassEventArgsToCommand="True" />
-										<ia:InvokeCommandAction Command="{Binding InfoOnRelatedProductsRefreshCommand}" PassEventArgsToCommand="True" />
-									</ia:EventTriggerBehavior>
-								</i:Interaction.Behaviors>
-							</NumericUpDown>
-
-							<TextBlock Grid.Row="2" Grid.Column="0" Text="Итого" />
-							<TextBox Grid.Row="2" Grid.Column="2" IsReadOnly="True" Text="{Binding TotalPrice}" />
+							<TextBlock Grid.Row="0" Grid.Column="0" Text="Итого" />
+							<TextBox Grid.Row="0" Grid.Column="2" IsReadOnly="True" Text="{Binding TotalPrice}" />
 						</Grid>
 					</Grid>
 				</Grid>
@@ -471,9 +456,7 @@
 
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="Товар" Binding="{Binding Transport.Name}" IsReadOnly="True" />
-					<DataGridTextColumn Header="Цена" Binding="{Binding Transport.Price}" IsReadOnly="True" />
-					<DataGridTextColumn Header="Дней" Binding="{Binding Days}" IsReadOnly="True" />
-					<DataGridTextColumn Header="Итоговая цена" Binding="{Binding TotalPrice}" IsReadOnly="True" />
+					<DataGridTextColumn Header="Цена" Binding="{Binding TotalPrice}" IsReadOnly="True" />
 				</DataGrid.Columns>
 			</DataGrid>
 
