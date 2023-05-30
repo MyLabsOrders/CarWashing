@@ -1,0 +1,129 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+			 xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:vm="using:CarWashing.ViewModels.Pages.AdminWindowPages"
+			 mc:Ignorable="d" d:DesignWidth="681" d:DesignHeight="476"
+             x:Class="CarWashing.Views.Pages.AllUsersPage">
+
+	<Grid Margin="0, 0, 0, 5" RowDefinitions="1*, 10, Auto, 15, Auto">
+		<Grid.Styles>
+			<Style Selector="TextBlock.BoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="Bold" />
+			</Style>
+			<Style Selector="TextBlock.DemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="DemiBold" />
+			</Style>
+			<Style Selector="TextBlock.SemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="SemiBold" />
+			</Style>
+		</Grid.Styles>
+
+		<DataGrid Grid.Row="0"
+				  IsReadOnly="True"
+				  AutoGenerateColumns="False"
+				  Items="{Binding Users}">
+
+			<DataGrid.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</DataGrid.Styles>
+
+			<i:Interaction.Behaviors>
+				<ia:EventTriggerBehavior EventName="DoubleTapped">
+					<ia:InvokeCommandAction Command="{Binding UserSelCommand}" PassEventArgsToCommand="True" />
+				</ia:EventTriggerBehavior>
+			</i:Interaction.Behaviors>
+			
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="ID" IsReadOnly="True" Binding="{Binding ID}" />
+				<DataGridTextColumn Header="Пол" IsReadOnly="True" Binding="{Binding Gender}" />
+				<DataGridTextColumn Header="Фамилия" IsReadOnly="True" Binding="{Binding Surname}" />
+				<DataGridTextColumn Header="Имя" IsReadOnly="True" Binding="{Binding Name}" />
+				<DataGridTextColumn Header="Отчество" IsReadOnly="True" Binding="{Binding Patronymic}" />		
+				<DataGridTextColumn Header="Телефон" IsReadOnly="True" Binding="{Binding PhoneNumber}" />
+				<DataGridTextColumn Header="Должность" IsReadOnly="True" Binding="{Binding Position}" />
+				<DataGridTextColumn Header="Статус" IsReadOnly="True" Binding="{Binding Status}" />
+				<DataGridTextColumn Header="Дата рождения" IsReadOnly="True" Binding="{Binding DateOfBirthPresenter}" />
+				<DataGridTextColumn Header="Логин" IsReadOnly="True" Binding="{Binding Login}" />
+				<DataGridTextColumn Header="Пароль" IsReadOnly="True" Binding="{Binding Password}" />			
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<Grid Grid.Row="2" RowDefinitions="22, 30" ColumnDefinitions="140, 10, 140, 10, 140, 10, 1*">
+			<Grid.Styles>
+				<Style Selector="ComboBox">
+					<Setter Property="HorizontalAlignment" Value="Stretch" />
+				</Style>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</Grid.Styles>
+
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="Пол" />
+
+			<ComboBox Grid.Row="1" Grid.Column="0" Items="{Binding Genders}" SelectedIndex="{Binding SelectedGenderIndex}" />
+			<TextBlock Grid.Row="0" Grid.Column="2" Text="Статус" />
+			<ComboBox Grid.Row="1" Grid.Column="2" Items="{Binding Statuses}" SelectedIndex="{Binding SelectedStatusIndex}" />
+			<TextBlock Grid.Row="0" Grid.Column="4" Text="Должность" />
+			<ComboBox Grid.Row="1" Grid.Column="4" Items="{Binding Positions}" SelectedIndex="{Binding SelectedPositionIndex}" />
+			<TextBlock Grid.Row="0" Grid.Column="6" Text="Поиск" />
+
+			<TextBox Grid.Row="1" Grid.Column="6" Text="{Binding QueryOfFind}">
+				<TextBox.KeyBindings>
+					<KeyBinding Gesture="Enter" Command="{Binding UsersSearchCommand}" />
+				</TextBox.KeyBindings>
+			</TextBox>
+		</Grid>
+
+		<Grid Grid.Row="4" RowDefinitions="30" ColumnDefinitions="1*, 130, 10, 130, 10, 130, 1*">
+			<Grid.Styles>
+				<Style Selector="Button">
+					<Setter Property="HorizontalAlignment" Value="Stretch" />
+					<Setter Property="HorizontalContentAlignment" Value="Center" />
+				</Style>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</Grid.Styles>
+
+			<Button Grid.Column="1" Content="Обновить" Command="{Binding UsersUpdateCommand}" />
+			<Button Grid.Column="5" Content="Найти" Command="{Binding UsersSearchCommand}" />
+			<Button Grid.Column="3" Content="Сброс" Command="{Binding FindClearCommand}" />
+		</Grid>
+	</Grid>
+	
+</UserControl>

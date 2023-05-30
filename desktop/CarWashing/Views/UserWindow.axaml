@@ -1,0 +1,111 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+		xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+		xmlns:vm="using:CarWashing.ViewModels"
+		xmlns:pages="using:CarWashing.Views.Pages"
+        mc:Ignorable="d" d:DesignWidth="671" d:DesignHeight="476"
+		MinWidth="671" MinHeight="476" Width="671" Height="476"
+        x:Class="CarWashing.Views.UserWindow"
+		Icon="/Assets/avalonia-logo.ico"
+        Title="Окно пользователя">
+
+	<i:Interaction.Behaviors>
+		<ia:EventTriggerBehavior EventName="KeyDown">
+			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
+		</ia:EventTriggerBehavior>
+		<ia:EventTriggerBehavior EventName="Closing">
+			<ia:InvokeCommandAction Command="{Binding MainShowCommand}" />
+			<ia:InvokeCommandAction Command="{Binding DisposeImageOfUserCommand}" />
+		</ia:EventTriggerBehavior>
+		<ia:EventTriggerBehavior EventName="PointerMoved">
+			<ia:InvokeCommandAction Command="{Binding InactivityResetCommand}" />
+		</ia:EventTriggerBehavior>
+	</i:Interaction.Behaviors>	
+	<TabControl SelectedIndex="{Binding SelectedTabIndex}">
+		<TabControl.Styles>
+			<Style Selector="TextBlock.BoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="Bold" />
+			</Style>
+			<Style Selector="TextBlock.DemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="DemiBold" />
+			</Style>
+			<Style Selector="TextBlock.SemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="SemiBold" />
+			</Style>
+		</TabControl.Styles>
+		<TabItem Header="Профиль">
+			<TabItem.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</TabItem.Styles>
+			<pages:UserProfilePage DataContext="{Binding ViewModelUserProfile}" />
+		</TabItem>	
+		<TabItem Header="Товары">
+			<TabItem.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</TabItem.Styles>
+			<pages:TransportPage DataContext="{Binding ViewModelTransport}" />
+		</TabItem>
+		<TabItem Header="Корзина">
+			<TabItem.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</TabItem.Styles>
+			<pages:CartPage DataContext="{Binding ViewModelCart}" />
+		</TabItem>
+		<TabItem Header="Заказы">
+			<TabItem.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</TabItem.Styles>
+			<pages:OrdersPage DataContext="{Binding ViewModelOrders}" />
+		</TabItem>
+	</TabControl>
+</Window>

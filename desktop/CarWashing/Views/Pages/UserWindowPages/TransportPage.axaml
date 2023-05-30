@@ -1,0 +1,241 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:img="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
+			 xmlns:vm="using:CarWashing.ViewModels.Pages.UserWindowPages"
+			 xmlns:models="clr-namespace:CarWashing.Models;assembly=CarWashing"
+             mc:Ignorable="d" d:DesignWidth="671" d:DesignHeight="476"
+             x:Class="CarWashing.Views.Pages.TransportPage">
+
+	<Grid ColumnDefinitions="1*, 200">
+		<Grid.Styles>
+			<Style Selector="TextBlock.BoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="Bold" />
+			</Style>
+			<Style Selector="TextBlock.DemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="DemiBold" />
+			</Style>
+			<Style Selector="TextBlock.SemiBoldTextStyle">
+				<Setter Property="FontSize" Value="32" />
+				<Setter Property="FontWeight" Value="SemiBold" />
+			</Style>
+		</Grid.Styles>
+
+		<ItemsControl Grid.Column="0" Items="{Binding Transports}">
+			<ItemsControl.Styles>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+				<Style Selector="Button">
+					<Setter Property="Margin" Value="3" />
+					<Setter Property="Width" Value="214" />
+					<Setter Property="BorderThickness" Value="1" />
+					<Setter Property="Height" Value="134" />
+					<Setter Property="Padding" Value="0" />
+					<Setter Property="Cursor" Value="Hand" />
+					<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				</Style>
+			</ItemsControl.Styles>
+
+			<ItemsControl.Template>
+				<ControlTemplate>
+					<ScrollViewer>
+						<ItemsPresenter>
+							<ItemsPresenter.ItemsPanel>
+								<ItemsPanelTemplate> <WrapPanel ItemWidth="220" ItemHeight="140" /> </ItemsPanelTemplate>
+							</ItemsPresenter.ItemsPanel>
+						</ItemsPresenter>
+					</ScrollViewer>
+				</ControlTemplate>
+			</ItemsControl.Template>
+
+			<ItemsControl.DataTemplates>
+				<DataTemplate DataType="{x:Type models:ProductModel}">
+					<Button Classes="cell"
+							Command="{Binding DataContext.ProductSelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+							CommandParameter="{Binding Self}">
+						<Grid RowDefinitions="1*, 30">
+							<Grid.Styles>
+								<Style Selector="TextBlock.BoldTextStyle">
+									<Setter Property="FontSize" Value="32" />
+									<Setter Property="FontWeight" Value="Bold" />
+								</Style>
+								<Style Selector="TextBlock.DemiBoldTextStyle">
+									<Setter Property="FontSize" Value="32" />
+									<Setter Property="FontWeight" Value="DemiBold" />
+								</Style>
+								<Style Selector="TextBlock.SemiBoldTextStyle">
+									<Setter Property="FontSize" Value="32" />
+									<Setter Property="FontWeight" Value="SemiBold" />
+								</Style>
+							</Grid.Styles>
+							
+							<Button Width="25"
+									VerticalAlignment="Top"
+									HorizontalAlignment="Right"
+									Height="25"
+									Background="#b7b7b7"
+									img:Attached.Icon="fa-shopping-cart"
+									Opacity="0.7"
+									Margin="0, 5, 5, 0"
+									Command="{Binding DataContext.ProductAddToTheCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+									CommandParameter="{Binding Self}" />
+
+							<Border BorderBrush="DarkGray" BorderThickness="2" Background="White" Margin="5, 5, 35, 0">
+								<Border.Styles>
+									<Style Selector="TextBlock.BoldTextStyle">
+										<Setter Property="FontSize" Value="32" />
+										<Setter Property="FontWeight" Value="Bold" />
+									</Style>
+									<Style Selector="TextBlock.DemiBoldTextStyle">
+										<Setter Property="FontSize" Value="32" />
+										<Setter Property="FontWeight" Value="DemiBold" />
+									</Style>
+									<Style Selector="TextBlock.SemiBoldTextStyle">
+										<Setter Property="FontSize" Value="32" />
+										<Setter Property="FontWeight" Value="SemiBold" />
+									</Style>
+								</Border.Styles>
+
+								<Image Source="{Binding Icon}" MaxHeight="92" />
+							</Border>
+
+							<Grid Grid.Row="1" Margin="5, 0">
+								<Grid.Styles>
+									<Style Selector="TextBlock.BoldTextStyle">
+										<Setter Property="FontSize" Value="32" />
+										<Setter Property="FontWeight" Value="Bold" />
+									</Style>
+									<Style Selector="TextBlock.DemiBoldTextStyle">
+										<Setter Property="FontSize" Value="32" />
+										<Setter Property="FontWeight" Value="DemiBold" />
+									</Style>
+									<Style Selector="TextBlock.SemiBoldTextStyle">
+										<Setter Property="FontSize" Value="32" />
+										<Setter Property="FontWeight" Value="SemiBold" />
+									</Style>
+								</Grid.Styles>
+
+								<TextBlock Grid.Column="0"
+										   VerticalAlignment="Center"
+										   HorizontalAlignment="Left"
+										   Text="{Binding Name}" />
+
+								<TextBlock Grid.Column="0"
+										   VerticalAlignment="Center"
+										   HorizontalAlignment="Right"
+										   Text="{Binding PricePresenter}" />
+							</Grid>
+						</Grid>
+					</Button>
+				</DataTemplate>
+			</ItemsControl.DataTemplates>
+		</ItemsControl>
+
+		<Grid Grid.Column="1" Background="#202538" RowDefinitions="Auto, 1*, 30, 5, 30, 5">
+			<Grid.Styles>
+				<Style Selector="Button">
+					<Setter Property="Width" Value="180" />
+					<Setter Property="HorizontalContentAlignment" Value="Center" />
+					<Setter Property="HorizontalAlignment" Value="Center" />
+				</Style>
+				<Style Selector="TextBlock.BoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="Bold" />
+				</Style>
+				<Style Selector="TextBlock.DemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="DemiBold" />
+				</Style>
+				<Style Selector="TextBlock.SemiBoldTextStyle">
+					<Setter Property="FontSize" Value="32" />
+					<Setter Property="FontWeight" Value="SemiBold" />
+				</Style>
+			</Grid.Styles>
+			
+			<Grid Grid.Row="0" RowDefinitions="160, 5, Auto, 1*" Margin="5">
+				<Grid.Styles>
+					<Style Selector="TextBlock.BoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="Bold" />
+					</Style>
+					<Style Selector="TextBlock.DemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="DemiBold" />
+					</Style>
+					<Style Selector="TextBlock.SemiBoldTextStyle">
+						<Setter Property="FontSize" Value="32" />
+						<Setter Property="FontWeight" Value="SemiBold" />
+					</Style>
+				</Grid.Styles>
+
+				<Border Grid.Row="0" BorderBrush="Gray" BorderThickness="2">
+					<Border.Styles>
+						<Style Selector="TextBlock.BoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="Bold" />
+						</Style>
+						<Style Selector="TextBlock.DemiBoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="DemiBold" />
+						</Style>
+						<Style Selector="TextBlock.SemiBoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="SemiBold" />
+						</Style>
+					</Border.Styles>
+
+					<Image Source="{Binding SelectedTransport.Icon}" MaxHeight="156" />
+				</Border>
+
+				<Grid Grid.Row="2" RowDefinitions="1*, 1*, 1*">
+					<Grid.Styles>
+						<Style Selector="TextBlock">
+							<Setter Property="Margin" Value="0, 3, 0, 0" />
+							<Setter Property="TextWrapping" Value="Wrap" />
+						</Style>
+						<Style Selector="TextBlock.BoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="Bold" />
+						</Style>
+						<Style Selector="TextBlock.DemiBoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="DemiBold" />
+						</Style>
+						<Style Selector="TextBlock.SemiBoldTextStyle">
+							<Setter Property="FontSize" Value="32" />
+							<Setter Property="FontWeight" Value="SemiBold" />
+						</Style>
+					</Grid.Styles>
+
+					<TextBlock Grid.Row="0" Text="{Binding SelectedTransportCompany}" />
+					<TextBlock Grid.Row="1" Text="{Binding SelectedTransportName}" />
+					<TextBlock Grid.Row="2" Text="{Binding SelectedTransportPrice}" />
+				</Grid>
+			</Grid>
+
+			<Button Grid.Row="2"
+					Content="Добавить в корзину"
+					IsEnabled="{Binding IsTransportSelected}"
+					Command="{Binding ProductAddToTheCartCommand}"
+					CommandParameter="{Binding SelectedTransport}" />
+
+			<Button Grid.Row="4"
+					Content="Перейти в корзину"
+					Command="{Binding CartOpenCommand}" />
+		</Grid>
+	</Grid>
+
+</UserControl>
