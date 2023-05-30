@@ -61,6 +61,11 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		public RegisterViewModel ( ) : this ( User . POS_USER ) {
 			}
 
+		public RegisterViewModel ( int debug ) : this ( User . POS_USER ) {
+		if ( debug == 1 )
+			return;
+			}
+
 		#region Private Methods
 
 		private int inactivityCounter = 0;
@@ -82,7 +87,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		return;
 			}
 
-		IUser userInfo = GetUserInfo();
+		IUser ing = GetUserInfo();
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -101,41 +106,43 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		try {
-		RegisterDbUserToDatabase . Register ( userInfo );
+		RegisterDbUserToDatabase . Register ( ing );
 		FieldsClear ( );
 
-		RegisteredTheUser?.Invoke ( userInfo );
+		RegisteredTheUser?.Invoke ( ing );
 		ClosingTheTabOrPage?.Invoke ( );
 			} catch ( Exception ex ) {
-		string message = "Не получилось зарегистрировать пользователя.";
+		string m = "Не получилось зарегистрировать пользователя.";
 #if DEBUG
-		message+=$" Пояснение: {ex . Message}";
+		m+=$" Пояснение: {ex . Message}";
 #endif
-		Window? window = WindowSearcher.FindWindowByType(GetOwnerWindowType());
-		MsgBox . ErrorMsg ( message ) . Dialog ( window );
+		Window? w = WindowSearcher.TpFin(GetOwnerWindowType());
+		MsgBox . ErrorMsg ( m ) . Dialog ( w );
 			}
 			}
 
 		private async void LoadUserImage ( ) {
-		if ( WindowSearcher . FindWindowByType ( GetOwnerWindowType ( ) ) is not Window window ) {
+		if ( WindowSearcher . TpFin ( GetOwnerWindowType ( ) ) is not Window window ) {
 		return;
 			}
 
-		OpenFileDialog dialog = DialogHelper.OpenImage();
-		string[]? paths = await dialog.ShowAsync(window);
+		OpenFileDialog d = DialogHelper.OpenImage();
+		string[]? ps = await d.ShowAsync(window);
 
-		if ( paths is null||paths . Length==0 ) {
+		if ( ps is null||ps . Length==0 ) {
 		return;
 			}
 
-		if ( !TrySetUserImage ( paths [ 0 ] ) ) {
+		if ( !TrySetUserImage ( ps [ 0 ] ) ) {
 		MsgBox . ErrorMsg ( "Не получилось открыть фото." ) . Dialog ( window );
 			}
 			}
 
 		private void ClosePage ( ) => ClosingTheTabOrPage?.Invoke ( );
+		public void PublicClosePage ( ) => ClosePage ( );
 
 		private void SetGender ( string gender ) => Gender=gender;
+		public void PublicSetGender ( string gender ) => SetGender(gender);
 
 		private bool TrySetUserImage ( string path ) {
 		UserImage?.Dispose ( );
@@ -158,8 +165,8 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		try {
-		var image = new Bitmap(path);
-		UserImage=image;
+		var iconImg = new Bitmap(path);
+		UserImage=iconImg;
 		return true;
 			} catch {
 		return false;
@@ -174,6 +181,18 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		public Bitmap? UserImage {
 			get => _iconOfUser;
 			private set => this . RaiseAndSetIfChanged ( ref _iconOfUser , value );
+			}
+
+		private Bitmap? _iconOfAdmin = null;
+		public Bitmap? IconOfAdmin {
+			get => _iconOfAdmin;
+			private set => this . RaiseAndSetIfChanged ( ref _iconOfAdmin , value );
+			}
+
+		private char? _secretChar = HIDDEN;
+		public char? SecretChar {
+			get => _secretChar;
+			private set => this . RaiseAndSetIfChanged ( ref _secretChar , value );
 			}
 
 		private char? _pwdChr = HIDDEN;
@@ -200,6 +219,12 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			set => this . RaiseAndSetIfChanged ( ref _theSurname , value );
 			}
 
+		private string _theSecretSurname = string.Empty;
+		public string TheSecretSurname {
+			get => _theSecretSurname;
+			set => this . RaiseAndSetIfChanged ( ref _theSecretSurname , value );
+			}
+
 		private string _passwordConfirmation = string.Empty;
 		public string PasswordConfirmation {
 			get => _passwordConfirmation;
@@ -212,10 +237,22 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			set => this . RaiseAndSetIfChanged ( ref _patronymic , value );
 			}
 
+		private string _secretPatronymic = string.Empty;
+		public string SecretPatronymic {
+			get => _secretPatronymic;
+			set => this . RaiseAndSetIfChanged ( ref _secretPatronymic , value );
+			}
+
 		private string _phoneNumber = string.Empty;
 		public string PhoneNumber {
 			get => _phoneNumber;
 			set => this . RaiseAndSetIfChanged ( ref _phoneNumber , value );
+			}
+
+		private DateTime? _secretDate = null;
+		public DateTime? SecretDate {
+			get => _secretDate;
+			set => this . RaiseAndSetIfChanged ( ref _secretDate , value );
 			}
 
 		private DateTime? _dateOfBirth = null;
@@ -230,6 +267,12 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			set => this . RaiseAndSetIfChanged ( ref _password , value );
 			}
 
+		private string _ssecretPassword = string.Empty;
+		public string SsecretPassword {
+			get => _ssecretPassword;
+			set => this . RaiseAndSetIfChanged ( ref _ssecretPassword , value );
+			}
+
 		private string _name = string.Empty;
 		public string Name {
 			get => _name;
@@ -241,6 +284,12 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		public string Gender {
 			get => _gender;
 			set => this . RaiseAndSetIfChanged ( ref _gender , value );
+			}
+
+		private string _male = string.Empty;
+		public string Male {
+			get => _male;
+			set => this . RaiseAndSetIfChanged ( ref _male , value );
 			}
 
 		private bool _showPassword = false;
@@ -258,6 +307,12 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			set => this . RaiseAndSetIfChanged ( ref _trueIsMaleGenderChecked , value );
 			}
 
+		private bool _trueIsNotMaleGenderChecked = false;
+		public bool IsNotMaleGenderChecked {
+			get => _trueIsNotMaleGenderChecked;
+			set => this . RaiseAndSetIfChanged ( ref _trueIsNotMaleGenderChecked , value );
+			}
+
 		private bool _trueIsFemaleGenderChecked = false;
 		public bool IsFemaleGenderChecked {
 			get => _trueIsFemaleGenderChecked;
@@ -270,7 +325,9 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 
 		public ReactiveCommand<Unit , Unit> TryDoUserRegistrationCommand { get; }
 		public ReactiveCommand<Unit , Unit> DoUserRegistrationCommand { get; }
+		public ReactiveCommand<Unit , Unit> ContinueUserRegistrationCommand { get; }
 		public ReactiveCommand<Unit , Unit> ImageOfTheUserLoadCommand { get; }
+		public ReactiveCommand<Unit , Unit> ImageOfTheAdminLoadCommand { get; }
 		public ReactiveCommand<string , Unit> ReGenderPutCommand { get; }
 		public ReactiveCommand<string , Unit> GenderPutCommand { get; }
 		public ReactiveCommand<Unit , Unit> ClosePageCommand { get; }
@@ -298,29 +355,29 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 			}
 
-		byte[] image = UserImage is not null
+		byte[] bytesOfIcon = UserImage is not null
 								? BitmapService.BmpToBytes(UserImage)
 								: Array.Empty<byte>();
 
 		return new User ( ) {
-			Login=Login ,
-			Password=Password ,
 			Name=Name ,
 			Surname=Surname ,
-			Patronymic=Patronymic ,
-			PhoneNumber=PhoneNumber ,
 			Gender=Gender ,
 			Position=_position ,
+			Patronymic=Patronymic ,
+			PhoneNumber=PhoneNumber ,
 			Status=User . ST_ACTIVE ,
 			Money=0 ,
-			Icon=image ,
+			Icon=bytesOfIcon ,
+			Login=Login ,
+			Password=Password ,
 			DateOfBirth=DateOfBirth! . Value
 			};
 			}
 
 		protected virtual bool VerifyFieldsCorrectness ( ) {
 		var verifier = new CheckPassword(Password);
-		Window? ownerWindow = WindowSearcher.FindWindowByType(GetOwnerWindowType());
+		Window? ownerWindow = WindowSearcher.TpFin(GetOwnerWindowType());
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {
@@ -339,11 +396,11 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		if ( string . IsNullOrEmpty ( Login ) ) {
-		MsgBox . InfoMsg ( "Введите логин." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести логин." ) . Dialog ( ownerWindow );
 		return false;
 			}
 		if ( string . IsNullOrEmpty ( Password ) ) {
-		MsgBox . InfoMsg ( "Введите пароль." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести пароль." ) . Dialog ( ownerWindow );
 		return false;
 			}
 
@@ -389,11 +446,11 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		if ( string . IsNullOrEmpty ( Name ) ) {
-		MsgBox . InfoMsg ( "Введите имя." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести имя." ) . Dialog ( ownerWindow );
 		return false;
 			}
 		if ( string . IsNullOrEmpty ( Surname ) ) {
-		MsgBox . InfoMsg ( "Введите фамилию." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести фамилию." ) . Dialog ( ownerWindow );
 		return false;
 			}
 
@@ -415,11 +472,11 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 			}
 
 		if ( string . IsNullOrEmpty ( Patronymic ) ) {
-		MsgBox . InfoMsg ( "Введите отчество." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести отчество." ) . Dialog ( ownerWindow );
 		return false;
 			}
 		if ( PhoneNumber . Where ( t => char . IsDigit ( t ) ) . Count ( )!=NUMBER_MAX_DIGITS ) {
-		MsgBox . InfoMsg ( "Введите корректный номер телефона." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести корректный номер телефона." ) . Dialog ( ownerWindow );
 		return false;
 			}
 
@@ -444,7 +501,7 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		return false;
 			}
 		if ( DateOfBirth is null ) {
-		MsgBox . InfoMsg ( "Введите дату рождения." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести дату рождения." ) . Dialog ( ownerWindow );
 		return false;
 			}
 
@@ -480,13 +537,23 @@ namespace RentDesktop . ViewModels . Pages . MainWindowPages {
 		public delegate void ClosingTheTabOrPageHandler ( );
 		public event ClosingTheTabOrPageHandler? ClosingTheTabOrPage;
 
+		public delegate void ClosingTheeAdminTabOrPageHandler ( );
+		public event ClosingTheeAdminTabOrPageHandler? ClosingTheAdminTabOrPage;
+
+		public delegate void ClosingTheUserTabOrPageHandler ( );
+		public event ClosingTheUserTabOrPageHandler? ClosingTheUserTabOrPage;
+
 		#endregion
 
 		#region Private Fields
 
 		private readonly string _position;
+		public readonly string _positionUser;
+		public readonly string _positionAdmin;
 
 		private const int NUMBER_MAX_DIGITS = 11;
+		public const int NUMBER_REQ_DIGITS = 8;
+		public const int NUMBER_MIN_DIGITS = 1;
 		private const char HIDDEN = '*';
 
 		#endregion

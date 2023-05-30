@@ -11,14 +11,14 @@ namespace RentDesktop . Infrastructure . Helpers {
 						? null
 						: app . MainWindow;
 
-		public static Window? User ( ) => FindWindowByType ( typeof ( UserWindow ) );
+		public static Window? User ( ) => TpFin ( typeof ( UserWindow ) );
 
-		public static Window? Admin ( ) => FindWindowByType ( typeof ( AdminWindow ) );
+		public static Window? Admin ( ) => TpFin ( typeof ( AdminWindow ) );
 
 		public static Window? FindWindow ( Func<Window , bool> predicate ) => Application . Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime app
 						? null
 						: app . Windows . FirstOrDefault ( predicate );
 
-		public static Window? FindWindowByType ( Type type ) => FindWindow ( t => t . GetType ( )==type );
+		public static Window? TpFin ( Type type ) => FindWindow ( t => t . GetType ( )==type );
 		}
 	}

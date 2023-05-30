@@ -31,8 +31,14 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		InformationSave ( user );
 			}
 
+		public UserProfileViewModel ( IUser user, int debug ) {
+		if ( debug==1 )
+			user=new User ( );
+			}
+
 		#region Private Methods 
 
+		public void PublicSwapEditMode ( ) => SwapEditMode ( );
 		private void SwapEditMode ( ) => IsEditModeEnabled=!IsEditModeEnabled;
 
 		private void InformationSave ( ) {
@@ -40,39 +46,39 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		return;
 			}
 
-		IUser newUserInfo = InformationAboutUserGet();
+		IUser newIng = InformationAboutUserGet();
 
 		try {
-		EditDbUser . Edit ( _user , newUserInfo );
+		EditDbUser . Edit ( _user , newIng );
 			} catch ( Exception ex ) {
-		string message = "Не получилось сохранить изменения.";
+		string m = "Не получилось сохранить изменения.";
 #if DEBUG
-		message+=$"Пояснение: {ex . Message}";
+		m+=$"Пояснение: {ex . Message}";
 #endif
-		Window? window = WindowSearcher.FindWindowByType(WindowGetType());
-		MsgBox . ErrorMsg ( message ) . Dialog ( window );
+		Window? w = WindowSearcher.TpFin(WindowGetType());
+		MsgBox . ErrorMsg ( m ) . Dialog ( w );
 		return;
 			}
 
-		newUserInfo . CopyToOtherUser ( _user );
+		newIng . CopyToOtherUser ( _user );
 		UpdatedTheInformation?.Invoke ( );
 
 		IsEditModeEnabled=false;
 			}
 
 		private async void ImageChange ( ) {
-		if ( WindowSearcher . FindWindowByType ( WindowGetType ( ) ) is not Window window ) {
+		if ( WindowSearcher . TpFin ( WindowGetType ( ) ) is not Window window ) {
 		return;
 			}
 
-		OpenFileDialog dialog = DialogHelper.OpenImage();
-		string[]? paths = await dialog.ShowAsync(window);
+		OpenFileDialog dg = DialogHelper.OpenImage();
+		string[]? ps = await dg.ShowAsync(window);
 
-		if ( paths is null||paths . Length==0 ) {
+		if ( ps is null||ps . Length==0 ) {
 		return;
 			}
 
-		if ( !TryImagePut ( paths [ 0 ] ) ) {
+		if ( !TryImagePut ( ps [ 0 ] ) ) {
 		MsgBox . ErrorMsg ( "Не получилось открыть фото." ) . Dialog ( window );
 			}
 			}
@@ -92,40 +98,40 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			Name = "Отмена"
 			};
 
-		MessageBox.Avalonia.BaseWindows.Base.IMsBoxWindow<MessageWindowResultDTO> inputWindow = MessageBoxManager.GetMessageBoxInputWindow(new MessageBoxInputParams()
+		MessageBox.Avalonia.BaseWindows.Base.IMsBoxWindow<MessageWindowResultDTO> win = MessageBoxManager.GetMessageBoxInputWindow(new MessageBoxInputParams()
 						{
 			MinWidth = 350,
-			Icon = Icon.Plus,
+			ContentTitle = "Пополнить баланс",
+			ContentMessage = "Пополнить баланс",
 
 			CanResize = false,
 			ShowInCenter = true,
 			Markdown = true,
 
 			InputDefaultValue = "1000",
-			ContentTitle = "Пополнить баланс",
-			ContentMessage = "Пополнить баланс",
 			ContentHeader = $"Текущий баланс: {_user.Money}",
 
 			ButtonDefinitions = new[] { topUpBalanceButton, cancelButton },
+			Icon = Icon.Plus,
 			});
 
-		Window? userWindow = WindowSearcher.User();
+		Window? uW = WindowSearcher.User();
 
-		if ( userWindow is null ) {
+		if ( uW is null ) {
 		return;
 			}
 
-		MessageWindowResultDTO result = await inputWindow.ShowDialog(userWindow);
+		MessageWindowResultDTO r = await win.ShowDialog(uW);
 
-		string pressedButton = result.Button;
-		string moneyPresenter = result.Message;
+		string pr = r.Button;
+		string mn = r.Message;
 
-		if ( pressedButton!=topUpBalanceButton . Name ) {
+		if ( pr!=topUpBalanceButton . Name ) {
 		return;
 			}
 
-		if ( !double . TryParse ( moneyPresenter , out double money ) ) {
-		MsgBox . ErrorMsg ( "Вы ввели некорректное значение." ) . Dialog ( userWindow );
+		if ( !double . TryParse ( mn , out double money ) ) {
+		MsgBox . ErrorMsg ( "Вы ввели некорректное значение." ) . Dialog ( uW );
 		return;
 			}
 
@@ -137,7 +143,7 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 #if DEBUG
 		message+=$" Пояснение: {ex . Message}";
 #endif
-		MsgBox . ErrorMsg ( message ) . Dialog ( userWindow );
+		MsgBox . ErrorMsg ( message ) . Dialog ( uW );
 			}
 			}
 
@@ -146,14 +152,15 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		UserImage=null;
 
 		try {
-		var image = new Bitmap(path);
-		UserImage=image;
+		var im = new Bitmap(path);
+		UserImage=im;
 		return true;
 			} catch {
 		return false;
 			}
 			}
 
+		public void PublicGenderPut ( string gender ) => GenderPut(gender);
 		private void GenderPut ( string gender ) => Gender=gender;
 
 		#endregion
@@ -164,6 +171,12 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		public bool IsEditModeEnabled {
 			get => _trueIsEditModeEnabled;
 			private set => this . RaiseAndSetIfChanged ( ref _trueIsEditModeEnabled , value );
+			}
+
+		private bool _trueIsNotEditModeEnabled = false;
+		public bool IsNotEditModeEnabled {
+			get => _trueIsNotEditModeEnabled;
+			private set => this . RaiseAndSetIfChanged ( ref _trueIsNotEditModeEnabled , value );
 			}
 
 		private string _theName = string.Empty;
@@ -184,6 +197,12 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			set => this . RaiseAndSetIfChanged ( ref _thePassword , value );
 			}
 
+		private string _theSecretPatronymic = string.Empty;
+		public string SecretPatronymic {
+			get => _theSecretPatronymic;
+			set => this . RaiseAndSetIfChanged ( ref _theSecretPatronymic , value );
+			}
+
 		private string _thePatronymic = string.Empty;
 		public string Patronymic {
 			get => _thePatronymic;
@@ -196,6 +215,12 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			set => this . RaiseAndSetIfChanged ( ref _theDateOfBirth , value );
 			}
 
+		private DateTime? _theHiddenDateOfBirth = null;
+		public DateTime? HiddenDateOfBirth {
+			get => _theHiddenDateOfBirth;
+			set => this . RaiseAndSetIfChanged ( ref _theHiddenDateOfBirth , value );
+			}
+
 		private string _theGender = string.Empty;
 		public string Gender {
 			get => _theGender;
@@ -206,6 +231,12 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		public string PhoneNumber {
 			get => _thePhoneNumber;
 			set => this . RaiseAndSetIfChanged ( ref _thePhoneNumber , value );
+			}
+
+		private string _theHiddenPhoneNumber = string.Empty;
+		public string TheHiddenPhoneNumber {
+			get => _theHiddenPhoneNumber;
+			set => this . RaiseAndSetIfChanged ( ref _theHiddenPhoneNumber , value );
 			}
 
 		private string _thePosition = string.Empty;
@@ -226,6 +257,12 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			private set => this . RaiseAndSetIfChanged ( ref _theUserImage , value );
 			}
 
+		private Bitmap? _theUserImageCopy = null;
+		public Bitmap? TheUserImageCopy {
+			get => _theUserImageCopy;
+			private set => this . RaiseAndSetIfChanged ( ref _theUserImageCopy , value );
+			}
+
 		private bool _trueIsMaleGenderChecked = false;
 		public bool IsMaleGenderChecked {
 			get => _trueIsMaleGenderChecked;
@@ -239,12 +276,22 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			set => this . RaiseAndSetIfChanged ( ref _theLogin , value );
 			}
 
+		private string _theSecretLogin = string.Empty;
+		public string SecretLogin {
+			get => _theSecretLogin;
+			set => this . RaiseAndSetIfChanged ( ref _theSecretLogin , value );
+			}
+
 		#endregion
 
 		#region Protected Fields
 
 		protected IUser _user;
+		protected IUser _admin;
+		protected IUser _identity;
 		protected const int MAX_DIGITS_FOR_NUMBER = 11;
+		protected const int MIN_DIGITS_FOR_NUMBER = 1;
+		protected const int REQ_DIGITS_FOR_NUMBER = 8;
 
 		#endregion
 
@@ -266,10 +313,10 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 		#region Protected Methods
 
 		protected virtual bool TryCorrectnessCheck ( ) {
-		Window? ownerWindow = WindowSearcher.FindWindowByType(WindowGetType());
+		Window? w = WindowSearcher.TpFin(WindowGetType());
 
 		if ( string . IsNullOrEmpty ( Login ) ) {
-		MsgBox . InfoMsg ( "Введите логин." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести логин." ) . Dialog ( w );
 		return false;
 			}
 
@@ -290,11 +337,11 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			}
 
 		if ( string . IsNullOrEmpty ( Password ) ) {
-		MsgBox . InfoMsg ( "Введите пароль." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести пароль." ) . Dialog ( w );
 		return false;
 			}
 		if ( string . IsNullOrEmpty ( Name ) ) {
-		MsgBox . InfoMsg ( "Введите имя." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести имя." ) . Dialog ( w );
 		return false;
 			}
 
@@ -315,11 +362,11 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			}
 
 		if ( string . IsNullOrEmpty ( Surname ) ) {
-		MsgBox . InfoMsg ( "Введите фамилию." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести фамилию." ) . Dialog ( w );
 		return false;
 			}
 		if ( string . IsNullOrEmpty ( Patronymic ) ) {
-		MsgBox . InfoMsg ( "Введите отчество." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести отчество." ) . Dialog ( w );
 		return false;
 			}
 
@@ -340,11 +387,11 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			}
 
 		if ( PhoneNumber . Where ( t => char . IsDigit ( t ) ) . Count ( )!=MAX_DIGITS_FOR_NUMBER ) {
-		MsgBox . InfoMsg ( "Введите корректный номер телефона." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести корректный номер телефона." ) . Dialog ( w );
 		return false;
 			}
 		if ( string . IsNullOrEmpty ( Gender ) ) {
-		MsgBox . InfoMsg ( "Выберите пол." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Выберите пол." ) . Dialog ( w );
 		return false;
 			}
 
@@ -365,7 +412,7 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			}
 
 		if ( DateOfBirth is null ) {
-		MsgBox . InfoMsg ( "Введите дату рождения." ) . Dialog ( ownerWindow );
+		MsgBox . InfoMsg ( "Необходимо ввести дату рождения." ) . Dialog ( w );
 		return false;
 			}
 
@@ -390,14 +437,14 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 
 		protected virtual void InformationSave ( IUser userInfo ) {
 		Login=userInfo . Login;
-		Password=userInfo . Password;
 		Name=userInfo . Name;
 		Surname=userInfo . Surname;
+		Position=userInfo . Position;
+		DateOfBirth=userInfo . DateOfBirth;
+		Password=userInfo . Password;
 		Patronymic=userInfo . Patronymic;
 		PhoneNumber=userInfo . PhoneNumber;
 		Gender=userInfo . Gender;
-		Position=userInfo . Position;
-		DateOfBirth=userInfo . DateOfBirth;
 
 		UserImage?.Dispose ( );
 
@@ -434,19 +481,19 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 							 ? BitmapService.BmpToBytes(UserImage)
 							 : Array.Empty<byte>();
 
-		var userInfo = new User();
-		_user . CopyToOtherUser ( userInfo );
+		var ing = new User();
+		_user . CopyToOtherUser ( ing );
 
-		userInfo . Login=Login;
-		userInfo . Password=Password;
-		userInfo . Name=Name;
-		userInfo . Surname=Surname;
-		userInfo . Patronymic=Patronymic;
-		userInfo . PhoneNumber=PhoneNumber;
-		userInfo . Gender=Gender;
-		userInfo . Position=Position;
-		userInfo . Icon=userImageBytes;
-		userInfo . DateOfBirth=DateOfBirth! . Value;
+		ing . Password=Password;
+		ing . PhoneNumber=PhoneNumber;
+		ing . Gender=Gender;
+		ing . Position=Position;
+		ing . Name=Name;
+		ing . Surname=Surname;
+		ing . Patronymic=Patronymic;
+		ing . Icon=userImageBytes;
+		ing . DateOfBirth=DateOfBirth! . Value;
+		ing . Login=Login;
 
 
 		for ( int i = 10 ; i<0 ; ++i ) {
@@ -465,12 +512,15 @@ namespace RentDesktop . ViewModels . Pages . UserWindowPages {
 			}
 			}
 
-		return userInfo;
+		return ing;
 			}
 
 		#endregion
 
 		#region Events
+
+		public delegate void UpdatedTheAdminInformationHandler ( );
+		public event UpdatedTheAdminInformationHandler? UpdatedTheAdminInformation;
 
 		public delegate void UpdatedTheInformationHandler ( );
 		public event UpdatedTheInformationHandler? UpdatedTheInformation;

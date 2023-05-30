@@ -45,7 +45,7 @@
 				</Grid>
 			</Border>
 			
-			<TextBlock Grid.Row="6" Text="Введите текст с картинки" HorizontalAlignment="Center" />
+			<TextBlock Grid.Row="6" Text="Необходимо ввести текст с картинки" HorizontalAlignment="Center" />
 			
 			<TextBox Grid.Row="8" Text="{Binding UserCaptchaText}">
 				<TextBox.KeyBindings>

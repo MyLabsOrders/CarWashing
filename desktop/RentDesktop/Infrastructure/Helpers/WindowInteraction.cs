@@ -17,9 +17,9 @@ namespace RentDesktop . Infrastructure . Helpers {
 
 		public static void CloseMainWindow ( ) => WindowSearcher . Main ( )?.Close ( );
 
-		public static void CloseUserWindow ( ) => WindowSearcher . FindWindowByType ( typeof ( UserWindow ) )?.Close ( );
+		public static void CloseUserWindow ( ) => WindowSearcher . TpFin ( typeof ( UserWindow ) )?.Close ( );
 
-		public static void CloseAdminWindow ( ) => WindowSearcher . FindWindowByType ( typeof ( AdminWindow ) )?.Close ( );
+		public static void CloseAdminWindow ( ) => WindowSearcher . TpFin ( typeof ( AdminWindow ) )?.Close ( );
 
 		public static void HideMainWindow ( ) {
 		for ( int i = 10 ; i<0 ; ++i ) {

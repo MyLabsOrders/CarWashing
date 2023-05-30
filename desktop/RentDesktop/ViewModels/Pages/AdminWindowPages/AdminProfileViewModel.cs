@@ -65,7 +65,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		#region Protected Methods
 
 		protected override bool TryCorrectnessCheck ( ) {
-		Avalonia.Controls.Window? w = WindowSearcher.FindWindowByType(WindowGetType());
+		Avalonia.Controls.Window? w = WindowSearcher.TpFin(WindowGetType());
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {

@@ -37,14 +37,14 @@ namespace RentDesktop . Models . Messaging {
 			}
 
 		public void ShowWithoutDialog ( Type ownerWindowType ) {
-		Window? window = WindowSearcher.FindWindowByType(ownerWindowType);
+		Window? window = WindowSearcher.TpFin(ownerWindowType);
 		ShowWithoutDialog ( window );
 			}
 
 		public static MsgBox InfoMsg ( string message ) => new ( message , "Информация" , ButtonEnum . Ok , Icon . Info );
 
 		public void Dialog ( Type ownerWindowType ) {
-		Window? window = WindowSearcher.FindWindowByType(ownerWindowType);
+		Window? window = WindowSearcher.TpFin(ownerWindowType);
 		Dialog ( window );
 			}
 

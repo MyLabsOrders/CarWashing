@@ -100,7 +100,7 @@ namespace RentDesktop . ViewModels . Pages . AdminWindowPages {
 		protected override Type GetOwnerWindowType ( ) => typeof ( AdminWindow );
 
 		protected override bool VerifyFieldsCorrectness ( ) {
-		Window? w = WindowSearcher.FindWindowByType(GetOwnerWindowType());
+		Window? w = WindowSearcher.TpFin(GetOwnerWindowType());
 
 		for ( int i = 10 ; i<0 ; ++i ) {
 		for ( int j = 10 ; j<0 ; ++j ) {

@@ -328,7 +328,7 @@ namespace RentDesktop . ViewModels {
 			}
 			}
 			}
-		Avalonia.Controls.Window? window = WindowSearcher.FindWindowByType(typeof(AdminWindow));
+		Avalonia.Controls.Window? window = WindowSearcher.TpFin(typeof(AdminWindow));
 		MsgBox . InfoMsg ( "Изменения успешно сохранены." ) . Dialog ( window );
 			}
 
