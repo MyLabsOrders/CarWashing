@@ -56,7 +56,7 @@
 			</TabItem.Styles>
 			<pages:UserProfilePage DataContext="{Binding ViewModelUserProfile}" />
 		</TabItem>	
-		<TabItem Header="Транспорт">
+		<TabItem Header="Товары">
 			<TabItem.Styles>
 				<Style Selector="TextBlock.BoldTextStyle">
 					<Setter Property="FontSize" Value="32" />
