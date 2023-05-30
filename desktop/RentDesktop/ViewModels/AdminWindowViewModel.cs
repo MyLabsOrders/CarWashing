@@ -116,7 +116,7 @@ namespace RentDesktop . ViewModels {
 		DisposeImageOfUserCommand=ReactiveCommand . Create ( ImageDiapose );
 
 		_timer_of_inactivity=TimerConfig ( );
-		_timer_of_inactivity . Start ( );
+		//_timer_of_inactivity . Start ( );
 			}
 
 		#region Private Fields

@@ -57,7 +57,7 @@ namespace RentDesktop . ViewModels {
 			}
 
 		_timer=TimerConfig ( );
-		_timer . Start ( );
+		//_timer . Start ( );
 
 		ViewModelLogin . OpenRegisterEvent+=()=>RegisterOpen();
 		ViewModelRegister . ClosingTheTabOrPage+=()=>LoginOpen();
@@ -140,7 +140,7 @@ namespace RentDesktop . ViewModels {
 
 		public void MainShow ( ) {
 		InactivityClear ( );
-		_timer . Start ( );
+		//_timer . Start ( );
 
 		Window? mainWindow = GetWindow();
 
