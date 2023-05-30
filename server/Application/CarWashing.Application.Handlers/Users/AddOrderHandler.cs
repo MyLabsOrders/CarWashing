@@ -32,7 +32,7 @@ internal class AddOrderHandler : IRequestHandler<Command, Response> {
 
             decimal totalPrice = 0;
             DateTime orderDate = DateTime.UtcNow;
-            foreach ((Order order, (Guid OrderId, int Amount, int Days) dto) in orders.Join(
+            foreach ((Order order, (Guid OrderId, uint Amount, uint Days) dto) in orders.Join(
                         request.Orders,
                         order => order.Id,
                         dto => dto.OrderId,

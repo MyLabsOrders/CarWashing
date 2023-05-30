@@ -1,4 +1,4 @@
-﻿using CarWashing.Domain.Core.Users;
+using CarWashing.Domain.Core.Users;
 using CarWashing.Infrastructure.DataAccess.ValueConverters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -13,8 +13,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User> {
         builder.Property(x => x.MiddleName);
         builder.Property(x => x.BirthDate);
         builder.Property(x => x.Money);
-
-        builder.Property(x => x.Image).HasConversion<ImageValueConverter>();
+        builder.Property(x => x.Image);
         builder.Property(x => x.PhoneNumber).HasConversion<PhoneNumberValueConverter>();
     }
 }

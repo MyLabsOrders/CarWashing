@@ -1,5 +1,4 @@
-﻿using CarWashing.Domain.Common.Exceptions;
-using CarWashing.Domain.Core.Abstractions;
+using CarWashing.Domain.Common.Exceptions;
 using CarWashing.Domain.Core.Orders;
 using CarWashing.Domain.Core.ValueObject;
 #pragma warning disable CS8618
@@ -8,7 +7,6 @@ namespace CarWashing.Domain.Core.Users;
 
 public class User {
     private readonly List<Order> _orders;
-    private decimal _money;
 
     protected User() {
         _orders = new List<Order>();
@@ -19,48 +17,48 @@ public class User {
         string firstName,
         string middleName,
         string lastName,
-        Image image,
         DateOnly birthDate,
         PhoneNumber phoneNumber,
-        Gender gender) {
+        Gender gender,
+        string image)
+    {
         ArgumentNullException.ThrowIfNull(firstName);
         ArgumentNullException.ThrowIfNull(middleName);
         ArgumentNullException.ThrowIfNull(lastName);
-        ArgumentNullException.ThrowIfNull(image);
         ArgumentNullException.ThrowIfNull(phoneNumber);
 
         Id = id;
         FirstName = firstName;
         LastName = lastName;
-        Image = image;
         MiddleName = middleName;
         BirthDate = birthDate;
         PhoneNumber = phoneNumber;
         Gender = gender;
-        IsActive = true;
+        Status = true;
 
         _orders = new List<Order>();
         Money = 0;
+        Image = image;
     }
 
     public Guid Id { get; }
     public string FirstName { get; set; }
-    public string MiddleName { get; set; }
     public string LastName { get; set; }
-    public Image Image { get; set; }
+    public string MiddleName { get; set; }
     public DateOnly BirthDate { get; set; }
     public PhoneNumber PhoneNumber { get; set; }
+    public string Image { get; set; }
+    public bool Status { get; set; }
     public Gender Gender { get; set; }
-    public bool IsActive { get; set; }
     public virtual IEnumerable<Order> Orders => _orders;
-    public decimal Money {
-        get => _money;
-        set {
-            if (value < 0)
-                throw UserInputException.NegativeUserBalanceException("User has not enough money");
+    public decimal Money { get; set; }
 
-            _money = value;
+    public void WithdrawMoney(decimal amount) {
+        if (amount > Money) {
+            throw UserInputException.NotEnoughMoneyException("User doesn't have enough money");
         }
+
+        Money -= amount;
     }
 
     public override string ToString() {

@@ -1,4 +1,4 @@
-﻿using CarWashing.Application.Dto.Orders;
+using CarWashing.Application.Dto.Orders;
 using CarWashing.Domain.Core.Orders;
 using CarWashing.Infrastructure.Mapping.Users;
 
@@ -15,7 +15,7 @@ public static class OrderMapping {
             order.User.ToDto(),
             order.Name,
             order.Company,
-            order.Image.Value,
+            order.Image,
             order.Price,
             order.OrderDate,
             order.Amount,
@@ -27,7 +27,7 @@ public static class OrderMapping {
             order.Id,
             order.Name,
             order.Company,
-            order.Image.Value,
+            order.Image,
             order.Price,
             order.OrderDate,
             order.Amount,

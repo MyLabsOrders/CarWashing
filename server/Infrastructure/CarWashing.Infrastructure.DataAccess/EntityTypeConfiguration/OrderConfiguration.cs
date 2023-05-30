@@ -1,5 +1,4 @@
-﻿using CarWashing.Domain.Core.Orders;
-using CarWashing.Infrastructure.DataAccess.ValueConverters;
+using CarWashing.Domain.Core.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,10 +11,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order> {
         builder.Property(x => x.Price);
         builder.Property(x => x.Name);
         builder.Property(x => x.Company);
+        builder.Property(x => x.Image);
         builder.Property(x => x.Amount);
         builder.Property(x => x.Period);
-
-        builder.Property(x => x.Image).HasConversion<ImageValueConverter>();
 
         builder.HasOne(x => x.User)
             .WithMany(x => x.Orders)

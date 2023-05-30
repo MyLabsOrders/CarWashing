@@ -10,19 +10,7 @@ public class UserInputException : DomainException {
         return new(message);
     }
 
-    public static UserInputException NegativeOrderTotalException() {
-        return new();
-    }
-
-    public static UserInputException NegativeOrderAmountException() {
-        return new();
-    }
-
-    public static UserInputException NegativeOrderPeriodException() {
-        return new();
-    }
-
-    public static UserInputException NegativeUserBalanceException(string message) {
+    public static UserInputException NotEnoughMoneyException(string message) {
         return new(message);
     }
 

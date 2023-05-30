@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using CarWashing.DataAccess.Abstractions;
 using CarWashing.Domain.Common.Exceptions;
-using CarWashing.Domain.Core.Abstractions;
 using CarWashing.Domain.Core.Users;
 using CarWashing.Domain.Core.ValueObject;
 using CarWashing.Infrastructure.Mapping.Users;
@@ -46,7 +45,7 @@ internal class UpdateUserHandler : IRequestHandler<Command, Response> {
 
         if (request.UserImage is not null)
         {
-            (await _context.Users.FirstAsync(x => x.Id.Equals(request.IdentityId), cancellationToken)).Image = new Image(request.UserImage);
+            (await _context.Users.FirstAsync(x => x.Id.Equals(request.IdentityId), cancellationToken)).Image = request.UserImage;
         }
 
         if (request.BirthDate is not null)
@@ -61,7 +60,7 @@ internal class UpdateUserHandler : IRequestHandler<Command, Response> {
 
         if (request.IsActive is not null)
         {
-            (await _context.Users.FirstAsync(x => x.Id.Equals(request.IdentityId), cancellationToken)).IsActive = (bool)request.IsActive;
+            (await _context.Users.FirstAsync(x => x.Id.Equals(request.IdentityId), cancellationToken)).Status = (bool)request.IsActive;
         }
 
         await _context.SaveChangesAsync(cancellationToken);

@@ -1,14 +1,10 @@
 ﻿using CarWashing.Domain.Common.Exceptions;
-using CarWashing.Domain.Core.Abstractions;
 using CarWashing.Domain.Core.Users;
 #pragma warning disable CS8618
 
 namespace CarWashing.Domain.Core.Orders;
 
 public class Order {
-    private int? _amount;
-    private int? _rentDays;
-
     protected Order() { }
 
     public Order(
@@ -16,17 +12,18 @@ public class Order {
         User? user,
         string name,
         string company,
-        Image image,
         decimal price,
-        DateTime? orderDate) {
+        DateTime? orderDate,
+        string image)
+    {
         Id = id;
         User = user;
         UserId = user?.Id;
         Name = name;
         Company = company;
-        Image = image;
         Price = price;
         OrderDate = orderDate;
+        Image = image;
     }
 
     public Guid Id { get; }
@@ -34,28 +31,10 @@ public class Order {
     public Guid? UserId { get; set; }
     public string Name { get; }
     public string Company { get; }
-    public Image Image { get; }
+    public string Image { get; set; }
     public DateTime? OrderDate { get; set; }
     public decimal Price { get; }
-    public int? Amount {
-        get => _amount;
-        set {
-            if (value < 0)
-                throw UserInputException.NegativeOrderAmountException();
-
-            _amount = value;
-        }
-    }
-
-    public int? Period {
-        get => _rentDays;
-        set {
-            if (value < 0)
-                throw UserInputException.NegativeOrderPeriodException();
-
-            _rentDays = value;
-        }
-    }
-
+    public uint? Amount { get; set; }
+    public uint? Period { get; set; }
     public decimal TotalPrice => Price * (Amount ?? 0) * (Period ?? 0);
 }

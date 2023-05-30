@@ -17,11 +17,11 @@ public static class UserMapping {
             user.FirstName,
             user.MiddleName,
             user.LastName,
-            user.Image.Value,
+            user.Image,
             user.BirthDate,
             user.PhoneNumber.Value,
             user.Gender.ToString(),
-            user.IsActive,
+            user.Status,
             user.Money,
             user.Orders.ToDto());
     }

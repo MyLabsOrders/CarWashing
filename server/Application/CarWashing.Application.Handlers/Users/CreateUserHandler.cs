@@ -1,7 +1,6 @@
 using MediatR;
 using CarWashing.Application.Common.Exceptions;
 using CarWashing.DataAccess.Abstractions;
-using CarWashing.Domain.Core.Abstractions;
 using CarWashing.Domain.Core.Users;
 using CarWashing.Domain.Core.ValueObject;
 using CarWashing.Infrastructure.Mapping.Users;
@@ -25,10 +24,10 @@ internal class CreateUserHandler : IRequestHandler<Command, Response> {
             request.Firstname,
             request.Middlename,
             request.Lastname,
-            new Image(request.UserImage),
             request.BirthDate,
             new PhoneNumber(request.PhoneNumber),
-            gender
+            gender,
+            request.UserImage
         );
 
         _context.Users.Add(user);

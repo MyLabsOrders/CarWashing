@@ -7,5 +7,5 @@ public record UserOrderDto(
     string Image,
     decimal Total,
     DateTime? OrderDate,
-    int? Count,
-    int? Days);
+    uint? Count,
+    uint? Days);
