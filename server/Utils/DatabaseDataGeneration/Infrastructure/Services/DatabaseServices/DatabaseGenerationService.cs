@@ -1,7 +1,5 @@
-﻿using Avalonia.Media.Imaging;
-using CarWashing.Models;
+﻿using CarWashing.Models;
 using CarWashing.Models.Informing;
-using System;
 
 namespace CarWashing.Infrastructure.Services.DatabaseServices
 {
@@ -91,16 +89,30 @@ namespace CarWashing.Infrastructure.Services.DatabaseServices
 
         private readonly ProductModel[] _products = new[]
         {
-            new ProductModel("", "D50", "PA", 9225, default, new Bitmap("D50.jpg")),
-            new ProductModel("", "DP002", "TOR", 28190, default, new Bitmap("DP002.jpg")),
-            new ProductModel("", "FX 1914BPL", "HAWK", 95470, default, new Bitmap("FX1914BPL.jpg")),
-            new ProductModel("", "HR 3500", "RAMEX", 29000, default, new Bitmap("HR3500.jpg")),
-            new ProductModel("", "MV925", "HAWK", 4975, default, new Bitmap("MV925.jpg")),
-            new ProductModel("", "PA T46", "PA", 20260, default, new Bitmap("PAT46.jpg")),
-            new ProductModel("", "Panda423", "Panda", 63150, default, new Bitmap("Panda423.jpg")),
-            new ProductModel("", "PROCAR LT", "PROCAR", 31820, default, new Bitmap("PROCAR-LT.jpg")),
-            new ProductModel("", "TR-02", "TOR", 4920, default, new Bitmap("TR-02.jpg")),
-            new ProductModel("", "VIKAN 290", "VIKAN", 1960, default, new Bitmap("VIKAN290.jpg")),
+            new ProductModel("", "D50", "PA", 9225, default, null),
+            new ProductModel("", "DP002", "TOR", 28190, default, null),
+            new ProductModel("", "FX 1914BPL", "HAWK", 95470, default, null),
+            new ProductModel("", "HR 3500", "RAMEX", 29000, default, null),
+            new ProductModel("", "MV925", "HAWK", 4975, default, null),
+            new ProductModel("", "PA T46", "PA", 20260, default, null),
+            new ProductModel("", "Panda423", "Panda", 63150, default, null),
+            new ProductModel("", "PROCAR LT", "PROCAR", 31820, default, null),
+            new ProductModel("", "TR-02", "TOR", 4920, default, null),
+            new ProductModel("", "VIKAN 290", "VIKAN", 1960, default, null),
+        };
+
+        private readonly string[] _productsImages = new[]
+        {
+            Convert.ToBase64String(File.ReadAllBytes("Assets//D50.jpg")),
+            Convert.ToBase64String(File.ReadAllBytes("Assets//DP002.jpg")),
+            Convert.ToBase64String(File.ReadAllBytes("Assets//FX1914BPL.jpg")),
+            Convert.ToBase64String(File.ReadAllBytes("Assets//HR3500.jpg")),
+            Convert.ToBase64String(File.ReadAllBytes("Assets//MV925.jpg")),
+            Convert.ToBase64String(File.ReadAllBytes("Assets//PAT46.jpg")),
+            Convert.ToBase64String(File.ReadAllBytes("Assets//Panda423.jpg")),
+            Convert.ToBase64String(File.ReadAllBytes("Assets//PROCAR-LT.jpg")),
+            Convert.ToBase64String(File.ReadAllBytes("Assets//TR-02.jpg")),
+            Convert.ToBase64String(File.ReadAllBytes("Assets//VIKAN290.jpg")),
         };
 
         #endregion
@@ -131,7 +143,7 @@ namespace CarWashing.Infrastructure.Services.DatabaseServices
         }
 
         public void Generate()
-        {
+        {           
             AddUsers();
             AddProducts();
         }
@@ -149,9 +161,12 @@ namespace CarWashing.Infrastructure.Services.DatabaseServices
 
         private void AddProducts()
         {
-            foreach (var product in _products)
+            for (int i = 0; i < _products.Length; i++)
             {
-                Shop.AddProduct(product);
+                ProductModel? product = _products[i];
+                string image = _productsImages[i];
+
+                Shop.AddProduct(product, image);
             }
         }
     }
