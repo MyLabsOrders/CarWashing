@@ -52,7 +52,7 @@ const LoginForm = () => {
 					}}
 				>
 					<Typography variant="h4" sx={{ mb: 3, color: 'white' }}>
-						Login Form
+						Login
 					</Typography>
 					<TextField
 						label="Username"

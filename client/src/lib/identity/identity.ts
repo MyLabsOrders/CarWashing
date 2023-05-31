@@ -47,7 +47,7 @@ export const authorizeAdmin = async (token: string, username: string) => {
 export const getIdentityUser = async (token: string, userId: string) => {
 	return await api.get<IdentityResponseDto>(`${userId}`, {
 		headers: {
-			Authorization: `Bearer ${token}`
+			Authorization: `Bearer ${token}`,
 		}
 	})
 }

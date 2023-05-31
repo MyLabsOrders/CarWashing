@@ -1,10 +1,10 @@
 import { Button, Box, Modal, FormControl, TextField } from "@mui/material"
-import { green } from "@mui/material/colors"
+import { green, grey } from "@mui/material/colors"
 import { useState } from "react"
 import { createProduct } from "../../../lib/products/products"
 import { getCookie } from "typescript-cookie"
 import { useNavigate } from "react-router"
-import { convertImageToBase64 } from "../../utils/utils"
+import { convertToBase64 } from "../../utils/utils"
 
 const CreateProductForm = () => {
 	const [isModaOpen, setIsModalOpen] = useState(false)
@@ -32,7 +32,7 @@ const CreateProductForm = () => {
 		setIsModalOpen(false);
 
 		try {
-			const convertedImage = await convertImageToBase64(image);
+			const convertedImage = await convertToBase64(image);
 			await createProduct(
 				getCookie('jwt-authorization') ?? '',
 				{ name: name, status: status, total: total, orderImage: convertedImage })
@@ -68,7 +68,8 @@ const CreateProductForm = () => {
 						display: 'flex',
 						justifyContent: 'center',
 						alignItems: 'center',
-						borderRadius: '10px'
+						borderRadius: '10px',
+						backgroundColor: green[800]
 					}}
 				>
 					<FormControl>

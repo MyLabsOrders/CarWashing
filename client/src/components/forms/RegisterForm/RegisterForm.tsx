@@ -6,10 +6,18 @@ import { register } from "../../../lib/identity/identity";
 import { Notification } from "../../../features";
 import { setCookie } from "typescript-cookie";
 
+export interface RegisterFormProps{
+	isModal?: boolean
+	oncloseCallback?: ()=>void
+}
 
-const LoginForm = () => {
+const LoginForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
 	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("");
+    const [firstName, setFirstname] = useState("");
+    const [middleName, setMiddlename] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [birthDate, setBirthdate] = useState("");
 	const [error, setError] = useState<string | null>(null)
 	const navigate = useNavigate();
 
@@ -21,7 +29,8 @@ const LoginForm = () => {
 			const { data } = await register({ username, password, roleName: 'user' })
 			
 			setCookie('jwt-authorization', data.token);
-			navigate("/login", { state: { message: "Successfully registered!", type: "success" } })
+			if(!isModal) navigate("/login", { state: { message: "Successfully registered!", type: "success" } })
+			if(oncloseCallback) oncloseCallback();
 		} catch (error: any) {
 			setError(error.response.data.Detailes);
 		}
@@ -29,12 +38,28 @@ const LoginForm = () => {
 	};
 
 	const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setUsername(event.target.value);
-	};
+        setUsername(event.target.value);
+    };
 
-	const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setPassword(event.target.value);
-	};
+    const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+    };
+
+    const handleFirstnameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setFirstname(event.target.value);
+    };
+
+    const handleMiddlenameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setMiddlename(event.target.value);
+    };
+
+	const handlePhonenumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setPhoneNumber(event.target.value);
+    };
+
+    const handleBirthdateChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setBirthdate(event.target.value);
+    };
 
 	return (
 		<>
@@ -52,7 +77,7 @@ const LoginForm = () => {
 					}}
 				>
 					<Typography variant="h4" sx={{ mb: 3, color: 'white' }}>
-						Register Form
+					Sign up
 					</Typography>
 					<TextField
 						label="Username"
@@ -73,6 +98,94 @@ const LoginForm = () => {
 						}}
 						value={username}
 					/>
+					<TextField
+                        label="First name"
+                        onChange={handleFirstnameChange}
+                        required
+                        variant="outlined"
+                        color="primary"
+                        type="text"
+                        sx={{
+                            mb: 3,
+                            backgroundColor: "white",
+                            borderRadius: 1,
+                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                                {
+                                    borderColor: "white",
+                                },
+                            "& .MuiInputLabel-root.Mui-focused": {
+                                color: "white",
+                                textShadow: "0 2px grey",
+                            },
+                        }}
+                        value={firstName}
+                    />
+                    <TextField
+                        label="Middle name"
+                        onChange={handleMiddlenameChange}
+                        required
+                        variant="outlined"
+                        color="primary"
+                        type="text"
+                        sx={{
+                            mb: 3,
+                            backgroundColor: "white",
+                            borderRadius: 1,
+                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                                {
+                                    borderColor: "white",
+                                },
+                            "& .MuiInputLabel-root.Mui-focused": {
+                                color: "white",
+                                textShadow: "0 2px grey",
+                            },
+                        }}
+                        value={middleName}
+                    />
+					<TextField
+                        label="Phone"
+                        onChange={handlePhonenumberChange}
+                        required
+                        variant="outlined"
+                        color="primary"
+                        type="tel"
+                        sx={{
+                            mb: 3,
+                            backgroundColor: "white",
+                            borderRadius: 1,
+                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                                {
+                                    borderColor: "white",
+                                },
+                            "& .MuiInputLabel-root.Mui-focused": {
+                                color: "white",
+                                textShadow: "0 2px grey",
+                            },
+                        }}
+                        value={phoneNumber}
+                    />
+                    <TextField
+                        label=""
+                        onChange={handleBirthdateChange}
+                        required
+                        variant="outlined"
+                        color="primary"
+                        type="date"
+                        sx={{
+                            mb: 3,
+                            backgroundColor: "white",
+                            borderRadius: 1,
+                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                                {
+                                    borderColor: "white",
+                                },
+                            "& .MuiInputLabel-root.Mui-focused": {
+                                color: "white",
+                                textShadow: "0 2px grey",
+                            },
+                        }}
+                        value={birthDate}
+                    />
 					<TextField
 						label="Password"
 						onChange={handlePasswordChange}
@@ -102,11 +215,11 @@ const LoginForm = () => {
 								color: "white",
 							}
 						}}>
-						Register
+						Sign up
 					</Button>
-					<Typography variant="body2" sx={{ mt: 2, color: 'white' }}>
+					{!isModal && <Typography variant="body2" sx={{ mt: 2, color: 'white' }}>
 						Already have an account? <Link to="/login">Login here</Link>
-					</Typography>
+					</Typography>}
 				</Box>
 			</Box>
 		</>
