@@ -5,11 +5,11 @@ import { Menu } from "./features";
 import { DocsPage as Docs } from "./pages/DocsPage";
 import { AdminPage as Admin } from "./pages/AdminPage";
 import { useEffect, useState } from "react";
-import { getIdentityUser as get_user_identity } from "./lib/identity/identity";
+import { authorizeAdmin } from "./lib/identity/identity";
 import { getCookie } from "typescript-cookie";
 
 function App() {
-    const [isAdmin, setIsAdmin] = useState(true);   
+    const [isAdmin, setIsAdmin] = useState(false);   
 
     useEffect(() => {
         fetch_user_data();
@@ -17,12 +17,14 @@ function App() {
 
     const fetch_user_data = async () => {
         try {
-            const { data } = await get_user_identity(
+            await authorizeAdmin(
                 getCookie("jwt-authorization") ?? "",
-                getCookie("current-user") ?? ""
+                getCookie("current-username") ?? ""
             );
-            setIsAdmin(data.role === "admin");
-        } catch (error) {}
+            setIsAdmin(true);
+        } catch (error) {
+            setIsAdmin(false);
+        }
     };
 
     return (

@@ -2,13 +2,13 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import "./Navlist.css";
 import { useState, useEffect } from "react";
 import { getCookie } from "typescript-cookie";
-import { getIdentityUser } from "../../lib/identity/identity";
+import { authorizeAdmin, getIdentityUser } from "../../lib/identity/identity";
 import { green } from "@mui/material/colors";
 import NavigateBtn from "./NavigateBtn";
 
 
 const Navlist = () => {
-    const [isAdmin, setIsAdmin] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         getUser();
@@ -16,12 +16,14 @@ const Navlist = () => {
 
     const getUser = async () => {
         try {
-            const { data } = await getIdentityUser(
+            await authorizeAdmin(
                 getCookie("jwt-authorization") ?? "",
-                getCookie("current-user") ?? ""
+                getCookie("current-username") ?? ""
             );
-            setIsAdmin(data.role === "admin");
-        } catch (error) {}
+            setIsAdmin(true);
+        } catch (error) {
+            setIsAdmin(false);
+        }
     };
 
     return (

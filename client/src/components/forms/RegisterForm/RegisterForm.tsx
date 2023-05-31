@@ -2,16 +2,17 @@ import { useState, ChangeEvent, FormEvent } from "react";
 import { Button, TextField, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { green } from "@mui/material/colors";
-import { register } from "../../../lib/identity/identity";
+import { login, register } from "../../../lib/identity/identity";
 import { Notification } from "../../../features";
 import { setCookie } from "typescript-cookie";
+import { createUserProfile } from "../../../lib/users/users";
 
 export interface RegisterFormProps{
 	isModal?: boolean
 	oncloseCallback?: ()=>void
 }
 
-const LoginForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
+const SignupForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
 	const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [firstName, setFirstname] = useState("");
@@ -24,13 +25,29 @@ const LoginForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		try {
-			setError(null)
-			const { data } = await register({ username, password, roleName: 'user' })
+        try {
+            setError(null);
+            await register({username, password, roleName: "user"});
+
+            const loginResponse = await login({ username, password });
+            const jwtToken = loginResponse.data.token;
+            const userId = loginResponse.data.userId;
+
+            await createUserProfile(jwtToken, userId, 
+                {firstName, middleName, lastName: "", birthDate, phoneNumber, userImage: null, gender: "male"});
+
+            setCookie("jwt-authorization", jwtToken);
+			setCookie("current-user", userId);
+			setCookie("current-username", username);
 			
-			setCookie('jwt-authorization', data.token);
-			if(!isModal) navigate("/login", { state: { message: "Successfully registered!", type: "success" } })
-			if(oncloseCallback) oncloseCallback();
+            if (!isModal)
+                navigate("/profile", {
+                    state: {
+                        message: "Successfully registered!",
+                        type: "success",
+                    },
+                });
+            if (oncloseCallback) oncloseCallback();
 		} catch (error: any) {
 			setError(error.response.data.Detailes);
 		}
@@ -73,7 +90,6 @@ const LoginForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
 						display: "flex",
 						flexDirection: "column",
 						alignItems: "center",
-						marginTop: "100px"
 					}}
 				>
 					<Typography variant="h4" sx={{ mb: 3, color: 'white' }}>
@@ -226,4 +242,4 @@ const LoginForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
 	);
 };
 
-export default LoginForm;
+export default SignupForm;

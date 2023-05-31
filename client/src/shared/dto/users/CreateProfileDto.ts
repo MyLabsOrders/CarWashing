@@ -3,7 +3,7 @@ interface CreateProfileDto{
 	middleName: string;
 	lastName: string;
 	phoneNumber: string;
-	userImage: string;
+	userImage: string | null;
 	birthDate: string;
 	gender: "male" | "female";
 }

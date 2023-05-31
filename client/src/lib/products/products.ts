@@ -25,7 +25,7 @@ export const createProduct = async (token: string, dto: CreateOrderDto) => {
 };
 
 export const getAllProducts = async (page?: number) => {
-    return await api.get<IProductPage>(`${page ?? "/"}`);
+    return await api.get<IProductPage>(page ? `?page=${page}` : "");
 };
 
 export const getProduct = async (token: string, id: string) => {
@@ -36,34 +36,47 @@ export const getProduct = async (token: string, id: string) => {
     });
 };
 
+export const getInvoice = async (token: string, date: string) => {
+    const { data } = await api.get<Blob>(`/invoice?orderTime=${date}`, {
+        responseType: "arraybuffer",
+        headers: {
+            "Content-Type": "application/pdf",
+            Accept: "application/pdf",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    const blob = new Blob([data], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    return { data: { link: url } };
+};
+
 export const getCheque = async (token: string, date: string) => {
-    return await api.get<IDocument>(`/cheque?orderTime=${date}`, {
+    const { data } = await api.get<Blob>(`/cheque?orderTime=${date}`, {
         headers: {
+            "Content-Type": "application/pdf",
+            Accept: "application/pdf",
             Authorization: `Bearer ${token}`,
         },
     });
+    const blob = new Blob([data], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    return { data: { link: url } };
 };
 
-//Todo: review
-export const getDocuments = async (token: string) => {
-    const result: IDocument[] = [];
-    const invoiceResponse = await api.get<IDocument>(`/invoice`, {
+export const getStats = async (token: string, from: string, to: string) => {
+    const { data } = await api.get<Blob>(`/stats?From=${from}&To=${to}`, {
         headers: {
+            "Content-Type": "application/pdf",
+            Accept: "application/pdf",
             Authorization: `Bearer ${token}`,
         },
     });
-    result.push(invoiceResponse.data);
 
-    const chequeResponse = await api.get<IDocument>(`/cheque`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
-    result.push(chequeResponse.data);
-    return result;
+    const blob = new Blob([data], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    return { data: { link: url } };
 };
 
-//Todo: review
 export const getHistory = async (page?: number): Promise<IProductPage> => {
     const { data } = await api.get<IProductPage>(`${page ?? "/"}`);
     data.orders = data.orders.filter((order) => order.orderDate !== null);

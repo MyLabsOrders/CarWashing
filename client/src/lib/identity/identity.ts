@@ -37,7 +37,7 @@ export const changePassword = async (token: string, password: string) => {
 }
 
 export const authorizeAdmin = async (token: string, username: string) => {
-	return await api.post('authorize-admin', username, {
+	return await api.post('authorize-admin', {username}, {
 		headers: {
 			Authorization: `Bearer ${token}`
 		}

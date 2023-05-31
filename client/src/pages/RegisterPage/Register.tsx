@@ -4,7 +4,7 @@ import { green } from "@mui/material/colors";
 
 const Register = () => {
 	return (
-		<Box bgcolor={green[900]} minHeight="100vh">
+		<Box bgcolor={green[900]} minHeight="100vh" paddingTop={"150px"}>
 			<RegisterForm />
 		</Box>
 	)

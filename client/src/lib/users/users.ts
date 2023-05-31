@@ -35,8 +35,11 @@ export const changeUserProfile = async (token: string, id: string, dto: ChangeUs
 	})
 }
 
-export const addProduct = async (token: string, id: string, orderId: string) => {
-	return await api.put(`${id}/orders`, {orderId}, {
+export const addProduct = async (token: string, id: string, dto: {
+	orderId: string;
+	count: number;
+}) => {
+	return await api.put(`${id}/orders`, [dto], {
 		headers: {
 			Authorization: `Bearer ${token}`
 		}

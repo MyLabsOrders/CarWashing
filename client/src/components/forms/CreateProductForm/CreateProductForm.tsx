@@ -1,5 +1,5 @@
 import { Button, Box, Modal, FormControl, TextField } from "@mui/material"
-import { green, grey } from "@mui/material/colors"
+import { green } from "@mui/material/colors"
 import { useState } from "react"
 import { createProduct } from "../../../lib/products/products"
 import { getCookie } from "typescript-cookie"
@@ -9,8 +9,9 @@ import { convertToBase64 } from "../../utils/utils"
 const CreateProductForm = () => {
 	const [isModaOpen, setIsModalOpen] = useState(false)
 	const [status, setStatus] = useState('')
-	const [total, setTotal] = useState(0)
+	const [price, setPrice] = useState(0)
 	const [name, setName] = useState('')
+	const [company, setCompany] = useState("");
 	const [image, setImage] = useState<File | null>(null)
 	const navigate = useNavigate()
 
@@ -35,7 +36,7 @@ const CreateProductForm = () => {
 			const convertedImage = await convertToBase64(image);
 			await createProduct(
 				getCookie('jwt-authorization') ?? '',
-				{ name: name, status: status, total: total, orderImage: convertedImage })
+				{ name: name, status: status, price, orderImage: convertedImage, company })
 		} catch (error: any) {
 			navigate("/profile", { state: { message: `${error?.message}`, type: "error" } })
 
@@ -75,7 +76,8 @@ const CreateProductForm = () => {
 					<FormControl>
 						<TextField value={status} onChange={(e) => setStatus(e.target.value)} label="Status ( Available/Rented ) " fullWidth />
 						<TextField value={name} onChange={(e) => setName(e.target.value)} label="Name" fullWidth />
-						<TextField value={total} onChange={(e) => setTotal(e.target.value as unknown as number)} label="Total" fullWidth type="number" />
+						<TextField value={price} onChange={(e) => setPrice(e.target.value as unknown as number)} label="Total" fullWidth type="number" />
+						<TextField value={company} onChange={(e) => setCompany(e.target.value)} label="Company" fullWidth/>
 						<input
 							type="file"
 							accept="image/*"

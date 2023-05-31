@@ -59,7 +59,7 @@ const AdminPage = () => {
 
     useEffect(() => {
         fetchUsers();
-    });
+    },[]);
 
     const fetchUsers = async () => {
         try {
@@ -68,27 +68,7 @@ const AdminPage = () => {
             );
             setUsers(data.users);
         } catch (error) {
-            console.log(error);
         }
-    };
-
-    const deleteUser = async (user: IUser) => {
-        /*
-        try {
-            const { data } = await deleteUser(
-                getCookie("jwt-authorization") ?? "",
-                id
-            );
-            const _users = users.splice(users.indexOf(user),1)
-            setUsers(_users);
-        } catch (error) {
-            console.log(error);
-        }
-        */
-        let _users = users;
-        _users.splice(_users.indexOf(user), 1);
-        setUsers([..._users]);
-        console.log(`deleted user with id: ${user.id}`);
     };
 
     return (
@@ -106,7 +86,7 @@ const AdminPage = () => {
                 width={"80%"}
                 marginLeft={"auto"}
                 marginRight={"auto"}>
-                <UserListComponent users={users} deleteCallback={deleteUser} />
+                <UserListComponent users={users}/>
                 <Box marginTop={"10px"}>
                     <CreateProductForm />
                     <CreateUserForm onCloseCallback={fetchUsers}/>

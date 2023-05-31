@@ -11,7 +11,7 @@ import { green, grey } from "@mui/material/colors";
 import { PurchaseForm } from "../PurchaseForm";
 import { useState } from "react";
 import { addProduct } from "../../../lib/users/users";
-import { getCookie } from "typescript-cookie";
+import { getCookie, setCookie } from "typescript-cookie";
 import { Notification } from "../../../features";
 import { useNavigate } from "react-router-dom";
 
@@ -22,33 +22,6 @@ export interface IProduct {
     status: string;
     image: string;
 }
-
-export const createProduct = (
-    id: string,
-    name: string,
-    total: number,
-    status: string,
-    image: string
-): IProduct => {
-    return { id, name, total, status, image };
-};
-
-export const createProducts = (count: number): IProduct[] => {
-    const result: IProduct[] = new Array(count)
-        .fill(null)
-        .map((_, i) =>
-            createProduct(
-                `${i}`,
-                `Имя${i}`,
-                1000 + 100 * i,
-                `Статус${i}`,
-                "https://loremflickr.com/640/360"
-            )
-        );
-    console.log(result);
-
-    return result;
-};
 
 const Product = ({ id, name, total, status, image }: IProduct) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,14 +36,15 @@ const Product = ({ id, name, total, status, image }: IProduct) => {
         setIsModalOpen(false);
     };
 
-    const submit_processing = async () => {
+    const submit_processing = async (count: number) => {
         try {
             setMessage(null);
-            await addProduct(
+            const { data } = await addProduct(
                 getCookie("jwt-authorization") ?? "",
                 getCookie("current-user") ?? "",
-                id
+                { orderId: id, count }
             );
+            setCookie("order-date", data);
             setMessage("Successfully bought it!");
         } catch (error: any) {
             setMessage(error?.response?.data?.Detailes);
@@ -94,7 +68,17 @@ const Product = ({ id, name, total, status, image }: IProduct) => {
                     alignItems: "center",
                     backgroundColor: "transparent",
                 }}>
-                <CardMedia component="img" src={image} alt={name} sx={{ boxShadow: "0 0 5px 5px #1b5e20", borderRadius: "5px", height: "100%", width: "auto" }} />
+                <CardMedia
+                    component="img"
+                    src={image}
+                    alt={name}
+                    sx={{
+                        boxShadow: "0 0 5px 5px #1b5e20",
+                        borderRadius: "5px",
+                        height: "100%",
+                        width: "auto",
+                    }}
+                />
             </Box>
             <Divider sx={{ backgroundColor: "white" }} />
             <Box

@@ -11,45 +11,35 @@ import {
 import { IUser } from "../../shared";
 import { green, grey, red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
-import {
-    changeRole,
-    changeUsername,
-    getIdentityUser,
-} from "../../lib/identity/identity";
+import { changeRole, getIdentityUser } from "../../lib/identity/identity";
 import { getCookie } from "typescript-cookie";
 import { changeUserProfile } from "../../lib/users/users";
 
 export interface UserElementProps {
     user: IUser;
-    deleteCallback: (user: IUser) => {};
 }
 
-const UserElement = ({ user, deleteCallback }: UserElementProps) => {
+const UserElement = ({ user }: UserElementProps) => {
     const [role, setRole] = useState<string>("user");
 
     const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
     const [username, setUsername] = useState<string>("");
 
-    const [editedFirstName, setEditedFirstName] = useState(user.firstName);
-    const [editedMiddleName, setEditedMiddleName] = useState(user.middleName);
-    const [editedLastName, setEditedLastName] = useState(user.lastName);
-    const [editedBirthDate, setEditedBirthDate] = useState(user.birthDate);
-    const [editedUsername, setEditedUsername] = useState(username);
+    const [newFirstname, setNewFirstname] = useState(user.firstName);
+    const [newMiddlename, setNewMiddlename] = useState(user.middleName);
+    const [newLastname, setNewLastname] = useState(user.lastName);
+    const [newBirthdate, setNewBirthdate] = useState(user.birthDate);
 
     useEffect(() => {
         fetchIdentity();
     });
 
-    const deleteUser = () => {
-        deleteCallback(user);
-    };
-
     const changeUser = async () => {
         try {
-            user.firstName = editedFirstName;
-            user.middleName = editedMiddleName;
-            user.lastName = editedLastName;
-            user.birthDate = editedBirthDate;
+            user.firstName = newFirstname;
+            user.middleName = newMiddlename;
+            user.lastName = newLastname;
+            user.birthDate = newBirthdate;
 
             await changeUserProfile(
                 getCookie("jwt-authorization") ?? "",
@@ -60,23 +50,21 @@ const UserElement = ({ user, deleteCallback }: UserElementProps) => {
                     middleName: user.middleName,
                     lastName: user.lastName,
                     birthDate: user.birthDate,
-                    gender: user.gender.toLowerCase() as ("male" | "female"),
+                    gender: user.gender.toLowerCase() as "male" | "female",
                     phoneNumber: user.number,
                     userImage: user.image,
-                    isActive: true
+                    isActive: true,
                 }
             );
-        } catch (error) {
-            // console.log(error);
-        }
+        } catch (error) {}
     };
 
     const openModal = () => {
         setDialogOpen(true);
-        setEditedFirstName(user.firstName);
-        setEditedMiddleName(user.middleName);
-        setEditedLastName(user.lastName);
-        setEditedBirthDate(user.birthDate);
+        setNewFirstname(user.firstName);
+        setNewMiddlename(user.middleName);
+        setNewLastname(user.lastName);
+        setNewBirthdate(user.birthDate);
     };
     const closeModal = () => setDialogOpen(false);
 
@@ -91,6 +79,10 @@ const UserElement = ({ user, deleteCallback }: UserElementProps) => {
         } catch (error) {}
     };
 
+    const deleteUser = () => {
+        console.log("Удаляю...");
+    };
+
     const fetchIdentity = async () => {
         try {
             const { data } = await getIdentityUser(
@@ -99,9 +91,7 @@ const UserElement = ({ user, deleteCallback }: UserElementProps) => {
             );
             setRole(data.role);
             setUsername(data.username);
-        } catch (error) {
-            // console.log(error);
-        }
+        } catch (error) {}
     };
 
     return (
@@ -154,8 +144,8 @@ const UserElement = ({ user, deleteCallback }: UserElementProps) => {
                 <Box bgcolor={"inherit"} padding={"2rem"}>
                     <TextField
                         variant="standard"
-                        value={editedUsername}
-                        onChange={(e) => setEditedUsername(e.target.value)}
+                        value={newFirstname}
+                        onChange={(e) => setNewFirstname(e.target.value)}
                         fullWidth
                         InputProps={{
                             style: {
@@ -183,8 +173,8 @@ const UserElement = ({ user, deleteCallback }: UserElementProps) => {
                     />
                     <TextField
                         variant="standard"
-                        value={editedFirstName}
-                        onChange={(e) => setEditedFirstName(e.target.value)}
+                        value={newMiddlename}
+                        onChange={(e) => setNewMiddlename(e.target.value)}
                         fullWidth
                         InputProps={{
                             style: {
@@ -212,37 +202,8 @@ const UserElement = ({ user, deleteCallback }: UserElementProps) => {
                     />
                     <TextField
                         variant="standard"
-                        value={editedMiddleName}
-                        onChange={(e) => setEditedMiddleName(e.target.value)}
-                        fullWidth
-                        InputProps={{
-                            style: {
-                                color: "white",
-                            },
-                        }}
-                        sx={{
-                            textAlign: "center",
-                            "& .MuiInputBase-root": {
-                                color: "white",
-                                "&:before": {
-                                    borderBottomColor: "white",
-                                },
-                                "&:hover:before": {
-                                    borderBottomColor: "white",
-                                },
-                                "&.Mui-focused:before": {
-                                    borderBottomColor: "green",
-                                },
-                                "&.Mui-focused:after": {
-                                    borderBottomColor: "green",
-                                },
-                            },
-                        }}
-                    />
-                    <TextField
-                        variant="standard"
-                        value={editedLastName}
-                        onChange={(e) => setEditedLastName(e.target.value)}
+                        value={newLastname}
+                        onChange={(e) => setNewLastname(e.target.value)}
                         fullWidth
                         InputProps={{
                             style: {
@@ -271,9 +232,9 @@ const UserElement = ({ user, deleteCallback }: UserElementProps) => {
                     <TextField
                         type="date"
                         variant="standard"
-                        value={editedBirthDate}
+                        value={newBirthdate}
                         onChange={(e) => {
-                            setEditedBirthDate(e.target.value);
+                            setNewBirthdate(e.target.value);
                         }}
                         fullWidth
                         InputProps={{

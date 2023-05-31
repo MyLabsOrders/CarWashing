@@ -6,36 +6,13 @@ import { IProductPage } from "../../shared";
 import { Notification } from "../../features";
 import { useLocation } from "react-router-dom";
 import { getCheque, getHistory } from "../../lib/products/products";
-import { createProduct } from "../../shared/models/product/IProduct";
 import { getUser } from "../../lib/users/users";
 import { green } from "@mui/material/colors";
 
-const createProducts = (count: number): IProductPage => {
-    const orders = new Array(count)
-        .fill(null)
-        .map((_, i) =>
-            createProduct(
-                `${i}`,
-                `status${i}`,
-                `name${i}`,
-                "https://loremflickr.com/640/360",
-                0,
-                `01.01.000${i}`
-            )
-        );
-
-    return { orders, page: 0, totalPage: 2 };
-    // return orders;
-};
-
 const Profile = () => {
     const [error, setError] = useState<string | null>(null);
-    const [basketProducts, setBasketProducts] = useState<IProductPage | null>(
-        createProducts(5)
-    );
-    const [historyProducts, setHistoryProducts] = useState<IProductPage | null>(
-        createProducts(5)
-    );
+    const [basketProducts, setBasketProducts] = useState<IProductPage | null>();
+    const [historyProducts, setHistoryProducts] = useState<IProductPage | null>();
     const [isOrderBasketOpen, setOrderBasketOpen] = useState<boolean>(false);
     const [isHistoryOpen, setHistoryOpen] = useState<boolean>(false);
     const [documentLink, setDocumentLink] = useState<string>();
@@ -57,7 +34,6 @@ const Profile = () => {
                     getCookie("jwt-authorization") ?? ""
                 );
                 setBasketProducts({ orders: data.orders, page: 1, totalPage: 1 });
-                window.open(documentLink, "_blank", "noreferrer");
             } catch (error) {
                 setBasketProducts(null);
             }
@@ -75,9 +51,10 @@ const Profile = () => {
     const fetch_cheque = async () => {
         try {
             const { data } = await getCheque(
-                getCookie("jwt-token") ?? "",
+                getCookie("jwt-authorization") ?? "",
                 getCookie("order-date") ?? ""
             );
+            window.open(data.link, "_blank", "noreferrer");
             setDocumentLink(data.link);
         } catch (error) {
         }
