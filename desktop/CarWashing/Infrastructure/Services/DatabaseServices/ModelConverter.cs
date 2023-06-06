@@ -100,7 +100,7 @@ namespace CarWashing . Infrastructure . Services . DatabaseServices {
 
 		string st = OrderModel.RENT;
 		string identity = fO.id;
-		double money = pr.Sum(t => t.total * t.count!.Value * t.days!.Value);
+		double money = pr.Sum(t => t.total * t.count!.Value * (t.days ?? 1.0));
 
 		DateTime d = fO.orderDate is null
 										? default
