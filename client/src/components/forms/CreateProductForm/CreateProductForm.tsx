@@ -53,7 +53,7 @@ const CreateProductForm = () => {
 						color: "white",
 					}
 				}}>
-				Create product
+				Создать продукт
 			</Button>
 			<Modal open={isModaOpen} onClose={handleClose} sx={{ backdropFilter: "blur(5px)" }}>
 				<Box
@@ -74,10 +74,10 @@ const CreateProductForm = () => {
 					}}
 				>
 					<FormControl>
-						<TextField value={status} onChange={(e) => setStatus(e.target.value)} label="Status ( Available/Rented ) " fullWidth />
-						<TextField value={name} onChange={(e) => setName(e.target.value)} label="Name" fullWidth />
-						<TextField value={price} onChange={(e) => setPrice(e.target.value as unknown as number)} label="Total" fullWidth type="number" />
-						<TextField value={company} onChange={(e) => setCompany(e.target.value)} label="Company" fullWidth/>
+						<TextField value={status} onChange={(e) => setStatus(e.target.value)} label="Статус ( Available/Rented ) " fullWidth />
+						<TextField value={name} onChange={(e) => setName(e.target.value)} label="Название" fullWidth />
+						<TextField value={price} onChange={(e) => setPrice(e.target.value as unknown as number)} label="Стоимость" fullWidth type="number" />
+						<TextField value={company} onChange={(e) => setCompany(e.target.value)} label="Производитель" fullWidth/>
 						<input
 							type="file"
 							accept="image/*"
@@ -92,7 +92,7 @@ const CreateProductForm = () => {
 								},
 								backgroundColor: '#132f4b'
 							}}>
-							Create
+							Создать
 						</Button>
 					</FormControl>
 				</Box>

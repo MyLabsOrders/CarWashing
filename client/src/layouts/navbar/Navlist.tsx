@@ -2,7 +2,7 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import "./Navlist.css";
 import { useState, useEffect } from "react";
 import { getCookie } from "typescript-cookie";
-import { authorizeAdmin, getIdentityUser } from "../../lib/identity/identity";
+import { authorizeAdmin } from "../../lib/identity/identity";
 import { green } from "@mui/material/colors";
 import NavigateBtn from "./NavigateBtn";
 
@@ -53,12 +53,12 @@ const Navlist = () => {
                     Car washing
                 </Typography>
                 <Stack direction="column" spacing={2} marginTop={"5rem"}>
-                    <NavigateBtn to="/" body="Home" />
-                    <NavigateBtn to="/profile" body="Profile" />
-                    <NavigateBtn to="/documents" body="Documents" />
-                    <NavigateBtn to="/login" body="Login" />
-                    <NavigateBtn to="/signup" body="Sign up" />
-                    {isAdmin && <NavigateBtn to="/admin" body="Admin" />}
+                    <NavigateBtn to="/" body="Главная" />
+                    <NavigateBtn to="/profile" body="Профиль" />
+                    <NavigateBtn to="/documents" body="Документы" />
+                    <NavigateBtn to="/login" body="Вход" />
+                    <NavigateBtn to="/signup" body="Регистрация" />
+                    {isAdmin && <NavigateBtn to="/admin" body="Админ" />}
                 </Stack>
             </Container>
         </Box>

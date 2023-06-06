@@ -93,10 +93,10 @@ const SignupForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
 					}}
 				>
 					<Typography variant="h4" sx={{ mb: 3, color: 'white' }}>
-					Sign up
+					Регистрация
 					</Typography>
 					<TextField
-						label="Username"
+						label="Логин"
 						onChange={handleUsernameChange}
 						required
 						variant="outlined"
@@ -115,7 +115,7 @@ const SignupForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
 						value={username}
 					/>
 					<TextField
-                        label="First name"
+                        label="Имя"
                         onChange={handleFirstnameChange}
                         required
                         variant="outlined"
@@ -137,7 +137,7 @@ const SignupForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
                         value={firstName}
                     />
                     <TextField
-                        label="Middle name"
+                        label="Фамилия"
                         onChange={handleMiddlenameChange}
                         required
                         variant="outlined"
@@ -159,7 +159,7 @@ const SignupForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
                         value={middleName}
                     />
 					<TextField
-                        label="Phone"
+                        label="Телефон"
                         onChange={handlePhonenumberChange}
                         required
                         variant="outlined"
@@ -203,7 +203,7 @@ const SignupForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
                         value={birthDate}
                     />
 					<TextField
-						label="Password"
+						label="Пароль"
 						onChange={handlePasswordChange}
 						required
 						variant="outlined"
@@ -231,10 +231,10 @@ const SignupForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
 								color: "white",
 							}
 						}}>
-						Sign up
+						Регистрация
 					</Button>
 					{!isModal && <Typography variant="body2" sx={{ mt: 2, color: 'white' }}>
-						Already have an account? <Link to="/login">Login here</Link>
+						Уже есть аккаунт? <Link to="/login">Войти</Link>
 					</Typography>}
 				</Box>
 			</Box>

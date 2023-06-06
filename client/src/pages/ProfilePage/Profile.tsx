@@ -54,8 +54,8 @@ const Profile = () => {
                 getCookie("jwt-authorization") ?? "",
                 getCookie("order-date") ?? ""
             );
-            window.open(data.link, "_blank", "noreferrer");
             setDocumentLink(data.link);
+            window.open(documentLink, "_blank", "noreferrer");
         } catch (error) {
         }
     };
@@ -121,32 +121,6 @@ const Profile = () => {
                         }
                     />
                 </Dialog>
-                {/* <Dialog open={isModalOpen}>
-                    <Box width={"20rem"} padding={"1rem"} bgcolor={"#001e3c"}>
-                        <Typography fontSize={32} marginBottom={"1rem"} color={"white"}>
-                            Спасибо за заказ!
-                        </Typography>
-                        <Stack justifyContent={"space-between"} direction={"row"}>
-                            <Button
-                                onClick={closeModal}
-                                sx={{
-                                    backgroundColor: red[500],
-                                }}>
-                                Закрыть
-                            </Button>
-                            <Link
-                                underline="none"
-                                href={documentLink}>
-                                <Button
-                                sx={{
-                                    backgroundColor: green[500],
-                                }}>
-                                Просмотреть чек
-                            </Button>
-                            </Link>
-                        </Stack>
-                    </Box>
-                </Dialog> */}
             </Box>
         </Box>
     );
