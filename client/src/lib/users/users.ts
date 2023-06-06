@@ -1,6 +1,7 @@
 import { IUser, IUserPage } from "../../shared/models";
 import { CreateProfileDto } from "../../shared/dto";
 import axios from "axios";
+import { ChangeUserDto } from "../../shared/dto/users/CreateProfileDto";
 
 export const api = axios.create({ baseURL: process.env.REACT_APP_USER_API })
 
@@ -11,7 +12,7 @@ export const getUser = async (id: string, token: string) => {
 }
 
 export const getAllUsers = async (token: string, page?: number) => {
-	return await api.get<IUserPage>(`${page}`, {
+	return await api.get<IUserPage>(`${page ?? ''}`, {
 		headers: {
 			Authorization: `Bearer ${token}`
 		}
@@ -26,8 +27,19 @@ export const createUserProfile = async (token: string, id: string, dto: CreatePr
 	})
 }
 
-export const addProduct = async (token: string, id: string, orderId: string) => {
-	return await api.put(`${id}/orders`, {orderId}, {
+export const changeUserProfile = async (token: string, id: string, dto: ChangeUserDto) => {
+	return await api.patch<IUser>(`${id}/profile`, dto, {
+		headers: {
+			Authorization: `Bearer ${token}`
+		}
+	})
+}
+
+export const addProduct = async (token: string, id: string, dto: {
+	orderId: string;
+	count: number;
+}) => {
+	return await api.put(`${id}/orders`, [dto], {
 		headers: {
 			Authorization: `Bearer ${token}`
 		}

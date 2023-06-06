@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { LoginForm } from "../../components";
 import { Notification } from "../../features";
 import { useLocation } from "react-router-dom";
+import { green } from "@mui/material/colors";
 
 const Login = () => {
 	const location = useLocation()
@@ -9,7 +10,7 @@ const Login = () => {
 	const type = location.state && location.state.type
 
 	return (
-		<Box bgcolor="#132f4b" minHeight='100vh'>
+		<Box bgcolor={green[900]} minHeight='100vh'>
 			{message && <Notification message={message} type={type} />}
 			<LoginForm />
 		</Box>

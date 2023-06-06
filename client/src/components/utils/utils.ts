@@ -1,4 +1,4 @@
-export const convertImageToBase64 = (file: File | null): Promise<string> => {
+export const convertToBase64 = (file: File | null): Promise<string> => {
   return new Promise((resolve, reject) => {
     if (!file) {
       reject(new Error("No file selected."));
