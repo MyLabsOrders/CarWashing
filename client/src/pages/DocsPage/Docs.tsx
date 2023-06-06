@@ -6,7 +6,7 @@ import {
     createTheme,
 } from "@mui/material";
 import { DocumentsList } from "../../components/documents";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getStats } from "../../lib/products/products";
 import { getCookie } from "typescript-cookie";
 import { DateField, LocalizationProvider } from "@mui/x-date-pickers";
@@ -32,22 +32,25 @@ const DocsPage = () => {
     );
     const [endDate, setEndDate] = useState<Dayjs | null>(dayjs());
 
-    const fetchDocuments = async (dateFrom?: Date, dateTo?: Date) => {
-        try {
-            const { data } = await getStats(
-                getCookie("jwt-authorization") ?? "",
-                beginDate?.toISOString() ?? "",
-                endDate?.toISOString() ?? ""
-            );
-            setDocuments([{ filename: "diagrams-stats", link: data.link }]);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const fetchDocuments = useCallback(
+        async (dateFrom?: Date, dateTo?: Date) => {
+            try {
+                const { data } = await getStats(
+                    getCookie("jwt-authorization") ?? "",
+                    beginDate?.toISOString() ?? "",
+                    endDate?.toISOString() ?? ""
+                );
+                setDocuments([{ filename: "diagrams-stats", link: data.link }]);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        [beginDate, endDate]
+    );
 
     useEffect(() => {
         fetchDocuments();
-    });
+    }, [fetchDocuments]);
 
     const handleClick = () => {
         fetchDocuments();
