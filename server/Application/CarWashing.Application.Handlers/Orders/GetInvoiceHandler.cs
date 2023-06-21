@@ -1,4 +1,5 @@
 using System.Text;
+using System.Globalization;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using CarWashing.Application.Abstractions.Identity;
@@ -33,7 +34,7 @@ internal class GetInvoiceHandler : IRequestHandler<Query, Response> {
                 .Replace("{Order.Id}", _id.ToString())
                 .Replace("{Order.Total}", (await _context.Orders
             .Where(order => order.UserId == _currentUser.Id && order.OrderDate == request.OrderDate)
-            .ToListAsync(cancellationToken)).Select(order => order.TotalPrice).Sum().ToString())
+            .ToListAsync(cancellationToken)).Select(order => order.TotalPrice).Sum().ToString("C", new CultureInfo("ru-RU")))
                 .Replace("{User.FirstName}", user.FirstName)
                 .Replace("{User.MiddleName}", user.MiddleName)
                 .Replace("{User.LastName}", user.LastName)
@@ -45,7 +46,7 @@ internal class GetInvoiceHandler : IRequestHandler<Query, Response> {
                             <td>{order.Name}</td>
                             <td>{order.Amount}</td>
                             <td>{order.Price}</td>
-                            <td>{order.TotalPrice}</td>
+                            <td>{order.TotalPrice.ToString("C", new CultureInfo("ru-RU"))}</td>
                             </tr>
                             ")))
                 .ToString()).BinaryData));

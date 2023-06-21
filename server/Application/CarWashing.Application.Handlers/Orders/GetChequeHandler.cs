@@ -1,4 +1,5 @@
 using System.Text;
+using System.Globalization;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using CarWashing.Application.Abstractions.Identity;
@@ -35,11 +36,11 @@ internal class GetChequeHandler : IRequestHandler<Query, Response> {
             .Where(order => order.UserId == _currentUser.Id && order.OrderDate == request.OrderDate)
             .ToListAsync(cancellationToken)).Select((order, i) => @$"
                         <p>{order.Name}</p>
-                        <p>{i + 1} {order.Amount}x {order.Price} ={order.TotalPrice}B</p>"))
+                        <p>{i + 1} {order.Amount}x {order.Price} ={order.TotalPrice.ToString("C", new CultureInfo("ru-RU"))}</p>"))
                 )
                 .Replace("{Total}", (await _context.Orders
             .Where(order => order.UserId == _currentUser.Id && order.OrderDate == request.OrderDate)
-            .ToListAsync(cancellationToken)).Sum(order => order.TotalPrice).ToString())
+            .ToListAsync(cancellationToken)).Sum(order => order.TotalPrice).ToString("C", new CultureInfo("ru-RU")))
                 .ToString()).BinaryData))
             : throw new EntityNotFoundException("Order with this date is not found by this user.");
     }
