@@ -27,7 +27,7 @@ const SignupForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
 
         try {
             setError(null);
-            await register({username, password, roleName: "user"});
+            await tryRegister();
 
             const loginResponse = await login({ username, password });
             const jwtToken = loginResponse.data.token;
@@ -53,6 +53,14 @@ const SignupForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
 		}
 
 	};
+
+    const tryRegister = async () => {
+        try{
+            await register({username, password, roleName: "user"});
+        } catch(error: unknown) {
+            console.log(error);           
+        }
+    }
 
 	const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);

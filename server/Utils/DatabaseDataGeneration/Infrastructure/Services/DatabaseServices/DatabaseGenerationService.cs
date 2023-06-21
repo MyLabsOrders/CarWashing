@@ -9,8 +9,8 @@ namespace CarWashing.Infrastructure.Services.DatabaseServices
 
         private readonly User _admin = new()
         {
-            Login = "admin",
-            Password = "Admin123!"
+            Login = "root",
+            Password = "AdmAdm123123!"
         };
 
         private readonly User[] _users = new[]

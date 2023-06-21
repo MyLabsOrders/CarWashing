@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { green, grey } from "@mui/material/colors";
 import { PurchaseForm } from "../PurchaseForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addProduct } from "../../../lib/users/users";
 import { getCookie, setCookie } from "typescript-cookie";
 import { Notification } from "../../../features";
@@ -27,6 +27,10 @@ const Product = ({ id, name, total, status, image }: IProduct) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
     const navigate = useNavigate();
+    
+    const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+    const imageUrl = base64regex.test(image) ? `data:image/jpeg;base64,${image}` : image;
+    
 
     const open_modal_click = () => {
         setIsModalOpen(true);
@@ -70,7 +74,7 @@ const Product = ({ id, name, total, status, image }: IProduct) => {
                 }}>
                 <CardMedia
                     component="img"
-                    src={image}
+                    src={imageUrl}
                     alt={name}
                     sx={{
                         boxShadow: "0 0 5px 5px #1b5e20",
@@ -135,4 +139,3 @@ const Product = ({ id, name, total, status, image }: IProduct) => {
     );
 };
 export default Product;
-
