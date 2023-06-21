@@ -119,7 +119,7 @@ const Product = ({ id, name, total, status, image }: IProduct) => {
                             },
                         }}
                         onClick={open_modal_click}>
-                        Purchase
+                        Приобрести
                     </Button>
                 </div>
             </Box>

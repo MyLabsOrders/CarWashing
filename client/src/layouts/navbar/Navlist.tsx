@@ -1,11 +1,11 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, CardMedia, Container, Stack, Typography } from "@mui/material";
 import "./Navlist.css";
 import { useState, useEffect } from "react";
 import { getCookie } from "typescript-cookie";
 import { authorizeAdmin } from "../../lib/identity/identity";
 import { green } from "@mui/material/colors";
 import NavigateBtn from "./NavigateBtn";
-
+import CarWashLogo from "../../assets/CarWashLogo.png";
 
 const Navlist = () => {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -60,10 +60,23 @@ const Navlist = () => {
                     <NavigateBtn to="/signup" body="Регистрация" />
                     {isAdmin && <NavigateBtn to="/admin" body="Админ" />}
                 </Stack>
+                <CardMedia
+                    component="img"
+                    src={CarWashLogo}
+                    alt=""
+                    sx={{
+                        width: "10rem",
+                        height: "5rem",
+                        marginRight: "1rem",
+                        opacity: 0.6,
+                        userSelect: "none",
+                        position: "absolute",
+                        bottom: "3rem"
+                    }}
+                />
             </Container>
         </Box>
     );
 };
 
 export default Navlist;
-

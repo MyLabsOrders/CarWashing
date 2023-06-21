@@ -125,7 +125,7 @@ const ItemTable: React.FC<ItemTableProps> = ({ products }) => {
                 <TableCell>{item.id}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.total}</TableCell>
-                <TableCell>{item.status}</TableCell>
+                <TableCell>{item.status.toLowerCase() === 'available' ? 'Доступен' : "Приобретен"}</TableCell>
                 {/* Add more table cells here */}
               </TableRow>
             ))}

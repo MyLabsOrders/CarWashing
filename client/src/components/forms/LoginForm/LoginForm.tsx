@@ -106,7 +106,7 @@ const LoginForm = () => {
 						Вход
 					</Button>
 					<Typography variant="body2" sx={{ mt: 2, color: 'white' }}>
-						Нет аккаунта? <Link to="/register">Зарегистрируйтесь</Link>
+						Нет аккаунта? <Link to="/signup">Зарегистрируйтесь</Link>
 					</Typography>
 				</Box>
 			</Box>
