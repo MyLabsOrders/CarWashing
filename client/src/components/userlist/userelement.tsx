@@ -91,12 +91,6 @@ const UserElement = ({ user }: UserElementProps) => {
         } catch (error) {}
     };
 
-    const deleteUser = () => {
-        console.log("Удаляю...");
-    };
-
-    
-
     return (
         <Box
             display={"flex"}
@@ -131,9 +125,6 @@ const UserElement = ({ user }: UserElementProps) => {
                     onClick={openModal}
                     sx={{ backgroundColor: green[500], marginRight: "10px" }}>
                     Изменить
-                </Button>
-                <Button onClick={deleteUser} sx={{ backgroundColor: red[500] }}>
-                    Удалить
                 </Button>
             </Box>
             <Dialog
