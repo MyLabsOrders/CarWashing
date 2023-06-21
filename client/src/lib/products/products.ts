@@ -51,6 +51,7 @@ export const getInvoice = async (token: string, date: string) => {
 
 export const getCheque = async (token: string, date: string) => {
     const { data } = await api.get<Blob>(`/cheque?orderTime=${date}`, {
+        responseType: "arraybuffer",
         headers: {
             "Content-Type": "application/pdf",
             Accept: "application/pdf",
@@ -64,6 +65,7 @@ export const getCheque = async (token: string, date: string) => {
 
 export const getStats = async (token: string, from: string, to: string) => {
     const { data } = await api.get<Blob>(`/stats?From=${from}&To=${to}`, {
+        responseType: "arraybuffer",
         headers: {
             "Content-Type": "application/pdf",
             Accept: "application/pdf",
