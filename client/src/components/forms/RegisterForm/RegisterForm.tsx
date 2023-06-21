@@ -49,7 +49,7 @@ const SignupForm = ({oncloseCallback, isModal = false}: RegisterFormProps) => {
                 });
             if (oncloseCallback) oncloseCallback();
 		} catch (error: any) {
-			setError(error.response.data.Detailes);
+			setError(error?.response?.data?.Detailes);
 		}
 
 	};
