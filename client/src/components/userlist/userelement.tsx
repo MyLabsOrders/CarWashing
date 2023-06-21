@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { IUser } from "../../shared";
 import { green, grey, red } from "@mui/material/colors";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { changeRole, getIdentityUser } from "../../lib/identity/identity";
 import { getCookie } from "typescript-cookie";
 import { changeUserProfile } from "../../lib/users/users";
@@ -30,9 +30,20 @@ const UserElement = ({ user }: UserElementProps) => {
     const [newLastname, setNewLastname] = useState(user.lastName);
     const [newBirthdate, setNewBirthdate] = useState(user.birthDate);
 
+    const fetchIdentity = useCallback(async () => {
+        try {
+            const { data } = await getIdentityUser(
+                getCookie("jwt-authorization") ?? "",
+                user.id
+            );
+            setRole(data.role);
+            setUsername(data.username);
+        } catch (error) {}
+    }, [user.id]);
+
     useEffect(() => {
         fetchIdentity();
-    });
+    }, [fetchIdentity]);
 
     const changeUser = async () => {
         try {
@@ -70,11 +81,12 @@ const UserElement = ({ user }: UserElementProps) => {
 
     const changeUserRole = async (event: SelectChangeEvent) => {
         setRole(event.target.value as string);
+        let _role = event.target.value;
         try {
             await changeRole(
                 getCookie("jwt-authorization") ?? "",
                 username,
-                role
+                _role
             );
         } catch (error) {}
     };
@@ -83,16 +95,7 @@ const UserElement = ({ user }: UserElementProps) => {
         console.log("Удаляю...");
     };
 
-    const fetchIdentity = async () => {
-        try {
-            const { data } = await getIdentityUser(
-                getCookie("jwt-authorization") ?? "",
-                user.id
-            );
-            setRole(data.role);
-            setUsername(data.username);
-        } catch (error) {}
-    };
+    
 
     return (
         <Box

@@ -13,7 +13,7 @@ export const register = async (dto: RegisterDto) => {
 }
 
 export const changeRole = async (token: string, username: string, roleName: string) => {
-	return await api.put(`users/${username}/role`, roleName, {
+	return await api.put(`users/${username}/role?roleName=${roleName}`, roleName, {
 		headers: {
 			Authorization: `Bearer ${token}`
 		}
