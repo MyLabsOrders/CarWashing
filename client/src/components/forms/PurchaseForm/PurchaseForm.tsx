@@ -9,8 +9,6 @@ import {
 import { useState } from "react";
 import { Add, Remove } from "@mui/icons-material";
 import { green } from "@mui/material/colors";
-import { Report } from "../../reports";
-import { PDFDocument } from "pdf-lib";
 import { getCheque, getInvoice } from "../../../lib/products/products";
 import { getCookie } from "typescript-cookie";
 
@@ -88,7 +86,7 @@ const PurchaseForm = ({ total, onSubmit }: PurchaseProps) => {
                 borderRadius: 3,
             }}>
             <Typography variant="h6" align="center" color="white">
-                Purchase Form
+                Заказать
             </Typography>
             <FormControl component="form" onSubmit={handleSubmit}>
                 <Box
@@ -136,7 +134,7 @@ const PurchaseForm = ({ total, onSubmit }: PurchaseProps) => {
                     </IconButton>
                 </Box>
                 <Typography color="white">
-                    Total price: {calculateCost(total, quantity)}
+                    Стоимость: {calculateCost(total, quantity)}
                 </Typography>
                 <Button
                     variant="contained"
@@ -150,7 +148,7 @@ const PurchaseForm = ({ total, onSubmit }: PurchaseProps) => {
                             color: "white",
                         },
                     }}>
-                    Submit
+                    Заказать
                 </Button>
                 {showReport && (
                     <>

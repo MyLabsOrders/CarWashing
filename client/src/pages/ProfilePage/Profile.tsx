@@ -24,6 +24,7 @@ const Profile = () => {
     useEffect(() => {
         fetch_items();
         fetch_history();
+        fetch_cheque();
     },[]);
 
     const fetch_items = () => {
@@ -55,7 +56,7 @@ const Profile = () => {
                 getCookie("order-date") ?? ""
             );
             setDocumentLink(data.link);
-            window.open(documentLink, "_blank", "noreferrer");
+            // window.open(documentLink, "_blank", "noreferrer");
         } catch (error) {
         }
     };
@@ -80,7 +81,9 @@ const Profile = () => {
                 <ProfileForm setError={setError} />
                 <Stack spacing={"2rem"} marginTop={"2rem"} width={"14rem"}>
                     <Button
-                        onClick={fetch_cheque}
+                        href={documentLink as string}
+                        target="_blank"
+                        // onClick={fetch_cheque}
                         sx={{
                             background: green[500],
                             borderRadius: "5px",

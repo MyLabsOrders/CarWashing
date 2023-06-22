@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { green, grey } from "@mui/material/colors";
 import { PurchaseForm } from "../PurchaseForm";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addProduct } from "../../../lib/users/users";
 import { getCookie, setCookie } from "typescript-cookie";
 import { Notification } from "../../../features";
@@ -102,7 +102,7 @@ const Product = ({ id, name, total, status, image }: IProduct) => {
                         {name}
                     </Typography>
                     <Typography variant="body1" color={grey[900]}>
-                        Total: {total}
+                        Стоимость: {total}
                     </Typography>
                 </Stack>
                 <div
