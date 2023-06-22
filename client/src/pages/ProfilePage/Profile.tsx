@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, Stack } from "@mui/material";
 import { ItemTable, ProfileForm } from "../../components";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getCookie } from "typescript-cookie";
 import { IProductPage } from "../../shared";
 import { Notification } from "../../features";
@@ -12,7 +12,8 @@ import { green } from "@mui/material/colors";
 const Profile = () => {
     const [error, setError] = useState<string | null>(null);
     const [basketProducts, setBasketProducts] = useState<IProductPage | null>();
-    const [historyProducts, setHistoryProducts] = useState<IProductPage | null>();
+    const [historyProducts, setHistoryProducts] =
+        useState<IProductPage | null>();
     const [isOrderBasketOpen, setOrderBasketOpen] = useState<boolean>(false);
     const [isHistoryOpen, setHistoryOpen] = useState<boolean>(false);
     const [documentLink, setDocumentLink] = useState<string>();
@@ -21,33 +22,34 @@ const Profile = () => {
     const message = location.state && location.state.message;
     const type = location.state && location.state.type;
 
-    useEffect(() => {
-        fetch_items();
-        fetch_history();
-        fetch_cheque();
-    },[]);
+    const fetchAll = useCallback(async () => {
+        await fetch_items();
+        await fetch_cheque();
+        await fetch_history();
+    }, []);
 
-    const fetch_items = () => {
-        (async () => {
-            try {
-                const { data } = await getUser(
-                    getCookie("current-user") ?? "",
-                    getCookie("jwt-authorization") ?? ""
-                );
-                setBasketProducts({ orders: data.orders, page: 1, totalPage: 1 });
-            } catch (error) {
-                setBasketProducts(null);
-            }
-        })();
+    useEffect(() => {
+        fetchAll();
+    }, [fetchAll]);
+
+    const fetch_items = async () => {
+        try {
+            const { data } = await getUser(
+                getCookie("current-user") ?? "",
+                getCookie("jwt-authorization") ?? ""
+            );
+            setBasketProducts({ orders: data.orders, page: 1, totalPage: 1 });
+        } catch (error) {
+            setBasketProducts(null);
+        }
     };
 
     const fetch_history = async () => {
         try {
             const history_orders = await getHistory();
             setHistoryProducts(history_orders);
-        } catch (error) {
-        }
-    }
+        } catch (error) {}
+    };
 
     const fetch_cheque = async () => {
         try {
@@ -57,8 +59,7 @@ const Profile = () => {
             );
             setDocumentLink(data.link);
             // window.open(documentLink, "_blank", "noreferrer");
-        } catch (error) {
-        }
+        } catch (error) {}
     };
 
     return (
@@ -76,8 +77,7 @@ const Profile = () => {
                 flexDirection={"column"}
                 justifyContent={"space-evenly"}
                 alignItems={"center"}
-                width={"50%"}
-            >
+                width={"50%"}>
                 <ProfileForm setError={setError} />
                 <Stack spacing={"2rem"} marginTop={"2rem"} width={"14rem"}>
                     <Button
@@ -110,17 +110,29 @@ const Profile = () => {
                         Просмотреть историю
                     </Button>
                 </Stack>
-                <Dialog open={isOrderBasketOpen} onClose={() => setOrderBasketOpen(false)}>
+                <Dialog
+                    open={isOrderBasketOpen}
+                    onClose={() => setOrderBasketOpen(false)}>
                     <ItemTable
                         products={
-                            basketProducts ?? { orders: [], page: 0, totalPage: 0 }
+                            basketProducts ?? {
+                                orders: [],
+                                page: 0,
+                                totalPage: 0,
+                            }
                         }
                     />
                 </Dialog>
-                <Dialog open={isHistoryOpen} onClose={() => setHistoryOpen(false)}>
+                <Dialog
+                    open={isHistoryOpen}
+                    onClose={() => setHistoryOpen(false)}>
                     <ItemTable
                         products={
-                            historyProducts ?? { orders: [], page: 0, totalPage: 0 }
+                            historyProducts ?? {
+                                orders: [],
+                                page: 0,
+                                totalPage: 0,
+                            }
                         }
                     />
                 </Dialog>
@@ -130,4 +142,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
